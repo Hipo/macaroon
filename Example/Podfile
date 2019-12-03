@@ -5,7 +5,5 @@ target 'macaroon_Example' do
 
   target 'macaroon_Tests' do
     inherit! :search_paths
-
-    
   end
 end

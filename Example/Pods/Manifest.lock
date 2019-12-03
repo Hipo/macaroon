@@ -1,0 +1,16 @@
+PODS:
+  - macaroon (0.1.0)
+
+DEPENDENCIES:
+  - macaroon (from `../`)
+
+EXTERNAL SOURCES:
+  macaroon:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  macaroon: 3939fbfad893c9f5dfa50936e18e7ea9020c10bd
+
+PODFILE CHECKSUM: c876986114d04eee2240f983f4ccaccd130635cc
+
+COCOAPODS: 1.8.4
