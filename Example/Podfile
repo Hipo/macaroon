@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'macaroon_Example' do
+  pod 'macaroon', :path => '../'
+
+  target 'macaroon_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
