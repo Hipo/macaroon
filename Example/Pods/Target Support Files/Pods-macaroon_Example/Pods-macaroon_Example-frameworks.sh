@@ -161,10 +161,12 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/macaroon/macaroon.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Macaroon/Macaroon.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Tryouts/Tryouts.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/macaroon/macaroon.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Macaroon/Macaroon.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Tryouts/Tryouts.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

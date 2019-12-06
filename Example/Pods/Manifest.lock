@@ -1,16 +1,46 @@
 PODS:
-  - macaroon (0.1.0)
+  - Macaroon/Core (0.1.0):
+    - Macaroon/Core/Application (= 0.1.0)
+    - Macaroon/Core/Error (= 0.1.0)
+    - Macaroon/Core/Utils (= 0.1.0)
+    - SwiftLint (~> 0.37.0)
+  - Macaroon/Core/Application (0.1.0):
+    - Macaroon/Core/Application/Analytics (= 0.1.0)
+    - SwiftLint (~> 0.37.0)
+  - Macaroon/Core/Application/Analytics (0.1.0):
+    - SwiftLint (~> 0.37.0)
+  - Macaroon/Core/Error (0.1.0):
+    - SwiftLint (~> 0.37.0)
+  - Macaroon/Core/Utils (0.1.0):
+    - Macaroon/Core/Utils/Extensions (= 0.1.0)
+    - SwiftLint (~> 0.37.0)
+  - Macaroon/Core/Utils/Extensions (0.1.0):
+    - SwiftLint (~> 0.37.0)
+  - Macaroon/DevSources (0.1.0):
+    - Macaroon/Core
+    - Macaroon/Tryouts
+  - Macaroon/Tryouts (0.1.0):
+    - Tryouts
+  - SwiftLint (0.37.0)
+  - Tryouts (0.2.1)
 
 DEPENDENCIES:
-  - macaroon (from `../`)
+  - Macaroon/DevSources (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - SwiftLint
+    - Tryouts
 
 EXTERNAL SOURCES:
-  macaroon:
+  Macaroon:
     :path: "../"
 
 SPEC CHECKSUMS:
-  macaroon: 3939fbfad893c9f5dfa50936e18e7ea9020c10bd
+  Macaroon: 3fe640cbf818cac911ac1293305883d3917ff837
+  SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
+  Tryouts: dabd03aa73c2b5d253a649d306df523fc090fcee
 
-PODFILE CHECKSUM: c876986114d04eee2240f983f4ccaccd130635cc
+PODFILE CHECKSUM: 217543bd36b08f991027df616b41670656df57d2
 
 COCOAPODS: 1.8.4

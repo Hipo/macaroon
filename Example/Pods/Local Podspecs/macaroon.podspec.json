@@ -1,22 +1,87 @@
 {
-  "name": "macaroon",
+  "name": "Macaroon",
   "version": "0.1.0",
-  "summary": "A short description of macaroon.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/sakkaras/macaroon",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
-  "authors": {
-    "sakkaras": "sakkaras.developer@gmail.com"
-  },
+  "homepage": "https://github.com/Hipo/macaroon",
+  "summary": "iOS UIKit extension framework for providing structural interface functionality",
   "source": {
-    "git": "https://github.com/sakkaras/macaroon.git",
+    "git": "https://github.com/Hipo/macaroon.git",
     "tag": "0.1.0"
   },
-  "platforms": {
-    "ios": "8.0"
+  "authors": {
+    "Hipo": "hello@hipolabs.com"
   },
-  "source_files": "macaroon/Classes/**/*"
+  "platforms": {
+    "ios": "11.0"
+  },
+  "swift_versions": "5.0",
+  "default_subspecs": "Sources",
+  "subspecs": [
+    {
+      "name": "Sources",
+      "dependencies": {
+        "Macaroon/Core": [
+
+        ]
+      }
+    },
+    {
+      "name": "DevSources",
+      "dependencies": {
+        "Macaroon/Core": [
+
+        ],
+        "Macaroon/Tryouts": [
+
+        ]
+      }
+    },
+    {
+      "name": "Core",
+      "dependencies": {
+        "SwiftLint": [
+          "~> 0.37.0"
+        ]
+      },
+      "subspecs": [
+        {
+          "name": "Application",
+          "source_files": "macaroon/Classes/Core/*.swift",
+          "subspecs": [
+            {
+              "name": "Analytics",
+              "source_files": "macaroon/Classes/Core/Analytics/*.swift"
+            }
+          ]
+        },
+        {
+          "name": "Error",
+          "source_files": "macaroon/Classes/Error/*.swift"
+        },
+        {
+          "name": "Utils",
+          "source_files": "macaroon/Classes/Utils/*.swift",
+          "subspecs": [
+            {
+              "name": "Extensions",
+              "source_files": "macaroon/Classes/Utils/Extensions/*.swift"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tryouts",
+      "source_files": "macaroon/Classes/Tryouts/*.swift",
+      "dependencies": {
+        "Tryouts": [
+
+        ]
+      }
+    }
+  ],
+  "swift_version": "5.0"
 }

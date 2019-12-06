@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double macaroonVersionNumber;
-FOUNDATION_EXPORT const unsigned char macaroonVersionString[];
+FOUNDATION_EXPORT double MacaroonVersionNumber;
+FOUNDATION_EXPORT const unsigned char MacaroonVersionString[];
 

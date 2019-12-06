@@ -6,25 +6,126 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0F67A416683AD03D5D09C82D138E232A /* Build configuration list for PBXAggregateTarget "SwiftLint" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = SwiftLint;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		2658DA8869315329D9AEFFD447C8F701 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		290D9B39183707AD677F633BE8F391EF /* macaroon-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D11699834BF1F865EECEFEB206F9E570 /* macaroon-dummy.m */; };
-		490AEF63539F9E539478E315207F9925 /* Pods-macaroon_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD8DE7BD6F34C2D8471F81060715AA0 /* Pods-macaroon_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7408D61223BEC97758508A7DAC778913 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		7BDD21FC8C4F0F1F261EAB05EC133DC4 /* Pods-macaroon_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FD59C0506D733A4FFE6F5928B286BB7B /* Pods-macaroon_Example-dummy.m */; };
-		C3A4835B5E2C6F55ABEE4705B96188D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		0009F4D355F5CB34D0A7093CD5CB9DCA /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2F9A3EF1C51531FD88DDA144EB97C5 /* Typealiases.swift */; };
+		08B6BA08E950AF5284535F243B023692 /* bg-rounded-orange@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ED38072C1EDDF0BADA116BCC037AA89 /* bg-rounded-orange@2x.png */; };
+		0A024CC8776DA8E322253665D03E939E /* TRYAppRelease.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC1A90001EE828916F8E163648947E9 /* TRYAppRelease.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0D295DE61C412896260A65266F7F4C5A /* bg-feedback@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D6FC4B9F1CD9D2017DD5C3C20B95278 /* bg-feedback@2x.png */; };
+		0D4BB94B3F7CF1887CAE2A5ED6561E36 /* bg-rounded-green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A9DA3EF91F26746ECDD21255EA93950 /* bg-rounded-green@2x.png */; };
+		185FE3AF7559E5786180BCF918160E76 /* TryoutsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B56E6A0AC9276D30F7A521C6ECDB0A /* TryoutsHandler.swift */; };
+		1A798C0334A33C9F64E86E5CD1EADFD2 /* Macaroon-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D1F49B26F74B62FD4F277F04231994BA /* Macaroon-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1AFB9FFB265691A9AC96B77BD2A3137C /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F43972B422A837C336A077FC9D9E3B /* Error.swift */; };
+		1CAD622522D5D9227E5129D648FD4061 /* im-tryouts-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B363A5D9C4F95039E219CE6F9532E13B /* im-tryouts-icon@2x.png */; };
+		2267426315AA48E9A8BC7D528BE127BB /* bt-close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D4D101570181438F6D9038C5EF20F68 /* bt-close@2x.png */; };
+		22A9B1D7114F4D17A27A40ED12C8F1DC /* im-tryouts-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EDF08EF3B95ECCEF2C45DAA336204D9B /* im-tryouts-icon.png */; };
+		2385A237BB448130F9584DD4F00810B7 /* Tryouts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8FB9C2A9760B3F85FECE59410EC5A8 /* Tryouts.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		23CEFD8D70C1D640E0F91EA546767BD7 /* bg-rounded-blue@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2AB6EC2180AB5C49BD2A9FEAA1FF93CB /* bg-rounded-blue@3x.png */; };
+		2458AF406041E4DA7D97BE38C591D5EB /* TRYMessageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 41E1A0A8EF298CE41511110B152EC341 /* TRYMessageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		30D8DAAF304B2AA9596CD18C2DAAEAF3 /* Codable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BD57D2D284A64B1147F86469BD50DC /* Codable+Extensions.swift */; };
+		32B1F1CC52E11F97FEB167B6960B73E1 /* TRYAppRelease.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B553B6611A66D96279B16F690AC117 /* TRYAppRelease.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		38AE19656A8987B0B9BAF2FD6612DD56 /* bt-close.png in Resources */ = {isa = PBXBuildFile; fileRef = 03BD8CD47D468E66D3CE41ACD5B4B020 /* bt-close.png */; };
+		38D3A6FDFF943EA0C1519F25E4E5B581 /* bg-rounded-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 45633014363535BE455A4B76F9E82BFE /* bg-rounded-orange.png */; };
+		39916AD63A28F82F6C8D3BB75EFF7C4A /* bg-feedback.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B16A83F4CFD8A31195A90BA6F38EAAB /* bg-feedback.png */; };
+		3F0AB48332F7361E590145ABD10C7359 /* ServerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4C4C52F9BEF377CFF26518356666E1 /* ServerConfig.swift */; };
+		46168F48A555A5F56AD664C4FE91D4E6 /* TRYFeedbackUploadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AF18AD95BB70B00CECF7F343AE5AE8 /* TRYFeedbackUploadManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		480176178B5378A814E9CB3DC03F3070 /* AppTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F214A83648BA1EAE9F38FF040A795EC0 /* AppTarget.swift */; };
+		4DD91D551EE8E0688AE31C91B0CC6267 /* Tryouts-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B927F040AB3180DEC3BB6B8F779D432C /* Tryouts-dummy.m */; };
+		58F94D7E1FCA1D8F8D1C61DAF174540C /* Pods-macaroon_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FD59C0506D733A4FFE6F5928B286BB7B /* Pods-macaroon_Example-dummy.m */; };
+		680065D322F0747C7101E78DFA1FF75E /* TRYFeedbackViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C2E1CA6A53244436988BC5273C62B1E7 /* TRYFeedbackViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		693CC68D3BB19F78C35B607F96F0E0DC /* bt-clear.png in Resources */ = {isa = PBXBuildFile; fileRef = 760AB3E0FFA75103E34C24B30F253E69 /* bt-clear.png */; };
+		6BC042E64914742632AF17F326447EF9 /* bt-clear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0308A98A045E23BC6EFF5560199709DE /* bt-clear@2x.png */; };
+		6C001A7ED33652DA8795B27133378048 /* TRYFeedbackUploadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BC7BB1CB5AE280A76FCE858642D61D /* TRYFeedbackUploadTask.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		6C4F8743D3C0CDA58F68977FB1DBA488 /* DeeplinkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B51D4AEDAD76EA5EED2630EEB3DC1D8 /* DeeplinkConfig.swift */; };
+		70F55E233209634E56463AE6C4F6E38C /* Tryouts.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D884F3413B46921179C342128110C7B7 /* Tryouts.bundle */; };
+		7854B4308CBA62450F93318D9CB3F55E /* bg-feedback@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1EEBDE2F85E066E25AE55BBC7862B9 /* bg-feedback@3x.png */; };
+		79E4388CB3165D43B7E466F6E16D7EE2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0AEA0D5A71A25A954A44DF4B2887B2 /* Foundation.framework */; };
+		7D7C69CDBA716A4F14948152EC1A0D94 /* im-tryouts-icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E93B040FA14DEDAE86884D7AC6808EC /* im-tryouts-icon@3x.png */; };
+		7FDF82AB5AE9EE5D6852F7A144744C2D /* bg-rounded-green@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46ACA2C40257C7B1A089BCF42DC9770B /* bg-rounded-green@3x.png */; };
+		8785E9A022ADF9EE0A5CA25DBB4E4390 /* bt-clear@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3AD4EF2B7B2127050CC8476F24583E63 /* bt-clear@3x.png */; };
+		882CE493BA6E1EE80E01B1841E6FFA10 /* TRYFeedbackUploadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A765B82F3BC71069DAA3FB9A4357F0F /* TRYFeedbackUploadTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8AA2DE140856D1DA20A624F4A3212D48 /* Macaroon-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BE04991A92B370C2E1CBC8304CA36F /* Macaroon-dummy.m */; };
+		8FA111F89E2B68AB6F275CF0036BC114 /* Pods-macaroon_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD8DE7BD6F34C2D8471F81060715AA0 /* Pods-macaroon_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9A036CFAD6F8FCD17075368769966E67 /* TRYMotionRecognizingWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = F947E639EC02C55B3CFFD076533EBD67 /* TRYMotionRecognizingWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9C68C4741C7222EC1F616BDA221691FE /* TRYFeedbackOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE21D23B7351EF84DB310AEC4F68B20 /* TRYFeedbackOverlayView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		A0816A99A6AAB27CC66DB24D613BE944 /* bt-close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D51EF9BAD3DCA81D5C4F7C93132BF15 /* bt-close@3x.png */; };
+		A7356EC16A08DE002CEB797B68E5FDD8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0AEA0D5A71A25A954A44DF4B2887B2 /* Foundation.framework */; };
+		ABF39F4BB44E25A7D7032E9C37323157 /* DevTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF148D5A4C8AAD0B285F1409BA06A28A /* DevTools.swift */; };
+		AD523268D705092D8F415BD4B7375B07 /* TRYFeedbackUploadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CDF7760856B6BCC989DA38018189C1 /* TRYFeedbackUploadManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		AF3ADBDE9A1736F574C14E5CA5D0F242 /* TRYFeedbackOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F0AC0A8878C1D387060580F00A40F31 /* TRYFeedbackOverlayView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5FE78D2A07B0763F04ED6E625BB38B4 /* Tryouts-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7878BC84399906FF41B17C0124F19285 /* Tryouts-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BDFAACC1680558A39B4D3B83224A85CA /* bg-rounded-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C1623853EF6C8E9A5E8AAE7BDCFF93 /* bg-rounded-blue.png */; };
+		C3A4835B5E2C6F55ABEE4705B96188D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0AEA0D5A71A25A954A44DF4B2887B2 /* Foundation.framework */; };
+		CC3CA518C6D4194FCF6F46B123F5C53F /* TRYFeedback.m in Sources */ = {isa = PBXBuildFile; fileRef = D9626DFE90F2E69BEDEFE876AB809D5F /* TRYFeedback.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		D3290CFC7A5649607918B031D8920E77 /* Pods-macaroon_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9091302358678F0C3379BD887835DB3D /* Pods-macaroon_Tests-dummy.m */; };
-		E39C7DDC6E6482A53D10FAE76BA56C40 /* macaroon-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F3BEB09A8240DC8B7A8E87DDF6E3C55D /* macaroon-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6A118DD7B43A69FED37166823534468 /* bg-rounded-blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA24313F019967D75585737A4763B62D /* bg-rounded-blue@2x.png */; };
+		D705167A5CB013C60031FF15B96354D1 /* Tryouts.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BAF0F5A4DA96E682F5345715E23D2C /* Tryouts.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D835B2F466BA5648717F78CC4663DE88 /* Utils+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA864273C3193C782B3822A3A25969EF /* Utils+Error.swift */; };
+		DA1ADAC075E3EF9237C59267E66A0282 /* TRYFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AD9B478C02D9EE35787CE8EF175598F /* TRYFeedbackViewController.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		E36904F893C247C33EF9782E60A2B0ED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0AEA0D5A71A25A954A44DF4B2887B2 /* Foundation.framework */; };
+		E54538020C7365EC764D7E6756EA9B05 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F4FC2F56AAFF0A424ACA14BAE7983CD /* Analytics.swift */; };
+		E6733C5B8C879747679E014A84FB362A /* bg-rounded-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AEA5CA57A9307F65867C7B13AFD8A5D /* bg-rounded-green.png */; };
+		E7C19AE6E3D40CE9F302ADA740F65678 /* bg-rounded-orange@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C1FE0EA19989CBA1A1CC6128A1405F3 /* bg-rounded-orange@3x.png */; };
+		EBB98A1B8B078CD75F1F8FE580F3B906 /* TRYMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1938862910FC8A2E71FF7CC820DA5513 /* TRYMessageView.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		EEF3FFA5449176AB824ACE32F799B45F /* Pods-macaroon_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 43E39E85B22262FC4BF0D1B054068DAF /* Pods-macaroon_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EFAC15DF58A468CAB264422DE0D4B222 /* Tryouts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5F4890FECD02678D7A859252307164 /* Tryouts.framework */; };
+		F1130296C2CE71493009FFA8A6DC1BCA /* TRYFeedback.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A68EED891D41E26FA57A7F256F1E6F /* TRYFeedback.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFF6FE7C8B91C564417D5968C2A53998 /* TRYMotionRecognizingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 844347750B6E8026009991EDCF674061 /* TRYMotionRecognizingWindow.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		43AFB37B2DC273DC4189985C7C8E460C /* PBXContainerItemProxy */ = {
+		32FF8F018DCD937AA4A1E6B6497A2583 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 484537368332DF409741AFD374B8061D;
-			remoteInfo = macaroon;
+			remoteGlobalIDString = 52B60EC2A583F24ACBB69C113F5488B9;
+			remoteInfo = SwiftLint;
+		};
+		508754B9422C97BD92F279F927AC621B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61BEACED13E6A8BC51DF77F393D7DA8E;
+			remoteInfo = Tryouts;
+		};
+		683EC5E86C10B5B51CC0FE803B8A7E68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52B60EC2A583F24ACBB69C113F5488B9;
+			remoteInfo = SwiftLint;
+		};
+		8ED8F6346161B28809190970A96E3E79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 90B5176747C39D97DAE8A6CD21CA4EBF;
+			remoteInfo = "Tryouts-Tryouts";
+		};
+		A32C7E32141AD9EAF8E8F7B663CD7FE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61BEACED13E6A8BC51DF77F393D7DA8E;
+			remoteInfo = Tryouts;
+		};
+		A8CAA8D6031B190C51B521F9D1CED44E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 62DF6C21307B2CC2E07E6F697B690818;
+			remoteInfo = Macaroon;
 		};
 		B1439358988849F08851DEE169DA7656 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -36,45 +137,104 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0308A98A045E23BC6EFF5560199709DE /* bt-clear@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bt-clear@2x.png"; path = "Pod/Assets/bt-clear@2x.png"; sourceTree = "<group>"; };
+		03BD8CD47D468E66D3CE41ACD5B4B020 /* bt-close.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bt-close.png"; path = "Pod/Assets/bt-close.png"; sourceTree = "<group>"; };
+		0FD4DFB7AE4D2820956F5CAC9560143C /* Tryouts.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Tryouts.modulemap; sourceTree = "<group>"; };
 		172E4B3A58A1630BDCE878CDE0B7FB25 /* Pods-macaroon_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-macaroon_Tests.modulemap"; sourceTree = "<group>"; };
+		1938862910FC8A2E71FF7CC820DA5513 /* TRYMessageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYMessageView.m; path = Pod/Classes/Views/TRYMessageView.m; sourceTree = "<group>"; };
+		1A9DA3EF91F26746ECDD21255EA93950 /* bg-rounded-green@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-green@2x.png"; path = "Pod/Assets/bg-rounded-green@2x.png"; sourceTree = "<group>"; };
+		1C8FB9C2A9760B3F85FECE59410EC5A8 /* Tryouts.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Tryouts.m; path = Pod/Classes/Tryouts.m; sourceTree = "<group>"; };
+		1D4D101570181438F6D9038C5EF20F68 /* bt-close@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bt-close@2x.png"; path = "Pod/Assets/bt-close@2x.png"; sourceTree = "<group>"; };
+		1D51EF9BAD3DCA81D5C4F7C93132BF15 /* bt-close@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bt-close@3x.png"; path = "Pod/Assets/bt-close@3x.png"; sourceTree = "<group>"; };
+		1ED38072C1EDDF0BADA116BCC037AA89 /* bg-rounded-orange@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-orange@2x.png"; path = "Pod/Assets/bg-rounded-orange@2x.png"; sourceTree = "<group>"; };
+		1F0AC0A8878C1D387060580F00A40F31 /* TRYFeedbackOverlayView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TRYFeedbackOverlayView.h; path = Pod/Classes/Views/TRYFeedbackOverlayView.h; sourceTree = "<group>"; };
+		1F2F9A3EF1C51531FD88DDA144EB97C5 /* Typealiases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Typealiases.swift; path = macaroon/Classes/Utils/Typealiases.swift; sourceTree = "<group>"; };
+		1F4FC2F56AAFF0A424ACA14BAE7983CD /* Analytics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Analytics.swift; path = macaroon/Classes/Core/Analytics/Analytics.swift; sourceTree = "<group>"; };
+		23BD57D2D284A64B1147F86469BD50DC /* Codable+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Codable+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/Codable+Extensions.swift"; sourceTree = "<group>"; };
 		278E708726B017730ACAE7BB8C9D4217 /* Pods-macaroon_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-macaroon_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		28BC7BB1CB5AE280A76FCE858642D61D /* TRYFeedbackUploadTask.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYFeedbackUploadTask.m; path = Pod/Classes/Models/TRYFeedbackUploadTask.m; sourceTree = "<group>"; };
+		2AB6EC2180AB5C49BD2A9FEAA1FF93CB /* bg-rounded-blue@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-blue@3x.png"; path = "Pod/Assets/bg-rounded-blue@3x.png"; sourceTree = "<group>"; };
+		2B51D4AEDAD76EA5EED2630EEB3DC1D8 /* DeeplinkConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DeeplinkConfig.swift; path = macaroon/Classes/Core/DeeplinkConfig.swift; sourceTree = "<group>"; };
 		2FD2AC0038496B52D29816DD4FCC8248 /* Pods-macaroon_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-macaroon_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		3130EAF0A0CC64E6D7F46EC13372FC89 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		31BB7D7567A977024EF6105D9555A83C /* Pods-macaroon_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-macaroon_Example.modulemap"; sourceTree = "<group>"; };
-		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		392D709475C8E040E0D6F52BA4AA6309 /* Pods-macaroon_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-macaroon_Example-Info.plist"; sourceTree = "<group>"; };
+		39F43972B422A837C336A077FC9D9E3B /* Error.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Error.swift; path = macaroon/Classes/Error/Error.swift; sourceTree = "<group>"; };
+		3AD4EF2B7B2127050CC8476F24583E63 /* bt-clear@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bt-clear@3x.png"; path = "Pod/Assets/bt-clear@3x.png"; sourceTree = "<group>"; };
+		3E93B040FA14DEDAE86884D7AC6808EC /* im-tryouts-icon@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "im-tryouts-icon@3x.png"; path = "Pod/Assets/im-tryouts-icon@3x.png"; sourceTree = "<group>"; };
+		3F3196B59A8C085C8CE45E5FB211994F /* Macaroon.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = Macaroon.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		41E1A0A8EF298CE41511110B152EC341 /* TRYMessageView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TRYMessageView.h; path = Pod/Classes/Views/TRYMessageView.h; sourceTree = "<group>"; };
 		43E39E85B22262FC4BF0D1B054068DAF /* Pods-macaroon_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-macaroon_Tests-umbrella.h"; sourceTree = "<group>"; };
 		44E6D447A69697C92CD92932D61E1EF7 /* Pods-macaroon_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-macaroon_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		4B92ABAF6A8E19B08F3833321B2C25DC /* macaroon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = macaroon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		45633014363535BE455A4B76F9E82BFE /* bg-rounded-orange.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-orange.png"; path = "Pod/Assets/bg-rounded-orange.png"; sourceTree = "<group>"; };
+		46ACA2C40257C7B1A089BCF42DC9770B /* bg-rounded-green@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-green@3x.png"; path = "Pod/Assets/bg-rounded-green@3x.png"; sourceTree = "<group>"; };
+		4AEA5CA57A9307F65867C7B13AFD8A5D /* bg-rounded-green.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-green.png"; path = "Pod/Assets/bg-rounded-green.png"; sourceTree = "<group>"; };
+		4E0EF24AD5CCE8B5FF62F29F7B9A6872 /* Macaroon-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Macaroon-prefix.pch"; sourceTree = "<group>"; };
+		4FC1A90001EE828916F8E163648947E9 /* TRYAppRelease.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TRYAppRelease.h; path = Pod/Classes/TRYAppRelease.h; sourceTree = "<group>"; };
+		52263BE7398F7477EDB66BFCB68C64E5 /* ResourceBundle-Tryouts-Tryouts-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-Tryouts-Tryouts-Info.plist"; sourceTree = "<group>"; };
+		540E6A3FC78A6C4E4B998D8AA1285595 /* Tryouts.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Tryouts.xcconfig; sourceTree = "<group>"; };
+		59FDEDF701823F430A852AEA1C57560F /* Tryouts-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Tryouts-prefix.pch"; sourceTree = "<group>"; };
+		5B16A83F4CFD8A31195A90BA6F38EAAB /* bg-feedback.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-feedback.png"; path = "Pod/Assets/bg-feedback.png"; sourceTree = "<group>"; };
 		61090DEC7AD122FE99DC852CD7791B4D /* Pods-macaroon_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-macaroon_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		66B56E6A0AC9276D30F7A521C6ECDB0A /* TryoutsHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TryoutsHandler.swift; path = macaroon/Classes/Tryouts/TryoutsHandler.swift; sourceTree = "<group>"; };
+		67A68EED891D41E26FA57A7F256F1E6F /* TRYFeedback.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TRYFeedback.h; path = Pod/Classes/Models/TRYFeedback.h; sourceTree = "<group>"; };
+		6A765B82F3BC71069DAA3FB9A4357F0F /* TRYFeedbackUploadTask.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TRYFeedbackUploadTask.h; path = Pod/Classes/Models/TRYFeedbackUploadTask.h; sourceTree = "<group>"; };
+		6B37574A6DD8A2E78700E2B8E08A0659 /* Tryouts-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Tryouts-Info.plist"; sourceTree = "<group>"; };
+		6C1FE0EA19989CBA1A1CC6128A1405F3 /* bg-rounded-orange@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-orange@3x.png"; path = "Pod/Assets/bg-rounded-orange@3x.png"; sourceTree = "<group>"; };
+		6CE7BF5BD93432876FA51D780AA2A067 /* Macaroon.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Macaroon.xcconfig; sourceTree = "<group>"; };
 		6DD8DE7BD6F34C2D8471F81060715AA0 /* Pods-macaroon_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-macaroon_Example-umbrella.h"; sourceTree = "<group>"; };
+		760AB3E0FFA75103E34C24B30F253E69 /* bt-clear.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bt-clear.png"; path = "Pod/Assets/bt-clear.png"; sourceTree = "<group>"; };
+		77B553B6611A66D96279B16F690AC117 /* TRYAppRelease.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYAppRelease.m; path = Pod/Classes/TRYAppRelease.m; sourceTree = "<group>"; };
+		7878BC84399906FF41B17C0124F19285 /* Tryouts-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Tryouts-umbrella.h"; sourceTree = "<group>"; };
+		82AF18AD95BB70B00CECF7F343AE5AE8 /* TRYFeedbackUploadManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TRYFeedbackUploadManager.h; path = Pod/Classes/Network/TRYFeedbackUploadManager.h; sourceTree = "<group>"; };
+		844347750B6E8026009991EDCF674061 /* TRYMotionRecognizingWindow.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYMotionRecognizingWindow.m; path = Pod/Classes/Utilities/TRYMotionRecognizingWindow.m; sourceTree = "<group>"; };
+		8AD9B478C02D9EE35787CE8EF175598F /* TRYFeedbackViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYFeedbackViewController.m; path = Pod/Classes/Controllers/TRYFeedbackViewController.m; sourceTree = "<group>"; };
+		8B534304D3A2457854ADFF6E8075CD55 /* Macaroon-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Macaroon-Info.plist"; sourceTree = "<group>"; };
 		8BE2F8AA77270D521CA9C7CEC9072CDE /* Pods-macaroon_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-macaroon_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		8D470AD37B3610AA138F0162814C88CB /* Pods-macaroon_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-macaroon_Example-frameworks.sh"; sourceTree = "<group>"; };
+		8D6FC4B9F1CD9D2017DD5C3C20B95278 /* bg-feedback@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-feedback@2x.png"; path = "Pod/Assets/bg-feedback@2x.png"; sourceTree = "<group>"; };
 		9091302358678F0C3379BD887835DB3D /* Pods-macaroon_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-macaroon_Tests-dummy.m"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A32A51D5136C9CDFFAE941540F598A95 /* macaroon-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "macaroon-Info.plist"; sourceTree = "<group>"; };
+		97996152EFBE602162519C6837AC3554 /* Macaroon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Macaroon.framework; path = Macaroon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B3366B7CA03604B47CD534B3D106357 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		9D0AEA0D5A71A25A954A44DF4B2887B2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9FDE6E1015666DCDB7413E531D776C14 /* Tryouts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Tryouts.framework; path = Tryouts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A34C8C28A249668DBFF23CE18023EE94 /* Pods-macaroon_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-macaroon_Tests-Info.plist"; sourceTree = "<group>"; };
+		A5BAF0F5A4DA96E682F5345715E23D2C /* Tryouts.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Tryouts.h; path = Pod/Classes/Tryouts.h; sourceTree = "<group>"; };
 		A61460B0E83FEB52E9190193936F2284 /* Pods-macaroon_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-macaroon_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		A9CDF7760856B6BCC989DA38018189C1 /* TRYFeedbackUploadManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYFeedbackUploadManager.m; path = Pod/Classes/Network/TRYFeedbackUploadManager.m; sourceTree = "<group>"; };
 		AA25740C415FE0307283463FD6126357 /* Pods-macaroon_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-macaroon_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		ADD633C23AE404BAB5330E20BF1A83BC /* Pods_macaroon_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_macaroon_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA864273C3193C782B3822A3A25969EF /* Utils+Error.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Utils+Error.swift"; path = "macaroon/Classes/Utils/Utils+Error.swift"; sourceTree = "<group>"; };
+		ADD633C23AE404BAB5330E20BF1A83BC /* Pods_macaroon_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_macaroon_Tests.framework; path = "Pods-macaroon_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE928AFF5B928956B38DE42E59B48E28 /* Pods-macaroon_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-macaroon_Example.release.xcconfig"; sourceTree = "<group>"; };
-		B79DA85742F983CC949115703E08D32F /* macaroon.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = macaroon.xcconfig; sourceTree = "<group>"; };
-		C1CE3BEE50FF941A36F0DDD3A55A7A38 /* macaroon.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = macaroon.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		C86FBFEB3F8ADB6C000EF2D55C799057 /* macaroon.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = macaroon.modulemap; sourceTree = "<group>"; };
-		CB3DEDCD6969DE06F3D19CD638CA9C27 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		D11699834BF1F865EECEFEB206F9E570 /* macaroon-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "macaroon-dummy.m"; sourceTree = "<group>"; };
-		D2049E5F21A263E43D33A71F4EBC3172 /* macaroon-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "macaroon-prefix.pch"; sourceTree = "<group>"; };
-		E385A752EA42B0156DFF1DD23094BE2A /* Pods_macaroon_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_macaroon_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F3BEB09A8240DC8B7A8E87DDF6E3C55D /* macaroon-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "macaroon-umbrella.h"; sourceTree = "<group>"; };
+		B363A5D9C4F95039E219CE6F9532E13B /* im-tryouts-icon@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "im-tryouts-icon@2x.png"; path = "Pod/Assets/im-tryouts-icon@2x.png"; sourceTree = "<group>"; };
+		B48B399729A91636F769B057AA1AFFB4 /* Macaroon.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Macaroon.modulemap; sourceTree = "<group>"; };
+		B927F040AB3180DEC3BB6B8F779D432C /* Tryouts-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Tryouts-dummy.m"; sourceTree = "<group>"; };
+		BA4C4C52F9BEF377CFF26518356666E1 /* ServerConfig.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerConfig.swift; path = macaroon/Classes/Core/ServerConfig.swift; sourceTree = "<group>"; };
+		C0C1623853EF6C8E9A5E8AAE7BDCFF93 /* bg-rounded-blue.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-blue.png"; path = "Pod/Assets/bg-rounded-blue.png"; sourceTree = "<group>"; };
+		C2E1CA6A53244436988BC5273C62B1E7 /* TRYFeedbackViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TRYFeedbackViewController.h; path = Pod/Classes/Controllers/TRYFeedbackViewController.h; sourceTree = "<group>"; };
+		D1F49B26F74B62FD4F277F04231994BA /* Macaroon-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Macaroon-umbrella.h"; sourceTree = "<group>"; };
+		D7BE04991A92B370C2E1CBC8304CA36F /* Macaroon-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Macaroon-dummy.m"; sourceTree = "<group>"; };
+		D884F3413B46921179C342128110C7B7 /* Tryouts.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Tryouts.bundle; path = "Tryouts-Tryouts.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9626DFE90F2E69BEDEFE876AB809D5F /* TRYFeedback.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYFeedback.m; path = Pod/Classes/Models/TRYFeedback.m; sourceTree = "<group>"; };
+		DA5F4890FECD02678D7A859252307164 /* Tryouts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tryouts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DBE21D23B7351EF84DB310AEC4F68B20 /* TRYFeedbackOverlayView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYFeedbackOverlayView.m; path = Pod/Classes/Views/TRYFeedbackOverlayView.m; sourceTree = "<group>"; };
+		DF5E09252723AC61971FD8B91BE6D891 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		E385A752EA42B0156DFF1DD23094BE2A /* Pods_macaroon_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_macaroon_Example.framework; path = "Pods-macaroon_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDF08EF3B95ECCEF2C45DAA336204D9B /* im-tryouts-icon.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "im-tryouts-icon.png"; path = "Pod/Assets/im-tryouts-icon.png"; sourceTree = "<group>"; };
+		F214A83648BA1EAE9F38FF040A795EC0 /* AppTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppTarget.swift; path = macaroon/Classes/Core/AppTarget.swift; sourceTree = "<group>"; };
+		F947E639EC02C55B3CFFD076533EBD67 /* TRYMotionRecognizingWindow.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TRYMotionRecognizingWindow.h; path = Pod/Classes/Utilities/TRYMotionRecognizingWindow.h; sourceTree = "<group>"; };
+		FA1EEBDE2F85E066E25AE55BBC7862B9 /* bg-feedback@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-feedback@3x.png"; path = "Pod/Assets/bg-feedback@3x.png"; sourceTree = "<group>"; };
+		FA24313F019967D75585737A4763B62D /* bg-rounded-blue@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-blue@2x.png"; path = "Pod/Assets/bg-rounded-blue@2x.png"; sourceTree = "<group>"; };
 		FD59C0506D733A4FFE6F5928B286BB7B /* Pods-macaroon_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-macaroon_Example-dummy.m"; sourceTree = "<group>"; };
+		FF148D5A4C8AAD0B285F1409BA06A28A /* DevTools.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DevTools.swift; path = macaroon/Classes/Core/DevTools.swift; sourceTree = "<group>"; };
+		FF890DD88FDCBB748E81AF3EF4D8FFEF /* SwiftLint.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		128BE4519290012D589F4FFD05D3C848 /* Frameworks */ = {
+		3A3791774111A2DF730509AFF4602F52 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2658DA8869315329D9AEFFD447C8F701 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,17 +246,82 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8408E3E09EE28BEE7DB5A4C46E1A454D /* Frameworks */ = {
+		B8F375F5DC2105268915A79FDE5790D2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7408D61223BEC97758508A7DAC778913 /* Foundation.framework in Frameworks */,
+				79E4388CB3165D43B7E466F6E16D7EE2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBD98AB875CDA2C56F3BD79D1F28C0CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7356EC16A08DE002CEB797B68E5FDD8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4B8D596F1FBE6772473AFC5892D8077 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E36904F893C247C33EF9782E60A2B0ED /* Foundation.framework in Frameworks */,
+				EFAC15DF58A468CAB264422DE0D4B222 /* Tryouts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		079B8EDE85B6F4D28024144470CA79D8 /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C27F5F4F774AA437D2C12A7BF7BB3CBD /* Macaroon */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		2C681D9FFEFDAA6E9B42AC2B463103DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA5F4890FECD02678D7A859252307164 /* Tryouts.framework */,
+				C556F47F06A5D63A42DB05FEE7E838C6 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		31D6946539B22F7C97260B82EF3EF188 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				B48B399729A91636F769B057AA1AFFB4 /* Macaroon.modulemap */,
+				6CE7BF5BD93432876FA51D780AA2A067 /* Macaroon.xcconfig */,
+				D7BE04991A92B370C2E1CBC8304CA36F /* Macaroon-dummy.m */,
+				8B534304D3A2457854ADFF6E8075CD55 /* Macaroon-Info.plist */,
+				4E0EF24AD5CCE8B5FF62F29F7B9A6872 /* Macaroon-prefix.pch */,
+				D1F49B26F74B62FD4F277F04231994BA /* Macaroon-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/Macaroon";
+			sourceTree = "<group>";
+		};
+		3FCA859662E60E531AD01ABE11AF5C74 /* Tryouts */ = {
+			isa = PBXGroup;
+			children = (
+				66B56E6A0AC9276D30F7A521C6ECDB0A /* TryoutsHandler.swift */,
+			);
+			name = Tryouts;
+			sourceTree = "<group>";
+		};
+		40FD70F05C292A7A9C7BE48652676D3E /* SwiftLint */ = {
+			isa = PBXGroup;
+			children = (
+				F1E3F53430ECBC0CB3FADBD69FC801F0 /* Support Files */,
+			);
+			name = SwiftLint;
+			path = SwiftLint;
+			sourceTree = "<group>";
+		};
 		4A6282B8F041DD692CDAA66C57C4BA69 /* Pods-macaroon_Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +338,18 @@
 			path = "Target Support Files/Pods-macaroon_Tests";
 			sourceTree = "<group>";
 		};
+		61AC73204FC95E31F16F4410C848B739 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				F214A83648BA1EAE9F38FF040A795EC0 /* AppTarget.swift */,
+				2B51D4AEDAD76EA5EED2630EEB3DC1D8 /* DeeplinkConfig.swift */,
+				FF148D5A4C8AAD0B285F1409BA06A28A /* DevTools.swift */,
+				BA4C4C52F9BEF377CFF26518356666E1 /* ServerConfig.swift */,
+				AD7F8044E7DCC64EE773275AC09BD23B /* Analytics */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
 		6ED2E62916AFB344BE99E6421F31D233 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,40 +359,143 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		7A1BB0ABAF0A08E8E477F40453AFCAB8 /* Pod */ = {
+		74791C457CC06F0AB7DA1B3CD6C1E1DB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				3130EAF0A0CC64E6D7F46EC13372FC89 /* LICENSE */,
-				C1CE3BEE50FF941A36F0DDD3A55A7A38 /* macaroon.podspec */,
-				CB3DEDCD6969DE06F3D19CD638CA9C27 /* README.md */,
+				1F2F9A3EF1C51531FD88DDA144EB97C5 /* Typealiases.swift */,
+				AA864273C3193C782B3822A3A25969EF /* Utils+Error.swift */,
+				B4379608F846E4AD1D3E312DFDC67BF0 /* Extensions */,
 			);
-			name = Pod;
+			name = Utils;
 			sourceTree = "<group>";
 		};
-		9EBB6B33DA5C2D297C144217481A40C6 /* macaroon */ = {
+		79631D69C34DC97AA225997072A586DC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7A1BB0ABAF0A08E8E477F40453AFCAB8 /* Pod */,
-				E2BB190DFD20D7DFD13782B62A20F896 /* Support Files */,
+				5B16A83F4CFD8A31195A90BA6F38EAAB /* bg-feedback.png */,
+				8D6FC4B9F1CD9D2017DD5C3C20B95278 /* bg-feedback@2x.png */,
+				FA1EEBDE2F85E066E25AE55BBC7862B9 /* bg-feedback@3x.png */,
+				C0C1623853EF6C8E9A5E8AAE7BDCFF93 /* bg-rounded-blue.png */,
+				FA24313F019967D75585737A4763B62D /* bg-rounded-blue@2x.png */,
+				2AB6EC2180AB5C49BD2A9FEAA1FF93CB /* bg-rounded-blue@3x.png */,
+				4AEA5CA57A9307F65867C7B13AFD8A5D /* bg-rounded-green.png */,
+				1A9DA3EF91F26746ECDD21255EA93950 /* bg-rounded-green@2x.png */,
+				46ACA2C40257C7B1A089BCF42DC9770B /* bg-rounded-green@3x.png */,
+				45633014363535BE455A4B76F9E82BFE /* bg-rounded-orange.png */,
+				1ED38072C1EDDF0BADA116BCC037AA89 /* bg-rounded-orange@2x.png */,
+				6C1FE0EA19989CBA1A1CC6128A1405F3 /* bg-rounded-orange@3x.png */,
+				760AB3E0FFA75103E34C24B30F253E69 /* bt-clear.png */,
+				0308A98A045E23BC6EFF5560199709DE /* bt-clear@2x.png */,
+				3AD4EF2B7B2127050CC8476F24583E63 /* bt-clear@3x.png */,
+				03BD8CD47D468E66D3CE41ACD5B4B020 /* bt-close.png */,
+				1D4D101570181438F6D9038C5EF20F68 /* bt-close@2x.png */,
+				1D51EF9BAD3DCA81D5C4F7C93132BF15 /* bt-close@3x.png */,
+				EDF08EF3B95ECCEF2C45DAA336204D9B /* im-tryouts-icon.png */,
+				B363A5D9C4F95039E219CE6F9532E13B /* im-tryouts-icon@2x.png */,
+				3E93B040FA14DEDAE86884D7AC6808EC /* im-tryouts-icon@3x.png */,
 			);
-			name = macaroon;
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		93EC4505F538D5EB104C3DEBB6CB31FB /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				61AC73204FC95E31F16F4410C848B739 /* Application */,
+				953D5A820201A272E1A8D9502D4338C8 /* Error */,
+				74791C457CC06F0AB7DA1B3CD6C1E1DB /* Utils */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		953D5A820201A272E1A8D9502D4338C8 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				39F43972B422A837C336A077FC9D9E3B /* Error.swift */,
+			);
+			name = Error;
+			sourceTree = "<group>";
+		};
+		9F04871CB945E3130413A5277C1DF264 /* Tryouts */ = {
+			isa = PBXGroup;
+			children = (
+				4FC1A90001EE828916F8E163648947E9 /* TRYAppRelease.h */,
+				77B553B6611A66D96279B16F690AC117 /* TRYAppRelease.m */,
+				67A68EED891D41E26FA57A7F256F1E6F /* TRYFeedback.h */,
+				D9626DFE90F2E69BEDEFE876AB809D5F /* TRYFeedback.m */,
+				1F0AC0A8878C1D387060580F00A40F31 /* TRYFeedbackOverlayView.h */,
+				DBE21D23B7351EF84DB310AEC4F68B20 /* TRYFeedbackOverlayView.m */,
+				82AF18AD95BB70B00CECF7F343AE5AE8 /* TRYFeedbackUploadManager.h */,
+				A9CDF7760856B6BCC989DA38018189C1 /* TRYFeedbackUploadManager.m */,
+				6A765B82F3BC71069DAA3FB9A4357F0F /* TRYFeedbackUploadTask.h */,
+				28BC7BB1CB5AE280A76FCE858642D61D /* TRYFeedbackUploadTask.m */,
+				C2E1CA6A53244436988BC5273C62B1E7 /* TRYFeedbackViewController.h */,
+				8AD9B478C02D9EE35787CE8EF175598F /* TRYFeedbackViewController.m */,
+				41E1A0A8EF298CE41511110B152EC341 /* TRYMessageView.h */,
+				1938862910FC8A2E71FF7CC820DA5513 /* TRYMessageView.m */,
+				F947E639EC02C55B3CFFD076533EBD67 /* TRYMotionRecognizingWindow.h */,
+				844347750B6E8026009991EDCF674061 /* TRYMotionRecognizingWindow.m */,
+				A5BAF0F5A4DA96E682F5345715E23D2C /* Tryouts.h */,
+				1C8FB9C2A9760B3F85FECE59410EC5A8 /* Tryouts.m */,
+				79631D69C34DC97AA225997072A586DC /* Resources */,
+				DFAB8D3DA4CC9FDE42F68B44FDCF6B53 /* Support Files */,
+			);
+			name = Tryouts;
+			path = Tryouts;
+			sourceTree = "<group>";
+		};
+		A60936F78D84EAF72B36A4BFA27CC44C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				40FD70F05C292A7A9C7BE48652676D3E /* SwiftLint */,
+				9F04871CB945E3130413A5277C1DF264 /* Tryouts */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		AD7F8044E7DCC64EE773275AC09BD23B /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				1F4FC2F56AAFF0A424ACA14BAE7983CD /* Analytics.swift */,
+			);
+			name = Analytics;
+			sourceTree = "<group>";
+		};
+		B4379608F846E4AD1D3E312DFDC67BF0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				23BD57D2D284A64B1147F86469BD50DC /* Codable+Extensions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		C27F5F4F774AA437D2C12A7BF7BB3CBD /* Macaroon */ = {
+			isa = PBXGroup;
+			children = (
+				93EC4505F538D5EB104C3DEBB6CB31FB /* Core */,
+				C7941238DEEA2F47ADDD5A315EA3D19A /* Pod */,
+				31D6946539B22F7C97260B82EF3EF188 /* Support Files */,
+				3FCA859662E60E531AD01ABE11AF5C74 /* Tryouts */,
+			);
+			name = Macaroon;
 			path = ../..;
 			sourceTree = "<group>";
 		};
-		C0834CEBB1379A84116EF29F93051C60 /* iOS */ = {
+		C556F47F06A5D63A42DB05FEE7E838C6 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */,
+				9D0AEA0D5A71A25A954A44DF4B2887B2 /* Foundation.framework */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		CAE9C1C9539427C396C82877BED498A0 /* Development Pods */ = {
+		C7941238DEEA2F47ADDD5A315EA3D19A /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				9EBB6B33DA5C2D297C144217481A40C6 /* macaroon */,
+				DF5E09252723AC61971FD8B91BE6D891 /* LICENSE */,
+				3F3196B59A8C085C8CE45E5FB211994F /* Macaroon.podspec */,
+				9B3366B7CA03604B47CD534B3D106357 /* README.md */,
 			);
-			name = "Development Pods";
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		CCE8BCC8C272E17078328511312CC3EE /* Pods-macaroon_Example */ = {
@@ -179,64 +519,53 @@
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				CAE9C1C9539427C396C82877BED498A0 /* Development Pods */,
-				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				D71C85A2EC600C99591FE326B8013035 /* Products */,
+				079B8EDE85B6F4D28024144470CA79D8 /* Development Pods */,
+				2C681D9FFEFDAA6E9B42AC2B463103DE /* Frameworks */,
+				A60936F78D84EAF72B36A4BFA27CC44C /* Pods */,
+				E799F1CDB5FF534D6502FBBBCF01FFB5 /* Products */,
 				6ED2E62916AFB344BE99E6421F31D233 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+		DFAB8D3DA4CC9FDE42F68B44FDCF6B53 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				C0834CEBB1379A84116EF29F93051C60 /* iOS */,
+				52263BE7398F7477EDB66BFCB68C64E5 /* ResourceBundle-Tryouts-Tryouts-Info.plist */,
+				0FD4DFB7AE4D2820956F5CAC9560143C /* Tryouts.modulemap */,
+				540E6A3FC78A6C4E4B998D8AA1285595 /* Tryouts.xcconfig */,
+				B927F040AB3180DEC3BB6B8F779D432C /* Tryouts-dummy.m */,
+				6B37574A6DD8A2E78700E2B8E08A0659 /* Tryouts-Info.plist */,
+				59FDEDF701823F430A852AEA1C57560F /* Tryouts-prefix.pch */,
+				7878BC84399906FF41B17C0124F19285 /* Tryouts-umbrella.h */,
 			);
-			name = Frameworks;
+			name = "Support Files";
+			path = "../Target Support Files/Tryouts";
 			sourceTree = "<group>";
 		};
-		D71C85A2EC600C99591FE326B8013035 /* Products */ = {
+		E799F1CDB5FF534D6502FBBBCF01FFB5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4B92ABAF6A8E19B08F3833321B2C25DC /* macaroon.framework */,
+				97996152EFBE602162519C6837AC3554 /* Macaroon.framework */,
 				E385A752EA42B0156DFF1DD23094BE2A /* Pods_macaroon_Example.framework */,
 				ADD633C23AE404BAB5330E20BF1A83BC /* Pods_macaroon_Tests.framework */,
+				D884F3413B46921179C342128110C7B7 /* Tryouts.bundle */,
+				9FDE6E1015666DCDB7413E531D776C14 /* Tryouts.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E2BB190DFD20D7DFD13782B62A20F896 /* Support Files */ = {
+		F1E3F53430ECBC0CB3FADBD69FC801F0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				C86FBFEB3F8ADB6C000EF2D55C799057 /* macaroon.modulemap */,
-				B79DA85742F983CC949115703E08D32F /* macaroon.xcconfig */,
-				D11699834BF1F865EECEFEB206F9E570 /* macaroon-dummy.m */,
-				A32A51D5136C9CDFFAE941540F598A95 /* macaroon-Info.plist */,
-				D2049E5F21A263E43D33A71F4EBC3172 /* macaroon-prefix.pch */,
-				F3BEB09A8240DC8B7A8E87DDF6E3C55D /* macaroon-umbrella.h */,
+				FF890DD88FDCBB748E81AF3EF4D8FFEF /* SwiftLint.xcconfig */,
 			);
 			name = "Support Files";
-			path = "Example/Pods/Target Support Files/macaroon";
+			path = "../Target Support Files/SwiftLint";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		09C1C1A95ECCC62E757F3F98187ACCC4 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E39C7DDC6E6482A53D10FAE76BA56C40 /* macaroon-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		17BDCE49461D5ED56D20C5146A6C0949 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				490AEF63539F9E539478E315207F9925 /* Pods-macaroon_Example-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		25975FDCEB836786E2C884312FC11E8A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -245,27 +574,42 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6EB75588AD30078AC95585748D691D10 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A798C0334A33C9F64E86E5CD1EADFD2 /* Macaroon-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5DDC1E33D2921FAC6BACF7F88B3596A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8FA111F89E2B68AB6F275CF0036BC114 /* Pods-macaroon_Example-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4836AF54C648F8895B64EB3594FD2BA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A024CC8776DA8E322253665D03E939E /* TRYAppRelease.h in Headers */,
+				F1130296C2CE71493009FFA8A6DC1BCA /* TRYFeedback.h in Headers */,
+				AF3ADBDE9A1736F574C14E5CA5D0F242 /* TRYFeedbackOverlayView.h in Headers */,
+				46168F48A555A5F56AD664C4FE91D4E6 /* TRYFeedbackUploadManager.h in Headers */,
+				882CE493BA6E1EE80E01B1841E6FFA10 /* TRYFeedbackUploadTask.h in Headers */,
+				680065D322F0747C7101E78DFA1FF75E /* TRYFeedbackViewController.h in Headers */,
+				2458AF406041E4DA7D97BE38C591D5EB /* TRYMessageView.h in Headers */,
+				9A036CFAD6F8FCD17075368769966E67 /* TRYMotionRecognizingWindow.h in Headers */,
+				B5FE78D2A07B0763F04ED6E625BB38B4 /* Tryouts-umbrella.h in Headers */,
+				D705167A5CB013C60031FF15B96354D1 /* Tryouts.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		484537368332DF409741AFD374B8061D /* macaroon */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D9042BC701D061371FB58C75BF8ACD57 /* Build configuration list for PBXNativeTarget "macaroon" */;
-			buildPhases = (
-				09C1C1A95ECCC62E757F3F98187ACCC4 /* Headers */,
-				E4E5A08545D001BC13E1F61B350FF5DA /* Sources */,
-				128BE4519290012D589F4FFD05D3C848 /* Frameworks */,
-				8BCF1773BF31E80AA5686D08E74E3EC5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = macaroon;
-			productName = macaroon;
-			productReference = 4B92ABAF6A8E19B08F3833321B2C25DC /* macaroon.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		4D0AAF6A50694762FD1684E4A9823952 /* Pods-macaroon_Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 64EAA627D83B727DD584CD4D70C83640 /* Build configuration list for PBXNativeTarget "Pods-macaroon_Tests" */;
@@ -287,22 +631,80 @@
 		};
 		60440AFBF72B8D6F48514B66FE38F5F0 /* Pods-macaroon_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8B9CDF7F74341F1901287AC84E2DA699 /* Build configuration list for PBXNativeTarget "Pods-macaroon_Example" */;
+			buildConfigurationList = AB1F285C0230E337B659F059B65BD152 /* Build configuration list for PBXNativeTarget "Pods-macaroon_Example" */;
 			buildPhases = (
-				17BDCE49461D5ED56D20C5146A6C0949 /* Headers */,
-				2B368F41CB3FF2F202CAC7F838B54581 /* Sources */,
-				8408E3E09EE28BEE7DB5A4C46E1A454D /* Frameworks */,
-				6D4F84437862D032EAA985353A6A8FFB /* Resources */,
+				E5DDC1E33D2921FAC6BACF7F88B3596A /* Headers */,
+				D116067452CAE0748E11D3C0B3BCACA6 /* Sources */,
+				B8F375F5DC2105268915A79FDE5790D2 /* Frameworks */,
+				EB7FC4FA88F44102D1D0207729F6CBC4 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CE415524E2EB6C420E61D00573CAFEB2 /* PBXTargetDependency */,
+				A5D711735CED3D485F3809E5D2723EE9 /* PBXTargetDependency */,
+				41CDC31B80B0491578FF4DEC148E5BB4 /* PBXTargetDependency */,
+				BBBE4F2E82F4A920875B50AB6DE17C8C /* PBXTargetDependency */,
 			);
 			name = "Pods-macaroon_Example";
 			productName = "Pods-macaroon_Example";
 			productReference = E385A752EA42B0156DFF1DD23094BE2A /* Pods_macaroon_Example.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		61BEACED13E6A8BC51DF77F393D7DA8E /* Tryouts */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 597F1AA7436C2D66BA978788A146C41B /* Build configuration list for PBXNativeTarget "Tryouts" */;
+			buildPhases = (
+				F4836AF54C648F8895B64EB3594FD2BA /* Headers */,
+				7A2FDE205D4E44B7597D5B9144B29C86 /* Sources */,
+				BBD98AB875CDA2C56F3BD79D1F28C0CC /* Frameworks */,
+				1323D22B2DBD906367CDFD84485F01CC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C40A0E11C6AB711BE2BB2666B78754C6 /* PBXTargetDependency */,
+			);
+			name = Tryouts;
+			productName = Tryouts;
+			productReference = 9FDE6E1015666DCDB7413E531D776C14 /* Tryouts.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		62DF6C21307B2CC2E07E6F697B690818 /* Macaroon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CFBB25831A95A5D0021E713966949D0 /* Build configuration list for PBXNativeTarget "Macaroon" */;
+			buildPhases = (
+				6EB75588AD30078AC95585748D691D10 /* Headers */,
+				0F2CE2FE3CBF9F2CC2312B433AEB6777 /* Sources */,
+				F4B8D596F1FBE6772473AFC5892D8077 /* Frameworks */,
+				F30987039E72E9E001EE6CFB9310986F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CC5D7EC33E9B9A0C14D0074D320E2B1E /* PBXTargetDependency */,
+				D25A9F29510597472ABB2C6D861D9527 /* PBXTargetDependency */,
+			);
+			name = Macaroon;
+			productName = Macaroon;
+			productReference = 97996152EFBE602162519C6837AC3554 /* Macaroon.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		90B5176747C39D97DAE8A6CD21CA4EBF /* Tryouts-Tryouts */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EE405ACDB989A6B45C432FDA1DD7AEF /* Build configuration list for PBXNativeTarget "Tryouts-Tryouts" */;
+			buildPhases = (
+				907DC6431CAF0DCEA83BCCF731C0D4D0 /* Sources */,
+				3A3791774111A2DF730509AFF4602F52 /* Frameworks */,
+				D15C49B913EEDB1663EF35B08107C89A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Tryouts-Tryouts";
+			productName = "Tryouts-Tryouts";
+			productReference = D884F3413B46921179C342128110C7B7 /* Tryouts.bundle */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -322,26 +724,58 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = D71C85A2EC600C99591FE326B8013035 /* Products */;
+			productRefGroup = E799F1CDB5FF534D6502FBBBCF01FFB5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				484537368332DF409741AFD374B8061D /* macaroon */,
+				62DF6C21307B2CC2E07E6F697B690818 /* Macaroon */,
 				60440AFBF72B8D6F48514B66FE38F5F0 /* Pods-macaroon_Example */,
 				4D0AAF6A50694762FD1684E4A9823952 /* Pods-macaroon_Tests */,
+				52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */,
+				61BEACED13E6A8BC51DF77F393D7DA8E /* Tryouts */,
+				90B5176747C39D97DAE8A6CD21CA4EBF /* Tryouts-Tryouts */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		6D4F84437862D032EAA985353A6A8FFB /* Resources */ = {
+		1323D22B2DBD906367CDFD84485F01CC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70F55E233209634E56463AE6C4F6E38C /* Tryouts.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8BCF1773BF31E80AA5686D08E74E3EC5 /* Resources */ = {
+		D15C49B913EEDB1663EF35B08107C89A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39916AD63A28F82F6C8D3BB75EFF7C4A /* bg-feedback.png in Resources */,
+				0D295DE61C412896260A65266F7F4C5A /* bg-feedback@2x.png in Resources */,
+				7854B4308CBA62450F93318D9CB3F55E /* bg-feedback@3x.png in Resources */,
+				BDFAACC1680558A39B4D3B83224A85CA /* bg-rounded-blue.png in Resources */,
+				D6A118DD7B43A69FED37166823534468 /* bg-rounded-blue@2x.png in Resources */,
+				23CEFD8D70C1D640E0F91EA546767BD7 /* bg-rounded-blue@3x.png in Resources */,
+				E6733C5B8C879747679E014A84FB362A /* bg-rounded-green.png in Resources */,
+				0D4BB94B3F7CF1887CAE2A5ED6561E36 /* bg-rounded-green@2x.png in Resources */,
+				7FDF82AB5AE9EE5D6852F7A144744C2D /* bg-rounded-green@3x.png in Resources */,
+				38D3A6FDFF943EA0C1519F25E4E5B581 /* bg-rounded-orange.png in Resources */,
+				08B6BA08E950AF5284535F243B023692 /* bg-rounded-orange@2x.png in Resources */,
+				E7C19AE6E3D40CE9F302ADA740F65678 /* bg-rounded-orange@3x.png in Resources */,
+				693CC68D3BB19F78C35B607F96F0E0DC /* bt-clear.png in Resources */,
+				6BC042E64914742632AF17F326447EF9 /* bt-clear@2x.png in Resources */,
+				8785E9A022ADF9EE0A5CA25DBB4E4390 /* bt-clear@3x.png in Resources */,
+				38AE19656A8987B0B9BAF2FD6612DD56 /* bt-close.png in Resources */,
+				2267426315AA48E9A8BC7D528BE127BB /* bt-close@2x.png in Resources */,
+				A0816A99A6AAB27CC66DB24D613BE944 /* bt-close@3x.png in Resources */,
+				22A9B1D7114F4D17A27A40ED12C8F1DC /* im-tryouts-icon.png in Resources */,
+				1CAD622522D5D9227E5129D648FD4061 /* im-tryouts-icon@2x.png in Resources */,
+				7D7C69CDBA716A4F14948152EC1A0D94 /* im-tryouts-icon@3x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB7FC4FA88F44102D1D0207729F6CBC4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -355,9 +789,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F30987039E72E9E001EE6CFB9310986F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0F2CE2FE3CBF9F2CC2312B433AEB6777 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E54538020C7365EC764D7E6756EA9B05 /* Analytics.swift in Sources */,
+				480176178B5378A814E9CB3DC03F3070 /* AppTarget.swift in Sources */,
+				30D8DAAF304B2AA9596CD18C2DAAEAF3 /* Codable+Extensions.swift in Sources */,
+				6C4F8743D3C0CDA58F68977FB1DBA488 /* DeeplinkConfig.swift in Sources */,
+				ABF39F4BB44E25A7D7032E9C37323157 /* DevTools.swift in Sources */,
+				1AFB9FFB265691A9AC96B77BD2A3137C /* Error.swift in Sources */,
+				8AA2DE140856D1DA20A624F4A3212D48 /* Macaroon-dummy.m in Sources */,
+				3F0AB48332F7361E590145ABD10C7359 /* ServerConfig.swift in Sources */,
+				185FE3AF7559E5786180BCF918160E76 /* TryoutsHandler.swift in Sources */,
+				0009F4D355F5CB34D0A7093CD5CB9DCA /* Typealiases.swift in Sources */,
+				D835B2F466BA5648717F78CC4663DE88 /* Utils+Error.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		14DE496E9B92C127BC89DEE4CA63407E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -366,44 +825,93 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2B368F41CB3FF2F202CAC7F838B54581 /* Sources */ = {
+		7A2FDE205D4E44B7597D5B9144B29C86 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7BDD21FC8C4F0F1F261EAB05EC133DC4 /* Pods-macaroon_Example-dummy.m in Sources */,
+				32B1F1CC52E11F97FEB167B6960B73E1 /* TRYAppRelease.m in Sources */,
+				CC3CA518C6D4194FCF6F46B123F5C53F /* TRYFeedback.m in Sources */,
+				9C68C4741C7222EC1F616BDA221691FE /* TRYFeedbackOverlayView.m in Sources */,
+				AD523268D705092D8F415BD4B7375B07 /* TRYFeedbackUploadManager.m in Sources */,
+				6C001A7ED33652DA8795B27133378048 /* TRYFeedbackUploadTask.m in Sources */,
+				DA1ADAC075E3EF9237C59267E66A0282 /* TRYFeedbackViewController.m in Sources */,
+				EBB98A1B8B078CD75F1F8FE580F3B906 /* TRYMessageView.m in Sources */,
+				FFF6FE7C8B91C564417D5968C2A53998 /* TRYMotionRecognizingWindow.m in Sources */,
+				4DD91D551EE8E0688AE31C91B0CC6267 /* Tryouts-dummy.m in Sources */,
+				2385A237BB448130F9584DD4F00810B7 /* Tryouts.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E4E5A08545D001BC13E1F61B350FF5DA /* Sources */ = {
+		907DC6431CAF0DCEA83BCCF731C0D4D0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				290D9B39183707AD677F633BE8F391EF /* macaroon-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D116067452CAE0748E11D3C0B3BCACA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58F94D7E1FCA1D8F8D1C61DAF174540C /* Pods-macaroon_Example-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		41CDC31B80B0491578FF4DEC148E5BB4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftLint;
+			target = 52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */;
+			targetProxy = 32FF8F018DCD937AA4A1E6B6497A2583 /* PBXContainerItemProxy */;
+		};
 		4DAB2BCFA69FB487F0DFF363E5E5C047 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-macaroon_Example";
 			target = 60440AFBF72B8D6F48514B66FE38F5F0 /* Pods-macaroon_Example */;
 			targetProxy = B1439358988849F08851DEE169DA7656 /* PBXContainerItemProxy */;
 		};
-		CE415524E2EB6C420E61D00573CAFEB2 /* PBXTargetDependency */ = {
+		A5D711735CED3D485F3809E5D2723EE9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = macaroon;
-			target = 484537368332DF409741AFD374B8061D /* macaroon */;
-			targetProxy = 43AFB37B2DC273DC4189985C7C8E460C /* PBXContainerItemProxy */;
+			name = Macaroon;
+			target = 62DF6C21307B2CC2E07E6F697B690818 /* Macaroon */;
+			targetProxy = A8CAA8D6031B190C51B521F9D1CED44E /* PBXContainerItemProxy */;
+		};
+		BBBE4F2E82F4A920875B50AB6DE17C8C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Tryouts;
+			target = 61BEACED13E6A8BC51DF77F393D7DA8E /* Tryouts */;
+			targetProxy = A32C7E32141AD9EAF8E8F7B663CD7FE3 /* PBXContainerItemProxy */;
+		};
+		C40A0E11C6AB711BE2BB2666B78754C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Tryouts-Tryouts";
+			target = 90B5176747C39D97DAE8A6CD21CA4EBF /* Tryouts-Tryouts */;
+			targetProxy = 8ED8F6346161B28809190970A96E3E79 /* PBXContainerItemProxy */;
+		};
+		CC5D7EC33E9B9A0C14D0074D320E2B1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftLint;
+			target = 52B60EC2A583F24ACBB69C113F5488B9 /* SwiftLint */;
+			targetProxy = 683EC5E86C10B5B51CC0FE803B8A7E68 /* PBXContainerItemProxy */;
+		};
+		D25A9F29510597472ABB2C6D861D9527 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Tryouts;
+			target = 61BEACED13E6A8BC51DF77F393D7DA8E /* Tryouts */;
+			targetProxy = 508754B9422C97BD92F279F927AC621B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		34FE948BF58C6E177778999E80CFE68A /* Release */ = {
+		040448DA48ACC7B49DEDEDD6B1B66633 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B79DA85742F983CC949115703E08D32F /* macaroon.xcconfig */;
+			baseConfigurationReference = 61090DEC7AD122FE99DC852CD7791B4D /* Pods-macaroon_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -413,14 +921,61 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/macaroon/macaroon-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/macaroon/macaroon-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-macaroon_Tests/Pods-macaroon_Tests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-macaroon_Tests/Pods-macaroon_Tests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		04704C87BD7AC6CC1BE79781E43F189F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF890DD88FDCBB748E81AF3EF4D8FFEF /* SwiftLint.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		134698A1BA234EE815895F67D36C4BAD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 540E6A3FC78A6C4E4B998D8AA1285595 /* Tryouts.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Tryouts/Tryouts-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Tryouts/Tryouts-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/macaroon/macaroon.modulemap";
-				PRODUCT_MODULE_NAME = macaroon;
-				PRODUCT_NAME = macaroon;
+				MODULEMAP_FILE = "Target Support Files/Tryouts/Tryouts.modulemap";
+				PRODUCT_MODULE_NAME = Tryouts;
+				PRODUCT_NAME = Tryouts;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -432,11 +987,13 @@
 			};
 			name = Release;
 		};
-		35482756F5F9CCEEFCC469ADE5B5018A /* Release */ = {
+		15E2AF0EA649BBBA37DA1AE5BBF33113 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AE928AFF5B928956B38DE42E59B48E28 /* Pods-macaroon_Example.release.xcconfig */;
+			baseConfigurationReference = 8BE2F8AA77270D521CA9C7CEC9072CDE /* Pods-macaroon_Example.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -448,7 +1005,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-macaroon_Example/Pods-macaroon_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-macaroon_Example/Pods-macaroon_Example.modulemap";
@@ -460,17 +1017,18 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
-		3C1D41CFE98D65DE61400165631C5E72 /* Release */ = {
+		3B18B6BCE97C6CB4C1CE8611007AEC1B /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 278E708726B017730ACAE7BB8C9D4217 /* Pods-macaroon_Tests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -482,7 +1040,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-macaroon_Tests/Pods-macaroon_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-macaroon_Tests/Pods-macaroon_Tests.modulemap";
@@ -500,71 +1058,7 @@
 			};
 			name = Release;
 		};
-		6FF5BB5F242C8FDA1B1BC3EFCAB3BFB2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B79DA85742F983CC949115703E08D32F /* macaroon.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/macaroon/macaroon-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/macaroon/macaroon-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/macaroon/macaroon.modulemap";
-				PRODUCT_MODULE_NAME = macaroon;
-				PRODUCT_NAME = macaroon;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		7AF25B2EEB3668AB8F8D05515F107B99 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 61090DEC7AD122FE99DC852CD7791B4D /* Pods-macaroon_Tests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-macaroon_Tests/Pods-macaroon_Tests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-macaroon_Tests/Pods-macaroon_Tests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		B0087CB4594321EF41619F3181FE120E /* Release */ = {
+		3C73BDAC02BF6A4D61D6D97D384D8842 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -612,18 +1106,83 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Release;
 		};
-		B8BCBD0110C2658BB5DAADB9B7D97B92 /* Debug */ = {
+		714996964A714DB8A5D3469D5EC95B22 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF890DD88FDCBB748E81AF3EF4D8FFEF /* SwiftLint.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		859CB1886021D36BD6513BD7DCE95930 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 540E6A3FC78A6C4E4B998D8AA1285595 /* Tryouts.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Tryouts";
+				IBSC_MODULE = Tryouts;
+				INFOPLIST_FILE = "Target Support Files/Tryouts/ResourceBundle-Tryouts-Tryouts-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = Tryouts;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		8992A491D114885092208699E8569779 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 540E6A3FC78A6C4E4B998D8AA1285595 /* Tryouts.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Tryouts/Tryouts-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Tryouts/Tryouts-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Tryouts/Tryouts.modulemap";
+				PRODUCT_MODULE_NAME = Tryouts;
+				PRODUCT_NAME = Tryouts;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AB09B621ED251839D4FA17E44F361111 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -674,7 +1233,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -687,11 +1246,47 @@
 			};
 			name = Debug;
 		};
-		D5BAA3EED34C7235F1CD9BC2B76EA48C /* Debug */ = {
+		BE336C25370FD9C422FD13D77B770340 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BE2F8AA77270D521CA9C7CEC9072CDE /* Pods-macaroon_Example.debug.xcconfig */;
+			baseConfigurationReference = 6CE7BF5BD93432876FA51D780AA2A067 /* Macaroon.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Macaroon/Macaroon-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Macaroon/Macaroon-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Macaroon/Macaroon.modulemap";
+				PRODUCT_MODULE_NAME = Macaroon;
+				PRODUCT_NAME = Macaroon;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		C256071B2DE36F0D154A0B88ED85514C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE928AFF5B928956B38DE42E59B48E28 /* Pods-macaroon_Example.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -703,7 +1298,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-macaroon_Example/Pods-macaroon_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-macaroon_Example/Pods-macaroon_Example.modulemap";
@@ -715,19 +1310,97 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D35D1749AE431EC564111552141E4AAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6CE7BF5BD93432876FA51D780AA2A067 /* Macaroon.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Macaroon/Macaroon-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Macaroon/Macaroon-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Macaroon/Macaroon.modulemap";
+				PRODUCT_MODULE_NAME = Macaroon;
+				PRODUCT_NAME = Macaroon;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E673C5B2FB0C5792096C04300072CA28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 540E6A3FC78A6C4E4B998D8AA1285595 /* Tryouts.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Tryouts";
+				IBSC_MODULE = Tryouts;
+				INFOPLIST_FILE = "Target Support Files/Tryouts/ResourceBundle-Tryouts-Tryouts-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = Tryouts;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0F67A416683AD03D5D09C82D138E232A /* Build configuration list for PBXAggregateTarget "SwiftLint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04704C87BD7AC6CC1BE79781E43F189F /* Debug */,
+				714996964A714DB8A5D3469D5EC95B22 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B8BCBD0110C2658BB5DAADB9B7D97B92 /* Debug */,
-				B0087CB4594321EF41619F3181FE120E /* Release */,
+				AB09B621ED251839D4FA17E44F361111 /* Debug */,
+				3C73BDAC02BF6A4D61D6D97D384D8842 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		597F1AA7436C2D66BA978788A146C41B /* Build configuration list for PBXNativeTarget "Tryouts" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8992A491D114885092208699E8569779 /* Debug */,
+				134698A1BA234EE815895F67D36C4BAD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5CFBB25831A95A5D0021E713966949D0 /* Build configuration list for PBXNativeTarget "Macaroon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D35D1749AE431EC564111552141E4AAA /* Debug */,
+				BE336C25370FD9C422FD13D77B770340 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -735,26 +1408,26 @@
 		64EAA627D83B727DD584CD4D70C83640 /* Build configuration list for PBXNativeTarget "Pods-macaroon_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7AF25B2EEB3668AB8F8D05515F107B99 /* Debug */,
-				3C1D41CFE98D65DE61400165631C5E72 /* Release */,
+				040448DA48ACC7B49DEDEDD6B1B66633 /* Debug */,
+				3B18B6BCE97C6CB4C1CE8611007AEC1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8B9CDF7F74341F1901287AC84E2DA699 /* Build configuration list for PBXNativeTarget "Pods-macaroon_Example" */ = {
+		8EE405ACDB989A6B45C432FDA1DD7AEF /* Build configuration list for PBXNativeTarget "Tryouts-Tryouts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D5BAA3EED34C7235F1CD9BC2B76EA48C /* Debug */,
-				35482756F5F9CCEEFCC469ADE5B5018A /* Release */,
+				E673C5B2FB0C5792096C04300072CA28 /* Debug */,
+				859CB1886021D36BD6513BD7DCE95930 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D9042BC701D061371FB58C75BF8ACD57 /* Build configuration list for PBXNativeTarget "macaroon" */ = {
+		AB1F285C0230E337B659F059B65BD152 /* Build configuration list for PBXNativeTarget "Pods-macaroon_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6FF5BB5F242C8FDA1B1BC3EFCAB3BFB2 /* Debug */,
-				34FE948BF58C6E177778999E80CFE68A /* Release */,
+				15E2AF0EA649BBBA37DA1AE5BBF33113 /* Debug */,
+				C256071B2DE36F0D154A0B88ED85514C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

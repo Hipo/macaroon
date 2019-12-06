@@ -1,7 +1,8 @@
 use_frameworks!
+inhibit_all_warnings!
 
 target 'macaroon_Example' do
-  pod 'macaroon', :path => '../'
+  pod 'Macaroon/DevSources', :path => '../'
 
   target 'macaroon_Tests' do
     inherit! :search_paths

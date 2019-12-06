@@ -1,5 +1,5 @@
-framework module macaroon {
-  umbrella header "macaroon-umbrella.h"
+framework module Macaroon {
+  umbrella header "Macaroon-umbrella.h"
 
   export *
   module * { export * }

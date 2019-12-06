@@ -1,0 +1,6 @@
+framework module Tryouts {
+  umbrella header "Tryouts-umbrella.h"
+
+  export *
+  module * { export * }
+}
