@@ -6,11 +6,12 @@ import Tryouts
 public class TryoutsHandler: DevToolConvertible {
     public let config: Config
 
+    /// <mark> Decodable
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let appId = try container.decode(String.self, forKey: .appId)
-        let apiKey = try container.decode(String.self, forKey: .apiKey)
-        let developerSecret = try container.decode(String.self, forKey: .developerSecret)
+        let appId = try container.decodeIfPresent(String.self, forKey: .appId) ?? ""
+        let apiKey = try container.decodeIfPresent(String.self, forKey: .apiKey) ?? ""
+        let developerSecret = try container.decodeIfPresent(String.self, forKey: .developerSecret) ?? ""
         config = Config(appId: appId, apiKey: apiKey, developerSecret: developerSecret)
 
         initialize()
@@ -24,7 +25,9 @@ public class TryoutsHandler: DevToolConvertible {
 
 extension TryoutsHandler {
     private func initialize() {
-        Tryouts.initialize(withAppIdentifier: config.appId, apiKey: config.apiKey, secret: config.developerSecret)
+        if config.isValid {
+            Tryouts.initialize(withAppIdentifier: config.appId, apiKey: config.apiKey, secret: config.developerSecret)
+        }
     }
 }
 
@@ -33,6 +36,13 @@ extension TryoutsHandler {
         let appId: String
         let apiKey: String
         let developerSecret: String
+
+        var isValid: Bool {
+            return
+                !appId.isEmpty &&
+                !apiKey.isEmpty &&
+                !developerSecret.isEmpty
+        }
     }
 }
 
