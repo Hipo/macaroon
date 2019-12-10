@@ -3,20 +3,10 @@
 import Foundation
 
 public class NoDevTools: DevToolsConvertible {
-    public required init() { }
+    /// <mark> ExpressibleByNilLiteral
+    public required init(nilLiteral: ()) { }
 }
 
-public protocol DevToolsConvertible: AnyObject, Decodable, ExpressibleByNilLiteral {
-    init()
-}
+public protocol DevToolsConvertible: AnyObject, Decodable, ExpressibleByNilLiteral { }
 
-extension DevToolsConvertible {
-    /// <mark> ExpressibleByNilLIteral
-    public init(nilLiteral: ()) {
-        self.init()
-    }
-}
-
-public protocol DevToolConvertible: AnyObject, Decodable {
-    init()
-}
+public protocol DevToolConvertible: AnyObject, Decodable, ExpressibleByNilLiteral { }

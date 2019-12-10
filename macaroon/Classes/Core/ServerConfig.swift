@@ -6,47 +6,28 @@ open class ServerConfig: ServerConfigConvertible {
     public let base: String
     public let apiBase: String
 
-    public required init(
-        base: String,
-        apiBase: String
-    ) {
-        self.base = base
-        self.apiBase = apiBase
+    /// <mark> Decodable
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        base = try container.decodeIfPresent(String.self, forKey: .base) ?? ""
+        apiBase = try container.decodeIfPresent(String.self, forKey: .apiBase) ?? ""
+    }
+
+    /// <mark> ExpressibleByNilLiteral
+    public required init(nilLiteral: ()) {
+        base = ""
+        apiBase = ""
+    }
+}
+
+extension ServerConfig {
+    public enum CodingKeys: String, CodingKey {
+        case base = "base"
+        case apiBase = "api_base"
     }
 }
 
 public protocol ServerConfigConvertible: AnyObject, Decodable, ExpressibleByNilLiteral {
     var base: String { get }
     var apiBase: String { get }
-
-    init(
-        base: String,
-        apiBase: String
-    )
-}
-
-extension ServerConfigConvertible {
-    /// <mark> Decodable
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: ServerConfigKeys.self)
-        let base = try container.decodeIfPresent(String.self, forKey: .base)
-        let apiBase = try container.decodeIfPresent(String.self, forKey: .apiBase)
-        self.init(
-            base: base ?? "",
-            apiBase: apiBase ?? ""
-        )
-    }
-
-    /// <mark> ExpressibleByNilLiteral
-    public init(nilLiteral: ()) {
-        self.init(
-            base: "",
-            apiBase: ""
-        )
-    }
-}
-
-public enum ServerConfigKeys: String, CodingKey {
-    case base = "base"
-    case apiBase = "api_base"
 }

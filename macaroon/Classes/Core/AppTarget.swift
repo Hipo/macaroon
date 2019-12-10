@@ -10,18 +10,32 @@ open class AppTarget<SomeAnalytics: AnalyticsConvertible, SomeDevTools: DevTools
     public let analytics: SomeAnalytics
     public let devTools: SomeDevTools
 
-    public required init(
-        isProduction: Bool,
-        serverConfig: ServerConfig,
-        deeplinkConfig: DeeplinkConfig,
-        analytics: SomeAnalytics,
-        devTools: SomeDevTools
-    ) {
-        self.isProduction = isProduction
-        self.serverConfig = serverConfig
-        self.deeplinkConfig = deeplinkConfig
-        self.analytics = analytics
-        self.devTools = devTools
+    public init() {
+        isProduction = true
+        serverConfig = nil
+        deeplinkConfig = nil
+        analytics = nil
+        devTools = nil
+    }
+
+    /// <mark> Decodable
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        isProduction = try container.decodeIfPresent(Bool.self, forKey: .isProduction) ?? true
+        serverConfig = try container.decodeIfPresent(SomeServerConfig.self, forKey: .serverConfig) ?? nil
+        deeplinkConfig = try container.decodeIfPresent(SomeDeeplinkConfig.self, forKey: .deeplinkConfig) ?? nil
+        analytics = try container.decodeIfPresent(SomeAnalytics.self, forKey: .analytics) ?? nil
+        devTools = try container.decodeIfPresent(SomeDevTools.self, forKey: .devTools) ?? nil
+    }
+}
+
+extension AppTarget {
+    public enum CodingKeys: String, CodingKey {
+        case isProduction = "is_production"
+        case serverConfig = "server_config"
+        case deeplinkConfig = "deeplink_config"
+        case analytics = "analytics"
+        case devTools = "dev_tools"
     }
 }
 
@@ -36,33 +50,6 @@ public protocol AppTargetConvertible: AnyObject, Decodable {
     var deeplinkConfig: SomeDeeplinkConfig { get }
     var analytics: SomeAnalytics { get }
     var devTools: SomeDevTools { get }
-
-    init(
-        isProduction: Bool,
-        serverConfig: SomeServerConfig,
-        deeplinkConfig: SomeDeeplinkConfig,
-        analytics: SomeAnalytics,
-        devTools: SomeDevTools
-    )
-}
-
-extension AppTargetConvertible {
-    /// <mark> Decodable
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: AppTargetKeys.self)
-        let isProduction = try container.decodeIfPresent(Bool.self, forKey: .isProduction)
-        let serverConfig = try container.decodeIfPresent(SomeServerConfig.self, forKey: .serverConfig)
-        let deeplinkConfig = try container.decodeIfPresent(SomeDeeplinkConfig.self, forKey: .deeplinkConfig)
-        let analytics = try container.decodeIfPresent(SomeAnalytics.self, forKey: .analytics)
-        let devTools = try container.decodeIfPresent(SomeDevTools.self, forKey: .devTools)
-        self.init(
-            isProduction: isProduction ?? true,
-            serverConfig: serverConfig ?? nil,
-            deeplinkConfig: deeplinkConfig ?? nil,
-            analytics: analytics ?? nil,
-            devTools: devTools ?? nil
-        )
-    }
 }
 
 extension AppTargetConvertible {
@@ -124,12 +111,4 @@ public enum DeviceFamily {
     case iPhone
     case iPad
     case watch
-}
-
-public enum AppTargetKeys: String, CodingKey {
-    case isProduction = "is_production"
-    case serverConfig = "server_config"
-    case deeplinkConfig = "deeplink_config"
-    case analytics = "analytics"
-    case devTools = "dev_tools"
 }

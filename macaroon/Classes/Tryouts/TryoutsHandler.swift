@@ -6,10 +6,6 @@ import Tryouts
 public class TryoutsHandler: DevToolConvertible {
     public let config: Config
 
-    public required init() {
-        config = Config(appId: "", apiKey: "", developerSecret: "")
-    }
-
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let appId = try container.decode(String.self, forKey: .appId)
@@ -18,6 +14,11 @@ public class TryoutsHandler: DevToolConvertible {
         config = Config(appId: appId, apiKey: apiKey, developerSecret: developerSecret)
 
         initialize()
+    }
+
+    /// <mark> ExpressibleByNilLiteral
+    public required init(nilLiteral: ()) {
+        config = Config(appId: "", apiKey: "", developerSecret: "")
     }
 }
 
@@ -33,7 +34,9 @@ extension TryoutsHandler {
         let apiKey: String
         let developerSecret: String
     }
+}
 
+extension TryoutsHandler {
     public enum CodingKeys: String, CodingKey {
         case appId = "app_id"
         case apiKey = "api_key"
