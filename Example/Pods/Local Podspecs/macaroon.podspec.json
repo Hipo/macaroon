@@ -18,10 +18,10 @@
     "ios": "11.0"
   },
   "swift_versions": "5.0",
-  "default_subspecs": "Sources",
+  "default_subspecs": "Production",
   "subspecs": [
     {
-      "name": "Sources",
+      "name": "Production",
       "dependencies": {
         "Macaroon/Core": [
 
@@ -29,23 +29,21 @@
       }
     },
     {
-      "name": "DevSources",
+      "name": "Development",
       "dependencies": {
         "Macaroon/Core": [
 
         ],
         "Macaroon/Tryouts": [
 
+        ],
+        "Macaroon/SwiftLint": [
+
         ]
       }
     },
     {
       "name": "Core",
-      "dependencies": {
-        "SwiftLint": [
-          "~> 0.37.0"
-        ]
-      },
       "subspecs": [
         {
           "name": "Application",
@@ -79,6 +77,14 @@
       "dependencies": {
         "Tryouts": [
 
+        ]
+      }
+    },
+    {
+      "name": "SwiftLint",
+      "dependencies": {
+        "SwiftLint": [
+          "~> 0.37.0"
         ]
       }
     }

@@ -16,15 +16,16 @@ Pod::Spec.new do |s|
   s.author = { 'Hipo' => 'hello@hipolabs.com' }
   s.ios.deployment_target = '11.0'
   s.swift_version = '5.0'
-  s.default_subspec = 'Sources'
+  s.default_subspec = 'Production'
 
-  s.subspec 'Sources' do |ss|
+  s.subspec 'Production' do |ss|
     ss.dependency 'Macaroon/Core'
   end
 
-  s.subspec 'DevSources' do |ss|
+  s.subspec 'Development' do |ss|
     ss.dependency 'Macaroon/Core'
     ss.dependency 'Macaroon/Tryouts'
+    ss.dependency 'Macaroon/SwiftLint'
   end
 
   s.subspec 'Core' do |ss|
@@ -47,12 +48,14 @@ Pod::Spec.new do |s|
         ssss.source_files = 'macaroon/Classes/Utils/Extensions/*.swift'
       end
     end
-
-    ss.dependency 'SwiftLint', '~> 0.37.0'
   end
 
   s.subspec 'Tryouts' do |ss|
     ss.source_files = 'macaroon/Classes/Tryouts/*.swift'
     ss.dependency 'Tryouts'
+  end
+
+  s.subspec 'SwiftLint' do |ss|
+    ss.dependency 'SwiftLint', '~> 0.37.0'
   end
 end

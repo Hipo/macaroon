@@ -4,20 +4,20 @@ import Foundation
 import UIKit
 
 open class AppTarget<SomeAnalytics: AnalyticsConvertible, SomeDevTools: DevToolsConvertible>: AppTargetConvertible {
-    public let isStore: Bool
+    public let isProduction: Bool
     public let serverConfig: ServerConfig
     public let deeplinkConfig: DeeplinkConfig
     public let analytics: SomeAnalytics
     public let devTools: SomeDevTools
 
     public required init(
-        isStore: Bool,
+        isProduction: Bool,
         serverConfig: ServerConfig,
         deeplinkConfig: DeeplinkConfig,
         analytics: SomeAnalytics,
         devTools: SomeDevTools
     ) {
-        self.isStore = isStore
+        self.isProduction = isProduction
         self.serverConfig = serverConfig
         self.deeplinkConfig = deeplinkConfig
         self.analytics = analytics
@@ -31,14 +31,14 @@ public protocol AppTargetConvertible: AnyObject, Decodable {
     associatedtype SomeAnalytics: AnalyticsConvertible
     associatedtype SomeDevTools: DevToolsConvertible
 
-    var isStore: Bool { get }
+    var isProduction: Bool { get }
     var serverConfig: SomeServerConfig { get }
     var deeplinkConfig: SomeDeeplinkConfig { get }
     var analytics: SomeAnalytics { get }
     var devTools: SomeDevTools { get }
 
     init(
-        isStore: Bool,
+        isProduction: Bool,
         serverConfig: SomeServerConfig,
         deeplinkConfig: SomeDeeplinkConfig,
         analytics: SomeAnalytics,
@@ -50,13 +50,13 @@ extension AppTargetConvertible {
     /// <mark> Decodable
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: AppTargetKeys.self)
-        let isStore = try container.decodeIfPresent(Bool.self, forKey: .isStore)
+        let isProduction = try container.decodeIfPresent(Bool.self, forKey: .isProduction)
         let serverConfig = try container.decodeIfPresent(SomeServerConfig.self, forKey: .serverConfig)
         let deeplinkConfig = try container.decodeIfPresent(SomeDeeplinkConfig.self, forKey: .deeplinkConfig)
         let analytics = try container.decodeIfPresent(SomeAnalytics.self, forKey: .analytics)
         let devTools = try container.decodeIfPresent(SomeDevTools.self, forKey: .devTools)
         self.init(
-            isStore: isStore ?? true,
+            isProduction: isProduction ?? true,
             serverConfig: serverConfig ?? nil,
             deeplinkConfig: deeplinkConfig ?? nil,
             analytics: analytics ?? nil,
@@ -127,7 +127,7 @@ public enum DeviceFamily {
 }
 
 public enum AppTargetKeys: String, CodingKey {
-    case isStore = "is_store"
+    case isProduction = "is_production"
     case serverConfig = "server_config"
     case deeplinkConfig = "deeplink_config"
     case analytics = "analytics"

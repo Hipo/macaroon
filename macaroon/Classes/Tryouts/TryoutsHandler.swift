@@ -6,6 +6,10 @@ import Tryouts
 public class TryoutsHandler: DevToolConvertible {
     public let config: Config
 
+    public required init() {
+        config = Config(appId: "", apiKey: "", developerSecret: "")
+    }
+
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let appId = try container.decode(String.self, forKey: .appId)

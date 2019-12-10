@@ -17,4 +17,6 @@ extension DevToolsConvertible {
     }
 }
 
-public protocol DevToolConvertible: AnyObject, Decodable { }
+public protocol DevToolConvertible: AnyObject, Decodable {
+    init()
+}
