@@ -30,32 +30,52 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |ss|
     ss.subspec 'Application' do |sss|
-      sss.source_files = 'macaroon/Classes/Core/*.swift'
-
-      sss.subspec 'Analytics' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Core/Analytics/*.swift'
-      end
+      sss.source_files = 'macaroon/Classes/Application/*.swift'
     end
 
     ss.subspec 'Error' do |sss|
       sss.source_files = 'macaroon/Classes/Error/*.swift'
     end
 
+    ss.subspec 'Screen' do |sss|
+      sss.source_files = 'macaroon/Classes/Screen/*.swift'
+
+      sss.subspec 'Configuration' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Screen/Configuration/*.swift'
+
+        ssss.subspec 'NavigationBar' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Screen/Configuration/NavigationBar/*.swift'
+        end
+      end
+
+      sss.subspec 'Containers' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Screen/Containers/*.swift'
+      end
+    end
+
     ss.subspec 'Utils' do |sss|
       sss.source_files = 'macaroon/Classes/Utils/*.swift'
 
-      sss.subspec 'Extensions' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Utils/Extensions/*.swift'
+      sss.subspec 'Extensions' do |sss|
+        sss.subspec 'UI' do |ssss|
+          ssss.source_files = 'macaroon/Classes/Utils/Extensions/UI/*.swift'
+        end
+      end
+
+      sss.subspec 'Notification' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Utils/Notification/*.swift'
       end
     end
+
+    ss.dependency 'SnapKit', '~> 5.0.0'
+  end
+
+  s.subspec 'SwiftLint' do |ss|
+    ss.dependency 'SwiftLint', '~> 0.37.0'
   end
 
   s.subspec 'Tryouts' do |ss|
     ss.source_files = 'macaroon/Classes/Tryouts/*.swift'
     ss.dependency 'Tryouts'
-  end
-
-  s.subspec 'SwiftLint' do |ss|
-    ss.dependency 'SwiftLint', '~> 0.37.0'
   end
 end

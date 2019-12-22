@@ -44,20 +44,39 @@
     },
     {
       "name": "Core",
+      "dependencies": {
+        "SnapKit": [
+          "~> 5.0.0"
+        ]
+      },
       "subspecs": [
         {
           "name": "Application",
-          "source_files": "macaroon/Classes/Core/*.swift",
-          "subspecs": [
-            {
-              "name": "Analytics",
-              "source_files": "macaroon/Classes/Core/Analytics/*.swift"
-            }
-          ]
+          "source_files": "macaroon/Classes/Application/*.swift"
         },
         {
           "name": "Error",
           "source_files": "macaroon/Classes/Error/*.swift"
+        },
+        {
+          "name": "Screen",
+          "source_files": "macaroon/Classes/Screen/*.swift",
+          "subspecs": [
+            {
+              "name": "Configuration",
+              "source_files": "macaroon/Classes/Screen/Configuration/*.swift",
+              "subspecs": [
+                {
+                  "name": "NavigationBar",
+                  "source_files": "macaroon/Classes/Screen/Configuration/NavigationBar/*.swift"
+                }
+              ]
+            },
+            {
+              "name": "Containers",
+              "source_files": "macaroon/Classes/Screen/Containers/*.swift"
+            }
+          ]
         },
         {
           "name": "Utils",
@@ -65,11 +84,28 @@
           "subspecs": [
             {
               "name": "Extensions",
-              "source_files": "macaroon/Classes/Utils/Extensions/*.swift"
+              "subspecs": [
+                {
+                  "name": "UI",
+                  "source_files": "macaroon/Classes/Utils/Extensions/UI/*.swift"
+                }
+              ]
+            },
+            {
+              "name": "Notification",
+              "source_files": "macaroon/Classes/Utils/Notification/*.swift"
             }
           ]
         }
       ]
+    },
+    {
+      "name": "SwiftLint",
+      "dependencies": {
+        "SwiftLint": [
+          "~> 0.37.0"
+        ]
+      }
     },
     {
       "name": "Tryouts",
@@ -77,14 +113,6 @@
       "dependencies": {
         "Tryouts": [
 
-        ]
-      }
-    },
-    {
-      "name": "SwiftLint",
-      "dependencies": {
-        "SwiftLint": [
-          "~> 0.37.0"
         ]
       }
     }
