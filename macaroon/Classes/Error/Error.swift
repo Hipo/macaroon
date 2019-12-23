@@ -8,6 +8,10 @@ public enum Error: ErrorConvertible {
     case unsupportedDeviceOS
     case unsupportedDeviceFamily
     case rootContainerNotMatch
+    case routerNotFound
+    case screenNotFound(AppRoutingDestination)
+    case colorNotFound(String)
+    case imageNotFound(String)
     case ambiguous
 }
 
@@ -24,6 +28,14 @@ extension Error {
             return "Unsupported device family"
         case .rootContainerNotMatch:
             return "Root container in window doesn't match the expected one"
+        case .routerNotFound:
+            return "Router not found"
+        case .screenNotFound(let destination):
+            return "Screen not found for \(destination)"
+        case .colorNotFound(let name):
+            return "Color(\(name)) not found"
+        case .imageNotFound(let name):
+            return "Image(\(name)) not found"
         case .ambiguous:
             return "Ambiguous error"
         }

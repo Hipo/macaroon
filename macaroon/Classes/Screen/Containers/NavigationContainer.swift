@@ -7,7 +7,6 @@ open class NavigationContainer: UINavigationController, ScreenComposable {
     open override var childForStatusBarHidden: UIViewController? {
         return topViewController
     }
-
     open override var childForStatusBarStyle: UIViewController? {
         return topViewController
     }

@@ -2,14 +2,16 @@
 
 import Foundation
 
-public protocol ScreenComposable: UIViewController {
+public protocol ViewComposable: UIView {
     func customizeAppearance()
     func prepareLayout()
-    func setListeners() /// <note> Set dataSource(s) & delegate(s)
-    func linkInteractors() /// <note> Link action-target(s)
+    func setListeners() /// Set dataSource(s)&delegate(s)
+    func linkInteractors() /// Link action-target(s)
+
+    func prepareForReuse() /// Reset view state if needed.
 }
 
-extension ScreenComposable {
+extension ViewComposable {
     public func compose() {
         customizeAppearance()
         prepareLayout()

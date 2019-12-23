@@ -4,6 +4,7 @@ PODS:
     - Macaroon/Core/Error (= 0.1.0)
     - Macaroon/Core/Screen (= 0.1.0)
     - Macaroon/Core/Utils (= 0.1.0)
+    - Macaroon/Core/View (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Application (0.1.0):
     - SnapKit (~> 5.0.0)
@@ -23,13 +24,27 @@ PODS:
   - Macaroon/Core/Utils (0.1.0):
     - Macaroon/Core/Utils/Extensions (= 0.1.0)
     - Macaroon/Core/Utils/Notification (= 0.1.0)
+    - Macaroon/Core/Utils/Text (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Extensions (0.1.0):
+    - Macaroon/Core/Utils/Extensions/Foundation (= 0.1.0)
     - Macaroon/Core/Utils/Extensions/UI (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Utils/Extensions/Foundation (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Extensions/UI (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Notification (0.1.0):
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Utils/Text (0.1.0):
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/View (0.1.0):
+    - Macaroon/Core/View/Styling (= 0.1.0)
+    - Macaroon/Core/View/ViewModel (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/View/Styling (0.1.0):
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/View/ViewModel (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Development (0.1.0):
     - Macaroon/Core
@@ -57,7 +72,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Macaroon: 993479e397b29aca0664a393f94ce7e2c581b957
+  Macaroon: c5e0c930d5d6a10b774976171ba7afa8e1b79ffd
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
   Tryouts: dabd03aa73c2b5d253a649d306df523fc090fcee

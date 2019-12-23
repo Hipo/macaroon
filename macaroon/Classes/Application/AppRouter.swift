@@ -10,6 +10,7 @@ public protocol AppRouter: AnyObject, AppLaunchable, AppRouting {
 
     /// <note> It should be called once when it is set as the root view controller in window.
     func makeRootContainer() -> SomeRootContainer
+    func makeNavigationContainer(_ root: UIViewController) -> UINavigationController
     func makeSplash() -> UIViewController
 
     func openAuthorizationFlow(by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> UIViewController
@@ -17,10 +18,9 @@ public protocol AppRouter: AnyObject, AppLaunchable, AppRouting {
 }
 
 extension AppRouter {
-    public func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) -> T? {
-        guard let screen: T = makeScreen(destination) else {
-            return nil
-        }
+    public func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) -> T {
+        let screen: T = makeScreen(destination)
+
         switch transition {
         case .navigation(let navigation):
             pushScreen(screen, from: source, by: navigation, animated: animated, onCompleted: handler)
@@ -72,7 +72,7 @@ extension AppRouter {
             configurableScreen.isStatusBarHidden = true
         }
 
-        let navigationContainer = NavigationContainer(rootViewController: screen)
+        let navigationContainer = makeNavigationContainer(screen)
 
         switch transition {
         case .`default`:
@@ -111,22 +111,22 @@ public protocol AppRouting {
     associatedtype Destination: AppRoutingDestination
     typealias TransitionHandler = () -> Void
 
-    func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> T?
+    func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> T
     func closeScreen(_ screen: UIViewController, by transition: AppRouterTransition.Close, animated: Bool, onCompleted handler: TransitionHandler?)
-    func makeScreen<T: UIViewController>(_ destination: Destination) -> T?
+    func makeScreen<T: UIViewController>(_ destination: Destination) -> T
 }
 
 public struct NoAppRouting: AppRouting {
     public typealias Destination = NoAppRoutingDestionation
 
-    public func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> T? {
-        return nil
+    public func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> T {
+        mc_crash(.routerNotFound)
     }
 
     public func closeScreen(_ screen: UIViewController, by transition: AppRouterTransition.Close, animated: Bool, onCompleted handler: TransitionHandler?) { }
 
-    public func makeScreen<T: UIViewController>(_ destination: Destination) -> T? {
-        return nil
+    public func makeScreen<T: UIViewController>(_ destination: Destination) -> T {
+        mc_crash(.routerNotFound)
     }
 }
 

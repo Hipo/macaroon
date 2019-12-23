@@ -57,6 +57,10 @@ Pod::Spec.new do |s|
       sss.source_files = 'macaroon/Classes/Utils/*.swift'
 
       sss.subspec 'Extensions' do |sss|
+        sss.subspec 'Foundation' do |ssss|
+          ssss.source_files = 'macaroon/Classes/Utils/Extensions/Foundation/*.swift'
+        end
+
         sss.subspec 'UI' do |ssss|
           ssss.source_files = 'macaroon/Classes/Utils/Extensions/UI/*.swift'
         end
@@ -64,6 +68,26 @@ Pod::Spec.new do |s|
 
       sss.subspec 'Notification' do |ssss|
         ssss.source_files = 'macaroon/Classes/Utils/Notification/*.swift'
+      end
+
+      sss.subspec 'Text' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Utils/Text/*.swift'
+      end
+    end
+
+    ss.subspec 'View' do |sss|
+      sss.source_files = 'macaroon/Classes/View/*.swift'
+
+      sss.subspec 'Layout' do |ssss|
+        ssss.source_files = 'macaroon/Classes/View/Layout/*.swift'
+      end
+
+      sss.subspec 'Styling' do |ssss|
+        ssss.source_files = 'macaroon/Classes/View/Styling/*.swift'
+      end
+
+      sss.subspec 'ViewModel' do |ssss|
+        ssss.source_files = 'macaroon/Classes/View/ViewModel/*.swift'
       end
     end
 

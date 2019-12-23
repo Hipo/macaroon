@@ -30,7 +30,9 @@ open class BaseRootContainer<SomeAppLaunchController: AppLaunchController, SomeA
     public var isLaunched = false
 
     public var isAuthorizationFlowInProgress: Bool {
-        return authorizationContainer == presentedViewController
+        return
+            authorizationContainer != nil &&
+            authorizationContainer == presentedViewController
     }
     public var isHomeFlowInProgress: Bool {
         return homeContainer?.parent != nil
@@ -58,7 +60,7 @@ open class BaseRootContainer<SomeAppLaunchController: AppLaunchController, SomeA
             hideSplash()
         }
         let newSplash = router.makeSplash()
-        fillToContainer(newSplash)
+        fitToContainer(newSplash)
         splash = newSplash
     }
 
@@ -68,23 +70,12 @@ open class BaseRootContainer<SomeAppLaunchController: AppLaunchController, SomeA
     }
 
     open func startAuthorizationFlow() {
-        func openAuthorizationFlow(isFirst: Bool) {
-            authorizationContainer = router.openAuthorizationFlow(by: .presentation(.modal(.fullScreen)), animated: !isFirst) { [unowned self] in
-                if !isFirst {
-                    self.endHomeFlow()
-                }
-            }
-            asyncMainAfter(0.1) {
-                self.hideSplash()
-            }
-        }
-
         if isHomeFlowInProgress {
             if presentedViewController == nil {
                 openAuthorizationFlow(isFirst: false)
             } else {
-                dismiss(animated: false) {
-                    openAuthorizationFlow(isFirst: false)
+                dismiss(animated: false) { [unowned self] in
+                    self.openAuthorizationFlow(isFirst: false)
                 }
             }
             return
@@ -99,6 +90,19 @@ open class BaseRootContainer<SomeAppLaunchController: AppLaunchController, SomeA
     open func startOverAuthorizationFlow() {
         if let authorizationNavigationContainer = authorizationContainer as? NavigationContainer {
             authorizationNavigationContainer.popToRoot(animated: true)
+        }
+    }
+
+    open func openAuthorizationFlow(isFirst: Bool) {
+        if isFirst {
+            authorizationContainer = router.openAuthorizationFlow(by: .presentation(.modal(.fullScreen)), animated: false, onCompleted: nil)
+        } else {
+            authorizationContainer = router.openAuthorizationFlow(by: .presentation(.modal(.fullScreen)), animated: true) { [unowned self] in
+                self.endHomeFlow()
+            }
+        }
+        asyncMainAfter(0.2) {
+            self.hideSplash()
         }
     }
 

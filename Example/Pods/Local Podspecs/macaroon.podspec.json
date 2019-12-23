@@ -86,6 +86,10 @@
               "name": "Extensions",
               "subspecs": [
                 {
+                  "name": "Foundation",
+                  "source_files": "macaroon/Classes/Utils/Extensions/Foundation/*.swift"
+                },
+                {
                   "name": "UI",
                   "source_files": "macaroon/Classes/Utils/Extensions/UI/*.swift"
                 }
@@ -94,6 +98,24 @@
             {
               "name": "Notification",
               "source_files": "macaroon/Classes/Utils/Notification/*.swift"
+            },
+            {
+              "name": "Text",
+              "source_files": "macaroon/Classes/Utils/Text/*.swift"
+            }
+          ]
+        },
+        {
+          "name": "View",
+          "source_files": "macaroon/Classes/View/*.swift",
+          "subspecs": [
+            {
+              "name": "Styling",
+              "source_files": "macaroon/Classes/View/Styling/*.swift"
+            },
+            {
+              "name": "ViewModel",
+              "source_files": "macaroon/Classes/View/ViewModel/*.swift"
             }
           ]
         }
