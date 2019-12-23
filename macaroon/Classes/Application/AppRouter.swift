@@ -58,9 +58,9 @@ extension AppRouter {
         }
         switch transition {
         case .next:
-            source.navigationController?.pushViewController(source, animated: animated)
+            source.navigationController?.pushViewController(screen, animated: animated)
         case .root:
-            source.navigationController?.setViewControllers([source], animated: animated)
+            source.navigationController?.setViewControllers([screen], animated: animated)
         }
         handler?()
     }

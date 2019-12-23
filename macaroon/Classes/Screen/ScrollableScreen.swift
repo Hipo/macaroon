@@ -36,7 +36,7 @@ open class ScrollableScreen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, S
         scrollView.showsVerticalScrollIndicator = false
     }
 
-    public override func prepareLayout() {
+    open override func prepareLayout() {
         super.prepareLayout()
         addScrollView()
         addContentView()

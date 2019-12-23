@@ -40,7 +40,7 @@ extension NavigationBarConfigurable where Self: UIViewController {
         setNeedsNavigationBarRightBarButtonItemsUpdate()
     }
 
-    public func setNeedsNavigationBarAppearanceUpdateOnAppearing(animated: Bool = false) {
+    public func setNeedsNavigationBarAppearanceUpdateOnAppearing(animated: Bool = true) {
         navigationController?.setNavigationBarHidden(isNavigationBarHidden, animated: animated)
     }
 
