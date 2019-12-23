@@ -32,7 +32,8 @@ open class BaseRootContainer<SomeAppLaunchController: AppLaunchController, SomeA
     public var isAuthorizationFlowInProgress: Bool {
         return
             authorizationContainer != nil &&
-            authorizationContainer == presentedViewController
+            (authorizationContainer == presentedViewController ||
+             authorizationContainer?.navigationController == presentedViewController)
     }
     public var isHomeFlowInProgress: Bool {
         return homeContainer?.parent != nil
