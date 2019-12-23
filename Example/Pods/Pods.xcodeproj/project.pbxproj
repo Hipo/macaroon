@@ -117,6 +117,8 @@
 		CD9FD6B723B02DB800B2E9DF /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9FD6B623B02DB800B2E9DF /* UIView+Layout.swift */; };
 		CD9FD6B923B02E0900B2E9DF /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9FD6B823B02E0900B2E9DF /* UIViewController+Additions.swift */; };
 		CD9FD6BB23B02E8A00B2E9DF /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9FD6BA23B02E8A00B2E9DF /* Layout.swift */; };
+		CDEA24C923B0582A00BDC06F /* ScrollableScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEA24C823B0582900BDC06F /* ScrollableScreen.swift */; };
+		CDEA24CB23B058D000BDC06F /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEA24CA23B058D000BDC06F /* ScrollView.swift */; };
 		CE91E32945253FA18F414E8661E42C23 /* Tryouts.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D884F3413B46921179C342128110C7B7 /* Tryouts.bundle */; };
 		CF2CEB34C878A7AA7954177F67C0F417 /* TRYFeedbackViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CA26770850BB2F3D17C29AA4998CC2F /* TRYFeedbackViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D08B9B25B021526F85915A49C45A2310 /* bg-rounded-green.png in Resources */ = {isa = PBXBuildFile; fileRef = 786FDA74B294CBC1540F068070057A22 /* bg-rounded-green.png */; };
@@ -353,6 +355,8 @@
 		CD9FD6B623B02DB800B2E9DF /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIView+Layout.swift"; path = "macaroon/Classes/View/Layout/UIView+Layout.swift"; sourceTree = "<group>"; };
 		CD9FD6B823B02E0900B2E9DF /* UIViewController+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Additions.swift"; path = "macaroon/Classes/View/Layout/UIViewController+Additions.swift"; sourceTree = "<group>"; };
 		CD9FD6BA23B02E8A00B2E9DF /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Layout.swift; path = macaroon/Classes/View/Layout/Layout.swift; sourceTree = "<group>"; };
+		CDEA24C823B0582900BDC06F /* ScrollableScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScrollableScreen.swift; path = macaroon/Classes/Screen/ScrollableScreen.swift; sourceTree = "<group>"; };
+		CDEA24CA23B058D000BDC06F /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScrollView.swift; path = macaroon/Classes/View/ScrollView.swift; sourceTree = "<group>"; };
 		D19F1E3293A4731BA18F70967476A7F4 /* TRYFeedbackUploadTask.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYFeedbackUploadTask.m; path = Pod/Classes/Models/TRYFeedbackUploadTask.m; sourceTree = "<group>"; };
 		D1F3BF15CB1757B765C74A9C609799F0 /* im-tryouts-icon.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "im-tryouts-icon.png"; path = "Pod/Assets/im-tryouts-icon.png"; sourceTree = "<group>"; };
 		D2AE704B83E2529EABE84BC2AC79F0C5 /* ConstraintOffsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintOffsetTarget.swift; path = Source/ConstraintOffsetTarget.swift; sourceTree = "<group>"; };
@@ -515,6 +519,7 @@
 				F7CF42081A20E71BE979F6BF9AD45155 /* ScreenComposable.swift */,
 				4F88171117194F90DF8279EB32C648F5 /* ScreenLaunchable.swift */,
 				5EFA96522D39EC3971C901E4FAB4F272 /* ScreenRoutable.swift */,
+				CDEA24C823B0582900BDC06F /* ScrollableScreen.swift */,
 				B70FA0BB83B4AC287AE058BB40E60D55 /* Configuration */,
 				04DDE97323ADAE372B1EF6379E007BCC /* Containers */,
 			);
@@ -526,6 +531,7 @@
 			children = (
 				6B76621A46B95D3E71EB667343F27A48 /* Control.swift */,
 				BAC142392EF1758CBA865B2251C713A9 /* ControlComposable.swift */,
+				CDEA24CA23B058D000BDC06F /* ScrollView.swift */,
 				EA7BE1193B07F02B5638A791B430171D /* View.swift */,
 				E3005E920C978DC7CE45359D1F95C20A /* ViewComposable.swift */,
 				A93D141C7716101532C4FECD25B72DB4 /* VIewLaunchable.swift */,
@@ -1206,6 +1212,7 @@
 				DD5C15073A93D6ED31B1FCD51622A714 /* ControlComposable.swift in Sources */,
 				442F97C90A6D5BCEC4CF189C8C80A88B /* EditText+Customization.swift in Sources */,
 				C02F57B92271C045E9A350FC21F27778 /* EditText.swift in Sources */,
+				CDEA24C923B0582A00BDC06F /* ScrollableScreen.swift in Sources */,
 				6047BC965FDEBEB45BB9272FE46B169A /* Error.swift in Sources */,
 				E1EF24C7D413691328BD04517C5DA44A /* Macaroon-dummy.m in Sources */,
 				669FEEC55979508480E3F8BCD68B679F /* NavigationBarButtonItemConvertible.swift in Sources */,
@@ -1225,6 +1232,7 @@
 				A47F24DC334D76BE734D9F37F775C089 /* StyleGuide.swift in Sources */,
 				520DFCD78F02F71C160CB3E8F9BCBEC8 /* Styling+Customization.swift in Sources */,
 				DF44A687527D67A73E788BB3D0119024 /* Styling.swift in Sources */,
+				CDEA24CB23B058D000BDC06F /* ScrollView.swift in Sources */,
 				3910F9D4E77A70CE66CBEEE275BA6152 /* StylingElements.swift in Sources */,
 				CD9FD6B923B02E0900B2E9DF /* UIViewController+Additions.swift in Sources */,
 				8B43190C414850CED3AD05F6EAB804CE /* StylingModifiable.swift in Sources */,

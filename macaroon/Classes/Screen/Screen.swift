@@ -2,15 +2,15 @@
 
 import Foundation
 
-open class Screen<ScreenLaunchArgs: ScreenLaunchArgsConvertible, BarButtonItem: NavigationBarButtonItemConvertible>: UIViewController, ScreenLaunchable, ScreenComposable, StatusBarConfigurable, NavigationBarConfigurable, NotificationObserver {
+open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeBarButtonItem: NavigationBarButtonItemConvertible>: UIViewController, ScreenLaunchable, ScreenComposable, StatusBarConfigurable, NavigationBarConfigurable, NotificationObserver {
     public var isStatusBarHidden = false
     public var hidesStatusBarOnAppeared = false
     public var hidesStatusBarOnPresented = false
 
     public var isNavigationBarHidden = false
     public var hidesCloseBarButtonItem = false
-    public var leftBarButtonItems: [BarButtonItem] = []
-    public var rightBarButtonItems: [BarButtonItem] = []
+    public var leftBarButtonItems: [SomeBarButtonItem] = []
+    public var rightBarButtonItems: [SomeBarButtonItem] = []
 
     public var observations: [NSObjectProtocol] = []
 
@@ -32,9 +32,9 @@ open class Screen<ScreenLaunchArgs: ScreenLaunchArgsConvertible, BarButtonItem: 
         return isStatusBarHidden ? .fade : .none
     }
 
-    public let launchArgs: ScreenLaunchArgs
+    public let launchArgs: SomeScreenLaunchArgs
 
-    public init(launchArgs: ScreenLaunchArgs) {
+    public init(launchArgs: SomeScreenLaunchArgs) {
         self.launchArgs = launchArgs
 
         super.init(nibName: nil, bundle: nil)
