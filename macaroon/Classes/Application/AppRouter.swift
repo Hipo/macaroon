@@ -18,6 +18,7 @@ public protocol AppRouter: AnyObject, AppLaunchable, AppRouting {
 }
 
 extension AppRouter {
+    @discardableResult
     public func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) -> T {
         let screen: T = makeScreen(destination)
 

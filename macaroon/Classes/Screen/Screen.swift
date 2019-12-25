@@ -103,6 +103,7 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeBarButt
         setNeedsStatusBarAppearanceUpdateOnAppearing()
         setNeedsNavigationBarAppearanceUpdateOnAppearing()
 
+        isViewDisappearing = false
         isViewDisappeared = false
         isViewAppearing = true
     }
