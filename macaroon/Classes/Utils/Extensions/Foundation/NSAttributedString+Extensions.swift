@@ -7,7 +7,7 @@ extension NSAttributedString {
     public convenience init(string: String, args: [Args]) {
         var attributes: [Key: Any] = [:]
 
-        for arg in args {
+        args.forEach { arg in
             switch arg {
             case .font(let font):
                 if let someFont = font {
@@ -26,8 +26,8 @@ extension NSAttributedString {
                 if !paragraphArgs.isEmpty {
                     let paragraphStyle = NSMutableParagraphStyle()
 
-                    for arg in paragraphArgs {
-                        switch arg {
+                    paragraphArgs.forEach { pArg in
+                        switch pArg {
                         case .lineHeight(let height):
                             paragraphStyle.minimumLineHeight = height
                             paragraphStyle.maximumLineHeight = height
@@ -41,6 +41,7 @@ extension NSAttributedString {
                 }
             }
         }
+
         self.init(string: string, attributes: attributes)
     }
 }

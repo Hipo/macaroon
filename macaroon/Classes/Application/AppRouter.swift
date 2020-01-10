@@ -3,18 +3,25 @@
 import Foundation
 import UIKit
 
-public protocol AppRouter: AnyObject, AppLaunchable, AppRouting {
+public protocol AppRouter: AnyObject, AppLaunchable {
     associatedtype SomeRootContainer: RootContainer where SomeRootContainer.SomeAppLaunchArgs == SomeAppLaunchArgs
+    associatedtype Destination: AppRoutingDestination
+    typealias TransitionHandler = () -> Void
 
     init(appLaunchArgs: SomeAppLaunchArgs)
 
     /// <note> It should be called once when it is set as the root view controller in window.
     func makeRootContainer() -> SomeRootContainer
-    func makeNavigationContainer(_ root: UIViewController) -> UINavigationController
     func makeSplash() -> UIViewController
+    func makeScreen<T: UIViewController>(_ destination: Destination) -> T
 
-    func openAuthorizationFlow(by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> UIViewController
-    func openHomeFlow(animated: Bool, onCompleted handler: TransitionHandler?) -> UIViewController
+    func embedInNavigationScreen(_ root: UIViewController) -> UINavigationController
+
+    func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> T
+    func closeScreen(_ screen: UIViewController, by transition: AppRouterTransition.Close, animated: Bool, onCompleted handler: TransitionHandler?)
+
+    func openAuthorizationFlow(isFirst: Bool, onCompleted handler: TransitionHandler?) -> UIViewController
+    func openHomeFlow(onCompleted handler: TransitionHandler?) -> UIViewController
 }
 
 extension AppRouter {
@@ -49,7 +56,7 @@ extension AppRouter {
         mc_crash(.rootContainerNotMatch)
     }
 
-    public func pushScreen(_ screen: UIViewController, from source: UIViewController, by transition: AppRouterTransition.Open.Navigation = .next, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
+    private func pushScreen(_ screen: UIViewController, from source: UIViewController, by transition: AppRouterTransition.Open.Navigation = .next, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
         if let configurableSource = source as? StatusBarConfigurable,
            let configurableScreen = screen as? StatusBarConfigurable {
             let isStatusBarHidden = configurableSource.isStatusBarHidden
@@ -66,14 +73,13 @@ extension AppRouter {
         handler?()
     }
 
-    public func presentScreen(_ screen: UIViewController, from source: UIViewController, by transition: AppRouterTransition.Open.Presentation = .default, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
+    private func presentScreen(_ screen: UIViewController, from source: UIViewController, by transition: AppRouterTransition.Open.Presentation = .default, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
         if let configurableSource = source as? StatusBarConfigurable, configurableSource.isStatusBarHidden,
            let configurableScreen = screen as? StatusBarConfigurable {
             configurableScreen.hidesStatusBarOnPresented = true
             configurableScreen.isStatusBarHidden = true
         }
-
-        let navigationContainer = makeNavigationContainer(screen)
+        let navigationContainer = embedInNavigationScreen(screen)
 
         switch transition {
         case .`default`:
@@ -89,11 +95,10 @@ extension AppRouter {
             navigationContainer.modalPresentationCapturesStatusBarAppearance = true
             navigationContainer.transitioningDelegate = transitioningDelegate
         }
-
         source.present(navigationContainer, animated: animated, completion: handler)
     }
 
-    public func popScreen(_ screen: UIViewController, by transition: AppRouterTransition.Close.Navigation = .previous, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
+    private func popScreen(_ screen: UIViewController, by transition: AppRouterTransition.Close.Navigation = .previous, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
         switch transition {
         case .previous:
             screen.navigationController?.popViewController(animated: animated)
@@ -103,37 +108,12 @@ extension AppRouter {
         handler?()
     }
 
-    public func dismissScreen(_ screen: UIViewController, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
+    private func dismissScreen(_ screen: UIViewController, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
         screen.presentingViewController?.dismiss(animated: animated, completion: handler)
     }
 }
 
-public protocol AppRouting {
-    associatedtype Destination: AppRoutingDestination
-    typealias TransitionHandler = () -> Void
-
-    func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> T
-    func closeScreen(_ screen: UIViewController, by transition: AppRouterTransition.Close, animated: Bool, onCompleted handler: TransitionHandler?)
-    func makeScreen<T: UIViewController>(_ destination: Destination) -> T
-}
-
-public struct NoAppRouting: AppRouting {
-    public typealias Destination = NoAppRoutingDestionation
-
-    public func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> T {
-        mc_crash(.routerNotFound)
-    }
-
-    public func closeScreen(_ screen: UIViewController, by transition: AppRouterTransition.Close, animated: Bool, onCompleted handler: TransitionHandler?) { }
-
-    public func makeScreen<T: UIViewController>(_ destination: Destination) -> T {
-        mc_crash(.routerNotFound)
-    }
-}
-
 public protocol AppRoutingDestination { }
-
-public struct NoAppRoutingDestionation: AppRoutingDestination { }
 
 public enum AppRouterTransition {
     public enum Open {

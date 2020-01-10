@@ -37,19 +37,21 @@ Pod::Spec.new do |s|
       sss.source_files = 'macaroon/Classes/Error/*.swift'
     end
 
-    ss.subspec 'Screen' do |sss|
-      sss.source_files = 'macaroon/Classes/Screen/*.swift'
+    ss.subspec 'Screens' do |sss|
+      sss.source_files = 'macaroon/Classes/Screens/*.swift'
 
       sss.subspec 'Configuration' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Screen/Configuration/*.swift'
-
         ssss.subspec 'NavigationBar' do |sssss|
-          sssss.source_files = 'macaroon/Classes/Screen/Configuration/NavigationBar/*.swift'
+          sssss.source_files = 'macaroon/Classes/Screens/Configuration/NavigationBar/*.swift'
+        end
+
+        ssss.subspec 'StatusBar' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Screens/Configuration/StatusBar/*.swift'
         end
       end
 
       sss.subspec 'Containers' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Screen/Containers/*.swift'
+        ssss.source_files = 'macaroon/Classes/Screens/Containers/*.swift'
       end
     end
 
@@ -75,19 +77,23 @@ Pod::Spec.new do |s|
       end
     end
 
-    ss.subspec 'View' do |sss|
-      sss.source_files = 'macaroon/Classes/View/*.swift'
+    ss.subspec 'Views' do |sss|
+      sss.source_files = 'macaroon/Classes/Views/*.swift'
+
+      sss.subspec 'Custom' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Views/Custom/*.swift'
+      end
 
       sss.subspec 'Layout' do |ssss|
-        ssss.source_files = 'macaroon/Classes/View/Layout/*.swift'
+        ssss.source_files = 'macaroon/Classes/Views/Layout/*.swift'
       end
 
       sss.subspec 'Styling' do |ssss|
-        ssss.source_files = 'macaroon/Classes/View/Styling/*.swift'
+        ssss.source_files = 'macaroon/Classes/Views/Styling/*.swift'
       end
 
       sss.subspec 'ViewModel' do |ssss|
-        ssss.source_files = 'macaroon/Classes/View/ViewModel/*.swift'
+        ssss.source_files = 'macaroon/Classes/Views/ViewModel/*.swift'
       end
     end
 
@@ -96,6 +102,10 @@ Pod::Spec.new do |s|
 
   s.subspec 'SwiftLint' do |ss|
     ss.dependency 'SwiftLint', '~> 0.37.0'
+  end
+
+  s.subspec 'TabBar' do |ss|
+    ss.source_files = 'macaroon/Classes/TabBar/*.swift'
   end
 
   s.subspec 'Tryouts' do |ss|
