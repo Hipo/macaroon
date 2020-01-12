@@ -126,6 +126,7 @@
 		CD0AC5BFB15AC41A3932BCDD0D2164DF /* ViewModelBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B692594E3647291D6FF714075C8AA7BC /* ViewModelBindable.swift */; };
 		CD25054A23C7BB5D00D5F4A4 /* UIViewController+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25054923C7BB5D00D5F4A4 /* UIViewController+Layout.swift */; };
 		CD58044023BE249900AFD2B7 /* TabBarItemConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD58043F23BE249900AFD2B7 /* TabBarItemConvertible.swift */; };
+		CD69894023CB60A700CDE116 /* NavigationBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD69893F23CB60A700CDE116 /* NavigationBarButton.swift */; };
 		CD9D59C223BE0D5100AD97E0 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9D59C123BE0D5100AD97E0 /* UIStackView+Extensions.swift */; };
 		CDA2FA3923BDE57A0037F3CF /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA2FA3823BDE57A0037F3CF /* Button.swift */; };
 		CDA2FA3C23BDEE4C0037F3CF /* UIEdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA2FA3B23BDEE4C0037F3CF /* UIEdgeInsets+Extensions.swift */; };
@@ -162,7 +163,7 @@
 		F229F9298378C2ED99E923C70B3C6301 /* ConstraintOffsetTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE704B83E2529EABE84BC2AC79F0C5 /* ConstraintOffsetTarget.swift */; };
 		F3218330CA49D70D415F9287439F6BA6 /* bt-clear.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E0DC94E84A4E02BE7926CB7B1DE48F2 /* bt-clear.png */; };
 		F5E56930B1BD894CD9C70119DD5043D9 /* TRYFeedback.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DE29A12CBA0792B2F8AAAF6B1300AEE /* TRYFeedback.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F60F282FF086024D7EC2238CFEE1AADF /* NavigationBarButtonItemConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC719C23F68F2EA7EE6B33A3292E0D6 /* NavigationBarButtonItemConvertible.swift */; };
+		F60F282FF086024D7EC2238CFEE1AADF /* NavigationBarItemConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC719C23F68F2EA7EE6B33A3292E0D6 /* NavigationBarItemConvertible.swift */; };
 		F9D6ED9341DBD54D43D489C8B6A27AC1 /* ConstraintMakerPriortizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E18CBB990A815EE669C5F39F765045 /* ConstraintMakerPriortizable.swift */; };
 		FB0E22AA440D84F06886CE089332DBBB /* ConstraintConstantTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07924439BC68C36F8BB4CE79A55FC03 /* ConstraintConstantTarget.swift */; };
 		FBCF839FEE8F7B014B2D8B23C59CF7FD /* EditText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AB015739E511D9DF4374F84E2FFCA9 /* EditText.swift */; };
@@ -270,7 +271,7 @@
 		286A2D0A333538ABBAEBA01FE4517EB2 /* EditText+Customization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "EditText+Customization.swift"; path = "macaroon/Classes/Utils/Text/EditText+Customization.swift"; sourceTree = "<group>"; };
 		299D43623ACD2DB89305E4F96B148B35 /* ConstraintInsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintInsetTarget.swift; path = Source/ConstraintInsetTarget.swift; sourceTree = "<group>"; };
 		2A372AC66F34969BB80C357BE9EC04E5 /* Macaroon-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Macaroon-umbrella.h"; sourceTree = "<group>"; };
-		2AC719C23F68F2EA7EE6B33A3292E0D6 /* NavigationBarButtonItemConvertible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NavigationBarButtonItemConvertible.swift; path = macaroon/Classes/Screens/Configuration/NavigationBar/NavigationBarButtonItemConvertible.swift; sourceTree = "<group>"; };
+		2AC719C23F68F2EA7EE6B33A3292E0D6 /* NavigationBarItemConvertible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NavigationBarItemConvertible.swift; path = macaroon/Classes/Screens/Configuration/NavigationBar/NavigationBarItemConvertible.swift; sourceTree = "<group>"; };
 		2D94DC4A64E9084EE4596BED0F612505 /* Tryouts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tryouts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9309B70EB608EC56459C5EE6FBBC24 /* UILayoutSupport+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UILayoutSupport+Extensions.swift"; path = "Source/UILayoutSupport+Extensions.swift"; sourceTree = "<group>"; };
 		2FD2AC0038496B52D29816DD4FCC8248 /* Pods-macaroon_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-macaroon_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -383,6 +384,7 @@
 		CD06452923BE81140095F407 /* ViewModelConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewModelConvertible.swift; path = macaroon/Classes/Views/ViewModel/ViewModelConvertible.swift; sourceTree = "<group>"; };
 		CD25054923C7BB5D00D5F4A4 /* UIViewController+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Layout.swift"; path = "macaroon/Classes/Views/Layout/UIViewController+Layout.swift"; sourceTree = "<group>"; };
 		CD58043F23BE249900AFD2B7 /* TabBarItemConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarItemConvertible.swift; path = macaroon/Classes/TabBar/TabBarItemConvertible.swift; sourceTree = "<group>"; };
+		CD69893F23CB60A700CDE116 /* NavigationBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavigationBarButton.swift; path = macaroon/Classes/Views/Custom/NavigationBarButton.swift; sourceTree = "<group>"; };
 		CD9D59C123BE0D5100AD97E0 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIStackView+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/UI/UIStackView+Extensions.swift"; sourceTree = "<group>"; };
 		CDA2FA3823BDE57A0037F3CF /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Button.swift; path = macaroon/Classes/Views/Custom/Button.swift; sourceTree = "<group>"; };
 		CDA2FA3B23BDEE4C0037F3CF /* UIEdgeInsets+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIEdgeInsets+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/UI/UIEdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
@@ -512,8 +514,8 @@
 		242ABEAFBB1D440FF8DB75617D3080E2 /* NavigationBar */ = {
 			isa = PBXGroup;
 			children = (
-				2AC719C23F68F2EA7EE6B33A3292E0D6 /* NavigationBarButtonItemConvertible.swift */,
 				BC63F1266A35EA6FC0A3571451A0450E /* NavigationBarConfigurable.swift */,
+				2AC719C23F68F2EA7EE6B33A3292E0D6 /* NavigationBarItemConvertible.swift */,
 			);
 			name = NavigationBar;
 			sourceTree = "<group>";
@@ -686,8 +688,9 @@
 		78C63B2EAA73E0A6C108CC2DF07F0384 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				7BC213AA20033A50CD543F00E65DB645 /* ScrollView.swift */,
 				CDA2FA3823BDE57A0037F3CF /* Button.swift */,
+				CD69893F23CB60A700CDE116 /* NavigationBarButton.swift */,
+				7BC213AA20033A50CD543F00E65DB645 /* ScrollView.swift */,
 			);
 			name = Custom;
 			sourceTree = "<group>";
@@ -1279,12 +1282,13 @@
 				B91A57E4A1859000ACAB754B134A215B /* ControlComposable.swift in Sources */,
 				91A5284ABF2E841D8A838E5E4119EDC8 /* EditText+Customization.swift in Sources */,
 				FBCF839FEE8F7B014B2D8B23C59CF7FD /* EditText.swift in Sources */,
+				CD69894023CB60A700CDE116 /* NavigationBarButton.swift in Sources */,
 				CDDDEEB623C5D8F600E0551A /* Drawable.swift in Sources */,
 				409127407F2080CFC4C8B676E1450416 /* Error.swift in Sources */,
 				43D239AB716851CEB15E3EBA1914C062 /* Layout.swift in Sources */,
 				D7D3C8151DDDE7A9381B5D58F896EC98 /* Macaroon-dummy.m in Sources */,
 				CDDDEEB423C5D2B200E0551A /* Customizable.swift in Sources */,
-				F60F282FF086024D7EC2238CFEE1AADF /* NavigationBarButtonItemConvertible.swift in Sources */,
+				F60F282FF086024D7EC2238CFEE1AADF /* NavigationBarItemConvertible.swift in Sources */,
 				B4F5220CDDF2135050BBBC87F143AB83 /* NavigationBarConfigurable.swift in Sources */,
 				400578AB32097A9FADAD0F9490C9F93F /* NavigationContainer.swift in Sources */,
 				CDA2FA3C23BDEE4C0037F3CF /* UIEdgeInsets+Extensions.swift in Sources */,

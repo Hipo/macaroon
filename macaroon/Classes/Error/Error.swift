@@ -10,8 +10,8 @@ public enum Error: ErrorConvertible {
     case rootContainerNotMatch
     case routerNotFound
     case screenNotFound(AppRoutingDestination)
-    case dismissNavigationBarButtonItemNotFound
-    case popNavigationBarButtonItemNotFound
+    case dismissNavigationBarItemNotFound
+    case popNavigationBarItemNotFound
     case colorNotFound(String)
     case imageNotFound(String)
     case ambiguous
@@ -34,9 +34,9 @@ extension Error {
             return "Router not found"
         case .screenNotFound(let destination):
             return "Screen not found for \(destination)"
-        case .dismissNavigationBarButtonItemNotFound:
+        case .dismissNavigationBarItemNotFound:
             return "Navigation bar button item not found for dismissing action"
-        case .popNavigationBarButtonItemNotFound:
+        case .popNavigationBarItemNotFound:
             return "Navigation bar button item not found for popping action"
         case .colorNotFound(let name):
             return "Color(\(name)) not found"

@@ -8,9 +8,9 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeAppRout
     public var hidesStatusBarOnPresented = false
 
     public var isNavigationBarHidden = false
-    public var hidesCloseBarButtonItem = false
-    public var leftBarButtonItems: [NavigationBarButtonItemConvertible] = []
-    public var rightBarButtonItems: [NavigationBarButtonItemConvertible] = []
+    public var hidesCloseBarItem = false
+    public var leftBarItems: [NavigationBarItemConvertible] = []
+    public var rightBarItems: [NavigationBarItemConvertible] = []
 
     public var observations: [NSObjectProtocol] = []
 
@@ -60,20 +60,20 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeAppRout
 
     open func customizeNavigationBarAppearance() {
         customizeNavigationBarTitleAppearance()
-        customizeNavigationBarLeftBarButtonItems()
-        customizeNavigationBarRightBarButtonItems()
+        customizeNavigationBarLeftBarItems()
+        customizeNavigationBarRightBarItems()
     }
 
     open func customizeNavigationBarTitleAppearance() { }
-    open func customizeNavigationBarLeftBarButtonItems() { }
-    open func customizeNavigationBarRightBarButtonItems() { }
+    open func customizeNavigationBarLeftBarItems() { }
+    open func customizeNavigationBarRightBarItems() { }
 
-    open func makeDismissNavigationBarButtonItem() -> NavigationBarButtonItemConvertible {
-        mc_crash(.dismissNavigationBarButtonItemNotFound)
+    open func makeDismissNavigationBarItem() -> NavigationBarItemConvertible {
+        mc_crash(.dismissNavigationBarItemNotFound)
     }
 
-    open func makePopNavigationBarButtonItem() -> NavigationBarButtonItemConvertible {
-        mc_crash(.popNavigationBarButtonItemNotFound)
+    open func makePopNavigationBarItem() -> NavigationBarItemConvertible {
+        mc_crash(.popNavigationBarItemNotFound)
     }
 
     open func canDismiss() -> Bool {

@@ -32,7 +32,11 @@ open class TabBarButton: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-    open func customizeAppearance() {
+    open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return button.frame.contains(point)
+    }
+
+    private func customizeAppearance() {
         button.customizeAppearance(barButtonItem.style)
         button.isUserInteractionEnabled = false
         button.adjustsImageWhenHighlighted = false
@@ -40,7 +44,7 @@ open class TabBarButton: UIControl {
         button.titleLabel?.minimumScaleFactor = 0.5
     }
 
-    open func prepareLayout() {
+    private func prepareLayout() {
         addSubview(button)
         button.snp.makeConstraints { maker in
             maker.width.greaterThanOrEqualTo(44.0).priority(.high)
@@ -50,9 +54,5 @@ open class TabBarButton: UIControl {
             maker.bottom.equalToSuperview()
             maker.trailing.lessThanOrEqualToSuperview()
         }
-    }
-
-    open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return button.frame.contains(point)
     }
 }

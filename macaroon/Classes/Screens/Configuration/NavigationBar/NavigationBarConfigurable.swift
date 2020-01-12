@@ -5,54 +5,54 @@ import UIKit
 
 public protocol NavigationBarConfigurable: class {
     var isNavigationBarHidden: Bool { get set }
-    /// Back/Dismiss bar button items should not be added into leftBarButtonItems&rightBarButtonItems.
+    /// Back/Dismiss bar button items should not be added into leftBarItems&rightBarItems.
     /// They will be inserted automatically when setNeedsNavigationBarAppearanceUpdate() is called.
-    var leftBarButtonItems: [NavigationBarButtonItemConvertible] { get set }
-    var rightBarButtonItems: [NavigationBarButtonItemConvertible] { get set }
+    var leftBarItems: [NavigationBarItemConvertible] { get set }
+    var rightBarItems: [NavigationBarItemConvertible] { get set }
     /// Return true if pop/dismiss should be hidden.
-    var hidesCloseBarButtonItem: Bool { get }
+    var hidesCloseBarItem: Bool { get }
 
-    func makeDismissNavigationBarButtonItem() -> NavigationBarButtonItemConvertible
-    func makePopNavigationBarButtonItem() -> NavigationBarButtonItemConvertible
+    func makeDismissNavigationBarItem() -> NavigationBarItemConvertible
+    func makePopNavigationBarItem() -> NavigationBarItemConvertible
 }
 
 extension NavigationBarConfigurable {
-    public var hidesCloseBarButtonItem: Bool {
+    public var hidesCloseBarItem: Bool {
         return false
     }
 }
 
 extension NavigationBarConfigurable where Self: UIViewController {
     public func setNeedsNavigationBarAppearanceUpdate() {
-        setNeedsNavigationBarLeftBarButtonItemsUpdate()
-        setNeedsNavigationBarRightBarButtonItemsUpdate()
+        setNeedsNavigationBarLeftBarItemsUpdate()
+        setNeedsNavigationBarRightBarItemsUpdate()
     }
 
     public func setNeedsNavigationBarAppearanceUpdateOnAppearing(animated: Bool = true) {
         navigationController?.setNavigationBarHidden(isNavigationBarHidden, animated: animated)
     }
 
-    public func setNeedsNavigationBarLeftBarButtonItemsUpdate() {
+    public func setNeedsNavigationBarLeftBarItemsUpdate() {
         guard let navigationController = navigationController else {
             return
         }
-        if hidesCloseBarButtonItem {
+        if hidesCloseBarItem {
             navigationItem.hidesBackButton = true
         } else {
             navigationItem.hidesBackButton = false
 
             if navigationController.viewControllers.first == self {
                 if presentingViewController != nil {
-                    leftBarButtonItems.insert(makeDismissNavigationBarButtonItem(), at: 0)
+                    leftBarItems.insert(makeDismissNavigationBarItem(), at: 0)
                 }
             } else {
-                leftBarButtonItems.insert(makePopNavigationBarButtonItem(), at: 0)
+                leftBarItems.insert(makePopNavigationBarItem(), at: 0)
             }
         }   
-        navigationItem.leftBarButtonItems = leftBarButtonItems.map { $0.asSystemBarButtonItem() }
+        navigationItem.leftBarButtonItems = leftBarItems.map { $0.asSystemBarButtonItem() }
     }
 
-    public func setNeedsNavigationBarRightBarButtonItemsUpdate() {
-        navigationItem.rightBarButtonItems = rightBarButtonItems.map { $0.asSystemBarButtonItem() }
+    public func setNeedsNavigationBarRightBarItemsUpdate() {
+        navigationItem.rightBarButtonItems = rightBarItems.map { $0.asSystemBarButtonItem() }
     }
 }
