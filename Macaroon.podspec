@@ -74,6 +74,10 @@ Pod::Spec.new do |s|
 
       sss.subspec 'Text' do |ssss|
         ssss.source_files = 'macaroon/Classes/Utils/Text/*.swift'
+
+        ssss.subspec 'Attributed' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Utils/Text/Attributed/*.swift'
+        end
       end
     end
 

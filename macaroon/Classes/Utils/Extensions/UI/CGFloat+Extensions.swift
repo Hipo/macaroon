@@ -4,7 +4,17 @@ import Foundation
 import UIKit
 
 extension CGFloat {
-    var isIntrinsicMetric: Bool {
+    public var isIntrinsicMetric: Bool {
         return self != UIView.noIntrinsicMetric
+    }
+}
+
+extension CGFloat {
+    public func ceil() -> CGFloat {
+        return rounded(.up)
+    }
+
+    public func float() -> CGFloat {
+        return rounded(.down)
     }
 }

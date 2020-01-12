@@ -40,6 +40,9 @@ PODS:
   - Macaroon/Core/Utils/Notification (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Text (0.1.0):
+    - Macaroon/Core/Utils/Text/Attributed (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Utils/Text/Attributed (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views (0.1.0):
     - Macaroon/Core/Views/Custom (= 0.1.0)
@@ -83,7 +86,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Macaroon: ce7cb9bc96f9bda0237cd90a352c384401f9706d
+  Macaroon: c31f5842624caa77592b0c3d18db2e6daa875927
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
   Tryouts: dabd03aa73c2b5d253a649d306df523fc090fcee

@@ -104,7 +104,13 @@
             },
             {
               "name": "Text",
-              "source_files": "macaroon/Classes/Utils/Text/*.swift"
+              "source_files": "macaroon/Classes/Utils/Text/*.swift",
+              "subspecs": [
+                {
+                  "name": "Attributed",
+                  "source_files": "macaroon/Classes/Utils/Text/Attributed/*.swift"
+                }
+              ]
             }
           ]
         },
