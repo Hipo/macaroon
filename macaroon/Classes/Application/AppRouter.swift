@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 public protocol AppRouter: AnyObject, AppLaunchable {
-    associatedtype SomeRootContainer: RootContainer where SomeRootContainer.SomeAppLaunchArgs == SomeAppLaunchArgs
+    associatedtype SomeRootContainer: RootContainerConvertible where SomeRootContainer.SomeAppLaunchArgs == SomeAppLaunchArgs
     associatedtype Destination: AppRoutingDestination
     typealias TransitionHandler = () -> Void
 
@@ -17,11 +17,16 @@ public protocol AppRouter: AnyObject, AppLaunchable {
 
     func embedInNavigationScreen(_ root: UIViewController) -> UINavigationController
 
+    func startAuthorizationFlow(isFirst: Bool, onCompleted handler: TransitionHandler?) -> UIViewController
+    func endAuthorizationFlow(onCompleted handler: TransitionHandler?)
+    func hasStartedAuthorizationFlow() -> Bool
+
+    func startMainFlow(force: Bool, onCompleted handler: TransitionHandler?) -> UIViewController
+    func endMainFlow(onCompleted handler: TransitionHandler?)
+    func hasStartedMainFlow() -> Bool
+
     func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: AppRouterTransition.Open, animated: Bool, onCompleted handler: TransitionHandler?) -> T
     func closeScreen(_ screen: UIViewController, by transition: AppRouterTransition.Close, animated: Bool, onCompleted handler: TransitionHandler?)
-
-    func openAuthorizationFlow(isFirst: Bool, onCompleted handler: TransitionHandler?) -> UIViewController
-    func openHomeFlow(onCompleted handler: TransitionHandler?) -> UIViewController
 }
 
 extension AppRouter {
@@ -55,7 +60,9 @@ extension AppRouter {
         }
         mc_crash(.rootContainerNotMatch)
     }
+}
 
+extension AppRouter {
     private func pushScreen(_ screen: UIViewController, from source: UIViewController, by transition: AppRouterTransition.Open.Navigation = .next, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
         if let configurableSource = source as? StatusBarConfigurable,
            let configurableScreen = screen as? StatusBarConfigurable {
@@ -64,11 +71,13 @@ extension AppRouter {
             configurableScreen.hidesStatusBarOnAppeared = isStatusBarHidden
             configurableScreen.isStatusBarHidden = isStatusBarHidden
         }
+        let navigationContainer = screen as? UINavigationController ?? screen.navigationController
+
         switch transition {
         case .next:
-            source.navigationController?.pushViewController(screen, animated: animated)
+            navigationContainer?.pushViewController(screen, animated: animated)
         case .root:
-            source.navigationController?.setViewControllers([screen], animated: animated)
+            navigationContainer?.setViewControllers([screen], animated: animated)
         }
         handler?()
     }
@@ -99,11 +108,13 @@ extension AppRouter {
     }
 
     private func popScreen(_ screen: UIViewController, by transition: AppRouterTransition.Close.Navigation = .previous, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
+        let navigationContainer = screen as? UINavigationController ?? screen.navigationController
+
         switch transition {
         case .previous:
-            screen.navigationController?.popViewController(animated: animated)
+            navigationContainer?.popViewController(animated: animated)
         case .root:
-            screen.navigationController?.popToRootViewController(animated: animated)
+            navigationContainer?.popToRootViewController(animated: animated)
         }
         handler?()
     }

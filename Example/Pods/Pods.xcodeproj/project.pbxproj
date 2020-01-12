@@ -129,6 +129,7 @@
 		CD9D59C223BE0D5100AD97E0 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9D59C123BE0D5100AD97E0 /* UIStackView+Extensions.swift */; };
 		CDA2FA3923BDE57A0037F3CF /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA2FA3823BDE57A0037F3CF /* Button.swift */; };
 		CDA2FA3C23BDEE4C0037F3CF /* UIEdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA2FA3B23BDEE4C0037F3CF /* UIEdgeInsets+Extensions.swift */; };
+		CDC2E25723CB4768003571CF /* UIViewController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC2E25623CB4768003571CF /* UIViewController+Additions.swift */; };
 		CDDDEEB423C5D2B200E0551A /* Customizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDEEB323C5D2B200E0551A /* Customizable.swift */; };
 		CDDDEEB623C5D8F600E0551A /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDEEB523C5D8F600E0551A /* Drawable.swift */; };
 		CDDDEEB823C6845700E0551A /* TabBarPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDDEEB723C6845700E0551A /* TabBarPresentable.swift */; };
@@ -385,6 +386,7 @@
 		CD9D59C123BE0D5100AD97E0 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIStackView+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/UI/UIStackView+Extensions.swift"; sourceTree = "<group>"; };
 		CDA2FA3823BDE57A0037F3CF /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Button.swift; path = macaroon/Classes/Views/Custom/Button.swift; sourceTree = "<group>"; };
 		CDA2FA3B23BDEE4C0037F3CF /* UIEdgeInsets+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIEdgeInsets+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/UI/UIEdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
+		CDC2E25623CB4768003571CF /* UIViewController+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIViewController+Additions.swift"; path = "macaroon/Classes/Utils/Extensions/UI/UIViewController+Additions.swift"; sourceTree = "<group>"; };
 		CDDDEEB323C5D2B200E0551A /* Customizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Customizable.swift; path = macaroon/Classes/Views/Styling/Customizable.swift; sourceTree = "<group>"; };
 		CDDDEEB523C5D8F600E0551A /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Drawable.swift; path = macaroon/Classes/Views/Styling/Drawable.swift; sourceTree = "<group>"; };
 		CDDDEEB723C6845700E0551A /* TabBarPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarPresentable.swift; path = macaroon/Classes/TabBar/TabBarPresentable.swift; sourceTree = "<group>"; };
@@ -877,6 +879,7 @@
 				CDE7BBFB23BF5C58009F5118 /* CGFloat+Extensions.swift */,
 				CDA2FA3B23BDEE4C0037F3CF /* UIEdgeInsets+Extensions.swift */,
 				CD9D59C123BE0D5100AD97E0 /* UIStackView+Extensions.swift */,
+				CDC2E25623CB4768003571CF /* UIViewController+Additions.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -1306,6 +1309,7 @@
 				EBD0DF003FEFDD19C2AA87AD3E0E0536 /* StylingModifiable.swift in Sources */,
 				803FF9B0E5888868DC53F46C79955CC9 /* TabBar.swift in Sources */,
 				ADC62D5C09E25E2CC49D79D0613ADFD4 /* TabBarButton.swift in Sources */,
+				CDC2E25723CB4768003571CF /* UIViewController+Additions.swift in Sources */,
 				2CF950B0F724D10B2CF707B29A564736 /* TabBarContainer.swift in Sources */,
 				9E176B802BD581AFC8224F221B07C2C3 /* TryoutsHandler.swift in Sources */,
 				EBA474D175E703E422744F11F268D3BF /* Typealiases.swift in Sources */,

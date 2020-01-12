@@ -3,55 +3,24 @@
 import Foundation
 import UIKit
 
-public protocol RootContainer: UIViewController, AppLaunchable, AppLaunchControllerListener {
-    associatedtype SomeAppLaunchController: AppLaunchController
-    associatedtype SomeAppRouter: AppRouter
-
-    var launchController: SomeAppLaunchController { get }
-    var router: SomeAppRouter { get }
-
-    init(
-        launchController: SomeAppLaunchController,
-        router: SomeAppRouter
-    )
-}
-
-extension RootContainer {
-    public var appLaunchArgs: SomeAppLaunchController.SomeAppLaunchArgs {
-        return launchController.appLaunchArgs
-    }
-}
-
-open class BaseRootContainer<SomeAppLaunchController: AppLaunchController, SomeAppRouter: AppRouter>: UIViewController, RootContainer {
+open class RootContainer<SomeAppLaunchController: AppLaunchController, SomeAppRouter: AppRouter>: UIViewController, RootContainerConvertible {
     public var splash: UIViewController?
-    public var authorizationContainer: UIViewController?
-    public var homeContainer: UIViewController?
+    public weak var authorizationContainer: UIViewController?
+    public weak var mainContainer: UIViewController?
 
     public var isLaunched = false
 
-    public var isAuthorizationFlowInProgress: Bool {
-        return
-            authorizationContainer != nil &&
-            (
-              authorizationContainer == presentedViewController ||
-              authorizationContainer?.navigationController == presentedViewController
-            )
-    }
-    public var isHomeFlowInProgress: Bool {
-        return homeContainer?.parent != nil
-    }
-
     override open var childForStatusBarHidden: UIViewController? {
-        return homeContainer
+        return mainContainer
     }
     override open var childForStatusBarStyle: UIViewController? {
-        return homeContainer
+        return mainContainer
     }
 
     public let launchController: SomeAppLaunchController
     public let router: SomeAppRouter
 
-    public required init(
+    public init(
         launchController: SomeAppLaunchController,
         router: SomeAppRouter
     ) {
@@ -65,82 +34,24 @@ open class BaseRootContainer<SomeAppLaunchController: AppLaunchController, SomeA
         fatalError("init(coder:) has not been implemented")
     }
 
-    open func showSplash() {
-        if splash != nil {
-            hideSplash()
-        }
-        splash = fitInContent(router.makeSplash())
-    }
+    open func splashWillOpen() { }
+    open func splashDidOpen() { }
+    open func splashWillClose() { }
+    open func splashDidClose() { }
 
-    open func hideSplash() {
-        splash?.removeFromContainer()
-        splash = nil
-    }
+    open func authorizationFlowWillStart() { }
+    open func authorizationFlowDidStart() { }
+    open func authorizationFlowWillEnd() { }
+    open func authorizationFlowDidEnd() { }
 
-    open func startAuthorizationFlow() {
-        if isHomeFlowInProgress {
-            if presentedViewController == nil {
-                openAuthorizationFlow(isFirst: false)
-            } else {
-                dismiss(animated: false) { [unowned self] in
-                    self.openAuthorizationFlow(isFirst: false)
-                }
-            }
-            return
-        }
-        if isAuthorizationFlowInProgress {
-            startOverAuthorizationFlow()
-            return
-        }
-        openAuthorizationFlow(isFirst: true)
-    }
-
-    open func startOverAuthorizationFlow() {
-        if let authorizationNavigationContainer = authorizationContainer as? UINavigationController {
-            authorizationNavigationContainer.popToRootViewController(animated: true)
-        }
-    }
-
-    open func openAuthorizationFlow(isFirst: Bool) {
-        authorizationContainer = router.openAuthorizationFlow(isFirst: isFirst) {
-            if !isFirst {
-                self.endHomeFlow()
-            }
-        }
-        asyncMainAfter(0.2) {
-            self.hideSplash()
-        }
-    }
-
-    open func endAuthorizationFlow() {
-        if isAuthorizationFlowInProgress {
-            dismiss(animated: true)
-        }
-    }
-
-    open func startHomeFlow() {
-        homeContainer = router.openHomeFlow {
-            self.hideSplash()
-        }
-        endAuthorizationFlow()
-
-        setNeedsStatusBarAppearanceUpdate()
-    }
-
-    open func startHomeFlowIfNeeded() {
-        if !isHomeFlowInProgress {
-            startHomeFlow()
-        }
-    }
-
-    open func endHomeFlow() {
-        homeContainer?.removeFromContainer()
-        homeContainer = nil
-    }
+    open func mainFlowWillStart() { }
+    open func mainFlowDidStart() { }
+    open func mainFlowWillEnd() { }
+    open func mainFlowDidEnd() { }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        showSplash()
+        openSplash()
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -159,17 +70,17 @@ open class BaseRootContainer<SomeAppLaunchController: AppLaunchController, SomeA
     }
 
     open func launchControllerDidSignUp<T: AppLaunchController>(_ launchController: T) {
-        startHomeFlow()
+        startMainFlow()
     }
 
     open func launchControllerDidSignIn<T: AppLaunchController>(_ launchController: T) {
-        startHomeFlow()
+        startMainFlow()
     }
 
     open func launchControllerWillReauthenticate<T: AppLaunchController>(_ launchController: T) { }
 
     open func launchControllerDidReauthenticate<T: AppLaunchController>(_ launchController: T) {
-        startHomeFlowIfNeeded()
+        startMainFlow(force: false)
     }
 
     open func launchControllerWillDeauthenticate<T: AppLaunchController>(_ launchController: T) {
@@ -177,4 +88,98 @@ open class BaseRootContainer<SomeAppLaunchController: AppLaunchController, SomeA
     }
 
     open func launchControllerDidDeauthenticate<T: AppLaunchController>(_ launchController: T) { }
+}
+
+extension RootContainer {
+    public func openSplash() {
+        splashWillOpen()
+
+        if let splash = splash {
+            view.bringSubviewToFront(splash.view)
+        } else {
+            splash = fitInContent(router.makeSplash())
+        }
+
+        splashDidOpen()
+    }
+
+    public func closeSplash() {
+        splashWillClose()
+
+        splash?.removeFromContainer()
+        splash = nil
+
+        splashDidClose()
+    }
+}
+
+extension RootContainer {
+    public func startAuthorizationFlow() {
+        authorizationFlowWillStart()
+
+        if router.hasStartedMainFlow() {
+            runAfterDismiss(animated: false) { [unowned self] in
+                self.authorizationContainer = self.router.startAuthorizationFlow(isFirst: false) { [unowned self] in
+                    self.endMainFlow()
+                    self.closeSplash()
+                    self.authorizationFlowDidStart()
+                }
+            }
+        } else {
+            self.authorizationContainer = router.startAuthorizationFlow(isFirst: true) { [unowned self] in
+                self.closeSplash()
+                self.authorizationFlowDidStart()
+            }
+        }
+    }
+
+    public func endAuthorizationFlow() {
+        authorizationFlowWillEnd()
+
+        router.endAuthorizationFlow { [unowned self] in
+            self.authorizationContainer = nil
+            self.authorizationFlowDidEnd()
+        }
+    }
+}
+
+extension RootContainer {
+    public func startMainFlow(force: Bool = true) {
+        mainFlowWillStart()
+
+        if router.hasStartedMainFlow() &&
+           !force {
+            mainFlowDidStart()
+            return
+        }
+        mainContainer = router.startMainFlow(force: force) { [unowned self] in
+            self.endAuthorizationFlow()
+            self.closeSplash()
+            self.mainFlowDidStart()
+        }
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
+    public func endMainFlow() {
+        mainFlowWillEnd()
+
+        router.endMainFlow { [unowned self] in
+            self.mainContainer = nil
+            self.mainFlowDidEnd()
+        }
+    }
+}
+
+public protocol RootContainerConvertible: UIViewController, AppLaunchable, AppLaunchControllerListener {
+    associatedtype SomeAppLaunchController: AppLaunchController
+    associatedtype SomeAppRouter: AppRouter
+
+    var launchController: SomeAppLaunchController { get }
+    var router: SomeAppRouter { get }
+}
+
+extension RootContainerConvertible {
+    public var appLaunchArgs: SomeAppLaunchController.SomeAppLaunchArgs {
+        return launchController.appLaunchArgs
+    }
 }
