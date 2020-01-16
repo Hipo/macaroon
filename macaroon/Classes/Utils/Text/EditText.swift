@@ -6,3 +6,9 @@ public enum EditText {
     case normal(String)
     case attributed(NSAttributedString)
 }
+
+extension EditText: ExpressibleByStringLiteral {
+    public init(stringLiteral value: String) {
+        self = .normal(value)
+    }
+}

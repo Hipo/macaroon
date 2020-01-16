@@ -64,7 +64,11 @@ PODS:
     - Macaroon/Tryouts
   - Macaroon/SwiftLint (0.1.0):
     - SwiftLint (~> 0.37.0)
-  - Macaroon/TabBar (0.1.0)
+  - Macaroon/TabBar (0.1.0):
+    - Macaroon/TabBar/Configuration (= 0.1.0)
+    - Macaroon/TabBar/Views (= 0.1.0)
+  - Macaroon/TabBar/Configuration (0.1.0)
+  - Macaroon/TabBar/Views (0.1.0)
   - Macaroon/Tryouts (0.1.0):
     - Tryouts
   - SnapKit (5.0.1)
@@ -86,7 +90,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Macaroon: c31f5842624caa77592b0c3d18db2e6daa875927
+  Macaroon: 12ece463cf0ad4741c7b1aef2e8a2abfae96510d
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
   Tryouts: dabd03aa73c2b5d253a649d306df523fc090fcee

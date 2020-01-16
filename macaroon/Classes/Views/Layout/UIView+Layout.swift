@@ -5,7 +5,7 @@ import SnapKit
 import UIKit
 
 extension UIView {
-    var compactSafeAreaInsets: UIEdgeInsets {
+    public var compactSafeAreaInsets: UIEdgeInsets {
         if let window = window {
             return window.safeAreaInsets
         }

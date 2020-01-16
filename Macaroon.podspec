@@ -33,6 +33,18 @@ Pod::Spec.new do |s|
       sss.source_files = 'macaroon/Classes/Application/*.swift'
     end
 
+    ss.subspec 'Data' do |sss|
+      sss.source_files = 'macaroon/Classes/Data/*.swift'
+
+      sss.subspec 'DataSources' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Data/DataSources/*.swift'
+
+        ssss.subspec 'List' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Data/DataSources/List/*.swift'
+        end
+      end
+    end
+
     ss.subspec 'Error' do |sss|
       sss.source_files = 'macaroon/Classes/Error/*.swift'
     end
@@ -52,6 +64,10 @@ Pod::Spec.new do |s|
 
       sss.subspec 'Containers' do |ssss|
         ssss.source_files = 'macaroon/Classes/Screens/Containers/*.swift'
+      end
+
+      sss.subspec 'List' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Screens/List/*.swift'
       end
     end
 
@@ -86,10 +102,18 @@ Pod::Spec.new do |s|
 
       sss.subspec 'Custom' do |ssss|
         ssss.source_files = 'macaroon/Classes/Views/Custom/*.swift'
+
+        ssss.subspec 'List' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Views/Custom/List/*.swift'
+        end
       end
 
       sss.subspec 'Layout' do |ssss|
         ssss.source_files = 'macaroon/Classes/Views/Layout/*.swift'
+
+        ssss.subspec 'List' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Views/Layout/List/*.swift'
+        end
       end
 
       sss.subspec 'Styling' do |ssss|
@@ -110,6 +134,14 @@ Pod::Spec.new do |s|
 
   s.subspec 'TabBar' do |ss|
     ss.source_files = 'macaroon/Classes/TabBar/*.swift'
+
+    ss.subspec 'Configuration' do |sss|
+      sss.source_files = 'macaroon/Classes/TabBar/Configuration/*.swift'
+    end
+
+    ss.subspec 'Views' do |sss|
+      sss.source_files = 'macaroon/Classes/TabBar/Views/*.swift'
+    end
   end
 
   s.subspec 'Tryouts' do |ss|

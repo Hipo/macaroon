@@ -14,6 +14,10 @@ public enum Error: ErrorConvertible {
     case popNavigationBarItemNotFound
     case colorNotFound(String)
     case imageNotFound(String)
+    case unsupportedListHeader
+    case unsupportedListFooter
+    case unsupportedListSupplementaryView(String)
+    case unsupportedListLayout
     case ambiguous
 }
 
@@ -42,6 +46,14 @@ extension Error {
             return "Color(\(name)) not found"
         case .imageNotFound(let name):
             return "Image(\(name)) not found"
+        case .unsupportedListHeader:
+            return "Size should return zero if the header will not be supported"
+        case .unsupportedListFooter:
+            return "Size should return zero if the footer will not be supported"
+        case .unsupportedListSupplementaryView(let kind):
+            return "Unsupported supplementary view for \(kind)"
+        case .unsupportedListLayout:
+            return "This protocol can't form a layout other than UICollectionViewFlowLayout"
         case .ambiguous:
             return "Ambiguous error"
         }

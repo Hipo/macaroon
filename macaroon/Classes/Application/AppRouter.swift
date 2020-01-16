@@ -71,7 +71,7 @@ extension AppRouter {
             configurableScreen.hidesStatusBarOnAppeared = isStatusBarHidden
             configurableScreen.isStatusBarHidden = isStatusBarHidden
         }
-        let navigationContainer = screen as? UINavigationController ?? screen.navigationController
+        let navigationContainer = source as? UINavigationController ?? source.navigationController
 
         switch transition {
         case .next:

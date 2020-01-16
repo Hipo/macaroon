@@ -27,8 +27,9 @@ extension UIView: Customizable { }
 
 extension Customizable where Self: UIView {
     public func customizeBaseAppearance(_ style: Styling) {
-        self.backgroundColor = style.backgroundColor?.normal
-
+        if let backgroundColor = style.backgroundColor?.normal {
+            self.backgroundColor = backgroundColor
+        }
         if let tintColor = style.tintColor?.normal {
             self.tintColor = tintColor
         }
@@ -212,8 +213,9 @@ extension TextInputCustomizable where Self: UITextView {
 
 extension UINavigationBar {
     public func customizeBarAppearance(_ style: TextStyling) {
-        self.barTintColor = backgroundColor
-
+        if let barTintColor = style.backgroundColor?.normal {
+            self.barTintColor = barTintColor
+        }
         if let tintColor = style.tintColor?.normal {
             self.tintColor = tintColor
         }

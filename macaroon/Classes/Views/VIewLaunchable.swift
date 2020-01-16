@@ -24,7 +24,15 @@ public protocol BindableViewLaunchArgsConvertible: ViewLaunchArgsConvertible {
     associatedtype ViewModel: ViewModelConvertible
 }
 
-public struct NoViewLaunchArgs: ViewLaunchArgsConvertible {
+open class ViewLaunchArgs<StyleGuide: StyleGuideConvertible>: ViewLaunchArgsConvertible {
+    public let styleGuide: StyleGuide
+
+    public init(_ styleGuide: StyleGuide) {
+        self.styleGuide = styleGuide
+    }
+}
+
+public class NoViewLaunchArgs: ViewLaunchArgsConvertible {
     public let styleGuide = NoStyleGuide()
 
     public init() { }

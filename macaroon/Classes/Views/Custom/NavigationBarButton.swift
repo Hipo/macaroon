@@ -51,6 +51,7 @@ open class NavigationBarButton: UIControl {
     }
 
     private func prepareLayout() {
+        addSubview(button)
         button.snp.makeConstraints { maker in
             maker.top.equalToSuperview()
             maker.leading.equalToSuperview()

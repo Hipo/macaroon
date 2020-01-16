@@ -148,7 +148,17 @@
     },
     {
       "name": "TabBar",
-      "source_files": "macaroon/Classes/TabBar/*.swift"
+      "source_files": "macaroon/Classes/TabBar/*.swift",
+      "subspecs": [
+        {
+          "name": "Configuration",
+          "source_files": "macaroon/Classes/TabBar/Configuration/*.swift"
+        },
+        {
+          "name": "Views",
+          "source_files": "macaroon/Classes/TabBar/Views/*.swift"
+        }
+      ]
     },
     {
       "name": "Tryouts",
