@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: ListLayout, SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeAppRouter: AppRouter>: Screen<SomeScreenLaunchArgs, SomeAppRouter>, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ListEmptyViewDataSource {
+open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: ListLayout, SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter: Router>: Screen<SomeScreenLaunchArgs, SomeRouter>, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ListEmptyViewDataSource {
     public typealias DataConnector = SomeListDataConnector
     public typealias Layout = SomeListLayout
 

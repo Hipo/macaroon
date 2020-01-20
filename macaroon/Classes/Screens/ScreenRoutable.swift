@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 public protocol ScreenRoutable {
-    associatedtype SomeAppRouter: AppRouter
+    associatedtype SomeRouter: Router
 
-    var router: SomeAppRouter { get }
+    var router: SomeRouter { get }
 }

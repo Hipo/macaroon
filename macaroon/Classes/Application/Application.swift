@@ -4,10 +4,10 @@ import Foundation
 
 public protocol Application: AnyObject, AppLaunchable {
     associatedtype SomeAppTarget: AppTargetConvertible
-    associatedtype SomeAppRouter: AppRouter
+    associatedtype SomeRouter: Router
 
     var target: SomeAppTarget { get }
-    var router: SomeAppRouter { get }
+    var router: SomeRouter { get }
 
     static var shared: Self { get }
 }

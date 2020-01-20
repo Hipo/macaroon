@@ -2,7 +2,7 @@
 
 import Foundation
 
-open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeAppRouter: AppRouter>: UIViewController, ScreenLaunchable, ScreenComposable, ScreenRoutable, StatusBarConfigurable, NavigationBarConfigurable, NotificationObserver {
+open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter: Router>: UIViewController, ScreenLaunchable, ScreenComposable, ScreenRoutable, StatusBarConfigurable, NavigationBarConfigurable, NotificationObserver {
     public var isStatusBarHidden = false
     public var hidesStatusBarOnAppeared = false
     public var hidesStatusBarOnPresented = false
@@ -22,7 +22,7 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeAppRout
     public private(set) var isViewDismissed = false
     public private(set) var isViewPopped = false
 
-    open var router: SomeAppRouter {
+    open var router: SomeRouter {
         mc_crash(.routerNotFound)
     }
 

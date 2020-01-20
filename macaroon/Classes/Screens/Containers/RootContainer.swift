@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-open class RootContainer<SomeAppLaunchController: AppLaunchController, SomeAppRouter: AppRouter>: UIViewController, RootContainerConvertible {
+open class RootContainer<SomeLaunchController: AuthenticatableLaunchController, SomeRouter: Router>: UIViewController, RootContainerConvertible, AuthenticatableLaunchControllerListener {
     public var splash: UIViewController?
     public weak var authorizationContainer: UIViewController?
     public weak var mainContainer: UIViewController?
@@ -17,12 +17,12 @@ open class RootContainer<SomeAppLaunchController: AppLaunchController, SomeAppRo
         return mainContainer
     }
 
-    public let launchController: SomeAppLaunchController
-    public let router: SomeAppRouter
+    public let launchController: SomeLaunchController
+    public let router: SomeRouter
 
     public init(
-        launchController: SomeAppLaunchController,
-        router: SomeAppRouter
+        launchController: SomeLaunchController,
+        router: SomeRouter
     ) {
         self.launchController = launchController
         self.router = router
@@ -64,30 +64,30 @@ open class RootContainer<SomeAppLaunchController: AppLaunchController, SomeAppRo
         }
     }
 
-    /// <mark> AppLaunchControllerListener
-    open func launchControllerDidStart<T: AppLaunchController>(_ launchController: T) {
+    /// <mark> AuthenticatableLaunchControllerListener
+    open func launchControllerDidStart<T: LaunchController>(_ launchController: T) {
         startAuthorizationFlow()
     }
 
-    open func launchControllerDidSignUp<T: AppLaunchController>(_ launchController: T) {
+    open func launchControllerDidSignUp<T: LaunchController>(_ launchController: T) {
         startMainFlow()
     }
 
-    open func launchControllerDidSignIn<T: AppLaunchController>(_ launchController: T) {
+    open func launchControllerDidSignIn<T: LaunchController>(_ launchController: T) {
         startMainFlow()
     }
 
-    open func launchControllerWillReauthenticate<T: AppLaunchController>(_ launchController: T) { }
+    open func launchControllerWillReauthenticate<T: LaunchController>(_ launchController: T) { }
 
-    open func launchControllerDidReauthenticate<T: AppLaunchController>(_ launchController: T) {
+    open func launchControllerDidReauthenticate<T: LaunchController>(_ launchController: T) {
         startMainFlow(force: false)
     }
 
-    open func launchControllerWillDeauthenticate<T: AppLaunchController>(_ launchController: T) {
+    open func launchControllerWillDeauthenticate<T: LaunchController>(_ launchController: T) {
         startAuthorizationFlow()
     }
 
-    open func launchControllerDidDeauthenticate<T: AppLaunchController>(_ launchController: T) { }
+    open func launchControllerDidDeauthenticate<T: LaunchController>(_ launchController: T) { }
 }
 
 extension RootContainer {
@@ -170,16 +170,16 @@ extension RootContainer {
     }
 }
 
-public protocol RootContainerConvertible: UIViewController, AppLaunchable, AppLaunchControllerListener {
-    associatedtype SomeAppLaunchController: AppLaunchController
-    associatedtype SomeAppRouter: AppRouter
+public protocol RootContainerConvertible: UIViewController, AppLaunchable {
+    associatedtype SomeLaunchController: LaunchController
+    associatedtype SomeRouter: Router
 
-    var launchController: SomeAppLaunchController { get }
-    var router: SomeAppRouter { get }
+    var launchController: SomeLaunchController { get }
+    var router: SomeRouter { get }
 }
 
 extension RootContainerConvertible {
-    public var appLaunchArgs: SomeAppLaunchController.SomeAppLaunchArgs {
+    public var appLaunchArgs: SomeLaunchController.SomeAppLaunchArgs {
         return launchController.appLaunchArgs
     }
 }
