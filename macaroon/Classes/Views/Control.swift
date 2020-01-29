@@ -3,10 +3,9 @@
 import Foundation
 import UIKit
 
-open class Control<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIControl, ViewLaunchable, ControlComposable, CornerRoundDrawable, ShadowDrawable {
-    public var launchArgs: ViewLaunchArgs
-
-    public lazy var shadowLayer = CAShapeLayer()
+open class Control: UIControl, CornerRoundDrawable, ShadowDrawable {
+    public var shadow: Shadow?
+    public var shadowLayer: CAShapeLayer?
 
     open override var isEnabled: Bool {
         didSet {
@@ -24,10 +23,12 @@ open class Control<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIControl, ViewLa
         }
     }
 
-    public init(_ launchArgs: ViewLaunchArgs) {
-        self.launchArgs = launchArgs
+    public init() {
         super.init(frame: .zero)
-        compose()
+        customizeAppearance()
+        prepareLayout()
+        setListeners()
+        linkInteractors()
     }
 
     @available(*, unavailable)
@@ -35,27 +36,17 @@ open class Control<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIControl, ViewLa
         fatalError("init(coder:) has not been implemented")
     }
 
-    open func customizeAppearance() {
-        customizeBaseAppearance(styleGuide)
-
-        if let cornerRound = styleGuide.cornerRound {
-            customizeCornerRoundAppearance(cornerRound)
-        }
-        if let shadow = styleGuide.shadow {
-            customizeShadowAppearance(shadow)
-        }
-    }
-
+    open func customizeAppearance() { }
     open func recustomizeAppearance(for state: UIControl.State) { }
-    open func recustomizeAppearance(for touchState: ControlTouchState) { }
+    open func recustomizeAppearance(for touchState: Control.TouchState) { }
     open func prepareLayout() { }
     open func setListeners() { }
     open func linkInteractors() { }
     open func prepareForReuse() { }
 
     open func preferredUserInterfaceStyleDidChange() {
-        if let shadow = styleGuide.shadow {
-            customizeShadowAppearance(shadow)
+        if let shadow = shadow {
+            drawShadow(shadow)
         }
     }
 
@@ -63,10 +54,7 @@ open class Control<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIControl, ViewLa
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-
-        if let shadow = styleGuide.shadow {
-            updateShadowLayoutWhenViewDidLayoutSubviews(shadow)
-        }
+        updateShadowWhenViewDidLayoutSubviews()
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -102,7 +90,7 @@ open class Control<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIControl, ViewLa
 }
 
 extension Control {
-    private func recustomizeAppearanceWhenStateChanged() {
+    public func recustomizeAppearanceWhenStateChanged() {
         if isEnabled {
             if isSelected {
                 recustomizeAppearance(for: .selected)
@@ -114,5 +102,12 @@ extension Control {
         } else {
             recustomizeAppearance(for: .disabled)
         }
+    }
+}
+
+extension Control {
+    public enum TouchState {
+        case began
+        case ended
     }
 }

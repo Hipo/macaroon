@@ -37,7 +37,7 @@ extension ListEmptyView {
     }
 
     public func removeCurrentContent() {
-        if let loadingIndicator = currentContent as? LoadingIndicatorComposable {
+        if let loadingIndicator = currentContent as? LoadingIndicator {
             loadingIndicator.stopAnimating()
         }
         currentContent?.removeFromSuperview()
@@ -116,7 +116,7 @@ extension ListEmptyView {
 }
 
 public protocol ListEmptyViewDataSource: AnyObject {
-    func loadingIndicator(in view: ListEmptyView) -> LoadingIndicatorComposable?
+    func loadingIndicator(in view: ListEmptyView) -> LoadingIndicator?
     func loadingIndicatorVerticalPositionAdjustment(in view: ListEmptyView) -> CGFloat?
     func noContentView(in view: ListEmptyView) -> UIView?
     func noNetworkView(in view: ListEmptyView) -> UIView?
@@ -124,7 +124,7 @@ public protocol ListEmptyViewDataSource: AnyObject {
 }
 
 extension ListEmptyViewDataSource {
-    public func loadingIndicator(in view: ListEmptyView) -> LoadingIndicatorComposable? {
+    public func loadingIndicator(in view: ListEmptyView) -> LoadingIndicator? {
         return nil
     }
 

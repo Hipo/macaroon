@@ -6,7 +6,7 @@ import UIKit
 public protocol CornerRoundDrawable: UIView { }
 
 extension CornerRoundDrawable {
-    public func customizeCornerRoundAppearance(_ cornerRound: CornerRound) {
+    public func drawCornerRound(_ cornerRound: CornerRound) {
         layer.cornerRadius = cornerRound.radius
         layer.maskedCorners = cornerRound.corners
         layer.masksToBounds = true
@@ -18,27 +18,38 @@ extension CornerRoundDrawable {
 }
 
 public protocol ShadowDrawable: UIView {
-    var shadowLayer: CAShapeLayer { get }
+    var shadow: Shadow? { get set }
+    var shadowLayer: CAShapeLayer? { get set }
 }
 
 extension ShadowDrawable {
-    public func customizeShadowAppearance(_ shadow: Shadow) {
-        shadowLayer.shadowColor = shadow.color.cgColor
-        shadowLayer.fillColor = shadow.fillColor.cgColor
-        shadowLayer.shadowOpacity = shadow.opacity
-        shadowLayer.shadowOffset = shadow.offset
-        shadowLayer.shadowRadius = shadow.radius
+    public func drawShadow(_ shadow: Shadow) {
+        if let existingShadowLayer = shadowLayer {
+            existingShadowLayer.draw(shadow)
 
-        let currentSublayers = layer.sublayers ?? []
+            layer.masksToBounds = true
+        } else {
+            let newShadowLayer = CAShapeLayer()
+            newShadowLayer.draw(shadow)
 
-        if !currentSublayers.contains(shadowLayer) {
-            layer.insertSublayer(shadowLayer, at: 0)
-            layer.masksToBounds = false
+            layer.insertSublayer(newShadowLayer, at: 0)
+            layer.masksToBounds = true
+
+            shadowLayer = newShadowLayer
         }
+
+        self.shadow = shadow
     }
 
-    public func updateShadowLayoutWhenViewDidLayoutSubviews(_ shadow: Shadow) {
+    public func updateShadowWhenViewDidLayoutSubviews() {
         if bounds.isEmpty {
+            return
+        }
+        guard
+            let shadow = shadow,
+            let shadowLayer = shadowLayer
+        else {
+            removeShadow()
             return
         }
         shadowLayer.frame = bounds
@@ -51,6 +62,19 @@ extension ShadowDrawable {
     }
 
     public func removeShadow() {
-        shadowLayer.removeFromSuperlayer()
+        shadowLayer?.removeFromSuperlayer()
+        shadowLayer = nil
+
+        shadow = nil
+    }
+}
+
+extension CAShapeLayer {
+    public func draw(_ shadow: Shadow) {
+        shadowColor = shadow.color.cgColor
+        fillColor = shadow.fillColor.cgColor
+        shadowOpacity = shadow.opacity
+        shadowOffset = shadow.offset
+        shadowRadius = shadow.radius
     }
 }

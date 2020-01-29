@@ -72,7 +72,7 @@ open class TabBarContainer<SomeTabBar: TabBarPresentable>: UIViewController, Scr
             return
         }
         addNewSelectedContent()
-        tabBar.selectedBarButtonIndex = items.firstIndexOfElement(equalsTo: selectedItem, on: \.name)
+        tabBar.selectedBarButtonIndex = items.firstIndex(equalTo: selectedItem, on: \.name)
     }
 
     open func setListeners() {

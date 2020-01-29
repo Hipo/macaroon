@@ -5,6 +5,7 @@ import UIKit
 
 public protocol ListLayout: AnyObject {
     var listView: UICollectionView? { get set }
+    var scrollDirection: UICollectionView.ScrollDirection { get }
     var itemSize: ListItemSize { get }
     var headerSize: ListSupplementarySize { get }
     var footerSize: ListSupplementarySize { get }
@@ -26,6 +27,9 @@ public protocol ListLayout: AnyObject {
 }
 
 extension ListLayout {
+    public var scrollDirection: UICollectionView.ScrollDirection {
+        return .vertical
+    }
     public var headerSize: ListSupplementarySize {
         return .fixed(.zero)
     }
@@ -186,6 +190,7 @@ extension ListLayout {
 
     private func formFlowLayout() -> UICollectionViewFlowLayout {
         let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = scrollDirection
         flowLayout.sectionHeadersPinToVisibleBounds = headersPinToVisibleBounds
         flowLayout.sectionFootersPinToVisibleBounds = footersPinToVisibleBounds
         setItemSize(flowLayout)

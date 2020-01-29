@@ -3,9 +3,9 @@
 import Foundation
 import UIKit
 
-public protocol LoadingIndicatorComposable: UIView {
+public protocol LoadingIndicator: UIView {
     func startAnimating()
     func stopAnimating()
 }
 
-extension UIActivityIndicatorView: LoadingIndicatorComposable { }
+extension UIActivityIndicatorView: LoadingIndicator { }

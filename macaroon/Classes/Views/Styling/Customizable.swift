@@ -36,6 +36,59 @@ extension Customizable where Self: UIView {
     }
 }
 
+extension Customizable where Self: CornerRoundDrawable {
+    public func customizeBaseAppearance(_ style: Styling) {
+        if let backgroundColor = style.backgroundColor?.normal {
+            self.backgroundColor = backgroundColor
+        }
+        if let tintColor = style.tintColor?.normal {
+            self.tintColor = tintColor
+        }
+        if let cornerRound = style.cornerRound {
+            drawCornerRound(cornerRound)
+        } else {
+            removeCornerRound()
+        }
+    }
+}
+
+extension Customizable where Self: ShadowDrawable {
+    public func customizeBaseAppearance(_ style: Styling) {
+        if let backgroundColor = style.backgroundColor?.normal {
+            self.backgroundColor = backgroundColor
+        }
+        if let tintColor = style.tintColor?.normal {
+            self.tintColor = tintColor
+        }
+        if let shadow = style.shadow {
+            drawShadow(shadow)
+        } else {
+            removeShadow()
+        }
+    }
+}
+
+extension Customizable where Self: CornerRoundDrawable & ShadowDrawable {
+    public func customizeBaseAppearance(_ style: Styling) {
+        if let backgroundColor = style.backgroundColor?.normal {
+            self.backgroundColor = backgroundColor
+        }
+        if let tintColor = style.tintColor?.normal {
+            self.tintColor = tintColor
+        }
+        if let cornerRound = style.cornerRound {
+            drawCornerRound(cornerRound)
+        } else {
+            removeCornerRound()
+        }
+        if let shadow = style.shadow {
+            drawShadow(shadow)
+        } else {
+            removeShadow()
+        }
+    }
+}
+
 extension UIImageView: ImageCustomizable { }
 
 extension ImageCustomizable where Self: UIImageView {

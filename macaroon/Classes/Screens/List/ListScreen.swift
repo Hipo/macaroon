@@ -161,7 +161,7 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
     open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) { }
 
     /// <mark> ListEmptyViewDataSource
-    open func loadingIndicator(in view: ListEmptyView) -> LoadingIndicatorComposable? {
+    open func loadingIndicator(in view: ListEmptyView) -> LoadingIndicator? {
         let loadingIndicator: UIActivityIndicatorView
 
         if #available(iOS 13, *) {

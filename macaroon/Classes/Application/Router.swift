@@ -128,8 +128,8 @@ public protocol AppRoutingDestination { }
 
 public enum RoutingTransition {
     public enum Open {
-        case navigation(Navigation)
-        case presentation(Presentation)
+        case navigation(Navigation = .next)
+        case presentation(Presentation = .default)
 
         public enum Navigation {
             case next /// <note> `push`
@@ -144,7 +144,7 @@ public enum RoutingTransition {
     }
 
     public enum Close {
-        case navigation(Navigation)
+        case navigation(Navigation = .previous)
         case presentation
 
         public enum Navigation {

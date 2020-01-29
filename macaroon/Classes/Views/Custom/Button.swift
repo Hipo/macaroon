@@ -30,7 +30,7 @@ open class Button: UIButton {
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
             rect.origin.y = ((contentRect.height - (rect.height + spacing + titleHeight)) / 2.0).rounded() + contentEdgeInsets.top
             return rect
-        case .imageAtTopmost(let padding):
+        case .imageAtTopmost(let padding, _):
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
             rect.origin.y = contentRect.minY + padding + contentEdgeInsets.top
             return rect
@@ -38,8 +38,12 @@ open class Button: UIButton {
             let titleWidth = super.titleRect(forContentRect: contentRect).width
             rect.origin.x = rect.minX + titleWidth + (spacing / 2.0).rounded() + contentEdgeInsets.left
             return rect
-        case .imageAtRightmost(let padding):
+        case .imageAtRightmost(let padding, _):
             rect.origin.x = contentRect.width - (rect.width + padding + contentEdgeInsets.right)
+            return rect
+        case .titleAtBottommost(_, let imageAdjustmentY):
+            rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
+            rect.origin.y = ((contentRect.height - rect.height) / 2.0).rounded() + imageAdjustmentY + contentEdgeInsets.top
             return rect
         }
     }
@@ -58,16 +62,20 @@ open class Button: UIButton {
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
             rect.origin.y = contentRect.height - ((contentRect.height - (imageHeight + spacing + rect.height)) / 2.0).rounded() - (rect.height + contentEdgeInsets.bottom)
             return rect
-        case .imageAtTopmost(let padding):
+        case .imageAtTopmost(_, let titleAdjustmentY):
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
-            rect.origin.y = ((contentRect.height - rect.height) / 2.0).rounded() + contentEdgeInsets.top
+            rect.origin.y = ((contentRect.height - rect.height) / 2.0).rounded() + titleAdjustmentY + contentEdgeInsets.top
             return rect
         case .imageAtRight(let spacing):
             let imageWidth = super.imageRect(forContentRect: contentRect).width
             rect.origin.x = ((contentRect.width - (rect.width + spacing + imageWidth)) / 2.0).rounded() + contentEdgeInsets.left
             return rect
-        case .imageAtRightmost:
+        case .imageAtRightmost(_, let titleAdjustmentX):
+            rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + titleAdjustmentX + contentEdgeInsets.left
+            return rect
+        case .titleAtBottommost(let padding, _):
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
+            rect.origin.y = contentRect.maxY - (rect.height + padding + contentEdgeInsets.bottom)
             return rect
         }
     }
@@ -77,8 +85,9 @@ extension Button {
     public enum Layout {
         case none
         case imageAtTop(spacing: CGFloat) /// <note> Spacing equals to the distance between image and title.
-        case imageAtTopmost(padding: CGFloat) /// <note> Padding equals to the inset from top for the image while the title is centered.
+        case imageAtTopmost(padding: CGFloat, titleAdjustmentY: CGFloat) /// <note> Padding equals to the inset from top for the image while the title is centered.
         case imageAtRight(spacing: CGFloat) /// <note> Spacing equals to the distance between image and title.
-        case imageAtRightmost(padding: CGFloat) /// <note> Padding equals to the inset from right for the image while the title is centered.
+        case imageAtRightmost(padding: CGFloat, titleAdjustmentX: CGFloat) /// <note> Padding equals to the inset from right for the image while the title is centered.
+        case titleAtBottommost(padding: CGFloat, imageAdjustmentY: CGFloat)
     }
 }

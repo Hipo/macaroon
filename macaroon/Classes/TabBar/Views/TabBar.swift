@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class TabBar<ViewLaunchArgs: TabBarLaunchArgsConvertible>: View<ViewLaunchArgs>, TabBarPresentable {
+open class TabBar: View<TabBarLaunchArgs>, TabBarPresentable {
     public var barButtonItems: [TabBarButtonItemConvertible] = [] {
         didSet {
             updateLayoutWhenBarButtonItemsChanged()
@@ -29,8 +29,11 @@ open class TabBar<ViewLaunchArgs: TabBarLaunchArgsConvertible>: View<ViewLaunchA
         return CGSize(width: UIView.noIntrinsicMetric, height: 44.0 + compactSafeAreaInsets.bottom)
     }
 
-    open override func prepareLayout() {
-        super.prepareLayout()
+    open override func customizeAppearance(_ launchArgs: TabBarLaunchArgs) {
+        customizeBaseAppearance(launchArgs.style)
+    }
+
+    open override func prepareLayout(_ launchArgs: TabBarLaunchArgs) {
         addContainer()
     }
 

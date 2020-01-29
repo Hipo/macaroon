@@ -3,15 +3,16 @@
 import Foundation
 import UIKit
 
-open class View<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIView, ViewLaunchable, ViewComposable, CornerRoundDrawable, ShadowDrawable {
-    public var launchArgs: ViewLaunchArgs
-
-    public lazy var shadowLayer = CAShapeLayer()
+open class View<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIView, CornerRoundDrawable, ShadowDrawable {
+    public var shadow: Shadow?
+    public var shadowLayer: CAShapeLayer?
 
     public init(_ launchArgs: ViewLaunchArgs) {
-        self.launchArgs = launchArgs
         super.init(frame: .zero)
-        compose()
+        customizeAppearance(launchArgs)
+        prepareLayout(launchArgs)
+        setListeners()
+        linkInteractors()
     }
 
     @available(*, unavailable)
@@ -19,25 +20,15 @@ open class View<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIView, ViewLaunchab
         fatalError("init(coder:) has not been implemented")
     }
 
-    open func customizeAppearance() {
-        customizeBaseAppearance(styleGuide)
-
-        if let cornerRound = styleGuide.cornerRound {
-            customizeCornerRoundAppearance(cornerRound)
-        }
-        if let shadow = styleGuide.shadow {
-            customizeShadowAppearance(shadow)
-        }
-    }
-
-    open func prepareLayout() { }
+    open func customizeAppearance(_ launchArgs: ViewLaunchArgs) { }
+    open func prepareLayout(_ launchArgs: ViewLaunchArgs) { }
     open func setListeners() { }
     open func linkInteractors() { }
     open func prepareForReuse() { }
 
     open func preferredUserInterfaceStyleDidChange() {
-        if let shadow = styleGuide.shadow {
-            customizeShadowAppearance(shadow)
+        if let shadow = shadow {
+            drawShadow(shadow)
         }
     }
 
@@ -45,10 +36,7 @@ open class View<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIView, ViewLaunchab
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-
-        if let shadow = styleGuide.shadow {
-            updateShadowLayoutWhenViewDidLayoutSubviews(shadow)
-        }
+        updateShadowWhenViewDidLayoutSubviews()
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -65,10 +53,6 @@ open class View<ViewLaunchArgs: ViewLaunchArgsConvertible>: UIView, ViewLaunchab
     }
 }
 
-open class BindableView<ViewLaunchArgs: BindableViewLaunchArgsConvertible>: View<ViewLaunchArgs>, ViewModelBindable {
-    open func bind(_ viewModel: ViewLaunchArgs.ViewModel) { }
+public protocol ViewLaunchArgsConvertible { }
 
-    open class func preferredSize(fittingSize: CGSize, by viewModel: ViewLaunchArgs.ViewModel) -> CGSize {
-        return fittingSize
-    }
-}
+public struct NoViewLaunchArgs: ViewLaunchArgsConvertible { }

@@ -12,7 +12,7 @@ extension Array {
 }
 
 extension Array {
-    public func firstIndexOfElement<T: Equatable>(equalsTo other: Element?, on keyPath: KeyPath<Element, T>) -> Index? {
+    public func firstIndex<T: Equatable>(equalTo other: Element?, on keyPath: KeyPath<Element, T>) -> Index? {
         if let other = other {
             return firstIndex { $0[keyPath: keyPath] == other[keyPath: keyPath] }
         }
