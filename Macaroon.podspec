@@ -128,6 +128,10 @@ Pod::Spec.new do |s|
     ss.dependency 'SnapKit', '~> 5.0.0'
   end
 
+  s.subspec 'Polling' do |ss|
+    ss.source_files = 'macaroon/Classes/Polling/*.swift'
+  end
+
   s.subspec 'SwiftLint' do |ss|
     ss.dependency 'SwiftLint', '~> 0.37.0'
   end

@@ -1,6 +1,7 @@
 PODS:
   - Macaroon/Core (0.1.0):
     - Macaroon/Core/Application (= 0.1.0)
+    - Macaroon/Core/Data (= 0.1.0)
     - Macaroon/Core/Error (= 0.1.0)
     - Macaroon/Core/Screens (= 0.1.0)
     - Macaroon/Core/Utils (= 0.1.0)
@@ -8,11 +9,20 @@ PODS:
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Application (0.1.0):
     - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Data (0.1.0):
+    - Macaroon/Core/Data/DataSources (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Data/DataSources (0.1.0):
+    - Macaroon/Core/Data/DataSources/List (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Data/DataSources/List (0.1.0):
+    - SnapKit (~> 5.0.0)
   - Macaroon/Core/Error (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Screens (0.1.0):
     - Macaroon/Core/Screens/Configuration (= 0.1.0)
     - Macaroon/Core/Screens/Containers (= 0.1.0)
+    - Macaroon/Core/Screens/List (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Screens/Configuration (0.1.0):
     - Macaroon/Core/Screens/Configuration/NavigationBar (= 0.1.0)
@@ -23,6 +33,8 @@ PODS:
   - Macaroon/Core/Screens/Configuration/StatusBar (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Screens/Containers (0.1.0):
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Screens/List (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils (0.1.0):
     - Macaroon/Core/Utils/Extensions (= 0.1.0)
@@ -51,8 +63,14 @@ PODS:
     - Macaroon/Core/Views/ViewModel (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Custom (0.1.0):
+    - Macaroon/Core/Views/Custom/List (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Views/Custom/List (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Layout (0.1.0):
+    - Macaroon/Core/Views/Layout/List (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Views/Layout/List (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Styling (0.1.0):
     - SnapKit (~> 5.0.0)
@@ -62,6 +80,7 @@ PODS:
     - Macaroon/Core
     - Macaroon/SwiftLint
     - Macaroon/Tryouts
+  - Macaroon/Polling (0.1.0)
   - Macaroon/SwiftLint (0.1.0):
     - SwiftLint (~> 0.37.0)
   - Macaroon/TabBar (0.1.0):
@@ -77,6 +96,7 @@ PODS:
 
 DEPENDENCIES:
   - Macaroon/Development (from `../`)
+  - Macaroon/Polling (from `../`)
   - Macaroon/TabBar (from `../`)
 
 SPEC REPOS:
@@ -90,11 +110,11 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Macaroon: 12ece463cf0ad4741c7b1aef2e8a2abfae96510d
+  Macaroon: f493140260020f4ad644a47e149b18dbd455c7b2
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
   Tryouts: dabd03aa73c2b5d253a649d306df523fc090fcee
 
-PODFILE CHECKSUM: b47852aad3dbddb6cc1c075c752b66ce70df7d80
+PODFILE CHECKSUM: 8525899e7853bc09ce004b393187eff5c4bed283
 
 COCOAPODS: 1.8.4

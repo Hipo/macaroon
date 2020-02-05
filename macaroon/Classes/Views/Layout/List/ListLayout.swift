@@ -105,14 +105,6 @@ extension ListLayout {
         return footer
     }
 
-    public func visibleCell<T: UICollectionViewCell>(forItemAt indexPath: IndexPath) -> T? {
-        return listView?.cellForItem(at: indexPath) as? T
-    }
-
-    public func visibleIndexPath<T: UICollectionViewCell>(for cell: T) -> IndexPath? {
-        return listView?.indexPath(for: cell)
-    }
-
     public func size(for item: Any?, at indexPath: IndexPath) -> CGSize {
         switch itemSize {
         case .fixed(let fixedSize):

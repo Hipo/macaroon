@@ -10,6 +10,8 @@ public protocol ListDataSource {
     func isSectionEmpty(_ section: Int) -> Bool
     func numberOfSections() -> Int
     func numberOfItems(inSection section: Int) -> Int
+    func section(of item: Any) -> Int?
+    func indexPath(of item: Any) -> IndexPath?
 }
 
 public protocol SingleListDataSource: ListDataSource {
@@ -18,6 +20,8 @@ public protocol SingleListDataSource: ListDataSource {
     var list: List { get }
 
     subscript(indexPath: IndexPath) -> List.Element { get }
+
+    func indexPath(of item: List.Element) -> IndexPath?
 }
 
 extension SingleListDataSource {
@@ -45,11 +49,31 @@ extension SingleListDataSource {
     public func numberOfItems(inSection section: Int) -> Int {
         return list.count
     }
+
+    public func section(of item: Any) -> Int? {
+        return 0
+    }
+
+    public func indexPath(of item: Any) -> IndexPath? {
+        if let validItem = item as? List.Element {
+            return indexPath(of: validItem)
+        }
+        return nil
+    }
 }
 
 extension SingleListDataSource where List.Index == Int {
     public subscript(indexPath: IndexPath) -> List.Element {
         return list[indexPath.item]
+    }
+}
+
+extension SingleListDataSource where List.Index == Int, List.Element: Equatable {
+    public func indexPath(of item: List.Element) -> IndexPath? {
+        if let i = list.firstIndex(of: item) {
+            return IndexPath(item: i, section: 0)
+        }
+        return nil
     }
 }
 
@@ -60,6 +84,9 @@ public protocol SectionedListDataSource: ListDataSource {
 
     subscript(section: Int) -> List.Element { get }
     subscript(indexPath: IndexPath) -> List.Element.Element { get }
+
+    func section(of item: List.Element) -> Int?
+    func indexPath(of item: List.Element.Element) -> IndexPath?
 }
 
 extension SectionedListDataSource {
@@ -80,6 +107,20 @@ extension SectionedListDataSource {
     public func numberOfSections() -> Int {
         return list.count
     }
+
+    public func section(of item: Any) -> Int? {
+        if let validItem = item as? List.Element {
+            return section(of: validItem)
+        }
+        return nil
+    }
+
+    public func indexPath(of item: Any) -> IndexPath? {
+        if let validItem = item as? List.Element.Element {
+            return indexPath(of: validItem)
+        }
+        return nil
+    }
 }
 
 extension SectionedListDataSource where List.Index == Int {
@@ -96,8 +137,25 @@ extension SectionedListDataSource where List.Index == Int {
     }
 }
 
+extension SectionedListDataSource where List.Index == Int, List.Element: Equatable {
+    public func section(of item: List.Element) -> Int? {
+        return list.firstIndex(of: item)
+    }
+}
+
 extension SectionedListDataSource where List.Index == Int, List.Element.Index == Int {
     public subscript(indexPath: IndexPath) -> List.Element.Element {
         return list[indexPath.section][indexPath.item]
+    }
+}
+
+extension SectionedListDataSource where List.Index == Int, List.Element.Index == Int, List.Element.Element: Equatable {
+    public func indexPath(of item: List.Element.Element) -> IndexPath? {
+        for (section, items) in list.enumerated() {
+            if let index = items.firstIndex(of: item) {
+                return IndexPath(item: index, section: section)
+            }
+        }
+        return nil
     }
 }

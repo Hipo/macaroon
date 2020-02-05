@@ -27,13 +27,13 @@ extension ShadowDrawable {
         if let existingShadowLayer = shadowLayer {
             existingShadowLayer.draw(shadow)
 
-            layer.masksToBounds = true
+            layer.masksToBounds = false
         } else {
             let newShadowLayer = CAShapeLayer()
             newShadowLayer.draw(shadow)
 
             layer.insertSublayer(newShadowLayer, at: 0)
-            layer.masksToBounds = true
+            layer.masksToBounds = false
 
             shadowLayer = newShadowLayer
         }

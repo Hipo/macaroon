@@ -21,6 +21,14 @@ extension NotificationObserver {
         )
     }
 
+    public func notifyWhenApplicationWillEnterForeground(_ handler: @escaping NotificationHandler) {
+        observe(notificationWith: UIApplication.willEnterForegroundNotification, onNotified: handler)
+    }
+
+    public func notifyWhenApplicationDidEnterBackground(_ handler: @escaping NotificationHandler) {
+        observe(notificationWith: UIApplication.didEnterBackgroundNotification, onNotified: handler)
+    }
+
     public func unobserveNotifications() {
         observations.forEach { NotificationCenter.default.removeObserver($0) }
         observations = []

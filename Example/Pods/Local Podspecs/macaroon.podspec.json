@@ -55,6 +55,22 @@
           "source_files": "macaroon/Classes/Application/*.swift"
         },
         {
+          "name": "Data",
+          "source_files": "macaroon/Classes/Data/*.swift",
+          "subspecs": [
+            {
+              "name": "DataSources",
+              "source_files": "macaroon/Classes/Data/DataSources/*.swift",
+              "subspecs": [
+                {
+                  "name": "List",
+                  "source_files": "macaroon/Classes/Data/DataSources/List/*.swift"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "name": "Error",
           "source_files": "macaroon/Classes/Error/*.swift"
         },
@@ -78,6 +94,10 @@
             {
               "name": "Containers",
               "source_files": "macaroon/Classes/Screens/Containers/*.swift"
+            },
+            {
+              "name": "List",
+              "source_files": "macaroon/Classes/Screens/List/*.swift"
             }
           ]
         },
@@ -120,11 +140,23 @@
           "subspecs": [
             {
               "name": "Custom",
-              "source_files": "macaroon/Classes/Views/Custom/*.swift"
+              "source_files": "macaroon/Classes/Views/Custom/*.swift",
+              "subspecs": [
+                {
+                  "name": "List",
+                  "source_files": "macaroon/Classes/Views/Custom/List/*.swift"
+                }
+              ]
             },
             {
               "name": "Layout",
-              "source_files": "macaroon/Classes/Views/Layout/*.swift"
+              "source_files": "macaroon/Classes/Views/Layout/*.swift",
+              "subspecs": [
+                {
+                  "name": "List",
+                  "source_files": "macaroon/Classes/Views/Layout/List/*.swift"
+                }
+              ]
             },
             {
               "name": "Styling",
@@ -137,6 +169,10 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Polling",
+      "source_files": "macaroon/Classes/Polling/*.swift"
     },
     {
       "name": "SwiftLint",

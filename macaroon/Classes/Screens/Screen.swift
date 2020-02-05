@@ -58,6 +58,15 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter:
 
     open func observeNotifications() { }
 
+    public func observeApplicationLifeCycleNotifications() {
+        notifyWhenApplicationWillEnterForeground { [unowned self] _ in
+            self.viewWillEnterForeground()
+        }
+        notifyWhenApplicationDidEnterBackground { [unowned self] _ in
+            self.viewDidEnterBackground()
+        }
+    }
+
     open func customizeNavigationBarAppearance() {
         customizeNavigationBarTitleAppearance()
         customizeNavigationBarLeftBarItems()
@@ -97,6 +106,9 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter:
     open func linkInteractors() { }
 
     open func viewDidChangePreferredContentSizeCategory() { }
+
+    open func viewWillEnterForeground() { }
+    open func viewDidEnterBackground() { }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
