@@ -84,6 +84,14 @@ Pod::Spec.new do |s|
         end
       end
 
+      sss.subspec 'Image' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Utils/Image/*.swift'
+      end
+
+      sss.subspec 'List' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Utils/List/*.swift'
+      end
+
       sss.subspec 'Notification' do |ssss|
         ssss.source_files = 'macaroon/Classes/Utils/Notification/*.swift'
       end
@@ -98,38 +106,65 @@ Pod::Spec.new do |s|
     end
 
     ss.subspec 'Views' do |sss|
-      sss.source_files = 'macaroon/Classes/Views/*.swift'
+      sss.subspec 'BaseComponents' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Views/BaseComponents/*.swift'
+      end
 
-      sss.subspec 'Custom' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Views/Custom/*.swift'
+      sss.subspec 'Components' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Views/Components/*.swift'
+      end
 
-        ssss.subspec 'List' do |sssss|
-          sssss.source_files = 'macaroon/Classes/Views/Custom/List/*.swift'
+      sss.subspec 'Configuration' do |ssss|
+        ssss.subspec 'Data' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Views/Configuration/Data/*.swift'
+        end
+
+        ssss.subspec 'Layout' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Views/Configuration/Layout/*.swift'
+        end
+
+        ssss.subspec 'Styling' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Views/Configuration/Styling/*.swift'
         end
       end
 
-      sss.subspec 'Layout' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Views/Layout/*.swift'
-
-        ssss.subspec 'List' do |sssss|
-          sssss.source_files = 'macaroon/Classes/Views/Layout/List/*.swift'
-        end
-      end
-
-      sss.subspec 'Styling' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Views/Styling/*.swift'
-      end
-
-      sss.subspec 'ViewModel' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Views/ViewModel/*.swift'
+      sss.subspec 'ListComponents' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Views/ListComponents/*.swift'
       end
     end
 
     ss.dependency 'SnapKit', '~> 5.0.0'
   end
 
+  s.subspec 'URLImage' do |ss|
+    ss.subspec 'Utils' do |sss|
+      sss.source_files = 'macaroon/Classes/URLImage/Utils/*.swift'
+    end
+
+    ss.subspec 'Views' do |sss|
+      sss.subspec 'Components' do |ssss|
+        ssss.source_files = 'macaroon/Classes/URLImage/Views/Components/*.swift'
+      end
+
+      sss.subspec 'Configuration' do |ssss|
+        ssss.subspec 'Styling' do |sssss|
+          sssss.source_files = 'macaroon/Classes/URLImage/Views/Configuration/Styling/*.swift'
+        end
+      end
+    end
+
+    ss.dependency 'Kingfisher', '~> 5.0'
+  end
+
   s.subspec 'Polling' do |ss|
     ss.source_files = 'macaroon/Classes/Polling/*.swift'
+  end
+
+  s.subspec 'SVGImage' do |ss|
+    ss.source_files = 'macaroon/Classes/SVGImage/*.swift'
+
+    ss.dependency 'Macaroon/URLImage'
+    ss.dependency 'Macaw', '0.9.5'
   end
 
   s.subspec 'SwiftLint' do |ss|

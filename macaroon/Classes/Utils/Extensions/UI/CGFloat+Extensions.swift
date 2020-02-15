@@ -18,3 +18,9 @@ extension CGFloat {
         return rounded(.down)
     }
 }
+
+extension CGFloat {
+    public func scaled(_ scale: CGFloat = UIScreen.main.scale) -> CGFloat {
+        return self * scale
+    }
+}

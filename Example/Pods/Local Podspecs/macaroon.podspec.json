@@ -119,6 +119,14 @@
               ]
             },
             {
+              "name": "Image",
+              "source_files": "macaroon/Classes/Utils/Image/*.swift"
+            },
+            {
+              "name": "List",
+              "source_files": "macaroon/Classes/Utils/List/*.swift"
+            },
+            {
               "name": "Notification",
               "source_files": "macaroon/Classes/Utils/Notification/*.swift"
             },
@@ -136,35 +144,67 @@
         },
         {
           "name": "Views",
-          "source_files": "macaroon/Classes/Views/*.swift",
           "subspecs": [
             {
-              "name": "Custom",
-              "source_files": "macaroon/Classes/Views/Custom/*.swift",
+              "name": "BaseComponents",
+              "source_files": "macaroon/Classes/Views/BaseComponents/*.swift"
+            },
+            {
+              "name": "Components",
+              "source_files": "macaroon/Classes/Views/Components/*.swift"
+            },
+            {
+              "name": "Configuration",
               "subspecs": [
                 {
-                  "name": "List",
-                  "source_files": "macaroon/Classes/Views/Custom/List/*.swift"
+                  "name": "Data",
+                  "source_files": "macaroon/Classes/Views/Configuration/Data/*.swift"
+                },
+                {
+                  "name": "Layout",
+                  "source_files": "macaroon/Classes/Views/Configuration/Layout/*.swift"
+                },
+                {
+                  "name": "Styling",
+                  "source_files": "macaroon/Classes/Views/Configuration/Styling/*.swift"
                 }
               ]
             },
             {
-              "name": "Layout",
-              "source_files": "macaroon/Classes/Views/Layout/*.swift",
+              "name": "ListComponents",
+              "source_files": "macaroon/Classes/Views/ListComponents/*.swift"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "URLImage",
+      "dependencies": {
+        "Kingfisher": [
+          "~> 5.0"
+        ]
+      },
+      "subspecs": [
+        {
+          "name": "Utils",
+          "source_files": "macaroon/Classes/URLImage/Utils/*.swift"
+        },
+        {
+          "name": "Views",
+          "subspecs": [
+            {
+              "name": "Components",
+              "source_files": "macaroon/Classes/URLImage/Views/Components/*.swift"
+            },
+            {
+              "name": "Configuration",
               "subspecs": [
                 {
-                  "name": "List",
-                  "source_files": "macaroon/Classes/Views/Layout/List/*.swift"
+                  "name": "Styling",
+                  "source_files": "macaroon/Classes/URLImage/Views/Configuration/Styling/*.swift"
                 }
               ]
-            },
-            {
-              "name": "Styling",
-              "source_files": "macaroon/Classes/Views/Styling/*.swift"
-            },
-            {
-              "name": "ViewModel",
-              "source_files": "macaroon/Classes/Views/ViewModel/*.swift"
             }
           ]
         }
@@ -173,6 +213,18 @@
     {
       "name": "Polling",
       "source_files": "macaroon/Classes/Polling/*.swift"
+    },
+    {
+      "name": "SVGImage",
+      "source_files": "macaroon/Classes/SVGImage/*.swift",
+      "dependencies": {
+        "Macaroon/URLImage": [
+
+        ],
+        "Macaw": [
+          "0.9.5"
+        ]
+      }
     },
     {
       "name": "SwiftLint",
