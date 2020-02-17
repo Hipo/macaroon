@@ -136,26 +136,6 @@ Pod::Spec.new do |s|
     ss.dependency 'SnapKit', '~> 5.0.0'
   end
 
-  s.subspec 'URLImage' do |ss|
-    ss.subspec 'Utils' do |sss|
-      sss.source_files = 'macaroon/Classes/URLImage/Utils/*.swift'
-    end
-
-    ss.subspec 'Views' do |sss|
-      sss.subspec 'Components' do |ssss|
-        ssss.source_files = 'macaroon/Classes/URLImage/Views/Components/*.swift'
-      end
-
-      sss.subspec 'Configuration' do |ssss|
-        ssss.subspec 'Styling' do |sssss|
-          sssss.source_files = 'macaroon/Classes/URLImage/Views/Configuration/Styling/*.swift'
-        end
-      end
-    end
-
-    ss.dependency 'Kingfisher', '~> 5.0'
-  end
-
   s.subspec 'Polling' do |ss|
     ss.source_files = 'macaroon/Classes/Polling/*.swift'
   end
@@ -186,5 +166,25 @@ Pod::Spec.new do |s|
   s.subspec 'Tryouts' do |ss|
     ss.source_files = 'macaroon/Classes/Tryouts/*.swift'
     ss.dependency 'Tryouts'
+  end
+
+  s.subspec 'URLImage' do |ss|
+    ss.subspec 'Utils' do |sss|
+      sss.source_files = 'macaroon/Classes/URLImage/Utils/*.swift'
+    end
+
+    ss.subspec 'Views' do |sss|
+      sss.subspec 'Components' do |ssss|
+        ssss.source_files = 'macaroon/Classes/URLImage/Views/Components/*.swift'
+      end
+
+      sss.subspec 'Configuration' do |ssss|
+        ssss.subspec 'Styling' do |sssss|
+          sssss.source_files = 'macaroon/Classes/URLImage/Views/Configuration/Styling/*.swift'
+        end
+      end
+    end
+
+    ss.dependency 'Kingfisher', '~> 5.0'
   end
 end

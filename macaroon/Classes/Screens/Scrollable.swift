@@ -10,6 +10,8 @@ public protocol Scrollable: AnyObject {
 
     var alwaysPinsFooterToBottom: Bool { get set }
 
+    var ignoresContentLayoutUpdates: Bool { get set }
+
     var scrollView: ScrollView { get }
     var contentView: UIView { get }
     var footerView: UIView { get }
@@ -65,6 +67,9 @@ extension Scrollable where Self: UIViewController {
     }
 
     public func updateFooterViewLayoutWhenViewDidLayoutSubviews() {
+        if ignoresContentLayoutUpdates {
+            return
+        }
         if scrollView.bounds.isEmpty {
             return
         }

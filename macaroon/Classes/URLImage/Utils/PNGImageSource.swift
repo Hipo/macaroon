@@ -6,17 +6,20 @@ import UIKit
 
 public struct PNGImageSource: URLImageSource {
     public let url: URL?
+    public let color: UIColor?
     public let placeholder: ImagePlaceholder?
     public let size: ImageSize
     public let shape: ImageShape
 
     public init(
         url: URL?,
+        color: UIColor? = nil,
         size: ImageSize = .original,
         shape: ImageShape = .original,
         placeholder: ImagePlaceholder? = nil
     ) {
         self.url = url
+        self.color = color
         self.placeholder = placeholder
         self.size = size
         self.shape = shape

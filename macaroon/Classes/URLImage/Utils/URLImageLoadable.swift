@@ -9,7 +9,11 @@ public protocol URLImageLoadable: ImageLoadable {
 }
 
 extension URLImageLoadable {
-    public func load(from source: ImageSource) {
+    public func load(from source: ImageSource?) {
+        guard let source = source else {
+            unloadSource()
+            return
+        }
         if let urlSource = source as? PNGImageSource {
             urlSource.load(in: imageContainer, displayingPlaceholderIn: placeholderContainer)
         } else {

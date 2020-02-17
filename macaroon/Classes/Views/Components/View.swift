@@ -25,4 +25,6 @@ open class View<ViewLaunchArgs: ViewLaunchArgsConvertible>: BaseView {
 
 public protocol ViewLaunchArgsConvertible { }
 
-public struct NoViewLaunchArgs: ViewLaunchArgsConvertible { }
+public struct NoViewLaunchArgs: ViewLaunchArgsConvertible {
+    public init() { }
+}

@@ -5,6 +5,15 @@ import SnapKit
 import UIKit
 
 open class DownloadableImageView: ImageView, URLImageLoadable {
+    open override var tintColor: UIColor! {
+        get {
+            return imageContainer.tintColor
+        }
+        set {
+            imageContainer.tintColor = newValue
+        }
+    }
+
     public var placeholderContainer: URLImagePlaceholderContainer? {
         return placeholderView
     }
