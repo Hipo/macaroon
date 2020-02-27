@@ -109,6 +109,9 @@ extension TextStylingModifiable {
     public var textOverflow: TextOverflow {
         return modifiers.compactLast(\.textOverflow) ?? .truncated
     }
+    public var text: TextGroup? {
+        return modifiers.compactLast(\.text)
+    }
     public var backgroundColor: ColorGroup? {
         return modifiers.compactLast(\.backgroundColor)
     }

@@ -54,7 +54,7 @@ extension ListLayout {
 
     // swiftlint:disable unavailable_function
     public func dequeueHeader(for item: Any?, in section: Int) -> UICollectionReusableView {
-        mc_crash(.unsupportedListHeader)
+        mc_crash(.unsupportedListHeader(UICollectionReusableView.self))
     }
     // swiftlint:enable unavailable_function
 
@@ -66,7 +66,7 @@ extension ListLayout {
 
     // swiftlint:disable unavailable_function
     public func dequeueFooter(for item: Any?, in section: Int) -> UICollectionReusableView {
-        mc_crash(.unsupportedListFooter)
+        mc_crash(.unsupportedListFooter(UICollectionReusableView.self))
     }
     // swiftlint:enable unavailable_function
 
@@ -232,7 +232,7 @@ public enum ListSectionInset {
 }
 
 extension UICollectionView {
-    convenience init(listLayout: ListLayout) {
+    public convenience init(listLayout: ListLayout) {
         self.init(frame: .zero, collectionViewLayout: listLayout._layout)
         listLayout.listView = self
     }

@@ -4,3 +4,7 @@ import Foundation
 import UIKit
 
 public protocol StyleGuideConvertible: Styling { }
+
+public struct NoStyleGuide: StyleGuideConvertible {
+    public init() { }
+}

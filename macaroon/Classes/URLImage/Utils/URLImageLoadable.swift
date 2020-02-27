@@ -22,6 +22,7 @@ extension URLImageLoadable {
     }
 
     public func unloadSource() {
-        PNGImageSource(url: nil).load(in: imageContainer)
+        imageContainer.kf.cancelDownloadTask()
+        imageContainer.image = nil
     }
 }

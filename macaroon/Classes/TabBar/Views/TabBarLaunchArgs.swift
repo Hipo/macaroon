@@ -2,10 +2,4 @@
 
 import Foundation
 
-public struct TabBarLaunchArgs: ViewLaunchArgsConvertible {
-    public let style: Styling
-
-    public init(_ style: Styling) {
-        self.style = style
-    }
-}
+public protocol TabBarStyleGuideConvertible: StyleGuideConvertible { }

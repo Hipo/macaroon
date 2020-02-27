@@ -237,9 +237,9 @@ extension TextInputCustomizable where Self: UITextField {
 
         if let placeholderText = style.placeholderText {
             switch placeholderText {
-            case .normal(let text):
+            case .normal(let text, _):
                 if let textColor = style.placeholderColor?.normal {
-                    attributedPlaceholder = text.attributed(.textColor(textColor))
+                    attributedPlaceholder = text?.attributed(.textColor(textColor))
                 } else {
                     placeholder = text
                 }

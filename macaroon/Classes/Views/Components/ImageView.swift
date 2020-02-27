@@ -5,6 +5,15 @@ import SnapKit
 import UIKit
 
 open class ImageView: BaseView, ImageCustomizable, ImageLoadable {
+    open override var tintColor: UIColor! {
+        get {
+            return contentView.tintColor
+        }
+        set {
+            contentView.tintColor = newValue
+        }
+    }
+
     public var imageContainer: UIImageView {
         return contentView
     }
@@ -31,7 +40,13 @@ open class ImageView: BaseView, ImageCustomizable, ImageLoadable {
         addContentView()
     }
 
-    open func addContentView() {
+    open override func prepareForReuse() {
+        unloadSource()
+    }
+}
+
+extension ImageView {
+    private func addContentView() {
         addSubview(contentView)
         contentView.snp.makeConstraints { maker in
             maker.top.equalToSuperview()
@@ -39,9 +54,5 @@ open class ImageView: BaseView, ImageCustomizable, ImageLoadable {
             maker.bottom.equalToSuperview()
             maker.trailing.equalToSuperview()
         }
-    }
-
-    open override func prepareForReuse() {
-        unloadSource()
     }
 }

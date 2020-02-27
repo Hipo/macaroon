@@ -85,7 +85,7 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
         case UICollectionView.elementKindSectionFooter:
             return layout.footer(for: dataConnector[indexPath.section], in: indexPath.section)
         default:
-            mc_crash(.unsupportedListSupplementaryView(kind))
+            mc_crash(.unsupportedListSupplementaryView(UICollectionReusableView.self, kind))
         }
     }
 

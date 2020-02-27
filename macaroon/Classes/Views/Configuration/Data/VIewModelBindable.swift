@@ -4,14 +4,14 @@ import Foundation
 import UIKit
 
 public protocol ViewModelBindable: UIView {
-    associatedtype ViewModel: ViewModelConvertible
+    associatedtype ViewModel
 
-    func bind(_ viewModel: ViewModel)
-    static func calculatePreferredSize(_ viewModel: ViewModel, fittingIn size: CGSize) -> CGSize
+    func bind(_ viewModel: ViewModel?)
+    static func calculatePreferredSize(_ viewModel: ViewModel?, fittingIn size: CGSize) -> CGSize
 }
 
 extension ViewModelBindable {
-    public static func calculatePreferredSize(_ viewModel: ViewModel, fittingIn size: CGSize) -> CGSize {
+    public static func calculatePreferredSize(_ viewModel: ViewModel?, fittingIn size: CGSize) -> CGSize {
         return .zero
     }
 }

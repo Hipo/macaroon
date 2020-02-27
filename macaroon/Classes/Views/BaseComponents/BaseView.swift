@@ -35,3 +35,5 @@ open class BaseView: UIView, CornerRoundDrawable, ShadowDrawable {
         }
     }
 }
+
+public typealias View = BaseView & ViewComposable

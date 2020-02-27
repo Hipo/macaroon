@@ -3,23 +3,19 @@
 import Foundation
 import UIKit
 
-open class CollectionCell<ContextView: UIView>: UICollectionViewCell, ListPresentable {
+open class CollectionCell<ContextView: ViewComposable>: UICollectionViewCell, ListComposable {
     public lazy var contextView = getContextView()
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        customizeAppearance()
         prepareLayout()
         setListeners()
-        linkInteractors()
     }
 
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    open func customizeAppearance() { }
 
     open func prepareLayout() {
         addContextView()
@@ -36,7 +32,6 @@ open class CollectionCell<ContextView: UIView>: UICollectionViewCell, ListPresen
     }
 
     open func setListeners() { }
-    open func linkInteractors() { }
 
     open func getContextView() -> ContextView {
         return ContextView()

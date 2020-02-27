@@ -21,7 +21,7 @@ extension UILabel {
                 return
             }
             switch newEditText {
-            case .normal(let someText):
+            case .normal(let someText, _):
                 attributedText = nil
                 text = someText
             case .attributed(let someAttributedText):
@@ -50,7 +50,7 @@ extension UITextField {
                 return
             }
             switch newEditText {
-            case .normal(let someText):
+            case .normal(let someText, _):
                 attributedText = nil
                 text = someText
             case .attributed(let someAttributedText):
@@ -79,7 +79,7 @@ extension UITextView {
                 return
             }
             switch newEditText {
-            case .normal(let someText):
+            case .normal(let someText, _):
                 attributedText = nil
                 text = someText
             case .attributed(let someAttributedText):
@@ -108,7 +108,7 @@ extension UIButton {
                 return
             }
             switch newEditText {
-            case .normal(let title):
+            case .normal(let title, _):
                 setAttributedTitle(nil, for: state)
                 setTitle(title, for: state)
             case .attributed(let attributedTitle):
@@ -121,7 +121,7 @@ extension UIButton {
     public func setEditTitle(_ editTitle: EditText?, for state: UIControl.State) {
         if let editTitle = editTitle {
             switch editTitle {
-            case .normal(let title):
+            case .normal(let title, _):
                 setTitle(title, for: state)
             case .attributed(let attributedTitle):
                 setAttributedTitle(attributedTitle, for: state)
