@@ -131,6 +131,10 @@
               "source_files": "macaroon/Classes/Utils/Notification/*.swift"
             },
             {
+              "name": "Performance",
+              "source_files": "macaroon/Classes/Utils/Performance/*.swift"
+            },
+            {
               "name": "Text",
               "source_files": "macaroon/Classes/Utils/Text/*.swift",
               "subspecs": [
@@ -179,40 +183,21 @@
       ]
     },
     {
-      "name": "URLImage",
-      "dependencies": {
-        "Kingfisher": [
-          "~> 5.0"
-        ]
-      },
+      "name": "Form",
       "subspecs": [
         {
+          "name": "Screens",
+          "source_files": "macaroon/Classes/Form/Screens/*.swift"
+        },
+        {
           "name": "Utils",
-          "source_files": "macaroon/Classes/URLImage/Utils/*.swift"
+          "source_files": "macaroon/Classes/Form/Utils/*.swift"
         },
         {
           "name": "Views",
-          "subspecs": [
-            {
-              "name": "Components",
-              "source_files": "macaroon/Classes/URLImage/Views/Components/*.swift"
-            },
-            {
-              "name": "Configuration",
-              "subspecs": [
-                {
-                  "name": "Styling",
-                  "source_files": "macaroon/Classes/URLImage/Views/Configuration/Styling/*.swift"
-                }
-              ]
-            }
-          ]
+          "source_files": "macaroon/Classes/Form/Views/*.swift"
         }
       ]
-    },
-    {
-      "name": "Polling",
-      "source_files": "macaroon/Classes/Polling/*.swift"
     },
     {
       "name": "SVGImage",
@@ -256,6 +241,38 @@
 
         ]
       }
+    },
+    {
+      "name": "URLImage",
+      "dependencies": {
+        "Kingfisher": [
+          "~> 5.0"
+        ]
+      },
+      "subspecs": [
+        {
+          "name": "Utils",
+          "source_files": "macaroon/Classes/URLImage/Utils/*.swift"
+        },
+        {
+          "name": "Views",
+          "subspecs": [
+            {
+              "name": "Components",
+              "source_files": "macaroon/Classes/URLImage/Views/Components/*.swift"
+            },
+            {
+              "name": "Configuration",
+              "subspecs": [
+                {
+                  "name": "Styling",
+                  "source_files": "macaroon/Classes/URLImage/Views/Configuration/Styling/*.swift"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "swift_version": "5.0"

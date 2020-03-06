@@ -176,7 +176,9 @@ extension TextCustomizable where Self: UILabel {
 
         customizeAppearance(style.textOverflow)
 
-        editText = style.text?.normal
+        if let editText = style.text?.normal {
+            self.editText = editText
+        }
     }
 }
 

@@ -96,6 +96,10 @@ Pod::Spec.new do |s|
         ssss.source_files = 'macaroon/Classes/Utils/Notification/*.swift'
       end
 
+      sss.subspec 'Performance' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Utils/Performance/*.swift'
+      end
+
       sss.subspec 'Text' do |ssss|
         ssss.source_files = 'macaroon/Classes/Utils/Text/*.swift'
 
@@ -136,8 +140,18 @@ Pod::Spec.new do |s|
     ss.dependency 'SnapKit', '~> 5.0.0'
   end
 
-  s.subspec 'Polling' do |ss|
-    ss.source_files = 'macaroon/Classes/Polling/*.swift'
+  s.subspec 'Form' do |ss|
+    ss.subspec 'Screens' do |sss|
+      sss.source_files = 'macaroon/Classes/Form/Screens/*.swift'
+    end
+
+    ss.subspec 'Utils' do |sss|
+      sss.source_files = 'macaroon/Classes/Form/Utils/*.swift'
+    end
+
+    ss.subspec 'Views' do |sss|
+      sss.source_files = 'macaroon/Classes/Form/Views/*.swift'
+    end
   end
 
   s.subspec 'SVGImage' do |ss|

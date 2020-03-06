@@ -76,7 +76,7 @@ extension Scrollable where Self: UIViewController {
         let scrollHeight = scrollView.bounds.height
         let contentHeight = contentView.bounds.height
         let footerHeight = footerView.bounds.height
-        let scrollableHeight = contentHeight + footerHeight
+        let scrollableHeight = contentHeight + footerHeight + scrollView.adjustedContentInset.y
 
         footerView.snp.updateConstraints { maker in
             let offset: CGFloat
@@ -90,5 +90,10 @@ extension Scrollable where Self: UIViewController {
             }
             maker.top.equalTo(contentView.snp.bottom).offset(offset)
         }
+    }
+
+    public func updateFooterViewLayoutWhenContentDidChange() {
+        contentView.layoutIfNeeded()
+        updateFooterViewLayoutWhenViewDidLayoutSubviews()
     }
 }

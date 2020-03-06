@@ -3,8 +3,8 @@ inhibit_all_warnings!
 
 target 'macaroon_Example' do
   pod 'Macaroon/Development', :path => '../'
+  pod 'Macaroon/Form', :path => '../'
   pod 'Macaroon/URLImage', :path => '../'
-  pod 'Macaroon/Polling', :path => '../'
   pod 'Macaroon/SVGImage', :path => '../'
   pod 'Macaroon/TabBar', :path => '../'
 
