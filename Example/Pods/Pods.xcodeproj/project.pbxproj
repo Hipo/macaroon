@@ -341,6 +341,7 @@
 		CCB94590D3CA4B56A131F85AB73906CA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12EDDF1C7A19CE392603AE29F6C7E20 /* Foundation.framework */; };
 		CD1D3E0424111308008DC442 /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1D3E0324111308008DC442 /* Throttler.swift */; };
 		CD274DD615F98A1CEF87E9C58DAB762F /* NSAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF1C8999E71470FCED74D3E1EC56091 /* NSAttributedString+Extensions.swift */; };
+		CD664D60241997EA0071F2E1 /* MultiDelegatesControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD664D5F241997EA0071F2E1 /* MultiDelegatesControllable.swift */; };
 		CD698D8D49A0DB3669D8D58B4571268E /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23DEE18DE0A40F5C8C4FD923B09C4955 /* ImageProcessor.swift */; };
 		CDD42E25D201469CAFEA9E6181525FA8 /* RequestModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14D1A6D367B323A288FCE1C9F81B32A /* RequestModifier.swift */; };
 		CE702F1C072B3C58ECE0C070FE2065CE /* AnimationCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14EC66D68811183AE0DBF03A3230B4 /* AnimationCache.swift */; };
@@ -886,6 +887,7 @@
 		CC40D9F9DFC20B5F8EED31F7574A4456 /* ConstraintView+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ConstraintView+Extensions.swift"; path = "Source/ConstraintView+Extensions.swift"; sourceTree = "<group>"; };
 		CCD16B60C2298274A04AD975F8B0A9B9 /* NSTimer+Closure.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSTimer+Closure.swift"; path = "Source/thirdparty/NSTimer+Closure.swift"; sourceTree = "<group>"; };
 		CD1D3E0324111308008DC442 /* Throttler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Throttler.swift; path = macaroon/Classes/Utils/Performance/Throttler.swift; sourceTree = "<group>"; };
+		CD664D5F241997EA0071F2E1 /* MultiDelegatesControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiDelegatesControllable.swift; path = macaroon/Classes/Utils/Delegation/MultiDelegatesControllable.swift; sourceTree = "<group>"; };
 		CE55CADB5F13FA62276C6FAD06682508 /* UIEdgeInsets+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIEdgeInsets+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/UI/UIEdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
 		CF2CCA90AF1C08312740CEF6C1D5A8F3 /* Event.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Source/events/Event.swift; sourceTree = "<group>"; };
 		D09723F5AE981CFA1E3670FCE7925ECF /* Variable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Variable.swift; path = Source/bindings/Variable.swift; sourceTree = "<group>"; };
@@ -1491,6 +1493,7 @@
 			children = (
 				9C048C8DD4302CF87B0C3FD2D8E72EAC /* Typealiases.swift */,
 				5277579A4BC48F331B482B8862AFD45E /* Utils.swift */,
+				CD664D5E241996B00071F2E1 /* Delegation */,
 				D1F485D10CBE306DC83B820E62D42099 /* Extensions */,
 				D1ABEF38133D575AC5CFC84D72A2A351 /* Image */,
 				D5FC71647ED6DE56DEB3717B6526F1EE /* List */,
@@ -1862,6 +1865,14 @@
 			);
 			name = "Pods-macaroon_Example";
 			path = "Target Support Files/Pods-macaroon_Example";
+			sourceTree = "<group>";
+		};
+		CD664D5E241996B00071F2E1 /* Delegation */ = {
+			isa = PBXGroup;
+			children = (
+				CD664D5F241997EA0071F2E1 /* MultiDelegatesControllable.swift */,
+			);
+			name = Delegation;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -2707,6 +2718,7 @@
 				D7B7FF6A73C866AECC0C02CE6F6A6DB1 /* StylingElements.swift in Sources */,
 				1E2C63DE21DF961983D55E25EE82EB84 /* StylingModifiable.swift in Sources */,
 				1C95107AAF4AD822A08982A9E34DE581 /* SVGImageProcessor.swift in Sources */,
+				CD664D60241997EA0071F2E1 /* MultiDelegatesControllable.swift in Sources */,
 				231077AC23B8BF6AF5B2CC83DB15D962 /* SVGImageSource.swift in Sources */,
 				39B3E2D5FAF160D02B935FD55FB32A4E /* TabBar.swift in Sources */,
 				5FACD3EBC64EF9B4FECEB1B4408687DF /* TabBarButton.swift in Sources */,

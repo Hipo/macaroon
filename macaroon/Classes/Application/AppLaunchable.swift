@@ -12,4 +12,5 @@ public protocol AppLaunchArgsConvertible {
     associatedtype SomeScreenLaunchArgs: ScreenLaunchArgsConvertible
 
     func formScreenLaunchArgs(_ args: SomeScreenLaunchArgs.Options) -> SomeScreenLaunchArgs
+    func reset()
 }

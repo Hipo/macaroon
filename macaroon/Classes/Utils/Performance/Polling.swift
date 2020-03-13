@@ -30,8 +30,10 @@ public class Polling {
         invalidate()
     }
 
-    public func resume() {
-        timer.schedule(deadline: DispatchTime.now(), repeating: intervalInSeconds)
+    public func resume(immediately: Bool = true) {
+        let delay = immediately ? 0.0 : intervalInSeconds
+
+        timer.schedule(deadline: DispatchTime.now() + delay, repeating: intervalInSeconds)
 
         if isRunning {
             return

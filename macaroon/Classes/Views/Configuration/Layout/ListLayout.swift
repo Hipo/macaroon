@@ -163,8 +163,12 @@ extension ListLayout {
 }
 
 extension ListLayout {
-    public func invalidate() {
-        _layout.invalidateLayout()
+    public func invalidate(_ context: UICollectionViewFlowLayoutInvalidationContext? = nil) {
+        if let context = context {
+            _layout.invalidateLayout(with: context)
+        } else {
+            _layout.invalidateLayout()
+        }
         listView?.layoutIfNeeded()
     }
 }

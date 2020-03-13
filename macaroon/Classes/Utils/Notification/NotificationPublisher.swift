@@ -2,9 +2,9 @@
 
 import Foundation
 
-public protocol NotificationBroadcast { }
+public protocol NotificationPublisher { }
 
-extension NotificationBroadcast {
+extension NotificationPublisher {
     public func post(notificationWith name: Notification.Name) {
         NotificationCenter.default.post(Notification(name: name))
     }
