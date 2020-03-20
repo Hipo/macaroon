@@ -18,6 +18,20 @@ extension EditText {
     }
 }
 
+extension EditText: Equatable {
+    public static func == (lhs: EditText, rhs: EditText) -> Bool {
+        switch (lhs, rhs) {
+        case (.normal(let lString, _), .normal(let rString, _)):
+            return lString == rString
+        case (.normal(let string, _), .attributed(let attributedString)),
+             (.attributed(let attributedString), .normal(let string, _)):
+            return string == attributedString.string
+        case (.attributed(let lAttributedString), .attributed(let rAttributedString)):
+            return lAttributedString.string == rAttributedString.string
+        }
+    }
+}
+
 extension EditText: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         self = .normal(value)

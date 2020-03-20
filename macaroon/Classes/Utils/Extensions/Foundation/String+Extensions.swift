@@ -4,6 +4,12 @@ import Foundation
 import UIKit
 
 extension String {
+    public func without(_ string: String) -> String {
+        return replacingOccurrences(of: string, with: "")
+    }
+}
+
+extension String {
     public func boundingSize(attributes: AttributedTextBuilder.Attribute..., multiline: Bool = true, fittingSize: CGSize = .greatestFiniteMagnitude) -> CGSize {
         let options: NSStringDrawingOptions
 

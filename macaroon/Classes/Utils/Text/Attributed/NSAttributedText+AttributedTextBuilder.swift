@@ -10,7 +10,7 @@ extension NSAttributedString {
         return finalAttributedString
     }
 
-    public static func += (lhs: NSAttributedString, rhs: NSAttributedString) -> NSAttributedString {
-        return lhs + rhs
+    public static func += (lhs: inout NSAttributedString, rhs: NSAttributedString) {
+        lhs = lhs + rhs
     }
 }
