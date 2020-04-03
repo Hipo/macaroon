@@ -20,10 +20,6 @@ public class DownloadableImagePlaceholderView: BaseView, URLImagePlaceholderCont
         prepareLayout()
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     open func customizeAppearance(_ style: DownloadableImagePlaceholderStyling) {
         customizeBaseAppearance(style)
 

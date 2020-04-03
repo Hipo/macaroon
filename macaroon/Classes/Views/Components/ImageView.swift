@@ -6,12 +6,8 @@ import UIKit
 
 open class ImageView: BaseView, ImageCustomizable, ImageLoadable {
     open override var tintColor: UIColor! {
-        get {
-            return contentView.tintColor
-        }
-        set {
-            contentView.tintColor = newValue
-        }
+        get { return contentView.tintColor }
+        set { contentView.tintColor = newValue }
     }
 
     public var imageContainer: UIImageView {
@@ -23,10 +19,6 @@ open class ImageView: BaseView, ImageCustomizable, ImageLoadable {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         prepareLayout()
-    }
-
-    public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     open func customizeAppearance(_ style: ImageStyling) {

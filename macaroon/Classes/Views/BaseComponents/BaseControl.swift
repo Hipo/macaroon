@@ -23,6 +23,15 @@ open class BaseControl: UIControl, CornerRoundDrawable, ShadowDrawable {
         }
     }
 
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     open func recustomizeAppearance(for state: UIControl.State) { }
     open func recustomizeAppearance(for touchState: UIControl.TouchState) { }
 

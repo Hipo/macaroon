@@ -33,10 +33,6 @@ open class ToggleButton: BaseControl {
         prepareLayout()
     }
 
-    public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     private func customizeAppearance() {
         recustomizeAppearanceWhenSelectedStateChanged()
     }

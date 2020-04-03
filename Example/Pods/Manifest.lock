@@ -1,7 +1,7 @@
 PODS:
-  - Kingfisher (5.13.0):
-    - Kingfisher/Core (= 5.13.0)
-  - Kingfisher/Core (5.13.0)
+  - Kingfisher (5.13.2):
+    - Kingfisher/Core (= 5.13.2)
+  - Kingfisher/Core (5.13.2)
   - Macaroon/Core (0.1.0):
     - Macaroon/Core/Application (= 0.1.0)
     - Macaroon/Core/Data (= 0.1.0)
@@ -159,7 +159,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Kingfisher: 0d334cada987fcddbe9b5cec516406e1ee9d4748
+  Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
   Macaroon: 5864e73f8759921cb9388b932f01a9f1cb6ba67a
   Macaw: 10bf9e327cb75f24e3225d5229a80ed544df85f0
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
