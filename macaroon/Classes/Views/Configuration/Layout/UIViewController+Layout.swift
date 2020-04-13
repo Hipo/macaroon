@@ -9,7 +9,12 @@ extension UIViewController {
     public func fitInContent(_ content: UIViewController, insetBy margins: UIEdgeInsets = .zero) -> UIViewController {
         return addContent(content) { contentView in
             view.addSubview(contentView)
-            contentView.fitToSuperview(insetBy: margins)
+            contentView.snp.makeConstraints { maker in
+                maker.top.equalToSuperview().inset(margins.top)
+                maker.leading.equalToSuperview().inset(margins.left)
+                maker.bottom.equalToSuperview().inset(margins.bottom)
+                maker.trailing.equalToSuperview().inset(margins.right)
+            }
         }
     }
 

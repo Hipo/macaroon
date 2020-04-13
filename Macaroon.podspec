@@ -158,7 +158,7 @@ Pod::Spec.new do |s|
     ss.source_files = 'macaroon/Classes/SVGImage/*.swift'
 
     ss.dependency 'Macaroon/URLImage'
-    ss.dependency 'Macaw', '0.9.5'
+    ss.dependency 'Macaw', '0.9.6'
   end
 
   s.subspec 'SwiftLint' do |ss|
