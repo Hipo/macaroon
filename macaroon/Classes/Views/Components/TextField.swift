@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-open class TextField: UITextField {
+open class TextField: UITextField, CornerRoundDrawable, ShadowDrawable {
     public var leftAccessory: TextFieldAccessory? {
         didSet {
             leftView = leftAccessory?.content
@@ -19,6 +19,17 @@ open class TextField: UITextField {
 
     public var contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: 8.0)
     public var textEdgeInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: 8.0)
+
+    public var shadow: Shadow?
+    public var shadowLayer: CAShapeLayer?
+
+    open func preferredUserInterfaceStyleDidChange() {
+        if let shadow = shadow {
+            drawShadow(shadow)
+        }
+    }
+
+    open func preferredContentSizeCategoryDidChange() { }
 
     open override func textRect(forBounds bounds: CGRect) -> CGRect {
         return super.textRect(forBounds: bounds).inset(by: calculateFinalEdgeInsets(isEditing: false))
@@ -52,6 +63,24 @@ open class TextField: UITextField {
             width: size.width,
             height: size.height
         )
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadowWhenViewDidLayoutSubviews()
+    }
+
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if #available(iOS 12.0, *) {
+            if traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle {
+                preferredUserInterfaceStyleDidChange()
+            }
+        }
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            preferredContentSizeCategoryDidChange()
+        }
     }
 }
 

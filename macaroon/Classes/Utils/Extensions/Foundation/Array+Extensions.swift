@@ -35,6 +35,7 @@ extension Array {
     }
 
     public func compactLast<T>(_ keyPath: KeyPath<Element, T>) -> T? {
-        return last?[keyPath: keyPath]
+        let elem = last { $0[keyPath: keyPath] != nil }
+        return elem?[keyPath: keyPath]
     }
 }

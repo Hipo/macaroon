@@ -12,4 +12,10 @@ extension NumberFormatter {
         formatter.numberStyle = .ordinal
         return formatter
     }
+
+    public static var currency: NumberFormatter {
+        let formatter = NumberFormatter.shared
+        formatter.numberStyle = .currency
+        return formatter
+    }
 }

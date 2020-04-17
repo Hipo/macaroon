@@ -43,6 +43,10 @@
       }
     },
     {
+      "name": "Banner",
+      "source_files": "macaroon/Classes/Banner/*.swift"
+    },
+    {
       "name": "Core",
       "dependencies": {
         "SnapKit": [

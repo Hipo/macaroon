@@ -33,58 +33,19 @@ extension Customizable where Self: UIView {
         if let tintColor = style.tintColor?.normal {
             self.tintColor = tintColor
         }
-    }
-}
-
-extension Customizable where Self: CornerRoundDrawable {
-    public func customizeBaseAppearance(_ style: Styling) {
-        if let backgroundColor = style.backgroundColor?.normal {
-            self.backgroundColor = backgroundColor
+        if let roundableView = self as? CornerRoundDrawable {
+            if let cornerRound = style.cornerRound {
+                roundableView.drawCornerRound(cornerRound)
+            } else {
+                roundableView.removeCornerRound()
+            }
         }
-        if let tintColor = style.tintColor?.normal {
-            self.tintColor = tintColor
-        }
-        if let cornerRound = style.cornerRound {
-            drawCornerRound(cornerRound)
-        } else {
-            removeCornerRound()
-        }
-    }
-}
-
-extension Customizable where Self: ShadowDrawable {
-    public func customizeBaseAppearance(_ style: Styling) {
-        if let backgroundColor = style.backgroundColor?.normal {
-            self.backgroundColor = backgroundColor
-        }
-        if let tintColor = style.tintColor?.normal {
-            self.tintColor = tintColor
-        }
-        if let shadow = style.shadow {
-            drawShadow(shadow)
-        } else {
-            removeShadow()
-        }
-    }
-}
-
-extension Customizable where Self: CornerRoundDrawable & ShadowDrawable {
-    public func customizeBaseAppearance(_ style: Styling) {
-        if let backgroundColor = style.backgroundColor?.normal {
-            self.backgroundColor = backgroundColor
-        }
-        if let tintColor = style.tintColor?.normal {
-            self.tintColor = tintColor
-        }
-        if let cornerRound = style.cornerRound {
-            drawCornerRound(cornerRound)
-        } else {
-            removeCornerRound()
-        }
-        if let shadow = style.shadow {
-            drawShadow(shadow)
-        } else {
-            removeShadow()
+        if let shadowDrawableView = self as? ShadowDrawable {
+            if let shadow = style.shadow {
+                shadowDrawableView.drawShadow(shadow)
+            } else {
+                shadowDrawableView.removeShadow()
+            }
         }
     }
 }
@@ -114,6 +75,7 @@ extension ButtonCustomizable where Self: UIButton {
         }
         if let background = style.background?.selected {
             setBackgroundImage(background, for: .selected)
+            setBackgroundImage(background, for: [.selected, .highlighted])
         }
         if let background = style.background?.disabled {
             setBackgroundImage(background, for: .disabled)
@@ -126,6 +88,7 @@ extension ButtonCustomizable where Self: UIButton {
         }
         if let icon = style.icon?.selected {
             setImage(icon, for: .selected)
+            setImage(icon, for: [.selected, .highlighted])
         }
         if let icon = style.icon?.disabled {
             setImage(icon, for: .disabled)
@@ -141,6 +104,7 @@ extension ButtonCustomizable where Self: UIButton {
         }
         if let textColor = style.textColor?.selected {
             setTitleColor(textColor, for: .selected)
+            setTitleColor(textColor, for: [.selected, .highlighted])
         }
         if let textColor = style.textColor?.disabled {
             setTitleColor(textColor, for: .disabled)
@@ -153,6 +117,7 @@ extension ButtonCustomizable where Self: UIButton {
         }
         if let title = style.title?.selected {
             setEditTitle(title, for: .selected)
+            setEditTitle(title, for: [.selected, .highlighted])
         }
         if let title = style.title?.disabled {
             setEditTitle(title, for: .disabled)
@@ -161,6 +126,7 @@ extension ButtonCustomizable where Self: UIButton {
 }
 
 extension UILabel: TextCustomizable { }
+extension UITextField: TextCustomizable { }
 
 extension TextCustomizable where Self: UILabel {
     public func customizeAppearance(_ style: TextStyling) {
@@ -179,6 +145,22 @@ extension TextCustomizable where Self: UILabel {
         if let editText = style.text?.normal {
             self.editText = editText
         }
+    }
+}
+
+extension TextCustomizable where Self: UITextField {
+    public func customizeAppearance(_ style: TextStyling) {
+        customizeBaseAppearance(style)
+
+        if let font = style.font?.normal {
+            self.font = font.preferred
+            self.adjustsFontForContentSizeCategory = font.adjustsFontForContentSizeCategory
+        }
+        if let textColor = style.textColor?.normal {
+            self.textColor = textColor
+        }
+        textAlignment = style.textAlignment
+        tintColor = .clear
     }
 }
 
