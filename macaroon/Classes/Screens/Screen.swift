@@ -108,7 +108,9 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter:
     open func viewDidChangePreferredContentSizeCategory() { }
 
     open func viewWillEnterForeground() { }
-    open func viewDidEnterBackground() { }
+    open func viewDidEnterBackground() {
+        isViewFirstAppeared = false
+    }
 
     open override func viewDidLoad() {
         super.viewDidLoad()

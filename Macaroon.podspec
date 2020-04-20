@@ -158,6 +158,10 @@ Pod::Spec.new do |s|
     end
   end
 
+  s.subspec 'PushNotification' do |ss|
+    ss.source_files = 'macaroon/Classes/PushNotification/*.swift'
+  end
+
   s.subspec 'SVGImage' do |ss|
     ss.source_files = 'macaroon/Classes/SVGImage/*.swift'
 

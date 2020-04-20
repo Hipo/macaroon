@@ -4,8 +4,6 @@ import Foundation
 import UIKit
 
 public protocol LaunchController: AnyObject, AppLaunchable, NotificationObserver {
-    init(appLaunchArgs: SomeAppLaunchArgs)
-
     func firstLaunch()
     func continueAfterEnterForeground()
     func continueAfterEnterBackground()
@@ -28,7 +26,7 @@ public protocol AuthenticatableLaunchController: LaunchController {
 
     func continueAfterSignUp()
     func continueAfterSignIn()
-    func continueAfterReauthentication()
+    func continueAfterReauthentication(first: Bool)
     func signoutAndRelaunch()
 }
 

@@ -204,6 +204,10 @@
       ]
     },
     {
+      "name": "PushNotification",
+      "source_files": "macaroon/Classes/PushNotification/*.swift"
+    },
+    {
       "name": "SVGImage",
       "source_files": "macaroon/Classes/SVGImage/*.swift",
       "dependencies": {

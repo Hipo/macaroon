@@ -31,7 +31,7 @@ extension LayoutMetric: ExpressibleByNilLiteral {
     }
 }
 
-public struct LayoutEdgesMetrics {
+public struct LayoutEdgesMetric {
     public let top: LayoutMetric
     public let left: LayoutMetric
     public let bottom: LayoutMetric
@@ -50,7 +50,7 @@ public struct LayoutEdgesMetrics {
     }
 }
 
-public struct LayoutCenterMetrics {
+public struct LayoutCenterMetric {
     public let x: LayoutMetric
     public let y: LayoutMetric
 
@@ -63,7 +63,7 @@ public struct LayoutCenterMetrics {
     }
 }
 
-public struct LayoutSizeMetrics {
+public struct LayoutSizeMetric {
     public let width: LayoutMetric
     public let height: LayoutMetric
 

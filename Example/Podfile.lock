@@ -1,7 +1,7 @@
 PODS:
-  - Kingfisher (5.13.2):
-    - Kingfisher/Core (= 5.13.2)
-  - Kingfisher/Core (5.13.2)
+  - Kingfisher (5.13.4):
+    - Kingfisher/Core (= 5.13.4)
+  - Kingfisher/Core (5.13.4)
   - Macaroon/Banner (0.1.0)
   - Macaroon/Core (0.1.0):
     - Macaroon/Core/Application (= 0.1.0)
@@ -103,6 +103,7 @@ PODS:
   - Macaroon/Form/Screens (0.1.0)
   - Macaroon/Form/Utils (0.1.0)
   - Macaroon/Form/Views (0.1.0)
+  - Macaroon/PushNotification (0.1.0)
   - Macaroon/SVGImage (0.1.0):
     - Macaroon/URLImage
     - Macaw (= 0.9.6)
@@ -143,9 +144,9 @@ DEPENDENCIES:
   - Macaroon/Banner (from `../`)
   - Macaroon/Development (from `../`)
   - Macaroon/Form (from `../`)
+  - Macaroon/PushNotification (from `../`)
   - Macaroon/SVGImage (from `../`)
   - Macaroon/TabBar (from `../`)
-  - Macaroon/URLImage (from `../`)
 
 SPEC REPOS:
   trunk:
@@ -161,14 +162,14 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
-  Macaroon: 3ae504b1667b2e380aa6c6b42129f1c85abead46
+  Kingfisher: d2279a7abece3c7f25a80cd2b7f363ca5cf3f44c
+  Macaroon: dd8dfc1df6655b099bee47a4d4084b712aaa3329
   Macaw: 8306d775625ba003beee4186b9533fd7cf284024
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
   SWXMLHash: 9cc0c2e4807926c74377724aa8722ee5707a0485
   Tryouts: dabd03aa73c2b5d253a649d306df523fc090fcee
 
-PODFILE CHECKSUM: 7568d73b93fe3c36c3bafc814cee8502d652d2cb
+PODFILE CHECKSUM: 15593805165bec105cb01ca2e3f62ae802b07faa
 
 COCOAPODS: 1.9.1

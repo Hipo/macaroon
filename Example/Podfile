@@ -5,7 +5,7 @@ target 'macaroon_Example' do
   pod 'Macaroon/Banner',  :path => '../'
   pod 'Macaroon/Development', :path => '../'
   pod 'Macaroon/Form', :path => '../'
-  pod 'Macaroon/URLImage', :path => '../'
+  pod 'Macaroon/PushNotification', :path => '../'
   pod 'Macaroon/SVGImage', :path => '../'
   pod 'Macaroon/TabBar', :path => '../'
 
