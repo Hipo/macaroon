@@ -109,7 +109,9 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter:
 
     open func viewWillEnterForeground() { }
     open func viewDidEnterBackground() {
-        isViewFirstAppeared = false
+        if isViewAppeared {
+            isViewFirstAppeared = false
+        }
     }
 
     open override func viewDidLoad() {
