@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class TabBar: View, TabBarPresentable {
+open class TabBar: BaseView {
     public var barButtonItems: [TabBarButtonItemConvertible] = [] {
         didSet {
             updateLayoutWhenBarButtonItemsChanged()
@@ -34,10 +34,6 @@ open class TabBar: View, TabBarPresentable {
         prepareLayout()
     }
 
-    open func customizeAppearance(_ styleGuide: TabBarStyleGuideConvertible) {
-        customizeBaseAppearance(styleGuide)
-    }
-
     open func prepareLayout() {
         addContainer()
     }
@@ -51,6 +47,14 @@ open class TabBar: View, TabBarPresentable {
         selectedBarButton?.isSelected = false
         selectedBarButton = barButtons[safe: selectedBarButtonIndex]
         selectedBarButton?.isSelected = true
+    }
+
+    open func getBadge(forBarButtonAt index: Int) -> String? {
+        return barButtons[safe: index]?.badge
+    }
+
+    open func set(badge: String?, forBarButtonAt index: Int, animated: Bool) {
+        barButtons[safe: index]?.set(badge: badge, animated: animated)
     }
 
     @objc

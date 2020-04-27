@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class TabBarContainer<SomeTabBar: TabBarPresentable>: UIViewController, ScreenComposable {
+open class TabBarContainer: UIViewController, ScreenComposable {
     public var items: [TabBarItemConvertible] = [] {
         didSet {
             updateLayoutWhenItemsChanged()
@@ -25,23 +25,13 @@ open class TabBarContainer<SomeTabBar: TabBarPresentable>: UIViewController, Scr
     }
     public var selectedContent: UIViewController?
 
-    public let tabBar: SomeTabBar
+    public private(set) lazy var tabBar = TabBar()
 
     open override var childForStatusBarHidden: UIViewController? {
         return selectedContent
     }
     open override var childForStatusBarStyle: UIViewController? {
         return selectedContent
-    }
-
-    public init(_ tabBar: SomeTabBar) {
-        self.tabBar = tabBar
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    @available(*, unavailable)
-    public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     open func customizeAppearance() {
@@ -84,6 +74,14 @@ open class TabBarContainer<SomeTabBar: TabBarPresentable>: UIViewController, Scr
     open override func viewDidLoad() {
         super.viewDidLoad()
         compose()
+    }
+
+    open func getBadge(forItemAt index: Int) -> String? {
+        return tabBar.getBadge(forBarButtonAt: index)
+    }
+
+    open func set(badge: String?, forItemAt index: Int, animated: Bool) {
+        tabBar.set(badge: badge, forBarButtonAt: index, animated: animated)
     }
 }
 

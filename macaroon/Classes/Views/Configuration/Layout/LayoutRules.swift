@@ -3,7 +3,5 @@
 import Foundation
 import UIKit
 
-public enum LayoutRule {
+public protocol LayoutRule {
 }
-
-

@@ -5,6 +5,11 @@ import SnapKit
 import UIKit
 
 public class SegmentedControl: BaseControl {
+    public var spacingBetweenSegments: CGFloat = 1.0 {
+        didSet {
+            contentView.spacing = spacingBetweenSegments
+        }
+    }
     public var selectedSegmentIndex: Int = -1 {
         didSet {
             segmentButtons[safe: oldValue]?.isSelected = false
@@ -46,7 +51,7 @@ extension SegmentedControl {
         contentView.axis = .horizontal
         contentView.distribution = .fillEqually
         contentView.alignment = .fill
-        contentView.spacing = 1.0
+        contentView.spacing = spacingBetweenSegments
         contentView.snp.makeConstraints { maker in
             maker.top.equalToSuperview()
             maker.leading.equalToSuperview()
@@ -85,10 +90,14 @@ extension SegmentedControl {
             )
         }
     }
+
+    public func disable(segmentAt index: Int) {
+        segmentButtons[safe: index]?.isEnabled = false
+    }
 }
 
 public protocol SegmentConvertible {
-    var name: String { get } /// <warning> No internal checking so it is up to the application to set a unique name.
+    var identifier: String { get } /// <warning> No internal checking so it is up to the application to set a unique name.
     var layout: Button.Layout { get }
     var style: ButtonStyling { get }
 }

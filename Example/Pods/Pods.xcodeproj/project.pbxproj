@@ -15,6 +15,7 @@
 			dependencies = (
 			);
 			name = SwiftLint;
+			productName = SwiftLint;
 		};
 /* End PBXAggregateTarget section */
 
@@ -31,7 +32,6 @@
 		09759A3CD181CC07D8E69462D2E9424C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283A5003AE4C1B7EC94F0930B0A76B5 /* CFNetwork.framework */; };
 		098023A10DC8040D915D8ADE0F04AFFF /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E757C5C5AA2C23736E3C726F3FAAEB79 /* CGFloat+Extensions.swift */; };
 		09B1ADD5BD342D1D18A647963E61F17D /* MDisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4800C0468A1D9635B8143C5176E9168 /* MDisplayLink.swift */; };
-		0AF976709781EF152840CF8EEF56B6D0 /* TabBarPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832A4E92AED2BCF0196D719BF79D92AA /* TabBarPresentable.swift */; };
 		0B63987E96AE4B1076D3185882B71F99 /* VIewModelBindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C773CF8B886B27F7CA64D82C314FF615 /* VIewModelBindable.swift */; };
 		0D1F1DD290FE46ED431C595D326305F2 /* bg-rounded-orange@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 221CCF51BA3EFA978029AE9C53D76B4E /* bg-rounded-orange@2x.png */; };
 		0D2AEA5F6F0580B4E38721F60FE23BCB /* MCAShapeLayerLineJoin_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1699056CF3FD236F60AC1FBE70C5D66F /* MCAShapeLayerLineJoin_macOS.swift */; };
@@ -343,6 +343,7 @@
 		CCB73764EAE7E6A48DC809A6418664AA /* MDisplayLink_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EFD163F619F56EDC431D96F43A5888A /* MDisplayLink_iOS.swift */; };
 		CCC477CBAEB411B6A3FB33FDD7A0A9C6 /* TransformHashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38183AE66832D185B6C1174E8D1C181 /* TransformHashable.swift */; };
 		CCECC77DB9DDB3C088AD733F3ED51B2B /* ShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A569D0FBD7455766146ADBC009FB6ED8 /* ShapeLayer.swift */; };
+		CD3F5E412451A8EF00D22B25 /* PushNotificationDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3F5E402451A8EF00D22B25 /* PushNotificationDevice.swift */; };
 		CD698D8D49A0DB3669D8D58B4571268E /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC9521B29F9ABB1DBF47E7A73C44A8C /* ImageProcessor.swift */; };
 		CDD42E25D201469CAFEA9E6181525FA8 /* RequestModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D772F319060DDAFD149E08E5836C9B48 /* RequestModifier.swift */; };
 		CE0B4C017F85AE7EB77BF55BF2242949 /* ShapeAnimationGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21219D284F030DF9F79ACECF16537D5 /* ShapeAnimationGenerator.swift */; };
@@ -376,7 +377,6 @@
 		DDF4A6F0FE7CF7C810D7B152F01E1AD4 /* Bool+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B95516C417ABA63170F0E5FC334621 /* Bool+Extensions.swift */; };
 		DE2E2753F34DB6A0AAC6EBE05A1ECAD9 /* ImageShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4457101F50AE583F9098DDA78881520B /* ImageShape.swift */; };
 		DEEFA969C8DA678A52EC7C0580301B82 /* Polling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5174217C7E7C029DF494EC6E8844F011 /* Polling.swift */; };
-		DF5A5A3C9DDAB32E4A36BE9164BBCAEB /* TabBarLaunchArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E887468BE3AE9B201900081249FEEABE /* TabBarLaunchArgs.swift */; };
 		DF723B481B67D02899559C4EB4D25293 /* ConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1882F13E09001193B0C5D9FE2832D6 /* ConstraintDescription.swift */; };
 		E0A8C9B7C683C0457FEC6C828ACBB3FD /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DEADF9A0D01FFEAA105BAEE1741CF7D /* Optional+Extensions.swift */; };
 		E222132D17DDABAABEF13A0AA922145C /* GaussianBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BF514070F7AF4416D76D344DA0550B /* GaussianBlur.swift */; };
@@ -705,7 +705,7 @@
 		6904D9610E06B11A0A39A3C3FB6E3F04 /* Tryouts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tryouts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		692624BB10C4D6DE0B847C78B619FC4F /* TabBarButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TabBarButton.swift; path = macaroon/Classes/TabBar/Views/TabBarButton.swift; sourceTree = "<group>"; };
 		6937601D1253D2AE30B82A353E160717 /* Pattern.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Pattern.swift; path = Source/model/draw/Pattern.swift; sourceTree = "<group>"; };
-		69394590E195B189BE27C2725A322C08 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		69394590E195B189BE27C2725A322C08 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		695D4623D34AE4FD60783A539A7FDD03 /* RenderUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RenderUtils.swift; path = Source/render/RenderUtils.swift; sourceTree = "<group>"; };
 		6AAC7A9D118478DA6A37AC9376675C55 /* CallbackQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CallbackQueue.swift; path = Sources/Utility/CallbackQueue.swift; sourceTree = "<group>"; };
 		6ABFA2647E0AF26B7D294D9F46C7D4CC /* Deprecated.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Deprecated.swift; path = Sources/General/Deprecated.swift; sourceTree = "<group>"; };
@@ -748,7 +748,6 @@
 		8263B1374D341B0EA92B50EBBC44A84D /* bt-close@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bt-close@2x.png"; path = "Pod/Assets/bt-close@2x.png"; sourceTree = "<group>"; };
 		8283A5003AE4C1B7EC94F0930B0A76B5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		831BD82897DF523ED44F25C3D490944D /* ColorMatrix.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorMatrix.swift; path = Source/model/draw/ColorMatrix.swift; sourceTree = "<group>"; };
-		832A4E92AED2BCF0196D719BF79D92AA /* TabBarPresentable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TabBarPresentable.swift; path = macaroon/Classes/TabBar/Configuration/TabBarPresentable.swift; sourceTree = "<group>"; };
 		838D0F53FBB915A9CD08257A00FF0BCC /* Graphics_macOS.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Graphics_macOS.swift; path = Source/platform/macOS/Graphics_macOS.swift; sourceTree = "<group>"; };
 		839989545EA4DF681E3F43706E87D9EE /* AnimationUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimationUtils.swift; path = Source/animation/AnimationUtils.swift; sourceTree = "<group>"; };
 		84CEB9E725DD01C545577B902DCE80DF /* TransformedLocus.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformedLocus.swift; path = Source/model/geom2d/TransformedLocus.swift; sourceTree = "<group>"; };
@@ -791,9 +790,9 @@
 		966E10D1F81FEE139C32867E6973C4EC /* ConstraintOffsetTarget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintOffsetTarget.swift; path = Source/ConstraintOffsetTarget.swift; sourceTree = "<group>"; };
 		97382BDA680049A8A94A73401029AC07 /* NavigationBarConfigurable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NavigationBarConfigurable.swift; path = macaroon/Classes/Screens/Configuration/NavigationBar/NavigationBarConfigurable.swift; sourceTree = "<group>"; };
 		973DB3CD548072B30FE5F9237F93EBFB /* Common_macOS.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Common_macOS.swift; path = Source/platform/macOS/Common_macOS.swift; sourceTree = "<group>"; };
-		979486118B3E90C08386079D57962701 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SnapKit.framework; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		97996152EFBE602162519C6837AC3554 /* Macaroon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Macaroon.framework; path = Macaroon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		97D014AD6344E543FEDB1FD1F8F2BFEC /* SWXMLHash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SWXMLHash.framework; path = SWXMLHash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		979486118B3E90C08386079D57962701 /* SnapKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		97996152EFBE602162519C6837AC3554 /* Macaroon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Macaroon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		97D014AD6344E543FEDB1FD1F8F2BFEC /* SWXMLHash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SWXMLHash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97D72F325D59ED90ABD8C8C7ABC1B304 /* SnapKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SnapKit.modulemap; sourceTree = "<group>"; };
 		981B0235F18A3B881772E3C998AC24A3 /* NSTimer+Closure.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSTimer+Closure.swift"; path = "Source/thirdparty/NSTimer+Closure.swift"; sourceTree = "<group>"; };
 		981C4E5B09FE7A81CC0336DB08164984 /* Macaw-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Macaw-dummy.m"; sourceTree = "<group>"; };
@@ -813,8 +812,8 @@
 		9CA6137CF6CB1DA08B18F489429D58F6 /* ListView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ListView.swift; path = macaroon/Classes/Views/ListComponents/ListView.swift; sourceTree = "<group>"; };
 		9D7881EF0A8FE8FD2DCF84A57570BB4B /* FillInterpolation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FillInterpolation.swift; path = Source/animation/layer_animation/Extensions/FillInterpolation.swift; sourceTree = "<group>"; };
 		9D79511D1F85F84A6947C61891CD4F6F /* Tryouts-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Tryouts-Info.plist"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9FDE6E1015666DCDB7413E531D776C14 /* Tryouts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Tryouts.framework; path = Tryouts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9FDE6E1015666DCDB7413E531D776C14 /* Tryouts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tryouts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A12EDDF1C7A19CE392603AE29F6C7E20 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		A17405814894BB78D9C0620CE92F55D5 /* Int+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Int+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/Foundation/Int+Extensions.swift"; sourceTree = "<group>"; };
 		A1C585C6AB6B3C9E636E634560CD0AE0 /* TRYFeedbackUploadManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = TRYFeedbackUploadManager.m; path = Pod/Classes/Network/TRYFeedbackUploadManager.m; sourceTree = "<group>"; };
@@ -843,7 +842,7 @@
 		ACD069F24E013177CD4C8BC95B7EBFB3 /* Kingfisher-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Kingfisher-umbrella.h"; sourceTree = "<group>"; };
 		ACD158E62F3B074A34D4BAF928043B53 /* SegmentedControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SegmentedControl.swift; path = macaroon/Classes/Views/Components/SegmentedControl.swift; sourceTree = "<group>"; };
 		AD7C2F00EB53B97ED05DB533E8FC22DE /* Delegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Delegate.swift; path = Sources/Utility/Delegate.swift; sourceTree = "<group>"; };
-		ADD633C23AE404BAB5330E20BF1A83BC /* Pods_macaroon_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_macaroon_Tests.framework; path = "Pods-macaroon_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADD633C23AE404BAB5330E20BF1A83BC /* Pods_macaroon_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_macaroon_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADEB64007E3476F4DCB9851C754F6880 /* Drawable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Drawable.swift; path = macaroon/Classes/Views/Configuration/Styling/Drawable.swift; sourceTree = "<group>"; };
 		AE1D8416BF2CD584353B62AA522321EF /* bg-rounded-green.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-rounded-green.png"; path = "Pod/Assets/bg-rounded-green.png"; sourceTree = "<group>"; };
 		AE928AFF5B928956B38DE42E59B48E28 /* Pods-macaroon_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-macaroon_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -881,20 +880,21 @@
 		BF02B952B57080F4B95452C5CCC7116F /* Typealiases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Typealiases.swift; path = Source/Typealiases.swift; sourceTree = "<group>"; };
 		BF28A73C8F89D1BBCD1A681003F4F5C5 /* EditText+Customization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "EditText+Customization.swift"; path = "macaroon/Classes/Utils/Text/EditText+Customization.swift"; sourceTree = "<group>"; };
 		C1DE8856E90A2688FD0755573752A4A1 /* String+AttributedTextBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+AttributedTextBuilder.swift"; path = "macaroon/Classes/Utils/Text/Attributed/String+AttributedTextBuilder.swift"; sourceTree = "<group>"; };
-		C387806CE1F7FC814E9EE915DD03EEF9 /* Macaw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Macaw.framework; path = Macaw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3F44C782D64D7EB20B61CE3844EBFAD /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Kingfisher.framework; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C387806CE1F7FC814E9EE915DD03EEF9 /* Macaw.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Macaw.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3F44C782D64D7EB20B61CE3844EBFAD /* Kingfisher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4800C0468A1D9635B8143C5176E9168 /* MDisplayLink.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MDisplayLink.swift; path = Source/platform/MDisplayLink.swift; sourceTree = "<group>"; };
 		C51C09F60D9B22AB29D20A6CB78A1911 /* DownloadableImagePlaceholderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DownloadableImagePlaceholderView.swift; path = macaroon/Classes/URLImage/Views/Components/DownloadableImagePlaceholderView.swift; sourceTree = "<group>"; };
 		C635A998A8CDB35B25A872757CFE8A54 /* Styling.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Styling.swift; path = macaroon/Classes/Views/Configuration/Styling/Styling.swift; sourceTree = "<group>"; };
 		C6E9360F3512758B92654D39A3A98255 /* ConstraintLayoutGuide.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutGuide.swift; path = Source/ConstraintLayoutGuide.swift; sourceTree = "<group>"; };
 		C773CF8B886B27F7CA64D82C314FF615 /* VIewModelBindable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VIewModelBindable.swift; path = macaroon/Classes/Views/Configuration/Data/VIewModelBindable.swift; sourceTree = "<group>"; };
 		C8DC2A6E150C3D04CEA087900892FF95 /* String+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/Foundation/String+Extensions.swift"; sourceTree = "<group>"; };
-		C911A0D8F4E6280E8F8A81BA19EB6AE4 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		C911A0D8F4E6280E8F8A81BA19EB6AE4 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CB7339C70BC9F632540E0EBF8089DD98 /* NodeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NodeRenderer.swift; path = Source/render/NodeRenderer.swift; sourceTree = "<group>"; };
 		CBCA57D399ED0214BAC2BE049DB50357 /* Macaroon-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Macaroon-umbrella.h"; sourceTree = "<group>"; };
 		CD2C3E150E67EAE1BFAF80E2F2F92545 /* WKInterfaceImage+Kingfisher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "WKInterfaceImage+Kingfisher.swift"; path = "Sources/Extensions/WKInterfaceImage+Kingfisher.swift"; sourceTree = "<group>"; };
+		CD3F5E402451A8EF00D22B25 /* PushNotificationDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PushNotificationDevice.swift; path = macaroon/Classes/PushNotification/PushNotificationDevice.swift; sourceTree = "<group>"; };
 		CD5FEAB095FF378DFF5235A60132FA68 /* CombinationAnimationGenerator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombinationAnimationGenerator.swift; path = Source/animation/types/animation_generators/CombinationAnimationGenerator.swift; sourceTree = "<group>"; };
-		CD6CE2CFDAE9E669823210A78F675E77 /* Macaroon.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = Macaroon.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		CD6CE2CFDAE9E669823210A78F675E77 /* Macaroon.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = Macaroon.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		CDD80EFA415D679DB4E5922EB7B3FC24 /* Scrollable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Scrollable.swift; path = macaroon/Classes/Screens/Scrollable.swift; sourceTree = "<group>"; };
 		CEA01007A67164B7088588BA2CD68091 /* TransformGenerator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransformGenerator.swift; path = Source/animation/types/animation_generators/TransformGenerator.swift; sourceTree = "<group>"; };
 		CF5049A9A3E60E0BED9BA1BC7BFDD350 /* SWXMLHash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SWXMLHash.release.xcconfig; sourceTree = "<group>"; };
@@ -915,7 +915,7 @@
 		D772F319060DDAFD149E08E5836C9B48 /* RequestModifier.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestModifier.swift; path = Sources/Networking/RequestModifier.swift; sourceTree = "<group>"; };
 		D78E8C1D5C01C9EFBB4AEB3F010EF35D /* RenderContext.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RenderContext.swift; path = Source/render/RenderContext.swift; sourceTree = "<group>"; };
 		D83FD3E9943507B64AB80B60CFE60CF9 /* bt-clear@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bt-clear@3x.png"; path = "Pod/Assets/bt-clear@3x.png"; sourceTree = "<group>"; };
-		D884F3413B46921179C342128110C7B7 /* Tryouts.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Tryouts.bundle; path = "Tryouts-Tryouts.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D884F3413B46921179C342128110C7B7 /* Tryouts.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tryouts.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8A0ACE4541B1BBAE308D7017E96B4C9 /* String+MD5.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+MD5.swift"; path = "Sources/Utility/String+MD5.swift"; sourceTree = "<group>"; };
 		D994BD1D4A3DF234EAEF807A0BCB4E2F /* ImageTransition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageTransition.swift; path = Sources/Image/ImageTransition.swift; sourceTree = "<group>"; };
 		DA33E996787CB797730E73371E95EAD8 /* AnimationProducer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimationProducer.swift; path = Source/animation/AnimationProducer.swift; sourceTree = "<group>"; };
@@ -931,14 +931,13 @@
 		E1AFE03C6B91341904ADF66958400175 /* bg-feedback.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "bg-feedback.png"; path = "Pod/Assets/bg-feedback.png"; sourceTree = "<group>"; };
 		E21219D284F030DF9F79ACECF16537D5 /* ShapeAnimationGenerator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ShapeAnimationGenerator.swift; path = Source/animation/types/animation_generators/ShapeAnimationGenerator.swift; sourceTree = "<group>"; };
 		E247DE18688133910F6FF396F1E65DF4 /* Banner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Banner.swift; path = macaroon/Classes/Banner/Banner.swift; sourceTree = "<group>"; };
-		E385A752EA42B0156DFF1DD23094BE2A /* Pods_macaroon_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_macaroon_Example.framework; path = "Pods-macaroon_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E385A752EA42B0156DFF1DD23094BE2A /* Pods_macaroon_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_macaroon_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E58CCD62E618A54DB86C867566521677 /* ConstraintLayoutSupportDSL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintLayoutSupportDSL.swift; path = Source/ConstraintLayoutSupportDSL.swift; sourceTree = "<group>"; };
 		E6B72EEA83808176AC32C91421117FFB /* CombineAnimation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CombineAnimation.swift; path = Source/animation/types/CombineAnimation.swift; sourceTree = "<group>"; };
 		E7085F7DDECE72D6BF2CC4DDC65584EB /* AnimOperators.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimOperators.swift; path = Source/animation/layer_animation/Extensions/AnimOperators.swift; sourceTree = "<group>"; };
 		E757C5C5AA2C23736E3C726F3FAAEB79 /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "CGFloat+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/UI/CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		E7900547E011BDA6E8AC9E7EF66443F3 /* PathBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PathBuilder.swift; path = Source/model/geom2d/PathBuilder.swift; sourceTree = "<group>"; };
 		E81AC2011F9CA01B9D3084137D6250A0 /* ImageLoadable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageLoadable.swift; path = macaroon/Classes/Utils/Image/ImageLoadable.swift; sourceTree = "<group>"; };
-		E887468BE3AE9B201900081249FEEABE /* TabBarLaunchArgs.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TabBarLaunchArgs.swift; path = macaroon/Classes/TabBar/Views/TabBarLaunchArgs.swift; sourceTree = "<group>"; };
 		E8E1094431F5246D8378C2164C747F50 /* StyleGuideConvertible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StyleGuideConvertible.swift; path = macaroon/Classes/Views/Configuration/Styling/StyleGuideConvertible.swift; sourceTree = "<group>"; };
 		E97A6516A6AF37DF40279574C63BB38A /* UIView+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+Extensions.swift"; path = "macaroon/Classes/Utils/Extensions/UI/UIView+Extensions.swift"; sourceTree = "<group>"; };
 		E9DC0985C011918C7FCC5F315B18E861 /* Ellipse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Ellipse.swift; path = Source/model/geom2d/Ellipse.swift; sourceTree = "<group>"; };
@@ -1125,7 +1124,6 @@
 				378F5E4A291DD2AA8710CC0C7F41C863 /* XMLIndexer+XMLIndexerDeserializable.swift */,
 				468600CBE9001D01A208C80D521B3A34 /* Support Files */,
 			);
-			name = SWXMLHash;
 			path = SWXMLHash;
 			sourceTree = "<group>";
 		};
@@ -1298,7 +1296,6 @@
 				9BF7861868DBCBAFA30EE68A10C2B690 /* Resources */,
 				D73FDDC9BFC9DA572FFA9D0C0BF82C5C /* Support Files */,
 			);
-			name = Tryouts;
 			path = Tryouts;
 			sourceTree = "<group>";
 		};
@@ -1452,7 +1449,6 @@
 			children = (
 				FAE0E2BBFFA18CB47805B0C160ADD60E /* TabBar.swift */,
 				692624BB10C4D6DE0B847C78B619FC4F /* TabBarButton.swift */,
-				E887468BE3AE9B201900081249FEEABE /* TabBarLaunchArgs.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1628,7 +1624,6 @@
 				033FF40C07902C21CABA862BB999DEC9 /* Variable.swift */,
 				41910B38922A46A7D2E760326A13F5E0 /* Support Files */,
 			);
-			name = Macaw;
 			path = Macaw;
 			sourceTree = "<group>";
 		};
@@ -1798,7 +1793,6 @@
 				170C8970ADC64AFD724FD0BD9AA24701 /* UILayoutSupport+Extensions.swift */,
 				7E5C339BC74023114AD4F3FC3A766AB5 /* Support Files */,
 			);
-			name = SnapKit;
 			path = SnapKit;
 			sourceTree = "<group>";
 		};
@@ -1884,7 +1878,6 @@
 			children = (
 				F27B8B4E56DA5A57D13C9D4C7C0EA003 /* TabBarButtonItemConvertible.swift */,
 				93DEAD9AF0A04795068AAA5C83705BEC /* TabBarItemConvertible.swift */,
-				832A4E92AED2BCF0196D719BF79D92AA /* TabBarPresentable.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -2014,6 +2007,7 @@
 			isa = PBXGroup;
 			children = (
 				8AD36241717652C02583ED7BFC94A104 /* PushNotificationController.swift */,
+				CD3F5E402451A8EF00D22B25 /* PushNotificationDevice.swift */,
 			);
 			name = PushNotification;
 			sourceTree = "<group>";
@@ -2070,7 +2064,6 @@
 			children = (
 				99D8776D44481AB61E9D36AA2F464EEE /* Support Files */,
 			);
-			name = SwiftLint;
 			path = SwiftLint;
 			sourceTree = "<group>";
 		};
@@ -2098,7 +2091,6 @@
 				613AB216CDA31AEC8ABA133B11E5F257 /* Core */,
 				2A1603B7350353CEC2C2EAB95AB9B4CF /* Support Files */,
 			);
-			name = Kingfisher;
 			path = Kingfisher;
 			sourceTree = "<group>";
 		};
@@ -2635,8 +2627,6 @@
 				148DBCAD428217BA8BF6B456E6B82A48 /* TabBarButtonItemConvertible.swift in Sources */,
 				BA456DE270B684BF428903C4F9EEEB9F /* TabBarContainer.swift in Sources */,
 				785631801452566BDECADD65B36B1184 /* TabBarItemConvertible.swift in Sources */,
-				DF5A5A3C9DDAB32E4A36BE9164BBCAEB /* TabBarLaunchArgs.swift in Sources */,
-				0AF976709781EF152840CF8EEF56B6D0 /* TabBarPresentable.swift in Sources */,
 				4A32404E60302CDF198C8A78EF0EBB69 /* TextField.swift in Sources */,
 				534F292A128FDBEFE89577993CB614DD /* Throttler.swift in Sources */,
 				F14138FF86877A78F465691AC94AF12F /* ToggleButton.swift in Sources */,
@@ -2659,6 +2649,7 @@
 				56279B8E7119A7DCA1DDCC913A26F777 /* Validator.swift in Sources */,
 				374B52CF4A165F191761305AC7FDBCFA /* ViewComposable.swift in Sources */,
 				0B63987E96AE4B1076D3185882B71F99 /* VIewModelBindable.swift in Sources */,
+				CD3F5E412451A8EF00D22B25 /* PushNotificationDevice.swift in Sources */,
 				C0987DF691AA5DC44E08FA63CF24E91D /* ViewModelConvertible.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3348,8 +3339,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};

@@ -14,6 +14,7 @@ class ViewController: UIViewController {
         view.addSubview(imageView)
         imageView.snp.makeConstraints { maker in
             maker.size.equalTo(imageSize)
+            maker.top.equalToSuperview().inset(20.0).multipliedBy(2.0)
             maker.center.equalToSuperview()
         }
 
