@@ -2,7 +2,7 @@
 
 import Foundation
 
-open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter: Router>: UIViewController, ScreenLaunchable, ScreenComposable, ScreenRoutable, StatusBarConfigurable, NavigationBarConfigurable, NotificationObserver {
+open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: UIViewController, ScreenLaunchable, ScreenComposable, StatusBarConfigurable, NavigationBarConfigurable, NotificationObserver {
     public var isStatusBarHidden = false
     public var hidesStatusBarOnAppeared = false
     public var hidesStatusBarOnPresented = false
@@ -22,10 +22,6 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter:
     public private(set) var isViewDismissed = false
     public private(set) var isViewPopped = false
 
-    open var router: SomeRouter {
-        mc_crash(.routerNotFound)
-    }
-
     open override var prefersStatusBarHidden: Bool {
         return isStatusBarHidden
     }
@@ -36,10 +32,23 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter:
         return isStatusBarHidden ? .fade : .none
     }
 
+    public var router: SomeRouter {
+        if let someRouter = _router {
+            return someRouter
+        }
+        mc_crash(.routerNotFound)
+    }
+
     public let launchArgs: SomeScreenLaunchArgs
 
-    public init(launchArgs: SomeScreenLaunchArgs) {
+    private let _router: SomeRouter?
+
+    public init(
+        launchArgs: SomeScreenLaunchArgs,
+        router: SomeRouter? = nil
+    ) {
         self.launchArgs = launchArgs
+        self._router = router
 
         super.init(nibName: nil, bundle: nil)
 

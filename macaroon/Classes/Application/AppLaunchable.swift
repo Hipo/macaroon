@@ -3,13 +3,13 @@
 import Foundation
 
 public protocol AppLaunchable {
-    associatedtype SomeAppLaunchArgs: AppLaunchArgsConvertible
+    associatedtype SomeAppLaunchArgs: AppLaunchArgs
 
     var appLaunchArgs: SomeAppLaunchArgs { get }
 }
 
-public protocol AppLaunchArgsConvertible {
-    associatedtype SomeScreenLaunchArgs: ScreenLaunchArgsConvertible
+public protocol AppLaunchArgs {
+    associatedtype SomeScreenLaunchArgs: ScreenLaunchArgs
 
     func formScreenLaunchArgs(_ args: SomeScreenLaunchArgs.Options) -> SomeScreenLaunchArgs
     func reset()

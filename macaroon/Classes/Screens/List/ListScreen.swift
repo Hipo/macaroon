@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: ListLayout, SomeScreenLaunchArgs: ScreenLaunchArgsConvertible, SomeRouter: Router>: Screen<SomeScreenLaunchArgs, SomeRouter>, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ListEmptyViewDataSource {
+open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: ListLayout, SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: Screen<SomeScreenLaunchArgs, SomeRouter>, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ListEmptyViewDataSource {
     public typealias DataConnector = SomeListDataConnector
     public typealias Layout = SomeListLayout
 
@@ -16,11 +16,12 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
     public init(
         dataConnector: DataConnector,
         layout: Layout,
-        launchArgs: SomeScreenLaunchArgs
+        launchArgs: SomeScreenLaunchArgs,
+        router: SomeRouter? = nil
     ) {
         self.dataConnector = dataConnector
         self.layout = layout
-        super.init(launchArgs: launchArgs)
+        super.init(launchArgs: launchArgs, router: router)
     }
 
     open override func customizeAppearance() {

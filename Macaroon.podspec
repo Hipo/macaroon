@@ -35,6 +35,10 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |ss|
     ss.subspec 'Application' do |sss|
       sss.source_files = 'macaroon/Classes/Application/*.swift'
+
+      sss.subspec 'Routing' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Application/Routing/*.swift'
+      end
     end
 
     ss.subspec 'Data' do |sss|

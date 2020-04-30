@@ -48,18 +48,3 @@ public func asyncMainAfter(_ duration: TimeInterval, execute: @escaping () -> Vo
 public func asyncBackground(qos: DispatchQoS.QoSClass = .background, execute: @escaping () -> Void) {
     DispatchQueue.global(qos: qos).async(execute: execute)
 }
-
-/// <mark> Optionals
-public func resumeIfPresent<T>(_ value: T?, operation: (T) -> Void) {
-    if let someValue = value {
-        operation(someValue)
-    }
-}
-
-public func resume<T>(_ value: T?, ifPresent operation: (T) -> Void, else elseOperation: () -> Void) {
-    if let someValue = value {
-        operation(someValue)
-    } else {
-        elseOperation()
-    }
-}

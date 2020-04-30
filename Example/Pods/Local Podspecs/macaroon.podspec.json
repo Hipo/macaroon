@@ -56,7 +56,13 @@
       "subspecs": [
         {
           "name": "Application",
-          "source_files": "macaroon/Classes/Application/*.swift"
+          "source_files": "macaroon/Classes/Application/*.swift",
+          "subspecs": [
+            {
+              "name": "Routing",
+              "source_files": "macaroon/Classes/Application/Routing/*.swift"
+            }
+          ]
         },
         {
           "name": "Data",

@@ -12,6 +12,9 @@ PODS:
     - Macaroon/Core/Views (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Application (0.1.0):
+    - Macaroon/Core/Application/Routing (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Application/Routing (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Data (0.1.0):
     - Macaroon/Core/Data/DataSources (= 0.1.0)
@@ -163,7 +166,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: d2279a7abece3c7f25a80cd2b7f363ca5cf3f44c
-  Macaroon: dd8dfc1df6655b099bee47a4d4084b712aaa3329
+  Macaroon: b965aedd506c545c525c964bc95466a283aad83c
   Macaw: 8306d775625ba003beee4186b9533fd7cf284024
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2

@@ -3,7 +3,7 @@
 import Foundation
 
 extension Bool {
-    public func next(isTrue trueOperation: () -> Void, isFalse falseOperation: () -> Void) {
+    public func `continue`(isTrue trueOperation: () -> Void, isFalse falseOperation: () -> Void) {
         self ? trueOperation() : falseOperation()
     }
 }

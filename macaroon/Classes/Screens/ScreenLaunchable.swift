@@ -3,21 +3,11 @@
 import Foundation
 
 public protocol ScreenLaunchable: UIViewController {
-    associatedtype SomeScreenLaunchArgs: ScreenLaunchArgsConvertible
+    associatedtype SomeScreenLaunchArgs: ScreenLaunchArgs
 
     var launchArgs: SomeScreenLaunchArgs { get }
 }
 
-public protocol ScreenLaunchArgsConvertible {
+public protocol ScreenLaunchArgs {
     associatedtype Options: OptionSet
-}
-
-public struct NoScreenLaunchArgs: ScreenLaunchArgsConvertible {
-    public struct Options: OptionSet {
-        public let rawValue: Int
-
-        public init(rawValue: Int) {
-            self.rawValue = rawValue
-        }
-    }
 }
