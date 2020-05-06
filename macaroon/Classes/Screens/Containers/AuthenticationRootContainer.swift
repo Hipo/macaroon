@@ -3,12 +3,12 @@
 import Foundation
 import UIKit
 
-open class RootContainer<SomeLaunchController: AuthenticatableLaunchController, SomeRouter: Router>: UIViewController, RootContainerConvertible, AuthenticatableLaunchControllerListener {
+open class AuthenticationRootContainer<SomeLaunchController: AuthenticationLaunchController, SomeRouter: Router>: UIViewController, RootContainerConvertible, AuthenticationLaunchControllerDelegate {
+    public var isLaunched = false
+
     public var splash: UIViewController?
     public weak var authorizationContainer: UIViewController?
     public weak var mainContainer: UIViewController?
-
-    public var isLaunched = false
 
     override open var childForStatusBarHidden: UIViewController? {
         return mainContainer
@@ -58,13 +58,13 @@ open class RootContainer<SomeLaunchController: AuthenticatableLaunchController, 
         super.viewDidAppear(animated)
 
         if !isLaunched {
-            launchController.listener = self
+            launchController.delegate = self
             launchController.firstLaunch()
             isLaunched = true
         }
     }
 
-    /// <mark> AuthenticatableLaunchControllerListener
+    /// <mark> AuthenticationLaunchControllerDelegate
     open func launchControllerDidStart<T: LaunchController>(_ launchController: T) {
         startAuthorizationFlow()
     }
@@ -90,7 +90,7 @@ open class RootContainer<SomeLaunchController: AuthenticatableLaunchController, 
     open func launchControllerDidDeauthenticate<T: LaunchController>(_ launchController: T) { }
 }
 
-extension RootContainer {
+extension AuthenticationRootContainer {
     public func openSplash() {
         splashWillOpen()
 
@@ -113,7 +113,7 @@ extension RootContainer {
     }
 }
 
-extension RootContainer {
+extension AuthenticationRootContainer {
     public func startAuthorizationFlow() {
         authorizationFlowWillStart()
 
@@ -143,7 +143,7 @@ extension RootContainer {
     }
 }
 
-extension RootContainer {
+extension AuthenticationRootContainer {
     public func startMainFlow(force: Bool = true) {
         mainFlowWillStart()
 

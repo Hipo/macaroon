@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-public protocol NavigationBarConfigurable: class {
+public protocol NavigationBarConfigurable: AnyObject {
     var isNavigationBarHidden: Bool { get set }
     /// Back/Dismiss bar button items should not be added into leftBarItems&rightBarItems.
     /// They will be inserted automatically when setNeedsNavigationBarAppearanceUpdate() is called.
@@ -12,6 +12,8 @@ public protocol NavigationBarConfigurable: class {
     /// Return true if pop/dismiss should be hidden.
     var hidesCloseBarItem: Bool { get }
 
+    var disablesInteractivePopGesture: Bool { get }
+
     func makeDismissNavigationBarItem() -> NavigationBarItemConvertible
     func makePopNavigationBarItem() -> NavigationBarItemConvertible
 }
@@ -19,6 +21,9 @@ public protocol NavigationBarConfigurable: class {
 extension NavigationBarConfigurable {
     public var hidesCloseBarItem: Bool {
         return false
+    }
+    public var disablesInteractivePopGesture: Bool {
+        return isNavigationBarHidden || hidesCloseBarItem
     }
 }
 

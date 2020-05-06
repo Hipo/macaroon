@@ -11,16 +11,16 @@ extension StylingModifiable {
         return []
     }
     public var backgroundColor: ColorGroup? {
-        return modifiers.compactLast(\.backgroundColor)
+        return modifiers.findLast(nonNil: \.backgroundColor)
     }
     public var tintColor: ColorGroup? {
-        return modifiers.compactLast(\.tintColor)
+        return modifiers.findLast(nonNil: \.tintColor)
     }
     public var cornerRound: CornerRound? {
-        return modifiers.compactLast(\.cornerRound)
+        return modifiers.findLast(nonNil: \.cornerRound)
     }
     public var shadow: Shadow? {
-        return modifiers.compactLast(\.shadow)
+        return modifiers.findLast(nonNil: \.shadow)
     }
 }
 
@@ -33,31 +33,31 @@ extension ButtonStylingModifiable {
         return []
     }
     public var background: ImageGroup? {
-        return modifiers.compactLast(\.background)
+        return modifiers.findLast(nonNil: \.background)
     }
     public var icon: ImageGroup? {
-        return modifiers.compactLast(\.icon)
+        return modifiers.findLast(nonNil: \.icon)
     }
     public var font: FontGroup? {
-        return modifiers.compactLast(\.font)
+        return modifiers.findLast(nonNil: \.font)
     }
     public var textColor: ColorGroup? {
-        return modifiers.compactLast(\.textColor)
+        return modifiers.findLast(nonNil: \.textColor)
     }
     public var title: TextGroup? {
-        return modifiers.compactLast(\.title)
+        return modifiers.findLast(nonNil: \.title)
     }
     public var backgroundColor: ColorGroup? {
-        return modifiers.compactLast(\.backgroundColor)
+        return modifiers.findLast(nonNil: \.backgroundColor)
     }
     public var tintColor: ColorGroup? {
-        return modifiers.compactLast(\.tintColor)
+        return modifiers.findLast(nonNil: \.tintColor)
     }
     public var cornerRound: CornerRound? {
-        return modifiers.compactLast(\.cornerRound)
+        return modifiers.findLast(nonNil: \.cornerRound)
     }
     public var shadow: Shadow? {
-        return modifiers.compactLast(\.shadow)
+        return modifiers.findLast(nonNil: \.shadow)
     }
 }
 
@@ -70,22 +70,22 @@ extension ImageStylingModifiable {
         return []
     }
     public var image: UIImage? {
-        return modifiers.compactLast(\.image)
+        return modifiers.findLast(nonNil: \.image)
     }
     public var contentMode: UIView.ContentMode {
-        return modifiers.compactLast(\.contentMode) ?? .scaleToFill
+        return modifiers.findLast(nonNil: \.contentMode) ?? .scaleToFill
     }
     public var backgroundColor: ColorGroup? {
-        return modifiers.compactLast(\.backgroundColor)
+        return modifiers.findLast(nonNil: \.backgroundColor)
     }
     public var tintColor: ColorGroup? {
-        return modifiers.compactLast(\.tintColor)
+        return modifiers.findLast(nonNil: \.tintColor)
     }
     public var cornerRound: CornerRound? {
-        return modifiers.compactLast(\.cornerRound)
+        return modifiers.findLast(nonNil: \.cornerRound)
     }
     public var shadow: Shadow? {
-        return modifiers.compactLast(\.shadow)
+        return modifiers.findLast(nonNil: \.shadow)
     }
 }
 
@@ -98,31 +98,31 @@ extension TextStylingModifiable {
         return []
     }
     public var font: FontGroup? {
-        return modifiers.compactLast(\.font)
+        return modifiers.findLast(nonNil: \.font)
     }
     public var textColor: ColorGroup? {
-        return modifiers.compactLast(\.textColor)
+        return modifiers.findLast(nonNil: \.textColor)
     }
     public var textAlignment: NSTextAlignment {
-        return modifiers.compactLast(\.textAlignment) ?? .left
+        return modifiers.findLast(nonNil: \.textAlignment) ?? .left
     }
     public var textOverflow: TextOverflow {
-        return modifiers.compactLast(\.textOverflow) ?? .truncated
+        return modifiers.findLast(nonNil: \.textOverflow) ?? .truncated
     }
     public var text: TextGroup? {
-        return modifiers.compactLast(\.text)
+        return modifiers.findLast(nonNil: \.text)
     }
     public var backgroundColor: ColorGroup? {
-        return modifiers.compactLast(\.backgroundColor)
+        return modifiers.findLast(nonNil: \.backgroundColor)
     }
     public var tintColor: ColorGroup? {
-        return modifiers.compactLast(\.tintColor)
+        return modifiers.findLast(nonNil: \.tintColor)
     }
     public var cornerRound: CornerRound? {
-        return modifiers.compactLast(\.cornerRound)
+        return modifiers.findLast(nonNil: \.cornerRound)
     }
     public var shadow: Shadow? {
-        return modifiers.compactLast(\.shadow)
+        return modifiers.findLast(nonNil: \.shadow)
     }
 }
 
@@ -135,49 +135,49 @@ extension TextInputStylingModifiable {
         return []
     }
     public var background: ImageGroup? {
-        return modifiers.compactLast(\.background)
+        return modifiers.findLast(nonNil: \.background)
     }
     public var font: FontGroup? {
-        return modifiers.compactLast(\.font)
+        return modifiers.findLast(nonNil: \.font)
     }
     public var textColor: ColorGroup? {
-        return modifiers.compactLast(\.textColor)
+        return modifiers.findLast(nonNil: \.textColor)
     }
     public var textAlignment: NSTextAlignment {
-        return modifiers.compactLast(\.textAlignment) ?? .left
+        return modifiers.findLast(nonNil: \.textAlignment) ?? .left
     }
     public var placeholderColor: ColorGroup? {
-        return modifiers.compactLast(\.placeholderColor)
+        return modifiers.findLast(nonNil: \.placeholderColor)
     }
     public var placeholderText: EditText? {
-        return modifiers.compactLast(\.placeholderText)
+        return modifiers.findLast(nonNil: \.placeholderText)
     }
     public var clearButtonMode: UITextField.ViewMode {
-        return modifiers.compactLast(\.clearButtonMode) ?? .whileEditing
+        return modifiers.findLast(nonNil: \.clearButtonMode) ?? .whileEditing
     }
     public var keyboardType: UIKeyboardType {
-        return modifiers.compactLast(\.keyboardType) ?? .default
+        return modifiers.findLast(nonNil: \.keyboardType) ?? .default
     }
     public var autocapitalizationType: UITextAutocapitalizationType {
-        return modifiers.compactLast(\.autocapitalizationType) ?? .sentences
+        return modifiers.findLast(nonNil: \.autocapitalizationType) ?? .sentences
     }
     public var autocorrectionType: UITextAutocorrectionType {
-        return modifiers.compactLast(\.autocorrectionType) ?? .default
+        return modifiers.findLast(nonNil: \.autocorrectionType) ?? .default
     }
     public var returnKeyType: UIReturnKeyType {
-        return modifiers.compactLast(\.returnKeyType) ?? .next
+        return modifiers.findLast(nonNil: \.returnKeyType) ?? .next
     }
     public var backgroundColor: ColorGroup? {
-        return modifiers.compactLast(\.backgroundColor)
+        return modifiers.findLast(nonNil: \.backgroundColor)
     }
     public var tintColor: ColorGroup? {
-        return modifiers.compactLast(\.tintColor)
+        return modifiers.findLast(nonNil: \.tintColor)
     }
     public var cornerRound: CornerRound? {
-        return modifiers.compactLast(\.cornerRound)
+        return modifiers.findLast(nonNil: \.cornerRound)
     }
     public var shadow: Shadow? {
-        return modifiers.compactLast(\.shadow)
+        return modifiers.findLast(nonNil: \.shadow)
     }
 }
 

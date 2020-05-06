@@ -145,6 +145,10 @@
               "source_files": "macaroon/Classes/Utils/Performance/*.swift"
             },
             {
+              "name": "Presentables",
+              "source_files": "macaroon/Classes/Utils/Presentables/*.swift"
+            },
+            {
               "name": "Text",
               "source_files": "macaroon/Classes/Utils/Text/*.swift",
               "subspecs": [
@@ -235,17 +239,7 @@
     },
     {
       "name": "TabBar",
-      "source_files": "macaroon/Classes/TabBar/*.swift",
-      "subspecs": [
-        {
-          "name": "Configuration",
-          "source_files": "macaroon/Classes/TabBar/Configuration/*.swift"
-        },
-        {
-          "name": "Views",
-          "source_files": "macaroon/Classes/TabBar/Views/*.swift"
-        }
-      ]
+      "source_files": "macaroon/Classes/TabBar/*.swift"
     },
     {
       "name": "Tryouts",

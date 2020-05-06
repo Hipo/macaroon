@@ -4,32 +4,8 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class ListView: UICollectionView {
-    public var emptyState: ListEmptyView.State {
-        get {
-            return emptyView.state
-        }
-        set {
-            if emptyView.state == .refreshing {
-                if newValue != .loading { /// <note> Don't show loading if the pull-to-refresh is triggerred.
-                    emptyView.state = newValue
-                }
-            } else {
-                emptyView.state = newValue
-            }
-        }
-    }
-
-    public weak var emptyStateDataSource: ListEmptyViewDataSource? {
-        get {
-            return emptyView.dataSource
-        }
-        set {
-            emptyView.dataSource = newValue
-        }
-    }
-
-    private lazy var emptyView = ListEmptyView()
+open class ListView: UICollectionView, EmptyStatePresentable {
+    public private(set) lazy var emptyStateView = EmptyStateView()
 
     public override init(
         frame: CGRect,
@@ -72,18 +48,10 @@ extension ListView {
 
 extension ListView {
     private func prepareLayout() {
-        addEmptyView()
+        addEmptyState()
     }
 
     private func updateLayoutWhenViewDidLayoutSubviews() {
-        updateEmptyViewLayoutWhenViewDidLayoutSubviews()
-    }
-
-    private func addEmptyView() {
-        backgroundView = emptyView
-    }
-
-    private func updateEmptyViewLayoutWhenViewDidLayoutSubviews() {
-        emptyView.frame = bounds
+        emptyStateView.frame = bounds
     }
 }

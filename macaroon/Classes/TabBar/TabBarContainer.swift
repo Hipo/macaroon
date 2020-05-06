@@ -34,6 +34,8 @@ open class TabBarContainer: UIViewController, ScreenComposable {
         return selectedContent
     }
 
+    private var isAppeared = false
+
     open func customizeAppearance() {
         customizeViewAppearance()
     }
@@ -46,7 +48,7 @@ open class TabBarContainer: UIViewController, ScreenComposable {
     }
 
     open func updateLayoutWhenItemsChanged() {
-        tabBar.barButtonItems = items.values(\.barButtonItem)
+        tabBar.barButtonItems = items.map(\.barButtonItem)
 
         if selectedItem == nil {
             selectedItem = items.first
@@ -62,7 +64,7 @@ open class TabBarContainer: UIViewController, ScreenComposable {
             return
         }
         addNewSelectedContent()
-        tabBar.selectedBarButtonIndex = items.firstIndex(equalTo: selectedItem, on: \.name)
+        tabBar.selectedBarButtonIndex = items.firstIndex(of: selectedItem, equals: \.name)
     }
 
     open func setListeners() {
@@ -74,6 +76,23 @@ open class TabBarContainer: UIViewController, ScreenComposable {
     open override func viewDidLoad() {
         super.viewDidLoad()
         compose()
+    }
+
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isAppeared = true
+    }
+
+    open func setTabBarHidden(_ isHidden: Bool, animated: Bool) {
+        tabBar.snp.updateConstraints { maker in
+            maker.bottom.equalToSuperview().inset(isHidden ? -tabBar.bounds.height : 0.0)
+        }
+        if !animated || !isAppeared { return }
+
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) { [unowned self] in
+            self.view.layoutIfNeeded()
+        }
+        animator.startAnimation()
     }
 
     open func getBadge(forItemAt index: Int) -> String? {

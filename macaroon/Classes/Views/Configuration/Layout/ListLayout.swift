@@ -163,13 +163,48 @@ extension ListLayout {
 }
 
 extension ListLayout {
-    public func invalidate(_ context: UICollectionViewFlowLayoutInvalidationContext? = nil) {
+    public func reloadHeader(with item: Any?, in section: Int, forceInvalidation: Bool = false, animated: Bool = false) {
+        if let visibleHeader = listView?.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: section)) {
+            configure(header: visibleHeader, with: item, in: section)
+
+            if forceInvalidation {
+                invalidateHeader(in: section, animated: animated)
+            }
+        } else {
+            invalidateHeader(in: section, animated: animated)
+        }
+    }
+}
+
+extension ListLayout {
+    public func invalidate(_ context: UICollectionViewFlowLayoutInvalidationContext? = nil, forceLayoutUpdate: Bool = false) {
         if let context = context {
             _layout.invalidateLayout(with: context)
         } else {
             _layout.invalidateLayout()
         }
-        listView?.layoutIfNeeded()
+        if forceLayoutUpdate {
+            listView?.layoutIfNeeded()
+        }
+    }
+
+    public func invalidateHeader(in section: Int, animated: Bool = false) {
+        let context = UICollectionViewFlowLayoutInvalidationContext()
+        context.invalidateFlowLayoutDelegateMetrics = true
+        context.invalidateSupplementaryElements(ofKind: UICollectionView.elementKindSectionHeader, at: [IndexPath(item: 0, section: section)])
+
+        let completeInvalidation = {
+            self.listView?.performBatchUpdates({ [weak self] in self?.invalidate(context) }, completion: nil)
+        }
+
+        if !animated {
+            completeInvalidation()
+            return
+        }
+        let animator = UIViewPropertyAnimator(duration: 0.33, dampingRatio: 0.5) {
+            completeInvalidation()
+        }
+        animator.startAnimation()
     }
 }
 

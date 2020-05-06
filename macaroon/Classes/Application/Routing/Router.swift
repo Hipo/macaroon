@@ -5,7 +5,7 @@ import UIKit
 
 public protocol Router: AnyObject, AppLaunchable {
     associatedtype SomeRootContainer: RootContainerConvertible where SomeRootContainer.SomeAppLaunchArgs == SomeAppLaunchArgs
-    associatedtype Destination: AppRoutingDestination
+    associatedtype Destination: RoutingDestination
     typealias TransitionHandler = () -> Void
 
     init(appLaunchArgs: SomeAppLaunchArgs)
@@ -124,7 +124,7 @@ extension Router {
     }
 }
 
-public protocol AppRoutingDestination { }
+public protocol RoutingDestination { }
 
 public enum RoutingTransition {
     public enum Open {

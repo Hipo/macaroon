@@ -20,9 +20,9 @@ extension LaunchController {
     }
 }
 
-public protocol AuthenticatableLaunchController: LaunchController {
+public protocol AuthenticationLaunchController: LaunchController {
     /// <note> It is recommended to be retained as a weak reference.
-    var listener: AuthenticatableLaunchControllerListener? { get set }
+    var delegate: AuthenticationLaunchControllerDelegate? { get set }
 
     func continueAfterSignUp()
     func continueAfterSignIn()
@@ -30,7 +30,7 @@ public protocol AuthenticatableLaunchController: LaunchController {
     func signoutAndRelaunch()
 }
 
-public protocol AuthenticatableLaunchControllerListener: AnyObject {
+public protocol AuthenticationLaunchControllerDelegate: AnyObject {
     func launchControllerDidStart<T: LaunchController>(_ launchController: T)
     func launchControllerDidSignUp<T: LaunchController>(_ launchController: T)
     func launchControllerDidSignIn<T: LaunchController>(_ launchController: T)

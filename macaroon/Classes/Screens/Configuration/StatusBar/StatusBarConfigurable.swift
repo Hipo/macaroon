@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 public protocol StatusBarConfigurable: AnyObject {
-    /// <note> False for most cases.
+    /// <note> False for most cases. Don't set it directly, instead set `hidesStatusBarOnAppeared` and `hidesStatusBarOnPresented` respectively.
     /// <sample> If a screen is pushed while the status bar is hidden, this variable should be true for the screen to prevent an unneeded status bar animation.
     var isStatusBarHidden: Bool { get set }
 
@@ -28,7 +28,10 @@ extension StatusBarConfigurable where Self: UIViewController {
             }
             isStatusBarHidden = hidesStatusBarOnAppeared
         }
-        setNeedsStatusBarAppearanceUpdate()
+        let animator = UIViewPropertyAnimator(duration: 0.25, curve: .linear) { [unowned self] in
+            self.setNeedsStatusBarAppearanceUpdate()
+        }
+        animator.startAnimation()
     }
 
     /// <note> Called in `viewWillDisappear(:)`

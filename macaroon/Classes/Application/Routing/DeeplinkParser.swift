@@ -4,53 +4,31 @@ import Foundation
 
 public protocol DeeplinkParser {
     associatedtype Pattern: DeeplinkPattern
-    associatedtype Destination
+    associatedtype Destination: RoutingDestination
 
     var host: String { get }
     var matchers: [Pattern: NSRegularExpression] { get }
 
     func discover(url: URL) -> Destination?
+    func makeDestination(with urlComponents: DeeplinkURLComponents, for match: (Pattern, NSTextCheckingResult)) -> Destination?
 }
 
-//extension DeeplinkParser {
-//    public func discover(url: URL) -> Destination? {
-//        let urlComponents = DeeplinkURLComponents(url: url, deeplinkHost: host)
-//
-//    }
-//}
+extension DeeplinkParser {
+    public func discover(url: URL) -> Destination? {
+        let urlComponents = DeeplinkURLComponents(url: url, deeplinkHost: host)
+        return findMatch(in: urlComponents.path).unwrapIfPresent(either: { makeDestination(with: urlComponents, for: $0) })
+    }
+}
 
 extension DeeplinkParser {
     public func formMatchers() -> [Pattern: NSRegularExpression] {
         return Pattern.allCases.reduce(into: [:], { $0[$1] = try? NSRegularExpression(pattern: $1.rawValue, options: .caseInsensitive) })
     }
+
+    public func findMatch(in path: String) -> (Pattern, NSTextCheckingResult)? {
+        if path.isEmpty { return nil }
+        return matchers.findFirst(nonNil: { $0.firstMatch(in: path, options: [], range: NSRange(path.startIndex..<path.endIndex, in: path)) })
+    }
 }
 
 public protocol DeeplinkPattern: Hashable, RawRepresentable, CaseIterable where RawValue == String { }
-
-public struct DeeplinkURLComponents {
-    public let subdomain: String
-    public let path: String
-    public let queryItems: [URLQueryItem]
-
-    init(
-        url: URL,
-        deeplinkHost: String
-    ) {
-        guard let host = url.host.unwrapConditionally({ $0.hasSuffix(deeplinkHost) }) else {
-            subdomain = ""
-            path = ""
-            queryItems = []
-            return
-        }
-        if host == deeplinkHost {
-            subdomain = ""
-        } else {
-            let hostComponents = deeplinkHost.components(separatedBy: ".")
-            subdomain = hostComponents.first.unwrap(or: "")
-        }
-
-        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        path = urlComponents.unwrap(either: \.path, or: "")
-        queryItems = urlComponents.unwrap(either: \.queryItems, or: [])
-    }
-}

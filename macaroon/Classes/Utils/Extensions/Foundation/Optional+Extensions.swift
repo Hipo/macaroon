@@ -19,11 +19,22 @@ extension Optional {
         return unwrap(either: { $0[keyPath: keyPath] ?? someValue }, or: someValue)
     }
 
-    public func unwrapConditionally<T>(either transform: (Wrapped) -> T, or someValue: T? = nil) -> T? {
+    public func unwrapIfPresent<T>(either transform: (Wrapped) -> T, or someValue: T? = nil) -> T? {
         return map(transform) ?? someValue
     }
 
-    public func unwrapConditionally(_ condition: (Wrapped) -> Bool) -> Wrapped? {
-        return unwrap(either: { condition($0) ? $0 : nil }, or: nil)
+    public func unwrapIfPresent<T>(either transform: (Wrapped) -> T?, or someValue: T? = nil) -> T? {
+        return map(transform) ?? someValue
+    }
+
+    public func unwrapConditionally(where predicate: (Wrapped) -> Bool) -> Wrapped? {
+        return unwrap(either: { predicate($0) ? $0 : nil }, or: nil)
+    }
+}
+
+extension Optional {
+    public func `continue`(ifPresent operation: (Wrapped) -> Void, else elseOperation: (() -> Void)? = nil) {
+        if let value = self { operation(value) }
+        else { elseOperation?() }
     }
 }

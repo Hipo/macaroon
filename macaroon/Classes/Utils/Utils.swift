@@ -48,3 +48,31 @@ public func asyncMainAfter(_ duration: TimeInterval, execute: @escaping () -> Vo
 public func asyncBackground(qos: DispatchQoS.QoSClass = .background, execute: @escaping () -> Void) {
     DispatchQueue.global(qos: qos).async(execute: execute)
 }
+
+/// <mark> Availability
+public func iOS13AndLater(execute: () -> Void) {
+    if #available(iOS 13, *) {
+        execute()
+    }
+}
+
+public func iOS13AndLater<T>(execute: () -> T, else elseExecute: () -> T) -> T {
+    if #available(iOS 13, *) {
+        return execute()
+    }
+    return elseExecute()
+}
+
+public func iOS12AndBefore(execute: () -> Void) {
+    if #available(iOS 13, *) { }
+    else {
+        execute()
+    }
+}
+
+public func iOS12AndBefore<T>(execute: () -> T, else elseExecute: () -> T) -> T {
+    if #available(iOS 13, *) {
+        return elseExecute()
+    }
+    return execute()
+}

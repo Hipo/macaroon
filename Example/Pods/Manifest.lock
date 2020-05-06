@@ -49,6 +49,7 @@ PODS:
     - Macaroon/Core/Utils/List (= 0.1.0)
     - Macaroon/Core/Utils/Notification (= 0.1.0)
     - Macaroon/Core/Utils/Performance (= 0.1.0)
+    - Macaroon/Core/Utils/Presentables (= 0.1.0)
     - Macaroon/Core/Utils/Text (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Extensions (0.1.0):
@@ -66,6 +67,8 @@ PODS:
   - Macaroon/Core/Utils/Notification (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Performance (0.1.0):
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Utils/Presentables (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Text (0.1.0):
     - Macaroon/Core/Utils/Text/Attributed (= 0.1.0)
@@ -112,11 +115,7 @@ PODS:
     - Macaw (= 0.9.6)
   - Macaroon/SwiftLint (0.1.0):
     - SwiftLint (~> 0.37.0)
-  - Macaroon/TabBar (0.1.0):
-    - Macaroon/TabBar/Configuration (= 0.1.0)
-    - Macaroon/TabBar/Views (= 0.1.0)
-  - Macaroon/TabBar/Configuration (0.1.0)
-  - Macaroon/TabBar/Views (0.1.0)
+  - Macaroon/TabBar (0.1.0)
   - Macaroon/Tryouts (0.1.0):
     - Tryouts
   - Macaroon/URLImage (0.1.0):
@@ -166,7 +165,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: d2279a7abece3c7f25a80cd2b7f363ca5cf3f44c
-  Macaroon: b965aedd506c545c525c964bc95466a283aad83c
+  Macaroon: af950568c6d4cb4c7f41782df2c65eed88025371
   Macaw: 8306d775625ba003beee4186b9533fd7cf284024
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2

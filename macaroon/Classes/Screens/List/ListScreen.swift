@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: ListLayout, SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: Screen<SomeScreenLaunchArgs, SomeRouter>, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ListEmptyViewDataSource {
+open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: ListLayout, SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: Screen<SomeScreenLaunchArgs, SomeRouter>, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EmptyStateViewDataSource {
     public typealias DataConnector = SomeListDataConnector
     public typealias Layout = SomeListLayout
 
@@ -55,7 +55,7 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
 
     open override func viewDidChangePreferredContentSizeCategory() {
         super.viewDidChangePreferredContentSizeCategory()
-        layout.invalidate()
+        layout.invalidate(forceLayoutUpdate: true)
         updateLayoutWhenViewDidLayoutSubviews()
     }
 
@@ -161,8 +161,8 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
     open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) { }
     open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) { }
 
-    /// <mark> ListEmptyViewDataSource
-    open func loadingIndicator(in view: ListEmptyView) -> LoadingIndicator? {
+    /// <mark> EmptyStateViewDataSource
+    open func loadingIndicator(in view: EmptyStateView) -> LoadingIndicator? {
         let loadingIndicator: UIActivityIndicatorView
 
         if #available(iOS 13, *) {
@@ -173,19 +173,19 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
         return loadingIndicator
     }
 
-    open func loadingIndicatorVerticalPositionAdjustment(in view: ListEmptyView) -> CGFloat? {
+    open func loadingIndicatorVerticalPositionAdjustment(in view: EmptyStateView) -> CGFloat? {
         return nil
     }
 
-    open func noContentView(in view: ListEmptyView) -> UIView? {
+    open func noContentView(in view: EmptyStateView) -> UIView? {
         return nil
     }
 
-    open func noNetworkView(in view: ListEmptyView) -> UIView? {
+    open func noNetworkView(in view: EmptyStateView) -> UIView? {
         return nil
     }
 
-    open func faultView(in view: ListEmptyView) -> UIView? {
+    open func faultView(in view: EmptyStateView) -> UIView? {
         return nil
     }
 }

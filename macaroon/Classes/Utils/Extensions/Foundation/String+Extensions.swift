@@ -10,6 +10,14 @@ extension String {
 }
 
 extension String {
+    public func substring(at range: NSRange) -> String {
+        let start = index(startIndex, offsetBy: range.location)
+        let end = index(start, offsetBy: range.length)
+        return String(self[start..<end])
+    }
+}
+
+extension String {
     public func boundingSize(attributes: AttributedTextBuilder.Attribute..., multiline: Bool = true, fittingSize: CGSize = .greatestFiniteMagnitude) -> CGSize {
         let options: NSStringDrawingOptions
 

@@ -108,6 +108,10 @@ Pod::Spec.new do |s|
         ssss.source_files = 'macaroon/Classes/Utils/Performance/*.swift'
       end
 
+      sss.subspec 'Presentables' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Utils/Presentables/*.swift'
+      end
+
       sss.subspec 'Text' do |ssss|
         ssss.source_files = 'macaroon/Classes/Utils/Text/*.swift'
 
@@ -179,14 +183,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'TabBar' do |ss|
     ss.source_files = 'macaroon/Classes/TabBar/*.swift'
-
-    ss.subspec 'Configuration' do |sss|
-      sss.source_files = 'macaroon/Classes/TabBar/Configuration/*.swift'
-    end
-
-    ss.subspec 'Views' do |sss|
-      sss.source_files = 'macaroon/Classes/TabBar/Views/*.swift'
-    end
   end
 
   s.subspec 'Tryouts' do |ss|

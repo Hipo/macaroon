@@ -53,7 +53,7 @@ public protocol AppTargetConvertible: AnyObject, Decodable {
 }
 
 extension AppTargetConvertible {
-    var deviceOS: DeviceOS {
+    public var deviceOS: DeviceOS {
         #if os(iOS)
         return .iOS
         #elseif os(watchOS)
@@ -63,7 +63,7 @@ extension AppTargetConvertible {
         #endif
     }
 
-    var deviceFamily: DeviceFamily {
+    public var deviceFamily: DeviceFamily {
         #if os(iOS)
         switch UIScreen.main.traitCollection.userInterfaceIdiom {
         case .unspecified:
@@ -80,6 +80,10 @@ extension AppTargetConvertible {
         #else
         mc_crash(.unsupportedDeviceFamily)
         #endif
+    }
+
+    public var hasNotch: Bool {
+        return UIApplication.shared.keyWindow.unwrap(either: { $0.safeAreaInsets.bottom > 0 }, or: false)
     }
 }
 

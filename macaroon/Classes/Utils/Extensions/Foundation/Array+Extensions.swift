@@ -12,7 +12,7 @@ extension Array {
 }
 
 extension Array {
-    public func firstIndex<T: Equatable>(equalTo other: Element?, on keyPath: KeyPath<Element, T>) -> Index? {
+    public func firstIndex<T: Equatable>(of other: Element?, equals keyPath: KeyPath<Element, T>) -> Index? {
         if let other = other {
             return firstIndex { $0[keyPath: keyPath] == other[keyPath: keyPath] }
         }
@@ -21,20 +21,20 @@ extension Array {
 }
 
 extension Array {
-    public func values<T>(_ keyPath: KeyPath<Element, T>) -> [T] {
-        return map { $0[keyPath: keyPath] }
+    public func findFirst<T>(_ keyPath: KeyPath<Element, T>, where predicate: (Element) -> Bool) -> T? {
+        return first(where: predicate)?[keyPath: keyPath]
     }
 
-    public func compactValues<T>(_ keyPath: KeyPath<Element, T?>) -> [T] {
-        return compactMap { $0[keyPath: keyPath] }
+    public func findFirst<T>(_ keyPath: KeyPath<Element, T?>, where predicate: (Element) -> Bool) -> T? {
+        return first(where: predicate)?[keyPath: keyPath]
     }
 
-    public func compactLast<T>(_ keyPath: KeyPath<Element, T?>) -> T? {
+    public func findLast<T>(nonNil keyPath: KeyPath<Element, T>) -> T? {
         let elem = last { $0[keyPath: keyPath] != nil }
         return elem?[keyPath: keyPath]
     }
 
-    public func compactLast<T>(_ keyPath: KeyPath<Element, T>) -> T? {
+    public func findLast<T>(nonNil keyPath: KeyPath<Element, T?>) -> T? {
         let elem = last { $0[keyPath: keyPath] != nil }
         return elem?[keyPath: keyPath]
     }
