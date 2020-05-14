@@ -3,3 +3,25 @@
 import Foundation
 
 public let UIViewNoConstraintMetric: CGFloat = -999999.0
+
+public protocol Layout {
+    var edgeMetric: LayoutEdgesMetric { get }
+    var sizeMetric: LayoutSizeMetric { get }
+    var centerMetric: LayoutCenterMetric { get }
+    var baselineMetric: LayoutMetric { get }
+}
+
+extension Layout {
+    public var edgeMetric: LayoutEdgesMetric {
+        return nil
+    }
+    public var sizeMetric: LayoutSizeMetric {
+        return nil
+    }
+    public var centerMetric: LayoutCenterMetric {
+        return nil
+    }
+    public var baselineMetric: LayoutMetric {
+        return nil
+    }
+}

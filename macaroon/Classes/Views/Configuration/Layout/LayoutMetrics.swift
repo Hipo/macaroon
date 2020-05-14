@@ -37,7 +37,7 @@ public struct LayoutEdgesMetric {
     public let bottom: LayoutMetric
     public let right: LayoutMetric
 
-    init(
+    public init(
         top: LayoutMetric = nil,
         left: LayoutMetric = nil,
         bottom: LayoutMetric = nil,
@@ -50,11 +50,17 @@ public struct LayoutEdgesMetric {
     }
 }
 
+extension LayoutEdgesMetric: ExpressibleByNilLiteral {
+    public init(nilLiteral: ()) {
+        self.init()
+    }
+}
+
 public struct LayoutCenterMetric {
     public let x: LayoutMetric
     public let y: LayoutMetric
 
-    init(
+    public init(
         x: LayoutMetric = nil,
         y: LayoutMetric = nil
     ) {
@@ -63,15 +69,27 @@ public struct LayoutCenterMetric {
     }
 }
 
+extension LayoutCenterMetric: ExpressibleByNilLiteral {
+    public init(nilLiteral: ()) {
+        self.init()
+    }
+}
+
 public struct LayoutSizeMetric {
     public let width: LayoutMetric
     public let height: LayoutMetric
 
-    init(
+    public init(
         width: LayoutMetric = nil,
         height: LayoutMetric = nil
     ) {
         self.width = width
         self.height = height
+    }
+}
+
+extension LayoutSizeMetric: ExpressibleByNilLiteral {
+    public init(nilLiteral: ()) {
+        self.init()
     }
 }

@@ -5,8 +5,11 @@ import UIKit
 
 public protocol ViewComposable: UIView {
     associatedtype StyleGuide
+    associatedtype LayoutGuide
 
     func customizeAppearance(_ styleGuide: StyleGuide)
+    func prepareLayout(_ layoutGuide: LayoutGuide)
+    
     func prepareLayout()
     func setListeners()
     func linkInteractors()
