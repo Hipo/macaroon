@@ -184,7 +184,13 @@
                 },
                 {
                   "name": "Styling",
-                  "source_files": "macaroon/Classes/Views/Configuration/Styling/*.swift"
+                  "source_files": "macaroon/Classes/Views/Configuration/Styling/*.swift",
+                  "subspecs": [
+                    {
+                      "name": "Customization",
+                      "source_files": "macaroon/Classes/Views/Configuration/Styling/Customization/*.swift"
+                    }
+                  ]
                 }
               ]
             },
@@ -212,6 +218,10 @@
           "source_files": "macaroon/Classes/Form/Views/*.swift"
         }
       ]
+    },
+    {
+      "name": "MediaPicker",
+      "source_files": "macaroon/Classes/MediaPicker/*.swift"
     },
     {
       "name": "PushNotification",
@@ -252,6 +262,7 @@
     },
     {
       "name": "URLImage",
+      "source_files": "macaroon/Classes/URLImage/*.swift",
       "dependencies": {
         "Kingfisher": [
           "~> 5.0"
@@ -260,7 +271,21 @@
       "subspecs": [
         {
           "name": "Utils",
-          "source_files": "macaroon/Classes/URLImage/Utils/*.swift"
+          "source_files": "macaroon/Classes/URLImage/Utils/*.swift",
+          "subspecs": [
+            {
+              "name": "Extensions",
+              "source_files": "macaroon/Classes/URLImage/Utils/Extensions/*.swift"
+            },
+            {
+              "name": "Properties",
+              "source_files": "macaroon/Classes/URLImage/Utils/Properties/*.swift"
+            }
+          ]
+        },
+        {
+          "name": "ViewModels",
+          "source_files": "macaroon/Classes/URLImage/ViewModels/*.swift"
         },
         {
           "name": "Views",
@@ -281,6 +306,15 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Zendesk-Support",
+      "source_files": "macaroon/Classes/ZendeskSupport/*.swift",
+      "dependencies": {
+        "ZendeskSupportSDK": [
+          "~> 5.0"
+        ]
+      }
     }
   ],
   "swift_version": "5.0"

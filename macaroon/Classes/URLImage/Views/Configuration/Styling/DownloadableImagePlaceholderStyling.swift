@@ -13,12 +13,12 @@ public protocol DownloadableImagePlaceholderStyling: Styling {
 
 extension DownloadableImagePlaceholderStyling {
     public var contentMode: UIView.ContentMode {
-        return .scaleToFill
+        return .scaleAspectFit
     }
     public var font: FontGroup? {
         return nil
     }
-    public var titleColor: ColorGroup? {
+    public var textColor: ColorGroup? {
         return nil
     }
     public var textAlignment: NSTextAlignment {

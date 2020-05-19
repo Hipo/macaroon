@@ -225,6 +225,9 @@ extension ListLayout {
         flowLayout.sectionHeadersPinToVisibleBounds = headersPinToVisibleBounds
         flowLayout.sectionFootersPinToVisibleBounds = footersPinToVisibleBounds
         setItemSize(flowLayout)
+        setMinimumLineSpacingIfNeeded(flowLayout)
+        setMinimumInteritemSpacingIfNeeded(flowLayout)
+        setSectionInsetIfNeeded(flowLayout)
         return flowLayout
     }
 
@@ -237,6 +240,33 @@ extension ListLayout {
             flowLayout.estimatedItemSize = .zero
         case .selfSizing:
             flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        }
+    }
+
+    private func setMinimumLineSpacingIfNeeded(_ flowLayout: UICollectionViewFlowLayout) {
+        switch minimumLineSpacing {
+        case .fixed(let fixedMinimumLineSpacing):
+            flowLayout.minimumLineSpacing = fixedMinimumLineSpacing
+        case .dynamic:
+            break
+        }
+    }
+
+    private func setMinimumInteritemSpacingIfNeeded(_ flowLayout: UICollectionViewFlowLayout) {
+        switch minimumInteritemSpacing {
+        case .fixed(let fixedMinimumInteritemSpacing):
+            flowLayout.minimumInteritemSpacing = fixedMinimumInteritemSpacing
+        case .dynamic:
+            break
+        }
+    }
+
+    private func setSectionInsetIfNeeded(_ flowLayout: UICollectionViewFlowLayout) {
+        switch sectionInset {
+        case .fixed(let fixedSectionInset):
+            flowLayout.sectionInset = fixedSectionInset
+        case .dynamic:
+            break
         }
     }
 }

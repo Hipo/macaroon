@@ -76,3 +76,16 @@ public func iOS12AndBefore<T>(execute: () -> T, else elseExecute: () -> T) -> T 
     }
     return execute()
 }
+
+//// <mark> Debug
+public func debug(_ execute: () -> Void) {
+    #if DEBUG
+    execute()
+    #endif
+}
+
+public func release(_ execute: () -> Void) {
+    #if !DEBUG
+    execute()
+    #endif
+}

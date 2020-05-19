@@ -23,7 +23,16 @@ open class ImageView: BaseView, ImageCustomizable, ImageLoadable {
 
     open func customizeAppearance(_ style: ImageStyling) {
         customizeBaseAppearance(style)
+
         contentView.contentMode = style.contentMode
+        contentView.image = style.image
+    }
+
+    public func resetAppearance() {
+        resetBaseAppearance()
+
+        contentView.contentMode = .scaleToFill
+        contentView.image = nil
     }
 
     open func prepareLayout() {

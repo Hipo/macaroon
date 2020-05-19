@@ -5,9 +5,11 @@ target 'macaroon_Example' do
   pod 'Macaroon/Banner',  :path => '../'
   pod 'Macaroon/Development', :path => '../'
   pod 'Macaroon/Form', :path => '../'
+  pod 'Macaroon/MediaPicker', :path => '../'
   pod 'Macaroon/PushNotification', :path => '../'
   pod 'Macaroon/SVGImage', :path => '../'
   pod 'Macaroon/TabBar', :path => '../'
+  pod 'Macaroon/Zendesk-Support', :path => '../'
 
   target 'macaroon_Tests' do
     inherit! :search_paths

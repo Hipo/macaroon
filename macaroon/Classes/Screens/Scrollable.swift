@@ -76,6 +76,7 @@ extension Scrollable where Self: UIViewController {
         let scrollHeight = scrollView.bounds.height
         let contentHeight = contentView.bounds.height
         let footerHeight = footerView.bounds.height
+        /// <todo> Scrollable height calculation is wrong if content inset top is set explicitly.
         let scrollableHeight = contentHeight + footerHeight + scrollView.adjustedContentInset.y - scrollView.contentOffset.y
 
         footerView.snp.updateConstraints { maker in

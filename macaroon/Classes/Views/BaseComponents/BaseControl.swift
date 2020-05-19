@@ -81,7 +81,7 @@ open class BaseControl: UIControl, CornerRoundDrawable, ShadowDrawable {
 }
 
 extension BaseControl {
-    public func recustomizeAppearanceWhenStateChanged() {
+    private func recustomizeAppearanceWhenStateChanged() {
         if isEnabled {
             if isSelected {
                 recustomizeAppearance(for: .selected)

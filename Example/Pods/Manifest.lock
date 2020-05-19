@@ -95,6 +95,9 @@ PODS:
   - Macaroon/Core/Views/Configuration/Layout (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Configuration/Styling (0.1.0):
+    - Macaroon/Core/Views/Configuration/Styling/Customization (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Views/Configuration/Styling/Customization (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/ListComponents (0.1.0):
     - SnapKit (~> 5.0.0)
@@ -109,6 +112,7 @@ PODS:
   - Macaroon/Form/Screens (0.1.0)
   - Macaroon/Form/Utils (0.1.0)
   - Macaroon/Form/Views (0.1.0)
+  - Macaroon/MediaPicker (0.1.0)
   - Macaroon/PushNotification (0.1.0)
   - Macaroon/SVGImage (0.1.0):
     - Macaroon/URLImage
@@ -121,8 +125,17 @@ PODS:
   - Macaroon/URLImage (0.1.0):
     - Kingfisher (~> 5.0)
     - Macaroon/URLImage/Utils (= 0.1.0)
+    - Macaroon/URLImage/ViewModels (= 0.1.0)
     - Macaroon/URLImage/Views (= 0.1.0)
   - Macaroon/URLImage/Utils (0.1.0):
+    - Kingfisher (~> 5.0)
+    - Macaroon/URLImage/Utils/Extensions (= 0.1.0)
+    - Macaroon/URLImage/Utils/Properties (= 0.1.0)
+  - Macaroon/URLImage/Utils/Extensions (0.1.0):
+    - Kingfisher (~> 5.0)
+  - Macaroon/URLImage/Utils/Properties (0.1.0):
+    - Kingfisher (~> 5.0)
+  - Macaroon/URLImage/ViewModels (0.1.0):
     - Kingfisher (~> 5.0)
   - Macaroon/URLImage/Views (0.1.0):
     - Kingfisher (~> 5.0)
@@ -135,20 +148,38 @@ PODS:
     - Macaroon/URLImage/Views/Configuration/Styling (= 0.1.0)
   - Macaroon/URLImage/Views/Configuration/Styling (0.1.0):
     - Kingfisher (~> 5.0)
+  - Macaroon/Zendesk-Support (0.1.0):
+    - ZendeskSupportSDK (~> 5.0)
   - Macaw (0.9.6):
     - SWXMLHash
   - SnapKit (5.0.1)
   - SwiftLint (0.37.0)
   - SWXMLHash (5.0.1)
   - Tryouts (0.2.1)
+  - ZendeskCommonUISDK (4.4.0):
+    - ZendeskSDKConfigurationsSDK (~> 1.1.5)
+  - ZendeskCoreSDK (2.3.0)
+  - ZendeskMessagingAPISDK (3.4.0):
+    - ZendeskSDKConfigurationsSDK (~> 1.1.5)
+  - ZendeskMessagingSDK (3.4.0):
+    - ZendeskCommonUISDK (~> 4.4.0)
+    - ZendeskMessagingAPISDK (~> 3.4.0)
+  - ZendeskSDKConfigurationsSDK (1.1.5)
+  - ZendeskSupportProvidersSDK (5.0.3):
+    - ZendeskCoreSDK (~> 2.3.0)
+  - ZendeskSupportSDK (5.0.3):
+    - ZendeskMessagingSDK (~> 3.4.0)
+    - ZendeskSupportProvidersSDK (~> 5.0.3)
 
 DEPENDENCIES:
   - Macaroon/Banner (from `../`)
   - Macaroon/Development (from `../`)
   - Macaroon/Form (from `../`)
+  - Macaroon/MediaPicker (from `../`)
   - Macaroon/PushNotification (from `../`)
   - Macaroon/SVGImage (from `../`)
   - Macaroon/TabBar (from `../`)
+  - Macaroon/Zendesk-Support (from `../`)
 
 SPEC REPOS:
   trunk:
@@ -158,6 +189,13 @@ SPEC REPOS:
     - SwiftLint
     - SWXMLHash
     - Tryouts
+    - ZendeskCommonUISDK
+    - ZendeskCoreSDK
+    - ZendeskMessagingAPISDK
+    - ZendeskMessagingSDK
+    - ZendeskSDKConfigurationsSDK
+    - ZendeskSupportProvidersSDK
+    - ZendeskSupportSDK
 
 EXTERNAL SOURCES:
   Macaroon:
@@ -165,13 +203,20 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: d2279a7abece3c7f25a80cd2b7f363ca5cf3f44c
-  Macaroon: af950568c6d4cb4c7f41782df2c65eed88025371
+  Macaroon: 5d32a3940c2f6c072c24cccac6b3c2fc9cb7727c
   Macaw: 8306d775625ba003beee4186b9533fd7cf284024
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
   SWXMLHash: 9cc0c2e4807926c74377724aa8722ee5707a0485
   Tryouts: dabd03aa73c2b5d253a649d306df523fc090fcee
+  ZendeskCommonUISDK: e6fa1e5f9ecb0a23038d60735875d3b04542483b
+  ZendeskCoreSDK: 177a6b07027d70acf6ca24d2c4d9c1b33c42ad66
+  ZendeskMessagingAPISDK: 99b3fc16a234794fa52e85fd39ed4311bb7ff72c
+  ZendeskMessagingSDK: f4231f542fc14eec85e9c01281310192888cc1f7
+  ZendeskSDKConfigurationsSDK: 0c610c22c9e3cafcd31591344b8cc3b4398e49b2
+  ZendeskSupportProvidersSDK: 1db9151c6f8f107d7b949e0e7d7941fec3181db2
+  ZendeskSupportSDK: 34d387fdd671f09e90dd78eb763fb2cb42065f86
 
-PODFILE CHECKSUM: 15593805165bec105cb01ca2e3f62ae802b07faa
+PODFILE CHECKSUM: 6704d1f7a13435ee135393986acdacb9fa62c169
 
 COCOAPODS: 1.9.1

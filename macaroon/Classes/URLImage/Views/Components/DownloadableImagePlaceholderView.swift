@@ -68,6 +68,6 @@ public class DownloadableImagePlaceholderView: BaseView, URLImagePlaceholderCont
 
     open func reloadData() {
         imageView.load(from: placeholder?.source)
-        textLabel.editText = placeholder?.title
+        textLabel.editText = placeholder?.description
     }
 }

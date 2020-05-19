@@ -203,6 +203,13 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Tryouts/Tryouts.framework"
+  install_framework "${PODS_ROOT}/ZendeskCommonUISDK/CommonUISDK.framework"
+  install_framework "${PODS_ROOT}/ZendeskCoreSDK/ZendeskCoreSDK.framework"
+  install_framework "${PODS_ROOT}/ZendeskMessagingAPISDK/MessagingAPI.framework"
+  install_framework "${PODS_ROOT}/ZendeskMessagingSDK/MessagingSDK.framework"
+  install_framework "${PODS_ROOT}/ZendeskSDKConfigurationsSDK/SDKConfigurations.framework"
+  install_framework "${PODS_ROOT}/ZendeskSupportProvidersSDK/SupportProvidersSDK.framework"
+  install_framework "${PODS_ROOT}/ZendeskSupportSDK/SupportSDK.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
@@ -211,6 +218,13 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Tryouts/Tryouts.framework"
+  install_framework "${PODS_ROOT}/ZendeskCommonUISDK/CommonUISDK.framework"
+  install_framework "${PODS_ROOT}/ZendeskCoreSDK/ZendeskCoreSDK.framework"
+  install_framework "${PODS_ROOT}/ZendeskMessagingAPISDK/MessagingAPI.framework"
+  install_framework "${PODS_ROOT}/ZendeskMessagingSDK/MessagingSDK.framework"
+  install_framework "${PODS_ROOT}/ZendeskSDKConfigurationsSDK/SDKConfigurations.framework"
+  install_framework "${PODS_ROOT}/ZendeskSupportProvidersSDK/SupportProvidersSDK.framework"
+  install_framework "${PODS_ROOT}/ZendeskSupportSDK/SupportSDK.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

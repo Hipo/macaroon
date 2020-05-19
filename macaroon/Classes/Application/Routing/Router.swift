@@ -63,7 +63,7 @@ extension Router {
 }
 
 extension Router {
-    private func pushScreen(_ screen: UIViewController, from source: UIViewController, by transition: RoutingTransition.Open.Navigation = .next, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
+    func pushScreen(_ screen: UIViewController, from source: UIViewController, by transition: RoutingTransition.Open.Navigation = .next, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
         if let configurableSource = source as? StatusBarConfigurable,
            let configurableScreen = screen as? StatusBarConfigurable {
             let isStatusBarHidden = configurableSource.isStatusBarHidden
@@ -82,7 +82,7 @@ extension Router {
         handler?()
     }
 
-    private func presentScreen(_ screen: UIViewController, from source: UIViewController, by transition: RoutingTransition.Open.Presentation = .default, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
+    func presentScreen(_ screen: UIViewController, from source: UIViewController, by transition: RoutingTransition.Open.Presentation = .default, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
         if let configurableSource = source as? StatusBarConfigurable, configurableSource.isStatusBarHidden,
            let configurableScreen = screen as? StatusBarConfigurable {
             configurableScreen.hidesStatusBarOnPresented = true
@@ -107,7 +107,7 @@ extension Router {
         source.present(navigationContainer, animated: animated, completion: handler)
     }
 
-    private func popScreen(_ screen: UIViewController, by transition: RoutingTransition.Close.Navigation = .previous, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
+    func popScreen(_ screen: UIViewController, by transition: RoutingTransition.Close.Navigation = .previous, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
         let navigationContainer = screen as? UINavigationController ?? screen.navigationController
 
         switch transition {
@@ -119,7 +119,7 @@ extension Router {
         handler?()
     }
 
-    private func dismissScreen(_ screen: UIViewController, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
+    func dismissScreen(_ screen: UIViewController, animated: Bool = true, onCompleted handler: TransitionHandler? = nil) {
         screen.presentingViewController?.dismiss(animated: animated, completion: handler)
     }
 }

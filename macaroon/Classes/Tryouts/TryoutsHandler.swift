@@ -32,10 +32,18 @@ extension TryoutsHandler {
 }
 
 extension TryoutsHandler {
+    public enum CodingKeys: String, CodingKey {
+        case appId = "app_id"
+        case apiKey = "api_key"
+        case developerSecret = "developer_secret"
+    }
+}
+
+extension TryoutsHandler {
     public struct Config {
-        let appId: String
-        let apiKey: String
-        let developerSecret: String
+        public let appId: String
+        public let apiKey: String
+        public let developerSecret: String
 
         var isValid: Bool {
             return
@@ -43,13 +51,5 @@ extension TryoutsHandler {
                 !apiKey.isEmpty &&
                 !developerSecret.isEmpty
         }
-    }
-}
-
-extension TryoutsHandler {
-    public enum CodingKeys: String, CodingKey {
-        case appId = "app_id"
-        case apiKey = "api_key"
-        case developerSecret = "developer_secret"
     }
 }

@@ -141,22 +141,22 @@ extension TextInputStyling {
     }
 }
 
-public struct NoStyling: Styling {
+public struct NoStyle: Styling {
     public init() { }
 }
 
-public struct NoButtonStyling: ButtonStyling {
+public struct NoButtonStyle: ButtonStyling {
     public init() { }
 }
 
-public struct NoImageStyling: ImageStyling {
+public struct NoImageStyle: ImageStyling {
     public init() { }
 }
 
-public struct NoTextStyling: TextStyling {
+public struct NoTextStyle: TextStyling {
     public init() { }
 }
 
-public struct NoTextInputStyling: TextInputStyling {
+public struct NoTextInputStyle: TextInputStyling {
     public init() { }
 }
