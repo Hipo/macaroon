@@ -38,7 +38,7 @@ public struct FixedSpaceTabBarItem: TabBarItemConvertible {
         let isSelectable: Bool
 
         init(width: CGFloat) {
-            self.style = NoButtonStyling()
+            self.style = NoButtonStyle()
             self.spacingBetweenImageAndTitle = 0.0
             self.width = width
             self.isSelectable = false

@@ -78,7 +78,7 @@ extension TabBarConfigurable where Self: UIViewController {
         newTabBarSnaphot.layer.masksToBounds = tabBar.layer.masksToBounds
 
         view.addSubview(newTabBarSnaphot)
-        newTabBarSnaphot.frame = CGRect(origin: CGPoint(x: 0.0, y: tabBarContainer.view.bounds.height - tabBar.bounds.height), size: tabBar.bounds.size)
+        newTabBarSnaphot.frame = CGRect(origin: CGPoint(x: 0.0, y: view.bounds.height - tabBar.bounds.height), size: tabBar.bounds.size)
 
         tabBarSnapshot = newTabBarSnaphot
     }

@@ -37,6 +37,8 @@ extension AttributedTextBuilder {
         public var alignment: NSTextAlignment?
         public var lineBreakMode: NSLineBreakMode?
         public var lineHeight: CGFloat?
+        public var lineHeightMultiple: CGFloat?
+        public var lineSpacing: CGFloat?
 
         init() { }
 
@@ -53,6 +55,12 @@ extension AttributedTextBuilder {
                 paragraphStyle.minimumLineHeight = lineHeight
                 paragraphStyle.maximumLineHeight = lineHeight
             }
+            if let lineHeightMultiple = lineHeightMultiple {
+                paragraphStyle.lineHeightMultiple = lineHeightMultiple
+            }
+            if let lineSpacing = lineSpacing {
+                paragraphStyle.lineSpacing = lineSpacing
+            }
             return paragraphStyle
         }
     }
@@ -63,6 +71,8 @@ extension AttributedTextBuilder.Paragraph {
         case alignment(NSTextAlignment)
         case lineBreakMode(NSLineBreakMode)
         case lineHeight(CGFloat)
+        case lineHeightMultiple(CGFloat)
+        case lineSpacing(CGFloat)
     }
 }
 
@@ -78,6 +88,10 @@ extension AttributedTextBuilder.Paragraph: ExpressibleByArrayLiteral {
                 lineBreakMode = someLineBreakMode
             case .lineHeight(let someLineHeight):
                 lineHeight = someLineHeight
+            case .lineHeightMultiple(let someLineHeightMultiple):
+                lineHeightMultiple = someLineHeightMultiple
+            case .lineSpacing(let someLineSpacing):
+                lineSpacing = someLineSpacing
             }
         }
     }

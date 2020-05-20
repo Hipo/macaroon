@@ -4,6 +4,13 @@ import Foundation
 import UIKit
 
 open class Button: UIButton {
+    open override var intrinsicContentSize: CGSize {
+        if currentImage == nil && currentTitle == nil {
+            return .zero
+        }
+        return super.intrinsicContentSize
+    }
+
     public let layout: Layout
 
     required public init(_ layout: Layout = .none) {
@@ -33,6 +40,12 @@ open class Button: UIButton {
         case .imageAtTopmost(let padding, _):
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
             rect.origin.y = contentRect.minY + padding + contentEdgeInsets.top
+            return rect
+        case .imageAtLeft(let spacing):
+            rect.origin.x = rect.origin.x - (spacing / 2.0).rounded()
+            return rect
+        case .imageAtLeftmost(let padding, _):
+            rect.origin.x = contentRect.width - (padding + contentEdgeInsets.left)
             return rect
         case .imageAtRight(let spacing):
             let titleWidth = super.titleRect(forContentRect: contentRect).width
@@ -66,6 +79,12 @@ open class Button: UIButton {
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
             rect.origin.y = ((contentRect.height - rect.height) / 2.0).rounded() + titleAdjustmentY + contentEdgeInsets.top
             return rect
+        case .imageAtLeft(let spacing):
+            rect.origin.x = rect.origin.x + (spacing / 2.0).rounded()
+            return rect
+        case .imageAtLeftmost(_, let titleAdjustmentX):
+            rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + titleAdjustmentX + contentEdgeInsets.left
+            return rect
         case .imageAtRight(let spacing):
             let imageWidth = super.imageRect(forContentRect: contentRect).width
             rect.origin.x = ((contentRect.width - (rect.width + spacing + imageWidth)) / 2.0).rounded() + contentEdgeInsets.left
@@ -86,8 +105,10 @@ extension Button {
         case none
         case imageAtTop(spacing: CGFloat) /// <note> Spacing equals to the distance between image and title.
         case imageAtTopmost(padding: CGFloat, titleAdjustmentY: CGFloat) /// <note> Padding equals to the inset from top for the image while the title is centered.
+        case imageAtLeft(spacing: CGFloat) /// <note> Spacing equals to the distance between image and title.
+        case imageAtLeftmost(padding: CGFloat, titleAdjustmentX: CGFloat) /// <note> Padding equals to the inset from left for the image while the title is centered offset by titleAdjustmentX.
         case imageAtRight(spacing: CGFloat) /// <note> Spacing equals to the distance between image and title.
-        case imageAtRightmost(padding: CGFloat, titleAdjustmentX: CGFloat) /// <note> Padding equals to the inset from right for the image while the title is centered.
+        case imageAtRightmost(padding: CGFloat, titleAdjustmentX: CGFloat) /// <note> Padding equals to the inset from right for the image while the title is centered offset by titleAdjustmentX.
         case titleAtBottommost(padding: CGFloat, imageAdjustmentY: CGFloat)
     }
 }

@@ -141,6 +141,10 @@ Pod::Spec.new do |s|
 
         ssss.subspec 'Styling' do |sssss|
           sssss.source_files = 'macaroon/Classes/Views/Configuration/Styling/*.swift'
+
+          sssss.subspec 'Customization' do |ssssss|
+            ssssss.source_files = 'macaroon/Classes/Views/Configuration/Styling/Customization/*.swift'
+          end
         end
       end
 
@@ -164,6 +168,10 @@ Pod::Spec.new do |s|
     ss.subspec 'Views' do |sss|
       sss.source_files = 'macaroon/Classes/Form/Views/*.swift'
     end
+  end
+
+  s.subspec 'MediaPicker' do |ss|
+    ss.source_files = 'macaroon/Classes/MediaPicker/*.swift'
   end
 
   s.subspec 'PushNotification' do |ss|
@@ -191,8 +199,22 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'URLImage' do |ss|
+    ss.source_files = 'macaroon/Classes/URLImage/*.swift'
+
     ss.subspec 'Utils' do |sss|
       sss.source_files = 'macaroon/Classes/URLImage/Utils/*.swift'
+
+      sss.subspec 'Extensions' do |ssss|
+        ssss.source_files = 'macaroon/Classes/URLImage/Utils/Extensions/*.swift'
+      end
+
+      sss.subspec 'Properties' do |ssss|
+        ssss.source_files = 'macaroon/Classes/URLImage/Utils/Properties/*.swift'
+      end
+    end
+
+    ss.subspec 'ViewModels' do |sss|
+      sss.source_files = 'macaroon/Classes/URLImage/ViewModels/*.swift'
     end
 
     ss.subspec 'Views' do |sss|
@@ -208,5 +230,11 @@ Pod::Spec.new do |s|
     end
 
     ss.dependency 'Kingfisher', '~> 5.0'
+  end
+
+  s.subspec 'Zendesk-Support' do |ss|
+    ss.source_files = 'macaroon/Classes/ZendeskSupport/*.swift'
+
+    ss.dependency 'ZendeskSupportSDK', '~> 5.0'
   end
 end
