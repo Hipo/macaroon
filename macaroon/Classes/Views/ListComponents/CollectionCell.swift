@@ -3,8 +3,17 @@
 import Foundation
 import UIKit
 
+public enum SeperatorStyle {
+    case none
+    case single(Seperator)
+}
+
 open class CollectionCell<ContextView: ViewComposable>: UICollectionViewCell, ListComposable {
     public lazy var contextView = getContextView()
+    
+    open var seperatorStyle: SeperatorStyle {
+        return .none
+    }
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,6 +28,7 @@ open class CollectionCell<ContextView: ViewComposable>: UICollectionViewCell, Li
 
     open func prepareLayout() {
         addContextView()
+        addSeperatorView()
     }
 
     open func addContextView() {
@@ -39,5 +49,16 @@ open class CollectionCell<ContextView: ViewComposable>: UICollectionViewCell, Li
 
     open override func prepareForReuse() {
         contextView.prepareForReuse()
+    }
+}
+
+extension CollectionCell {
+    private func addSeperatorView() {
+        switch seperatorStyle {
+        case .none:
+            return
+        case let .single(seperator):
+            addSeperator(seperator, at: .bottom)
+        }
     }
 }
