@@ -3,6 +3,20 @@
 import Foundation
 import UIKit
 
+public protocol BorderDrawable: UIView {}
+
+extension BorderDrawable {
+    public func drawBorder(_ border: Border) {
+        layer.borderColor = border.color.cgColor
+        layer.borderWidth = border.width
+    }
+    
+    public func removeBorder() {
+        layer.borderWidth = 0.0
+        layer.borderColor = nil
+    }
+}
+
 public protocol CornerRoundDrawable: UIView { }
 
 extension CornerRoundDrawable {
