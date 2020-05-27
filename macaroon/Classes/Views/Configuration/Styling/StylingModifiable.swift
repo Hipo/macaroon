@@ -22,6 +22,9 @@ extension StylingModifiable {
     public var shadow: Shadow? {
         return modifiers.findLast(nonNil: \.shadow)
     }
+    public var border: Border? {
+        return modifiers.findLast(nonNil: \.border)
+    }
 }
 
 public protocol ButtonStylingModifiable: ButtonStyling {
@@ -59,6 +62,9 @@ extension ButtonStylingModifiable {
     public var shadow: Shadow? {
         return modifiers.findLast(nonNil: \.shadow)
     }
+    public var border: Border? {
+        return modifiers.findLast(nonNil: \.border)
+    }
 }
 
 public protocol ImageStylingModifiable: ImageStyling {
@@ -86,6 +92,9 @@ extension ImageStylingModifiable {
     }
     public var shadow: Shadow? {
         return modifiers.findLast(nonNil: \.shadow)
+    }
+    public var border: Border? {
+        return modifiers.findLast(nonNil: \.border)
     }
 }
 
@@ -123,6 +132,9 @@ extension TextStylingModifiable {
     }
     public var shadow: Shadow? {
         return modifiers.findLast(nonNil: \.shadow)
+    }
+    public var border: Border? {
+        return modifiers.findLast(nonNil: \.border)
     }
 }
 
@@ -178,6 +190,9 @@ extension TextInputStylingModifiable {
     }
     public var shadow: Shadow? {
         return modifiers.findLast(nonNil: \.shadow)
+    }
+    public var border: Border? {
+        return modifiers.findLast(nonNil: \.border)
     }
 }
 
