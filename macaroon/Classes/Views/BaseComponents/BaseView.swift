@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-open class BaseView: UIView, CornerRoundDrawable, ShadowDrawable {
+open class BaseView: UIView, CornerRoundDrawable, ShadowDrawable, BorderDrawable {
     public var shadow: Shadow?
     public var shadowLayer: CAShapeLayer?
 
