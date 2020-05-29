@@ -234,7 +234,7 @@ acknowledge that such terms govern Your use of and access to the Mobile SDK.
 			<key>License</key>
 			<string>Copyright</string>
 			<key>Title</key>
-			<string>ZendeskCommonUISDK</string>
+			<string>ZendeskChatProvidersSDK</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -251,7 +251,24 @@ acknowledge that such terms govern Your use of and access to the Mobile SDK.
 			<key>License</key>
 			<string>Copyright</string>
 			<key>Title</key>
-			<string>ZendeskCoreSDK</string>
+			<string>ZendeskChatSDK</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>ZendeskSDKs
+Created by Zendesk on  1/09/2020
+Copyright (c) 2020 Zendesk. All rights reserved.
+By downloading or using the Zendesk Mobile SDK, You agree to the Zendesk Master
+Subscription Agreement https://www.zendesk.com/company/customers-partners/#master-subscription-agreement and Application Developer and API License
+Agreement https://www.zendesk.com/company/customers-partners/#application-developer-api-license-agreement and
+acknowledge that such terms govern Your use of and access to the Mobile SDK.
+</string>
+			<key>License</key>
+			<string>Copyright</string>
+			<key>Title</key>
+			<string>ZendeskCommonUISDK</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -303,40 +320,6 @@ acknowledge that such terms govern Your use of and access to the Mobile SDK.
 			<string>Copyright</string>
 			<key>Title</key>
 			<string>ZendeskSDKConfigurationsSDK</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>ZendeskSDKs
-Created by Zendesk on  1/09/2020
-Copyright (c) 2020 Zendesk. All rights reserved.
-By downloading or using the Zendesk Mobile SDK, You agree to the Zendesk Master
-Subscription Agreement https://www.zendesk.com/company/customers-partners/#master-subscription-agreement and Application Developer and API License
-Agreement https://www.zendesk.com/company/customers-partners/#application-developer-api-license-agreement and
-acknowledge that such terms govern Your use of and access to the Mobile SDK.
-</string>
-			<key>License</key>
-			<string>Copyright</string>
-			<key>Title</key>
-			<string>ZendeskSupportProvidersSDK</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>ZendeskSDKs
-Created by Zendesk on  1/09/2020
-Copyright (c) 2020 Zendesk. All rights reserved.
-By downloading or using the Zendesk Mobile SDK, You agree to the Zendesk Master
-Subscription Agreement https://www.zendesk.com/company/customers-partners/#master-subscription-agreement and Application Developer and API License
-Agreement https://www.zendesk.com/company/customers-partners/#application-developer-api-license-agreement and
-acknowledge that such terms govern Your use of and access to the Mobile SDK.
-</string>
-			<key>License</key>
-			<string>Copyright</string>
-			<key>Title</key>
-			<string>ZendeskSupportSDK</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

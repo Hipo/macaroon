@@ -9,12 +9,24 @@ public protocol MultiDelegationPublisher: AnyObject {
 
     func add(delegate: SomeDelegation.Delegate)
     func remove(delegate: SomeDelegation.Delegate)
-    func removeAll()
-    func notifyDelegates(_ notifier: (SomeDelegation.Delegate) -> Void)
 }
 
 extension MultiDelegationPublisher {
-    public func removeAll() {
+    public func add(delegate: SomeDelegation.Delegate) {
+        if let validDelegate = delegate as? AnyObject {
+            let id = ObjectIdentifier(validDelegate)
+            delegations[id] = SomeDelegation(delegate)
+        }
+    }
+
+    public func remove(delegate: SomeDelegation.Delegate) {
+        if let validDelegate = delegate as? AnyObject {
+            let id = ObjectIdentifier(validDelegate)
+            delegations[id] = nil
+        }
+    }
+
+    public func removeAllDelegates() {
         delegations.removeAll()
     }
 

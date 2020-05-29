@@ -53,41 +53,6 @@ public protocol AppTargetConvertible: AnyObject, Decodable {
 }
 
 extension AppTargetConvertible {
-    public var deviceOS: DeviceOS {
-        #if os(iOS)
-        return .iOS
-        #elseif os(watchOS)
-        return .watchOS
-        #else
-        mc_crash(.unsupportedDeviceOS)
-        #endif
-    }
-
-    public var deviceFamily: DeviceFamily {
-        #if os(iOS)
-        switch UIScreen.main.traitCollection.userInterfaceIdiom {
-        case .unspecified:
-            return .iPhone
-        case .phone:
-            return .iPhone
-        case .pad:
-            return .iPad
-        default:
-            mc_crash(.unsupportedDeviceFamily)
-        }
-        #elseif os(watchOS)
-        return .watch
-        #else
-        mc_crash(.unsupportedDeviceFamily)
-        #endif
-    }
-
-    public var hasNotch: Bool {
-        return UIApplication.shared.keyWindow.unwrap(either: { $0.safeAreaInsets.bottom > 0 }, or: false)
-    }
-}
-
-extension AppTargetConvertible {
     /// <note>
     /// - Config file must be in JSON format.
     /// - Config file must be saved in the 'main' bundle.
@@ -105,17 +70,6 @@ extension AppTargetConvertible {
             mc_crash(.targetCorrupted(reason: err))
         }
     }
-}
-
-public enum DeviceOS {
-    case iOS
-    case watchOS
-}
-
-public enum DeviceFamily {
-    case iPhone
-    case iPad
-    case watch
 }
 
 /// <mark> ServerConfig

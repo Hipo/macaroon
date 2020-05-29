@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 extension UIViewController {
-    public func runAfterDismiss(animated: Bool = true, _ closure: @escaping () -> Void) {
+    public func continueAfterDismiss(animated: Bool = true, _ closure: @escaping () -> Void) {
         if presentedViewController == nil {
             closure()
         } else {

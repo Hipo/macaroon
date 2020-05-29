@@ -4,6 +4,8 @@ import Foundation
 import UIKit
 
 public protocol ListLayout: AnyObject {
+    static var flowLayoutClass: AnyClass { get }
+
     var listView: UICollectionView? { get set }
     var scrollDirection: UICollectionView.ScrollDirection { get }
     var itemSize: ListItemSize { get }
@@ -27,6 +29,10 @@ public protocol ListLayout: AnyObject {
 }
 
 extension ListLayout {
+    public static var flowLayoutClass: AnyClass {
+        return UICollectionViewFlowLayout.self
+    }
+
     public var scrollDirection: UICollectionView.ScrollDirection {
         return .vertical
     }
@@ -179,9 +185,9 @@ extension ListLayout {
 extension ListLayout {
     public func invalidate(_ context: UICollectionViewFlowLayoutInvalidationContext? = nil, forceLayoutUpdate: Bool = false) {
         if let context = context {
-            _layout.invalidateLayout(with: context)
+            collectionViewLayout.invalidateLayout(with: context)
         } else {
-            _layout.invalidateLayout()
+            collectionViewLayout.invalidateLayout()
         }
         if forceLayoutUpdate {
             listView?.layoutIfNeeded()
@@ -209,7 +215,7 @@ extension ListLayout {
 }
 
 extension ListLayout {
-    var _layout: UICollectionViewFlowLayout {
+    var collectionViewLayout: UICollectionViewFlowLayout {
         guard let listView = listView else {
             return formFlowLayout()
         }
@@ -220,7 +226,7 @@ extension ListLayout {
     }
 
     private func formFlowLayout() -> UICollectionViewFlowLayout {
-        let flowLayout = UICollectionViewFlowLayout()
+        let flowLayout = (Self.flowLayoutClass as? UICollectionViewFlowLayout.Type)?.init() ?? UICollectionViewFlowLayout()
         flowLayout.scrollDirection = scrollDirection
         flowLayout.sectionHeadersPinToVisibleBounds = headersPinToVisibleBounds
         flowLayout.sectionFootersPinToVisibleBounds = footersPinToVisibleBounds
@@ -302,7 +308,7 @@ public enum ListSectionInset {
 
 extension UICollectionView {
     public convenience init(listLayout: ListLayout) {
-        self.init(frame: .zero, collectionViewLayout: listLayout._layout)
+        self.init(frame: .zero, collectionViewLayout: listLayout.collectionViewLayout)
         listLayout.listView = self
     }
 }

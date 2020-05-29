@@ -308,6 +308,15 @@
       ]
     },
     {
+      "name": "Zendesk-Chat",
+      "source_files": "macaroon/Classes/ZendeskChat/*.swift",
+      "dependencies": {
+        "ZendeskChatSDK": [
+          "~> 2.6"
+        ]
+      }
+    },
+    {
       "name": "Zendesk-Support",
       "source_files": "macaroon/Classes/ZendeskSupport/*.swift",
       "dependencies": {

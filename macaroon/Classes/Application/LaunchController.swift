@@ -26,7 +26,7 @@ public protocol AuthenticationLaunchController: LaunchController {
 
     func continueAfterSignUp()
     func continueAfterSignIn()
-    func continueAfterReauthentication(first: Bool)
+    func continueAfterAuthentication(isFirst: Bool)
     func signoutAndRelaunch()
 }
 

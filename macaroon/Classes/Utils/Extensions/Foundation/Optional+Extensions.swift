@@ -11,11 +11,11 @@ extension Optional {
         return map(transform) ?? someValue
     }
 
-    public func unwrap<T>(either keyPath: KeyPath<Wrapped, T>, or someValue: T) -> T {
+    public func unwrap<T>(_ keyPath: KeyPath<Wrapped, T>, or someValue: T) -> T {
         return unwrap(either: { $0[keyPath: keyPath] }, or: someValue)
     }
 
-    public func unwrap<T>(either keyPath: KeyPath<Wrapped, T?>, or someValue: T) -> T {
+    public func unwrap<T>(_ keyPath: KeyPath<Wrapped, T?>, or someValue: T) -> T {
         return unwrap(either: { $0[keyPath: keyPath] ?? someValue }, or: someValue)
     }
 
@@ -25,6 +25,14 @@ extension Optional {
 
     public func unwrapIfPresent<T>(either transform: (Wrapped) -> T?, or someValue: T? = nil) -> T? {
         return map(transform) ?? someValue
+    }
+
+    public func unwrapIfPresent<T>(_ keyPath: KeyPath<Wrapped, T>, or someValue: T? = nil) -> T? {
+        return unwrapIfPresent(either: { $0[keyPath: keyPath] }, or: someValue)
+    }
+
+    public func unwrapIfPresent<T>(_ keyPath: KeyPath<Wrapped, T?>, or someValue: T? = nil) -> T? {
+        return unwrapIfPresent(either: { $0[keyPath: keyPath] }, or: someValue)
     }
 
     public func unwrapConditionally(where predicate: (Wrapped) -> Bool) -> Wrapped? {

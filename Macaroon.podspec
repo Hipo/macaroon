@@ -232,6 +232,12 @@ Pod::Spec.new do |s|
     ss.dependency 'Kingfisher', '~> 5.0'
   end
 
+  s.subspec 'Zendesk-Chat' do |ss|
+    ss.source_files = 'macaroon/Classes/ZendeskChat/*.swift'
+
+    ss.dependency 'ZendeskChatSDK', '~> 2.6'
+  end
+
   s.subspec 'Zendesk-Support' do |ss|
     ss.source_files = 'macaroon/Classes/ZendeskSupport/*.swift'
 

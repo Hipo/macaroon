@@ -118,16 +118,18 @@ extension AuthenticationRootContainer {
         authorizationFlowWillStart()
 
         if router.hasStartedMainFlow() {
-            runAfterDismiss(animated: false) { [unowned self] in
+            continueAfterDismiss(animated: false) { [unowned self] in
                 self.authorizationContainer = self.router.startAuthorizationFlow(isFirst: false) { [unowned self] in
-                    self.endMainFlow()
                     self.closeSplash()
+                    self.endMainFlow()
+
                     self.authorizationFlowDidStart()
                 }
             }
         } else {
             self.authorizationContainer = router.startAuthorizationFlow(isFirst: true) { [unowned self] in
                 self.closeSplash()
+
                 self.authorizationFlowDidStart()
             }
         }
@@ -138,6 +140,7 @@ extension AuthenticationRootContainer {
 
         router.endAuthorizationFlow { [unowned self] in
             self.authorizationContainer = nil
+
             self.authorizationFlowDidEnd()
         }
     }
@@ -147,14 +150,14 @@ extension AuthenticationRootContainer {
     public func startMainFlow(force: Bool = true) {
         mainFlowWillStart()
 
-        if router.hasStartedMainFlow() &&
-           !force {
+        if router.hasStartedMainFlow() && !force {
             mainFlowDidStart()
             return
         }
         mainContainer = router.startMainFlow(force: force) { [unowned self] in
-            self.endAuthorizationFlow()
             self.closeSplash()
+            self.endAuthorizationFlow()
+
             self.mainFlowDidStart()
         }
         setNeedsStatusBarAppearanceUpdate()

@@ -88,7 +88,7 @@ extension Router {
             configurableScreen.hidesStatusBarOnPresented = true
             configurableScreen.isStatusBarHidden = true
         }
-        let navigationContainer = embedInNavigationScreen(screen)
+        let navigationContainer = screen as? UINavigationController ?? embedInNavigationScreen(screen)
 
         switch transition {
         case .`default`:

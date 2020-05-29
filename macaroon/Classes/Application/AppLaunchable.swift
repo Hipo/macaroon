@@ -12,5 +12,5 @@ public protocol AppLaunchArgs {
     associatedtype SomeScreenLaunchArgs: ScreenLaunchArgs
 
     func formScreenLaunchArgs(_ args: SomeScreenLaunchArgs.Options) -> SomeScreenLaunchArgs
-    func reset()
+    func invalidate()
 }

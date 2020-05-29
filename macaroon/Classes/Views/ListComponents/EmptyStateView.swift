@@ -115,7 +115,7 @@ extension EmptyStateViewDataSource {
         return loadingIndicator
     }
 
-    public func loadingIndicatorVerticalPositionAdjustment(in view: EmptyStateView) -> CGPoint? {
+    public func loadingIndicatorVerticalPositionAdjustment(in view: EmptyStateView) -> CGFloat? {
         return nil
     }
 

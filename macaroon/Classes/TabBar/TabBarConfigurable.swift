@@ -12,7 +12,11 @@ public protocol TabBarConfigurable: AnyObject {
 extension TabBarConfigurable where Self: UIViewController {
     public func setNeedsTabBarAppearanceUpdateOnAppearing(animated: Bool = true) {
         guard let tabBarContainer = tabBarContainer else { return }
-        isTabBarHidden.continue(isTrue: { tabBarContainer.setTabBarHidden(true, animated: animated) }, isFalse: updateTabBarAppearanceOnStacked)
+        
+        isTabBarHidden.continue(
+            isTrue: { tabBarContainer.setTabBarHidden(true, animated: animated) },
+            isFalse: updateTabBarAppearanceOnStacked
+        )
     }
 
     public func setNeedsTabBarAppearanceUpdateOnAppeared() {
@@ -34,7 +38,7 @@ extension TabBarConfigurable where Self: UIViewController {
     private func updateTabBarAppearanceOnStacked() {
         if isTabBarHidden { return }
 
-        guard let stackedViewControllers = navigationController.unwrapIfPresent(either: { $0.viewControllers }) else { return }
+        guard let stackedViewControllers = navigationController?.viewControllers else { return }
         guard let stackIndex = stackedViewControllers.firstIndex(of: self)
             .unwrapConditionally(where: { $0 > stackedViewControllers.startIndex && $0 == stackedViewControllers.index(before: stackedViewControllers.endIndex)}) // 1 -> Root, 2 -> Popping
         else { return }
@@ -53,11 +57,9 @@ extension TabBarConfigurable where Self: UIViewController {
             .unwrapIfPresent(either: { stackedViewControllers.index(after: $0) })
             .unwrapConditionally(where: { $0 < stackedViewControllers.endIndex })
         else { return }
-        guard let nextViewControllerInStack = stackedViewControllers[nextStackIndex] as? TabBarConfigurable else { return }
+        if (stackedViewControllers[nextStackIndex] as? TabBarConfigurable).unwrapConditionally(where: { !$0.isTabBarHidden }) != nil { return }
 
-        if nextViewControllerInStack.isTabBarHidden {
-            addTabBarSnaphot()
-        }
+        addTabBarSnaphot()
     }
 
     private func addTabBarSnaphot() {
