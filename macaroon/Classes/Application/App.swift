@@ -2,17 +2,17 @@
 
 import Foundation
 
-public protocol Application: AnyObject, AppLaunchable {
-    associatedtype SomeAppTarget: AppTargetConvertible
+public protocol App: AnyObject, AppLaunchable {
+    associatedtype SomeTarget: Target
     associatedtype SomeRouter: Router
 
-    var target: SomeAppTarget { get }
+    var target: SomeTarget { get }
     var router: SomeRouter { get }
 
     static var shared: Self { get }
 }
 
-extension Application {
+extension App {
     public var deviceOS: DeviceOS {
         #if os(iOS)
         return .iOS
@@ -43,7 +43,7 @@ extension Application {
     }
 
     public var hasNotch: Bool {
-        return UIApplication.shared.keyWindow.unwrap(either: { $0.safeAreaInsets.bottom > 0 }, or: false)
+        return UIApplication.shared.keyWindow.unwrap({ $0.safeAreaInsets.bottom > 0 }, or: false)
     }
 }
 

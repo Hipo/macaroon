@@ -10,7 +10,7 @@ public enum Error: ErrorConvertible {
     case unsupportedDeviceFamily
     case rootContainerNotMatch
     case routerNotFound
-    case screenNotFound(RoutingDestination)
+    case screenNotFound(RouteDestination)
     case dismissNavigationBarItemNotFound
     case popNavigationBarItemNotFound
     case colorNotFound(String)

@@ -4,19 +4,19 @@ import Foundation
 
 public protocol DeeplinkParser {
     associatedtype Pattern: DeeplinkPattern
-    associatedtype Destination: RoutingDestination
+    associatedtype Destination: RouteDestination
 
     var host: String { get }
     var matchers: [Pattern: NSRegularExpression] { get }
 
     func discover(url: URL) -> Destination?
-    func makeDestination(with urlComponents: DeeplinkURLComponents, for match: (Pattern, NSTextCheckingResult)) -> Destination?
+    func makeDestination(with urlComponents: DeeplinkComponents, for match: (Pattern, NSTextCheckingResult)) -> Destination?
 }
 
 extension DeeplinkParser {
     public func discover(url: URL) -> Destination? {
-        let urlComponents = DeeplinkURLComponents(url: url, deeplinkHost: host)
-        return findMatch(in: urlComponents.path).unwrapIfPresent(either: { makeDestination(with: urlComponents, for: $0) })
+        let urlComponents = DeeplinkComponents(url: url, deeplinkHost: host)
+        return findMatch(in: urlComponents.path).unwrapIfPresent({ makeDestination(with: urlComponents, for: $0) })
     }
 }
 

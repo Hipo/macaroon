@@ -16,17 +16,7 @@ Pod::Spec.new do |s|
   s.author = { 'Hipo' => 'hello@hipolabs.com' }
   s.ios.deployment_target = '11.0'
   s.swift_version = '5.0'
-  s.default_subspec = 'Production'
-
-  s.subspec 'Production' do |ss|
-    ss.dependency 'Macaroon/Core'
-  end
-
-  s.subspec 'Development' do |ss|
-    ss.dependency 'Macaroon/Core'
-    ss.dependency 'Macaroon/Tryouts'
-    ss.dependency 'Macaroon/SwiftLint'
-  end
+  s.default_subspec = 'Core'
 
   s.subspec 'Banner' do |ss|
     ss.source_files = 'macaroon/Classes/Banner/*.swift'
@@ -36,8 +26,16 @@ Pod::Spec.new do |s|
     ss.subspec 'Application' do |sss|
       sss.source_files = 'macaroon/Classes/Application/*.swift'
 
-      sss.subspec 'Routing' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Application/Routing/*.swift'
+      sss.subspec 'Launch' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Application/Launch/*.swift'
+      end
+
+      sss.subspec 'Route' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Application/Route/*.swift'
+
+        ssss.subspec 'Deeplink' do |sssss|
+            sssss.source_files = 'macaroon/Classes/Application/Route/Deeplink/*.swift'
+        end
       end
     end
 
@@ -128,6 +126,10 @@ Pod::Spec.new do |s|
 
       sss.subspec 'Components' do |ssss|
         ssss.source_files = 'macaroon/Classes/Views/Components/*.swift'
+
+        ssss.subspec 'MaskedTextInputView' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Views/Components/MaskedTextInputView/*.swift'
+        end
       end
 
       sss.subspec 'Configuration' do |ssss|
@@ -154,6 +156,10 @@ Pod::Spec.new do |s|
     end
 
     ss.dependency 'SnapKit', '~> 5.0.0'
+  end
+
+  s.subspec 'Core-Hipo' do |ss|
+    ss.source_files = "macaroon/Classes/Core-Hipo/*.swift"
   end
 
   s.subspec 'Form' do |ss|

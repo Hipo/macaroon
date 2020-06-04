@@ -2,7 +2,7 @@
 
 import Foundation
 
-public struct DeeplinkURLComponents {
+public struct DeeplinkComponents {
     public let subdomain: String
     public let path: String
     public let queryItems: [URLQueryItem]
@@ -25,7 +25,7 @@ public struct DeeplinkURLComponents {
         }
 
         let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        path = urlComponents.unwrap(either: \.path, or: "")
+        path = urlComponents.unwrap(\.path, or: "")
         queryItems = urlComponents.unwrap(\.queryItems, or: [])
     }
 }

@@ -17,6 +17,8 @@ extension CornerRoundDrawable {
     }
 }
 
+extension UIView: CornerRoundDrawable { }
+
 public protocol ShadowDrawable: UIView {
     var shadow: Shadow? { get set }
     var shadowLayer: CAShapeLayer? { get set }

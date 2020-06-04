@@ -18,30 +18,8 @@
     "ios": "11.0"
   },
   "swift_versions": "5.0",
-  "default_subspecs": "Production",
+  "default_subspecs": "Core",
   "subspecs": [
-    {
-      "name": "Production",
-      "dependencies": {
-        "Macaroon/Core": [
-
-        ]
-      }
-    },
-    {
-      "name": "Development",
-      "dependencies": {
-        "Macaroon/Core": [
-
-        ],
-        "Macaroon/Tryouts": [
-
-        ],
-        "Macaroon/SwiftLint": [
-
-        ]
-      }
-    },
     {
       "name": "Banner",
       "source_files": "macaroon/Classes/Banner/*.swift"
@@ -59,8 +37,18 @@
           "source_files": "macaroon/Classes/Application/*.swift",
           "subspecs": [
             {
-              "name": "Routing",
-              "source_files": "macaroon/Classes/Application/Routing/*.swift"
+              "name": "Launch",
+              "source_files": "macaroon/Classes/Application/Launch/*.swift"
+            },
+            {
+              "name": "Route",
+              "source_files": "macaroon/Classes/Application/Route/*.swift",
+              "subspecs": [
+                {
+                  "name": "Deeplink",
+                  "source_files": "macaroon/Classes/Application/Route/Deeplink/*.swift"
+                }
+              ]
             }
           ]
         },
@@ -169,7 +157,13 @@
             },
             {
               "name": "Components",
-              "source_files": "macaroon/Classes/Views/Components/*.swift"
+              "source_files": "macaroon/Classes/Views/Components/*.swift",
+              "subspecs": [
+                {
+                  "name": "MaskedTextInputView",
+                  "source_files": "macaroon/Classes/Views/Components/MaskedTextInputView/*.swift"
+                }
+              ]
             },
             {
               "name": "Configuration",
@@ -201,6 +195,10 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Core-Hipo",
+      "source_files": "macaroon/Classes/Core-Hipo/*.swift"
     },
     {
       "name": "Form",

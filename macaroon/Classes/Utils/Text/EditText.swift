@@ -8,6 +8,17 @@ public enum EditText {
 }
 
 extension EditText {
+    public var isEmpty: Bool {
+        switch self {
+        case .normal(let text, _):
+            return text.nonNil.isEmpty
+        case .attributed(let attributedText):
+            return attributedText.string.isEmpty
+        }
+    }
+}
+
+extension EditText {
     public func boundingSize(multiline: Bool = true, fittingSize: CGSize = .greatestFiniteMagnitude) -> CGSize {
         switch self {
         case .normal(let text, let font):

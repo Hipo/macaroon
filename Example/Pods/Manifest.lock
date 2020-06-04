@@ -11,10 +11,17 @@ PODS:
     - Macaroon/Core/Utils (= 0.1.0)
     - Macaroon/Core/Views (= 0.1.0)
     - SnapKit (~> 5.0.0)
+  - Macaroon/Core-Hipo (0.1.0)
   - Macaroon/Core/Application (0.1.0):
-    - Macaroon/Core/Application/Routing (= 0.1.0)
+    - Macaroon/Core/Application/Launch (= 0.1.0)
+    - Macaroon/Core/Application/Route (= 0.1.0)
     - SnapKit (~> 5.0.0)
-  - Macaroon/Core/Application/Routing (0.1.0):
+  - Macaroon/Core/Application/Launch (0.1.0):
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Application/Route (0.1.0):
+    - Macaroon/Core/Application/Route/Deeplink (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Application/Route/Deeplink (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Data (0.1.0):
     - Macaroon/Core/Data/DataSources (= 0.1.0)
@@ -84,6 +91,9 @@ PODS:
   - Macaroon/Core/Views/BaseComponents (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Components (0.1.0):
+    - Macaroon/Core/Views/Components/MaskedTextInputView (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Views/Components/MaskedTextInputView (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Configuration (0.1.0):
     - Macaroon/Core/Views/Configuration/Data (= 0.1.0)
@@ -101,10 +111,6 @@ PODS:
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/ListComponents (0.1.0):
     - SnapKit (~> 5.0.0)
-  - Macaroon/Development (0.1.0):
-    - Macaroon/Core
-    - Macaroon/SwiftLint
-    - Macaroon/Tryouts
   - Macaroon/Form (0.1.0):
     - Macaroon/Form/Screens (= 0.1.0)
     - Macaroon/Form/Utils (= 0.1.0)
@@ -171,12 +177,15 @@ PODS:
 
 DEPENDENCIES:
   - Macaroon/Banner (from `../`)
-  - Macaroon/Development (from `../`)
+  - Macaroon/Core (from `../`)
+  - Macaroon/Core-Hipo (from `../`)
   - Macaroon/Form (from `../`)
   - Macaroon/MediaPicker (from `../`)
   - Macaroon/PushNotification (from `../`)
   - Macaroon/SVGImage (from `../`)
+  - Macaroon/SwiftLint (from `../`)
   - Macaroon/TabBar (from `../`)
+  - Macaroon/Tryouts (from `../`)
   - Macaroon/Zendesk-Chat (from `../`)
 
 SPEC REPOS:
@@ -200,7 +209,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
-  Macaroon: 5920eb7c881680137ae5e110a47744bb58cfe093
+  Macaroon: 903016e400126a3c1848d825cfd88aa4928614a4
   Macaw: 8306d775625ba003beee4186b9533fd7cf284024
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
@@ -213,6 +222,6 @@ SPEC CHECKSUMS:
   ZendeskMessagingSDK: de16036707b7623bacee7068009e121f823567f2
   ZendeskSDKConfigurationsSDK: 0c610c22c9e3cafcd31591344b8cc3b4398e49b2
 
-PODFILE CHECKSUM: d5b91752c48112636e598888d7b354bf5e6cc50d
+PODFILE CHECKSUM: 68b6ff06de0c17a3547fccb9f4b568d11129e234
 
 COCOAPODS: 1.9.1

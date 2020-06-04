@@ -7,7 +7,7 @@ import Foundation
 import MessagingSDK
 import UIKit
 
-open class ZendeskHandler: DevToolConvertible {
+open class ZendeskHandler: DevTool {
     public let config: Config
 
     private var notifierWhenChatWillAppear: (() -> Void)?
@@ -38,7 +38,10 @@ open class ZendeskHandler: DevToolConvertible {
             let instance = Messaging.instance
             instance.delegate = self
 
-            return try instance.buildUI(engines: [chatEngine], configs: [])
+            let chatConfiguration = ChatConfiguration()
+            chatConfiguration.isAgentAvailabilityEnabled = false
+
+            return try instance.buildUI(engines: [chatEngine], configs: [chatConfiguration])
         } catch let error {
             fatalError("Zendesk Chat not initialized properly. Reason: \(error.localizedDescription)")
         }
@@ -97,7 +100,7 @@ extension ZendeskHandler {
 extension ZendeskHandler {
     public struct Config {
         public var themeColor: UIColor? {
-            return try? themeColorName.unwrapIfPresent(either: { col($0) })
+            return try? themeColorName.unwrapIfPresent({ col($0) })
         }
 
         public let accountKey: String
