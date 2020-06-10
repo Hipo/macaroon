@@ -5,14 +5,14 @@ import Foundation
 public let UIViewNoConstraintMetric: CGFloat = -999999.0
 
 public protocol Layout {
-    var edgeMetric: LayoutEdgesMetric { get }
+    var edgesMetric: LayoutEdgesMetric { get }
     var sizeMetric: LayoutSizeMetric { get }
     var centerMetric: LayoutCenterMetric { get }
     var baselineMetric: LayoutMetric { get }
 }
 
 extension Layout {
-    public var edgeMetric: LayoutEdgesMetric {
+    public var edgesMetric: LayoutEdgesMetric {
         return nil
     }
     public var sizeMetric: LayoutSizeMetric {

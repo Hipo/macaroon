@@ -2,6 +2,6 @@
 
 import Foundation
 
-public protocol LayoutConvertible {}
+public protocol LayoutGuideConvertible {}
 
-public struct NoLayout: LayoutConvertible {}
+public struct NoLayoutGuide: LayoutGuideConvertible {}

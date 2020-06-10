@@ -17,6 +17,8 @@ extension BorderDrawable {
     }
 }
 
+extension UIView: BorderDrawable {}
+
 public protocol CornerRoundDrawable: UIView { }
 
 extension CornerRoundDrawable {
