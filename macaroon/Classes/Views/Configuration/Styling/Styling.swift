@@ -8,6 +8,7 @@ public protocol Styling {
     var tintColor: ColorGroup? { get }
     var cornerRound: CornerRound? { get }
     var shadow: Shadow? { get }
+    var border: Border? { get }
 }
 
 extension Styling {
@@ -21,6 +22,9 @@ extension Styling {
         return nil
     }
     public var shadow: Shadow? {
+        return nil
+    }
+    public var border: Border? {
         return nil
     }
 }

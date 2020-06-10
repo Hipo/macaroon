@@ -30,6 +30,13 @@ extension Customizable where Self: UIView {
                 shadowDrawableView.removeShadow()
             }
         }
+        if let borderDrawableView = self as? BorderDrawable {
+            if let border = style.border {
+                borderDrawableView.drawBorder(border)
+            } else {
+                borderDrawableView.removeBorder()
+            }
+        }
     }
 
     public func resetBaseAppearance() {
@@ -41,6 +48,9 @@ extension Customizable where Self: UIView {
         }
         if let shadowDrawableView = self as? ShadowDrawable {
             shadowDrawableView.removeShadow()
+        }
+        if let borderDrawableView = self as? BorderDrawable {
+            borderDrawableView.removeBorder()
         }
     }
 }

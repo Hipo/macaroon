@@ -4,10 +4,10 @@ import Foundation
 import SnapKit
 import UIKit
 
-public struct Seperator {
+public struct Separator {
     public let style: Styling
-    public let size: CGFloat /// <note> It means width if the seperator is vertical and height if the seperator is horizontal.
-    public let insets: (CGFloat, CGFloat) /// <note> It means top&bottom if the seperator is vertical and left&right if the seperator is vertical.
+    public let size: CGFloat /// <note> It means width if the separator is vertical and height if the separator is horizontal.
+    public let insets: (CGFloat, CGFloat) /// <note> It means top&bottom if the separator is vertical and left&right if the separator is vertical.
 
     public init(
         style: Styling,
@@ -20,7 +20,7 @@ public struct Seperator {
     }
 }
 
-public enum SeperatorPosition {
+public enum SeparatorPosition {
     case top
     case left
     case bottom
@@ -28,10 +28,10 @@ public enum SeperatorPosition {
 }
 
 extension UIView {
-    /// <note> `padding` indicates the distance between seperator and the edge.
+    /// <note> `padding` indicates the distance between separator and the edge.
     @discardableResult
-    public func addSeperator(_ seperator: Seperator, at position: SeperatorPosition, padding: CGFloat = 0.0) -> UIView {
-        let view = makeView(for: seperator)
+    public func addSeparator(_ separator: Separator, at position: SeparatorPosition, padding: CGFloat = 0.0) -> UIView {
+        let view = makeView(for: separator)
 
         addSubview(view)
         view.snp.makeConstraints { maker in
@@ -45,16 +45,16 @@ extension UIView {
             case .right:
                 maker.trailing.equalToSuperview().inset(padding)
             }
-            makeAdjustments(maker, for: seperator, at: position)
+            makeAdjustments(maker, for: separator, at: position)
         }
 
         return view
     }
 
-    /// <note> `padding` indicates the distance between seperator and aView's edge.
+    /// <note> `padding` indicates the distance between separator and aView's edge.
     @discardableResult
-    public func attachSeperator(_ seperator: Seperator, to aView: UIView, at position: SeperatorPosition, margin: CGFloat = 0.0) -> UIView {
-        let view = makeView(for: seperator)
+    public func attachSeparator(_ separator: Separator, to aView: UIView, at position: SeparatorPosition, margin: CGFloat = 0.0) -> UIView {
+        let view = makeView(for: separator)
 
         addSubview(view)
         view.snp.makeConstraints { maker in
@@ -68,7 +68,7 @@ extension UIView {
             case .right:
                 maker.leading.equalTo(aView.snp.trailing).offset(margin)
             }
-            makeAdjustments(maker, for: seperator, at: position)
+            makeAdjustments(maker, for: separator, at: position)
         }
 
         return view
@@ -76,24 +76,24 @@ extension UIView {
 }
 
 extension UIView {
-    func makeView(for seperator: Seperator) -> UIView {
+    func makeView(for separator: Separator) -> UIView {
         let view = BaseView()
-        view.customizeBaseAppearance(seperator.style)
+        view.customizeBaseAppearance(separator.style)
         return view
     }
 
-    func makeAdjustments(_ maker: ConstraintMaker, for seperator: Seperator, at position: SeperatorPosition) {
+    func makeAdjustments(_ maker: ConstraintMaker, for separator: Separator, at position: SeparatorPosition) {
         switch position {
         case .top,
             .bottom:
-            maker.height.equalTo(seperator.size)
-            maker.leading.equalToSuperview().inset(seperator.insets.0)
-            maker.trailing.equalToSuperview().inset(seperator.insets.1)
+            maker.height.equalTo(separator.size)
+            maker.leading.equalToSuperview().inset(separator.insets.0)
+            maker.trailing.equalToSuperview().inset(separator.insets.1)
         case .left,
              .right:
-            maker.width.equalTo(seperator.size)
-            maker.top.equalToSuperview().inset(seperator.insets.0)
-            maker.bottom.equalToSuperview().inset(seperator.insets.1)
+            maker.width.equalTo(separator.size)
+            maker.top.equalToSuperview().inset(separator.insets.0)
+            maker.bottom.equalToSuperview().inset(separator.insets.1)
         }
     }
 }

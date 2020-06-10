@@ -243,3 +243,16 @@ public struct Shadow {
             corners != []
     }
 }
+
+public struct Border {
+    public var color: UIColor
+    public var width: CGFloat
+    
+    public init(
+        color: UIColor,
+        width: CGFloat
+    ) {
+        self.color = color
+        self.width = width
+    }
+}

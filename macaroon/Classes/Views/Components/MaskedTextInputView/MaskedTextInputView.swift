@@ -113,6 +113,9 @@ open class MaskedTextInputView: View {
         addMaskedTextInput()
         addTextInput()
     }
+    
+    open func prepareLayout(_ layoutGuide: LayoutGuideConvertible) {
+    }
 
     open func setListeners() {
         textInputView.delegate = self
