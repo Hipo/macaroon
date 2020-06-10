@@ -9,6 +9,8 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: U
 
     public var isNavigationBarHidden = false
     public var hidesCloseBarItem = false
+    public var disablesInteractivePopGesture = false
+    
     public var leftBarItems: [NavigationBarItemConvertible] = []
     public var rightBarItems: [NavigationBarItemConvertible] = []
 
@@ -51,6 +53,8 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: U
         self._router = router
 
         super.init(nibName: nil, bundle: nil)
+        
+        disablesInteractivePopGesture = isNavigationBarHidden || hidesCloseBarItem
 
         customizeNavigationBarAppearance()
         observeNotifications()

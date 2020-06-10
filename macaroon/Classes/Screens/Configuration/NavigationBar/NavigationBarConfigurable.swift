@@ -22,9 +22,6 @@ extension NavigationBarConfigurable {
     public var hidesCloseBarItem: Bool {
         return false
     }
-    public var disablesInteractivePopGesture: Bool {
-        return isNavigationBarHidden || hidesCloseBarItem
-    }
 }
 
 extension NavigationBarConfigurable where Self: UIViewController {
