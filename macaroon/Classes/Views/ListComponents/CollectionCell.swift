@@ -3,15 +3,15 @@
 import Foundation
 import UIKit
 
-public enum SeperatorStyle {
+public enum SeparatorStyle {
     case none
-    case single(Seperator)
+    case single(Separator)
 }
 
 open class CollectionCell<ContextView: ViewComposable>: UICollectionViewCell, ListComposable {
     public lazy var contextView = getContextView()
     
-    open var seperatorStyle: SeperatorStyle {
+    open var separatorStyle: SeparatorStyle {
         return .none
     }
 
@@ -28,7 +28,7 @@ open class CollectionCell<ContextView: ViewComposable>: UICollectionViewCell, Li
 
     open func prepareLayout() {
         addContextView()
-        addSeperatorView()
+        addSeparatorView()
     }
 
     open func addContextView() {
@@ -53,12 +53,13 @@ open class CollectionCell<ContextView: ViewComposable>: UICollectionViewCell, Li
 }
 
 extension CollectionCell {
-    private func addSeperatorView() {
-        switch seperatorStyle {
+    @discardableResult
+    open func addSeparatorView() -> UIView? {
+        switch separatorStyle {
         case .none:
-            return
-        case let .single(seperator):
-            addSeperator(seperator, at: .bottom)
+            return nil
+        case let .single(separator):
+            return addSeparator(separator, at: .bottom)
         }
     }
 }
