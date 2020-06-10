@@ -141,6 +141,6 @@ extension MediaPicker.MediaType {
     }
 
     public func isAvailable(for sourceType: MediaPicker.SourceType) -> Bool {
-        return UIImagePickerController.availableMediaTypes(for: sourceType.asSystem()).unwrap(either: { $0.contains(asSystem()) }, or: false)
+        return UIImagePickerController.availableMediaTypes(for: sourceType.asSystem()).unwrap({ $0.contains(asSystem()) }, or: false)
     }
 }

@@ -10,7 +10,7 @@ extension UILabel {
                 return .attributed(attributedText)
             }
             if let text = text {
-                return .normal(text)
+                return .normal(text, font)
             }
             return nil
         }
@@ -39,7 +39,7 @@ extension UITextField {
                 return .attributed(attributedText)
             }
             if let text = text {
-                return .normal(text)
+                return .normal(text, font)
             }
             return nil
         }
@@ -68,7 +68,7 @@ extension UITextView {
                 return .attributed(attributedText)
             }
             if let text = text {
-                return .normal(text)
+                return .normal(text, font)
             }
             return nil
         }
@@ -97,7 +97,7 @@ extension UIButton {
                 return .attributed(attributedText)
             }
             if let text = currentTitle {
-                return .normal(text)
+                return .normal(text, titleLabel?.font)
             }
             return nil
         }

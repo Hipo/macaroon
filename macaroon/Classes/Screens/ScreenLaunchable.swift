@@ -2,7 +2,7 @@
 
 import Foundation
 
-public protocol ScreenLaunchable: UIViewController {
+public protocol ScreenLaunchable: AnyObject {
     associatedtype SomeScreenLaunchArgs: ScreenLaunchArgs
 
     var launchArgs: SomeScreenLaunchArgs { get }

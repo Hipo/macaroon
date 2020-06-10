@@ -46,9 +46,6 @@ public struct FontGroup {
 public struct Font {
     public typealias TextStyle = UIFont.TextStyle
 
-    public var normal: UIFont? {
-        return UIFont(name: name, size: size.normal)
-    }
     public var scaled: UIFont? {
         guard let normal = normal else {
             return nil
@@ -74,6 +71,7 @@ public struct Font {
     public let size: FontSize
     public let textStyle: TextStyle?
     public let adjustsFontForContentSizeCategory: Bool
+    public let normal: UIFont?
 
     public init(
         _ name: String,
@@ -84,6 +82,7 @@ public struct Font {
         self.size = size
         self.textStyle = textStyle
         self.adjustsFontForContentSizeCategory = textStyle != nil
+        self.normal = UIFont(name: name, size: size.normal)
     }
 
     public init(
@@ -96,6 +95,30 @@ public struct Font {
         self.size = size
         self.textStyle = textStyle
         self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory
+        self.normal = UIFont(name: name, size: size.normal)
+    }
+
+    public init(
+        _ font: UIFont?,
+        _ textStyle: TextStyle? = nil
+    ) {
+        self.name = font?.fontName ?? ""
+        self.size = .init(normal: font?.pointSize ?? 17.0)
+        self.textStyle = textStyle
+        self.adjustsFontForContentSizeCategory = textStyle != nil
+        self.normal = font
+    }
+
+    public init(
+        _ font: UIFont?,
+        _ textStyle: TextStyle,
+        adjustsFontForContentSizeCategory: Bool
+    ) {
+        self.name = font?.fontName ?? ""
+        self.size = .init(normal: font?.pointSize ?? 17.0)
+        self.textStyle = textStyle
+        self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory
+        self.normal = font
     }
 
     static public func logAll() {

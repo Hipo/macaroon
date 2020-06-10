@@ -13,6 +13,6 @@ extension NSAttributedString {
             options = [.usesFontLeading]
         }
         let fittingBoundingRect = boundingRect(with: fittingSize, options: options, context: nil)
-        return CGSize(width: fittingBoundingRect.width.ceil(), height: fittingBoundingRect.height.ceil())
+        return CGSize(width: min(fittingBoundingRect.width.ceil(), fittingSize.width), height: min(fittingBoundingRect.height.ceil(), fittingSize.height))
     }
 }

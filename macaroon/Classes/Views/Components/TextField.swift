@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-open class TextField: UITextField, CornerRoundDrawable, ShadowDrawable {
+open class TextField: UITextField, ShadowDrawable {
     public var leftAccessory: TextFieldAccessory? {
         didSet {
             leftView = leftAccessory?.content
@@ -85,7 +85,7 @@ open class TextField: UITextField, CornerRoundDrawable, ShadowDrawable {
 }
 
 extension TextField {
-    private func calculateFinalEdgeInsets(isEditing: Bool) -> UIEdgeInsets {
+    func calculateFinalEdgeInsets(isEditing: Bool) -> UIEdgeInsets {
         var finalEdgeInsets = UIEdgeInsets(
             top: contentEdgeInsets.top + textEdgeInsets.top,
             left: textEdgeInsets.left,

@@ -3,7 +3,7 @@
 import Foundation
 import Tryouts
 
-public class TryoutsHandler: DevToolConvertible {
+public class TryoutsHandler: DevTool {
     public let config: Config
 
     /// <mark> Decodable

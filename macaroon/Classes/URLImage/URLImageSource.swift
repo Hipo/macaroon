@@ -7,6 +7,7 @@ public protocol URLImageSource: ImageSource {
     var url: URL? { get }
     var color: UIColor? { get }
     var placeholder: ImagePlaceholder? { get }
+    var forceRefresh: Bool { get }
 
     func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?)
     func formOptions() -> KingfisherOptionsInfo
@@ -40,6 +41,9 @@ extension URLImageSource {
     public func formOptions() -> KingfisherOptionsInfo {
         var options = formDefaultOptions()
 
+        if forceRefresh {
+            options.append(.forceRefresh)
+        }
         if let imageProcessor = formImageProcessors().compactJoined() {
             options.append(.processor(imageProcessor))
         }

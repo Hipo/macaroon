@@ -5,13 +5,13 @@ import Foundation
 public class Polling {
     public typealias Operation = () -> Void
 
+    public private(set) var isRunning = false
+
     public var intervalInSeconds: TimeInterval {
         didSet {
             resume()
         }
     }
-
-    private var isRunning = false
 
     private let timer: DispatchSourceTimer
 

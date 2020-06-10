@@ -12,6 +12,22 @@ extension Array {
 }
 
 extension Array {
+    public func first<T: Equatable>(of keyPath: KeyPath<Element, T>, equalsTo value: T) -> Element? {
+        return first(where: { $0[keyPath: keyPath] == value })
+    }
+
+    public func first<T: Equatable>(of keyPath: KeyPath<Element, T>, equalsTo value: T?) -> Element? {
+        return first(where: { $0[keyPath: keyPath] == value })
+    }
+
+    public func first<T: Equatable>(of keyPath: KeyPath<Element, T?>, equalsTo value: T) -> Element? {
+        return first(where: { $0[keyPath: keyPath] == value })
+    }
+
+    public func first<T: Equatable>(of keyPath: KeyPath<Element, T?>, equalsTo value: T?) -> Element? {
+        return first(where: { $0[keyPath: keyPath] != nil && $0[keyPath: keyPath] == value })
+    }
+
     public func firstIndex<T: Equatable>(of other: Element?, equals keyPath: KeyPath<Element, T>) -> Index? {
         if let other = other {
             return firstIndex { $0[keyPath: keyPath] == other[keyPath: keyPath] }

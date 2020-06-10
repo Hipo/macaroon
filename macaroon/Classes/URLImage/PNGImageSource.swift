@@ -10,19 +10,22 @@ public struct PNGImageSource: URLImageSource {
     public let placeholder: ImagePlaceholder?
     public let size: ImageSize
     public let shape: ImageShape
+    public let forceRefresh: Bool
 
     public init(
         url: URL?,
         color: UIColor? = nil,
         size: ImageSize = .original,
         shape: ImageShape = .original,
-        placeholder: ImagePlaceholder? = nil
+        placeholder: ImagePlaceholder? = nil,
+        forceRefresh: Bool = false
     ) {
         self.url = url
         self.color = color
         self.placeholder = placeholder
         self.size = size
         self.shape = shape
+        self.forceRefresh = forceRefresh
     }
 
     public func formImageProcessors() -> [ImageProcessor?] {
