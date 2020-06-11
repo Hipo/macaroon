@@ -3,7 +3,10 @@
 import Foundation
 import UIKit
 
-open class Button: UIButton {
+open class Button: UIButton, ShadowDrawable {
+    public var shadow: Shadow?
+    public var shadowLayer: CAShapeLayer?
+    
     open override var intrinsicContentSize: CGSize {
         if currentImage == nil && currentTitle == nil {
             return .zero
@@ -96,6 +99,32 @@ open class Button: UIButton {
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
             rect.origin.y = contentRect.maxY - (rect.height + padding + contentEdgeInsets.bottom)
             return rect
+        }
+    }
+    
+    open func preferredUserInterfaceStyleDidChange() {
+        if let shadow = shadow {
+            drawShadow(shadow)
+        }
+    }
+    
+    open func preferredContentSizeCategoryDidChange() { }
+    
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadowWhenViewDidLayoutSubviews()
+    }
+
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if #available(iOS 12.0, *) {
+            if traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle {
+                preferredUserInterfaceStyleDidChange()
+            }
+        }
+        if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
+            preferredContentSizeCategoryDidChange()
         }
     }
 }

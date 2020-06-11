@@ -51,6 +51,7 @@ extension ShadowDrawable {
             newShadowLayer.draw(shadow)
 
             layer.insertSublayer(newShadowLayer, at: 0)
+            newShadowLayer.zPosition = -1000
             layer.masksToBounds = false
 
             shadowLayer = newShadowLayer
