@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-open class CollectionSupplementaryView<ContextView: ViewComposable>: UICollectionReusableView, ListComposable {
+open class CollectionSupplementaryView<ContextView: ViewComposable & ListReusable>: UICollectionReusableView, ListComposable {
     public lazy var contextView = getContextView()
 
     public override init(frame: CGRect) {

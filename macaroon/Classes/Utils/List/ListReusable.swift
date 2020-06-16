@@ -3,12 +3,10 @@
 import Foundation
 import UIKit
 
-public protocol ListReusable: AnyObject {
+public protocol ListReusable: UIView {
     func prepareForReuse()
 }
 
 extension ListReusable {
     public func prepareForReuse() { }
 }
-
-extension UIView: ListReusable { }

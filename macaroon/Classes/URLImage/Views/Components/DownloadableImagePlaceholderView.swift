@@ -61,7 +61,7 @@ public class DownloadableImagePlaceholderView: BaseView, URLImagePlaceholderCont
         }
     }
 
-    open override func prepareForReuse() {
+    open func prepareForReuse() {
         imageView.image = nil
         textLabel.editText = nil
     }

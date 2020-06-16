@@ -39,7 +39,7 @@ open class ImageView: BaseView, ImageCustomizable, ImageLoadable {
         addContentView()
     }
 
-    open override func prepareForReuse() {
+    open func prepareForReuse() {
         unloadSource()
     }
 }

@@ -63,6 +63,10 @@ extension EmptyStatePresentable where Self: UIView {
 extension EmptyStatePresentable where Self: UICollectionView {
     public func addEmptyState() {
         backgroundView = emptyStateView
+
+        if !bounds.isEmpty {
+            backgroundView?.frame = bounds
+        }
     }
 
     public func removeEmptyState() {

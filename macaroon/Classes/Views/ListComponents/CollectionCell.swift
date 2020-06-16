@@ -8,7 +8,7 @@ public enum SeparatorStyle {
     case single(Separator)
 }
 
-open class CollectionCell<ContextView: ViewComposable>: UICollectionViewCell, ListComposable {
+open class CollectionCell<ContextView: ViewComposable & ListReusable>: UICollectionViewCell, ListComposable {
     public lazy var contextView = getContextView()
     
     open var separatorStyle: SeparatorStyle {

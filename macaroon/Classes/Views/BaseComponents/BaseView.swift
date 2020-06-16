@@ -24,8 +24,6 @@ open class BaseView: UIView, ShadowDrawable {
 
     open func preferredContentSizeCategoryDidChange() { }
 
-    open func prepareForReuse() { }
-
     open override func layoutSubviews() {
         super.layoutSubviews()
         updateShadowWhenViewDidLayoutSubviews()

@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 public protocol ListComposable: UIView {
-    associatedtype ContextView: ViewComposable & ListReusable
+    associatedtype ContextView: ViewComposable
 
     var contextView: ContextView { get }
 
