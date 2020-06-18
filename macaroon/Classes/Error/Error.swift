@@ -21,6 +21,7 @@ public enum Error: ErrorConvertible {
     case unsupportedListSupplementaryView(UICollectionReusableView.Type, String)
     case unsupportedListLayout
     case ambiguous
+    case failedBiometricAuthentication(reason: ErrorConvertible)
 }
 
 extension Error {
@@ -60,6 +61,8 @@ extension Error {
             return "This protocol can't form a layout other than UICollectionViewFlowLayout"
         case .ambiguous:
             return "Ambiguous error"
+        case .failedBiometricAuthentication(let reason):
+            return "Failed biometric authentication: \(reason.localizedDescription)"
         }
     }
 }
