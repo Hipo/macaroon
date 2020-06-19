@@ -4,14 +4,14 @@ import LocalAuthentication
 
 public class BiometricAuthenticator {
 
-    private let preferences: BiometricAuthenticaionPreference
+    private let config: BiometricAuthenticaionConfig
     
     private var context = LAContext()
     
     public var authenticationError: NSError?
 
     private var authenticationPolicy: LAPolicy {
-        return preferences.authPolicy == .onlyBiometrics ? .deviceOwnerAuthenticationWithBiometrics : .deviceOwnerAuthentication
+        return config.authPolicy == .onlyBiometrics ? .deviceOwnerAuthenticationWithBiometrics : .deviceOwnerAuthentication
     }
     
     public var isAvailable: Bool {
@@ -20,7 +20,7 @@ public class BiometricAuthenticator {
     
     public var status: Status {
         get {
-            guard let storedStatus = UserDefaults.standard.string(forKey: preferences.storeKey),
+            guard let storedStatus = UserDefaults.standard.string(forKey: config.storeKey),
                 let biometricAuthenticationStatus = Status(rawValue: storedStatus) else {
                     return .none
             }
@@ -29,7 +29,7 @@ public class BiometricAuthenticator {
         }
         
         set {
-            UserDefaults.standard.set(newValue.rawValue, for: preferences.storeKey)
+            UserDefaults.standard.set(newValue.rawValue, for: config.storeKey)
         }
     }
     
@@ -48,13 +48,13 @@ public class BiometricAuthenticator {
         }
     }
     
-    public init(preferences: BiometricAuthenticaionPreference) {
-        self.preferences = preferences
+    public init(config: BiometricAuthenticaionConfig) {
+        self.config = config
         awakeBiometricAuthenticationStatusFromStorage()
     }
     
     private func awakeBiometricAuthenticationStatusFromStorage() {
-        guard let storedStatus = UserDefaults.standard.string(forKey: preferences.storeKey),
+        guard let storedStatus = UserDefaults.standard.string(forKey: config.storeKey),
             let biometricAuthenticationStatus = Status(rawValue: storedStatus) else {
             return
         }
@@ -70,7 +70,7 @@ extension BiometricAuthenticator {
             return
         }
         
-        context.evaluatePolicy(authenticationPolicy, localizedReason: preferences.authRequestReason) { isSuccessful, error in
+        context.evaluatePolicy(authenticationPolicy, localizedReason: config.authRequestReason) { isSuccessful, error in
             if isSuccessful {
                 DispatchQueue.main.async {
                     completion(nil)

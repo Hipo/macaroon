@@ -2,7 +2,7 @@
 
 import Foundation
 
-public struct BiometricAuthenticaionPreference {
+public struct BiometricAuthenticaionConfig {
     let storeKey: String
     let authRequestReason: String
     let authPolicy: AuthenticationPolicy
@@ -14,7 +14,7 @@ public struct BiometricAuthenticaionPreference {
     }
 }
 
-extension BiometricAuthenticaionPreference {
+extension BiometricAuthenticaionConfig {
     public enum AuthenticationPolicy {
         case onlyBiometrics
         case biometricWithPasscode
