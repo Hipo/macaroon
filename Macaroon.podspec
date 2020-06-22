@@ -130,6 +130,10 @@ Pod::Spec.new do |s|
         ssss.subspec 'MaskedTextInputView' do |sssss|
           sssss.source_files = 'macaroon/Classes/Views/Components/MaskedTextInputView/*.swift'
         end
+
+        ssss.subspec 'SegmentedControl' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Views/Components/SegmentedControl/*.swift'
+        end
       end
 
       sss.subspec 'Configuration' do |ssss|
