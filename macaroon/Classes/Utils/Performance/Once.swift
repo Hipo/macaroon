@@ -7,6 +7,8 @@ public class Once {
 
     private var isCompleted = false
 
+    public init() { }
+
     public func execute(_ operation: Operation) {
         if !isCompleted {
             operation()
