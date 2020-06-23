@@ -22,6 +22,10 @@ Pod::Spec.new do |s|
     ss.source_files = 'macaroon/Classes/Banner/*.swift'
   end
 
+  s.subspec 'Biometrics' do |ss|
+    ss.source_files = 'macaroon/Classes/Biometrics/*.swift'
+  end
+
   s.subspec 'Core' do |ss|
     ss.subspec 'Application' do |sss|
       sss.source_files = 'macaroon/Classes/Application/*.swift'
