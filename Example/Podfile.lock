@@ -3,6 +3,7 @@ PODS:
     - Kingfisher/Core (= 5.14.0)
   - Kingfisher/Core (5.14.0)
   - Macaroon/Banner (0.1.0)
+  - Macaroon/Biometrics (0.1.0)
   - Macaroon/Core (0.1.0):
     - Macaroon/Core/Application (= 0.1.0)
     - Macaroon/Core/Data (= 0.1.0)
@@ -177,6 +178,7 @@ PODS:
 
 DEPENDENCIES:
   - Macaroon/Banner (from `../`)
+  - Macaroon/Biometrics (from `../`)
   - Macaroon/Core (from `../`)
   - Macaroon/Core-Hipo (from `../`)
   - Macaroon/Form (from `../`)
@@ -209,7 +211,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
-  Macaroon: 903016e400126a3c1848d825cfd88aa4928614a4
+  Macaroon: d09d458df0dddac4cc02797540cf109e943d7b83
   Macaw: 8306d775625ba003beee4186b9533fd7cf284024
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
@@ -222,6 +224,6 @@ SPEC CHECKSUMS:
   ZendeskMessagingSDK: de16036707b7623bacee7068009e121f823567f2
   ZendeskSDKConfigurationsSDK: 0c610c22c9e3cafcd31591344b8cc3b4398e49b2
 
-PODFILE CHECKSUM: 68b6ff06de0c17a3547fccb9f4b568d11129e234
+PODFILE CHECKSUM: d5bc280b62628bcde2b177fb3b845312d381fd2e
 
 COCOAPODS: 1.9.1
