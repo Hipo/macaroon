@@ -17,7 +17,7 @@ public class UserCache {
     }
 
     public func removeObject(for key: UserCacheKey) {
-        userDefaults.remove(for: key.decoded())
+        userDefaults.removeObject(forKey: key.decoded())
         userDefaults.synchronize()
     }
 }
