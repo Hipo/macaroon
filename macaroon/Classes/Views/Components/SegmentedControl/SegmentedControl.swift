@@ -5,15 +5,15 @@ import SnapKit
 import UIKit
 
 public class SegmentedControl: BaseControl {
-    public var spacingBetweenSegments: CGFloat = 1.0 {
-        didSet {
-            contentView.spacing = spacingBetweenSegments
-        }
+    public var spacingBetweenSegments: CGFloat {
+        get { contentView.spacing }
+        set { contentView.spacing = newValue }
     }
     public var selectedSegmentIndex: Int = -1 {
         didSet {
-            segmentButtons[safe: oldValue]?.isSelected = false
-            segmentButtons[safe: selectedSegmentIndex]?.isSelected = true
+            let currentSegmentButtons = segmentButtons
+            currentSegmentButtons[safe: oldValue]?.isSelected = false
+            currentSegmentButtons[safe: selectedSegmentIndex]?.isSelected = true
         }
     }
 
@@ -35,13 +35,31 @@ public class SegmentedControl: BaseControl {
     private func prepareLayout() {
         addContent()
     }
+}
 
-    @objc
-    private func notifyWhenSelectedSegmentButtonChanged(_ sender: Button) {
-        if let index = segmentButtons.firstIndex(of: sender) {
-            selectedSegmentIndex = index
-            sendActions(for: .valueChanged)
+extension SegmentedControl {
+    public func add(segment: Segment) {
+        let segmentButton = addButton(of: segment)
+        segmentButton.addTarget(self, action: #selector(notifyWhenSelectedSegmentButtonChanged(_:)), for: .touchUpInside)
+    }
+
+    public func add(segments: [Segment]) {
+        segments.forEach(add(segment:))
+    }
+
+    public func remove(segmentAt index: Int) {
+        if let segmentButton = segmentButtons[safe: index] {
+            contentView.removeArrangedSubview(segmentButton)
         }
+    }
+
+    public func removeAllSegments() {
+        contentView.deleteAllArrangedSubviews()
+        selectedSegmentIndex = -1
+    }
+
+    public func setEnabled(_ isEnabled: Bool, forSegmentAt index: Int) {
+        segmentButtons[safe: index]?.isEnabled = isEnabled
     }
 }
 
@@ -51,7 +69,7 @@ extension SegmentedControl {
         contentView.axis = .horizontal
         contentView.distribution = .fillEqually
         contentView.alignment = .fill
-        contentView.spacing = spacingBetweenSegments
+        contentView.spacing = 0.0
         contentView.snp.makeConstraints { maker in
             maker.top.equalToSuperview()
             maker.leading.equalToSuperview()
@@ -60,7 +78,7 @@ extension SegmentedControl {
         }
     }
 
-    private func addSegmentButton(_ segment: SegmentConvertible) -> Button {
+    private func addButton(of segment: Segment) -> Button {
         let button = Button(segment.layout)
         button.adjustsImageWhenHighlighted = false
         button.customizeAppearance(segment.style)
@@ -74,36 +92,11 @@ extension SegmentedControl {
 }
 
 extension SegmentedControl {
-    public func reload(_ segments: SegmentConvertible...) {
-        reload(segments)
-    }
-
-    public func reload(_ segments: [SegmentConvertible]?) {
-        contentView.deleteAllArrangedSubviews()
-
-        segments?.forEach {
-            let segmentButton = self.addSegmentButton($0)
-            segmentButton.addTarget(
-                self,
-                action: #selector(notifyWhenSelectedSegmentButtonChanged(_:)),
-                for: .touchUpInside
-            )
+    @objc
+    private func notifyWhenSelectedSegmentButtonChanged(_ sender: Button) {
+        if let index = segmentButtons.firstIndex(of: sender) {
+            selectedSegmentIndex = index
+            sendActions(for: .valueChanged)
         }
-    }
-
-    public func disable(segmentAt index: Int) {
-        segmentButtons[safe: index]?.isEnabled = false
-    }
-}
-
-public protocol SegmentConvertible {
-    var identifier: String { get } /// <warning> No internal checking so it is up to the application to set a unique name.
-    var layout: Button.Layout { get }
-    var style: ButtonStyling { get }
-}
-
-extension SegmentConvertible {
-    public var layout: Button.Layout {
-        return .none
     }
 }

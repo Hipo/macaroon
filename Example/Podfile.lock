@@ -93,8 +93,11 @@ PODS:
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Components (0.1.0):
     - Macaroon/Core/Views/Components/MaskedTextInputView (= 0.1.0)
+    - Macaroon/Core/Views/Components/SegmentedControl (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Components/MaskedTextInputView (0.1.0):
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Views/Components/SegmentedControl (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Configuration (0.1.0):
     - Macaroon/Core/Views/Configuration/Data (= 0.1.0)
@@ -211,7 +214,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
-  Macaroon: d09d458df0dddac4cc02797540cf109e943d7b83
+  Macaroon: 08f772698d1e543e64e35ad3ab17c025cdaccc71
   Macaw: 8306d775625ba003beee4186b9533fd7cf284024
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
