@@ -1,5 +1,5 @@
 import XCTest
-import macaroon
+import Macaroon
 
 class Tests: XCTestCase {
     

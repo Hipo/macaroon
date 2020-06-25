@@ -1,10 +1,4 @@
-//
-//  AppDelegate.swift
-//  macaroon
-//
-//  Created by sakkaras on 12/03/2019.
-//  Copyright (c) 2019 sakkaras. All rights reserved.
-//
+// Copyright © 2019 hipolabs. All rights reserved.
 
 import UIKit
 
@@ -14,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
     }

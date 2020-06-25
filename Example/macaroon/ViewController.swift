@@ -1,24 +1,34 @@
-//
-//  ViewController.swift
-//  macaroon
-//
-//  Created by sakkaras on 12/03/2019.
-//  Copyright (c) 2019 sakkaras. All rights reserved.
-//
+// Copyright © 2019 hipolabs. All rights reserved.
 
 import UIKit
+import Macaroon
+import SnapKit
 
 class ViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        let imageSize = CGSize(width: 100.0, height: 100.0)
+
+        let imageView = DownloadableImageView()
+        view.addSubview(imageView)
+        imageView.snp.makeConstraints { maker in
+            maker.size.equalTo(imageSize)
+            maker.top.equalToSuperview().inset(20.0).multipliedBy(2.0)
+            maker.center.equalToSuperview()
+        }
+
+        if let url = URL(string: "https://qube-staging.s3.amazonaws.com/qube-icons/default_qube_icon.svg") {
+//            let layer = CALayer(SVGURL: url) { svgLayer in
+//                svgLayer.resizeToFit(CGRect(origin: .zero, size: imageSize))
+//                imageView.layer.addSublayer(svgLayer)
+//            }
+            imageView.load(from: SVGImageSource(url: url, size: imageSize))
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 }
-

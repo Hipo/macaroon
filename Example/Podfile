@@ -1,7 +1,19 @@
 use_frameworks!
+inhibit_all_warnings!
 
 target 'macaroon_Example' do
-  pod 'macaroon', :path => '../'
+  pod 'Macaroon/Banner',  :path => '../'
+  pod 'Macaroon/Biometrics',  :path => '../'
+  pod 'Macaroon/Core',  :path => '../'
+  pod 'Macaroon/Core-Hipo',  :path => '../'
+  pod 'Macaroon/Form', :path => '../'
+  pod 'Macaroon/MediaPicker', :path => '../'
+  pod 'Macaroon/PushNotification', :path => '../'
+  pod 'Macaroon/SwiftLint',  :path => '../'
+  pod 'Macaroon/SVGImage', :path => '../'
+  pod 'Macaroon/TabBar', :path => '../'
+  pod 'Macaroon/Tryouts',  :path => '../'
+  pod 'Macaroon/Zendesk-Chat', :path => '../'
 
   target 'macaroon_Tests' do
     inherit! :search_paths
