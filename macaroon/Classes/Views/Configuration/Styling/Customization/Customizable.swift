@@ -16,22 +16,34 @@ extension Customizable where Self: UIView {
         if let tintColor = style.tintColor?.normal {
             self.tintColor = tintColor
         }
+        customizeCornerRoundAppearance(style.cornerRound)
+        customizeShadowAppearance(style.shadow)
+        customizeBorderAppearance(style.border)
+    }
+
+    public func customizeCornerRoundAppearance(_ cornerRound: CornerRound?) {
         if let roundableView = self as? CornerRoundDrawable {
-            if let cornerRound = style.cornerRound {
+            if let cornerRound = cornerRound {
                 roundableView.drawCornerRound(cornerRound)
             } else {
                 roundableView.removeCornerRound()
             }
         }
+    }
+
+    public func customizeShadowAppearance(_ shadow: Shadow?) {
         if let shadowDrawableView = self as? ShadowDrawable {
-            if let shadow = style.shadow {
+            if let shadow = shadow {
                 shadowDrawableView.drawShadow(shadow)
             } else {
                 shadowDrawableView.removeShadow()
             }
         }
+    }
+
+    public func customizeBorderAppearance(_ border: Border?) {
         if let borderDrawableView = self as? BorderDrawable {
-            if let border = style.border {
+            if let border = border {
                 borderDrawableView.drawBorder(border)
             } else {
                 borderDrawableView.removeBorder()

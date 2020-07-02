@@ -14,6 +14,7 @@ extension ButtonCustomizable where Self: UIButton {
 
         if let background = style.background?.normal {
             setBackgroundImage(background, for: .normal)
+            setBackgroundImage(background, for: .highlighted)
         }
         if let background = style.background?.highlighted {
             setBackgroundImage(background, for: .highlighted)
@@ -27,6 +28,7 @@ extension ButtonCustomizable where Self: UIButton {
         }
         if let icon = style.icon?.normal {
             setImage(icon, for: .normal)
+            setImage(icon, for: .highlighted)
         }
         if let icon = style.icon?.highlighted {
             setImage(icon, for: .highlighted)
@@ -43,6 +45,7 @@ extension ButtonCustomizable where Self: UIButton {
         }
         if let textColor = style.textColor?.normal {
             setTitleColor(textColor, for: .normal)
+            setTitleColor(textColor, for: .highlighted)
         }
         if let textColor = style.textColor?.highlighted {
             setTitleColor(textColor, for: .highlighted)
