@@ -6,6 +6,7 @@ target 'macaroon_Example' do
   pod 'Macaroon/Biometrics',  :path => '../'
   pod 'Macaroon/Core',  :path => '../'
   pod 'Macaroon/Core-Hipo',  :path => '../'
+  pod 'Macaroon/CustomUI/FloatingPlaceholderTextInputs',  :path => '../'
   pod 'Macaroon/Form', :path => '../'
   pod 'Macaroon/MediaPicker', :path => '../'
   pod 'Macaroon/PushNotification', :path => '../'

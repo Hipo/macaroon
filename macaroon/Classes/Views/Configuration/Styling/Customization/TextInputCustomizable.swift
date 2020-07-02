@@ -25,8 +25,6 @@ extension TextInputCustomizable where Self: UITextField {
         if let textColor = style.textColor?.normal {
             self.textColor = textColor
         }
-        textAlignment = style.textAlignment
-
         if let placeholderText = style.placeholderText {
             switch placeholderText {
             case .normal(let text, _):
@@ -39,6 +37,7 @@ extension TextInputCustomizable where Self: UITextField {
                 attributedPlaceholder = attributedText
             }
         }
+        textAlignment = style.textAlignment
         clearButtonMode = style.clearButtonMode
         keyboardType = style.keyboardType
         autocapitalizationType = style.autocapitalizationType

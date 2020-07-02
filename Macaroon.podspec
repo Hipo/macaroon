@@ -170,6 +170,15 @@ Pod::Spec.new do |s|
     ss.source_files = "macaroon/Classes/Core-Hipo/*.swift"
   end
 
+  s.subspec 'CustomUI' do |ss|
+    ss.subspec 'FloatingPlaceholderTextInputs' do |sss|
+      sss.source_files = 'macaroon/Classes/CustomUI/FloatingPlaceholderTextInputs/*.swift'
+
+      sss.dependency 'MaterialComponents/TextControls+FilledTextFields', '~> 110.1.0'
+      sss.dependency 'MaterialComponents/TextControls+FilledTextAreas', '~> 110.1.0'
+    end
+  end
+
   s.subspec 'Form' do |ss|
     ss.subspec 'Screens' do |sss|
       sss.source_files = 'macaroon/Classes/Form/Screens/*.swift'
