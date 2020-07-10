@@ -25,6 +25,7 @@ open class BaseControl: UIControl, ShadowDrawable {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        recustomizeAppearance(for: .normal)
     }
 
     @available(*, unavailable)

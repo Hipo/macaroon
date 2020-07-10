@@ -5,12 +5,6 @@ import SnapKit
 import UIKit
 
 open class ToggleButton: BaseControl {
-    open override var isSelected: Bool {
-        didSet {
-            recustomizeAppearanceWhenSelectedStateChanged()
-        }
-    }
-
     open override var intrinsicContentSize: CGSize {
         return CGSize.leastTouchMagnitude
     }
@@ -19,26 +13,29 @@ open class ToggleButton: BaseControl {
 
     private let image: UIImage
     private let selectedImage: UIImage
+    private let disabledImage: UIImage?
 
     public init(
         image: UIImage,
-        selectedImage: UIImage
+        selectedImage: UIImage,
+        disabledImage: UIImage? = nil
     ) {
         self.image = image
         self.selectedImage = selectedImage
-
+        self.disabledImage = disabledImage
         super.init(frame: .zero)
-
-        customizeAppearance()
         prepareLayout()
     }
 
-    private func customizeAppearance() {
-        recustomizeAppearanceWhenSelectedStateChanged()
-    }
-
-    private func recustomizeAppearanceWhenSelectedStateChanged() {
-        imageView.image = isSelected ? selectedImage : image
+    open override func recustomizeAppearance(for state: UIControl.State) {
+        switch state {
+        case .selected:
+            imageView.image = selectedImage
+        case .disabled:
+            imageView.image = disabledImage ?? image
+        default:
+            imageView.image = image
+        }
     }
 
     private func prepareLayout() {
@@ -55,6 +52,7 @@ open class ToggleButton: BaseControl {
 
 extension ToggleButton {
     public func toggle() {
+        if !isEnabled { return }
         isSelected.toggle()
     }
 }
