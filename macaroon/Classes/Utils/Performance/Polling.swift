@@ -53,5 +53,6 @@ public class Polling {
     public func invalidate() {
         timer.setEventHandler { }
         timer.cancel()
+        resume()
     }
 }
