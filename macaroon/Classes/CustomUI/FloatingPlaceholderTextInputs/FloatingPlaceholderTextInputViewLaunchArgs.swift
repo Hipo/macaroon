@@ -6,4 +6,5 @@ import UIKit
 public protocol FloatingPlaceholderTextInputViewStyleGuideConvertible: StyleGuideConvertible {
     func getInput() -> TextInputStyling
     func getEditingIndicator() -> Styling
+    func getError() -> TextStyling
 }

@@ -37,6 +37,10 @@ open class FloatingPlaceholderTextInputView: View {
         get { textInputView.editText }
         set { textInputView.editText = newValue }
     }
+    public var error: EditText? {
+        get { errorView.editText }
+        set { errorView.editText = newValue }
+    }
 
     public weak var textInputDelegate: UITextFieldDelegate? {
         get { textInputView.delegate }
@@ -44,11 +48,12 @@ open class FloatingPlaceholderTextInputView: View {
     }
 
     public var isEditing: Bool { textInputView.isEditing }
-    public var editableView: UIView { textInputView }
+    public var editingView: UIView { textInputView }
 
     private lazy var textInputCanvasView = UIView()
     private lazy var textInputView = MDCFilledTextField()
     private lazy var editingIndicator = UIView()
+    private lazy var errorView = Label()
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,11 +64,13 @@ open class FloatingPlaceholderTextInputView: View {
         customizeBaseAppearance(styleGuide)
         customizeTextInputAppearance(styleGuide)
         customizeEditingIndicatorAppearance(styleGuide)
+        customizeErrorAppearance(styleGuide)
     }
 
     open func prepareLayout() {
         addTextInput()
         addEditingIndicator()
+        addError()
     }
 
     open func prepareLayout(_ layoutGuide: NoLayoutGuide) {
@@ -152,6 +159,10 @@ extension FloatingPlaceholderTextInputView {
     private func customizeEditingIndicatorAppearance(_ styleGuide: FloatingPlaceholderTextInputViewStyleGuideConvertible) {
         editingIndicator.customizeBaseAppearance(styleGuide.getEditingIndicator())
     }
+
+    private func customizeErrorAppearance(_ styleGuide: FloatingPlaceholderTextInputViewStyleGuideConvertible) {
+        errorView.customizeAppearance(styleGuide.getError())
+    }
 }
 
 extension FloatingPlaceholderTextInputView {
@@ -160,7 +171,6 @@ extension FloatingPlaceholderTextInputView {
         textInputCanvasView.snp.makeConstraints { maker in
             maker.top.equalToSuperview()
             maker.leading.equalToSuperview()
-            maker.bottom.equalToSuperview()
             maker.trailing.equalToSuperview()
         }
 
@@ -192,6 +202,19 @@ extension FloatingPlaceholderTextInputView {
             maker.leading.equalTo(textInputCanvasView)
             maker.bottom.equalTo(textInputCanvasView)
             maker.trailing.equalTo(textInputCanvasView)
+        }
+    }
+
+    private func addError() {
+        addSubview(errorView)
+        errorView.setContentHuggingPriority(.required, for: .vertical)
+        errorView.setContentCompressionResistancePriority(.required, for: .vertical)
+        errorView.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 0.0, bottom: 8.0, right: 0.0)
+        errorView.snp.makeConstraints { maker in
+            maker.top.equalTo(textInputCanvasView.snp.bottom)
+            maker.leading.equalToSuperview()
+            maker.bottom.equalToSuperview()
+            maker.trailing.equalToSuperview()
         }
     }
 }
