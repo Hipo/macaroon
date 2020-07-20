@@ -6,11 +6,14 @@ public struct DeeplinkComponents {
     public let subdomain: String
     public let path: String
     public let queryItems: [URLQueryItem]
+    public let url: URL
 
     init(
         url: URL,
         deeplinkHost: String
     ) {
+        self.url = url
+        
         guard let host = url.host.unwrapConditionally(where: { $0.hasSuffix(deeplinkHost) }) else {
             subdomain = ""
             path = ""
@@ -20,7 +23,7 @@ public struct DeeplinkComponents {
         if host == deeplinkHost {
             subdomain = ""
         } else {
-            let hostComponents = deeplinkHost.components(separatedBy: ".")
+            let hostComponents = url.host.nonNil.components(separatedBy: ".")
             subdomain = hostComponents.first.unwrap(or: "")
         }
 
