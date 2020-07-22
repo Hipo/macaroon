@@ -47,11 +47,24 @@ extension Router {
 
         switch transition {
         case .navigation(let navigation):
-            pushScreen(screen, from: source, by: navigation, animated: animated, onCompleted: handler)
+            pushScreens([screen], from: source, by: navigation, animated: animated, onCompleted: handler)
         case .presentation(let presentation):
-            presentScreen(screen, from: source, by: presentation, animated: animated, onCompleted: handler)
+            presentScreens([screen], from: source, by: presentation, animated: animated, onCompleted: handler)
         }
         return screen
+    }
+
+    @discardableResult
+    public func openScreens(_ destinations: [Destination], from source: UIViewController, by transition: RouteTransition.Open, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) -> [UIViewController] {
+        let screens = destinations.map(makeScreen)
+
+        switch transition {
+        case .navigation(let navigation):
+            pushScreens(screens, from: source, by: navigation, animated: animated, onCompleted: handler)
+        case .presentation(let presentation):
+            presentScreens(screens, from: source, by: presentation, animated: animated, onCompleted: handler)
+        }
+        return screens
     }
 
     public func closeScreen(_ screen: UIViewController, by transition: RouteTransition.Close, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
@@ -65,9 +78,9 @@ extension Router {
 }
 
 extension Router {
-    func pushScreen(_ screen: UIViewController, from source: UIViewController, by transition: RouteTransition.Open.Navigation = .next, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
+    func pushScreens(_ screens: [UIViewController], from source: UIViewController, by transition: RouteTransition.Open.Navigation = .next, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
         if let configurableSource = source as? StatusBarConfigurable,
-           let configurableScreen = screen as? StatusBarConfigurable {
+            let configurableScreen = screens.last as? StatusBarConfigurable {
             let isStatusBarHidden = configurableSource.isStatusBarHidden
 
             configurableScreen.hidesStatusBarOnAppeared = isStatusBarHidden
@@ -75,22 +88,33 @@ extension Router {
         }
         let navigationContainer = source as? UINavigationController ?? source.navigationController
 
-        switch transition {
-        case .next:
-            navigationContainer?.pushViewController(screen, animated: animated)
-        case .root:
-            navigationContainer?.setViewControllers([screen], animated: animated)
+        if screens.count > 1 {
+            navigationContainer?.setViewControllers(screens, animated: animated)
+        } else {
+            switch transition {
+            case .next:
+                navigationContainer?.pushViewController(screens[0], animated: animated)
+            case .root:
+                navigationContainer?.setViewControllers([screens[0]], animated: animated)
+            }
         }
         handler?()
     }
 
-    func presentScreen(_ screen: UIViewController, from source: UIViewController, by transition: RouteTransition.Open.Presentation = .default, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
+    func presentScreens(_ screens: [UIViewController], from source: UIViewController, by transition: RouteTransition.Open.Presentation = .default, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
         if let configurableSource = source as? StatusBarConfigurable, configurableSource.isStatusBarHidden,
-           let configurableScreen = screen as? StatusBarConfigurable {
+            let configurableScreen = screens.last as? StatusBarConfigurable {
             configurableScreen.hidesStatusBarOnPresented = true
             configurableScreen.isStatusBarHidden = true
         }
-        let navigationContainer = screen as? UINavigationController ?? embedInNavigationScreen(screen)
+
+        let navigationContainer: UINavigationController
+        if screens.count > 1 {
+            navigationContainer = embedInNavigationScreen(screens[0])
+            navigationContainer.setViewControllers(screens, animated: false)
+        } else {
+           navigationContainer = screens[0] as? UINavigationController ?? embedInNavigationScreen(screens[0])
+        }
 
         switch transition {
         case .`default`:

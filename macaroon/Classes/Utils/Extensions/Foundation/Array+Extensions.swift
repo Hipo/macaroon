@@ -3,6 +3,15 @@
 import Foundation
 
 extension Array {
+    public var lastIndex: Index {
+        if startIndex == endIndex {
+            return endIndex
+        }
+        return index(before: endIndex)
+    }
+}
+
+extension Array {
     public subscript (safe index: Index?) -> Element? {
         if let index = index, indices.contains(index) {
             return self[index]
