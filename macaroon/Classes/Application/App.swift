@@ -43,7 +43,7 @@ extension App {
     }
 
     public var hasNotch: Bool {
-        return UIApplication.shared.keyWindow.unwrap({ $0.safeAreaInsets.bottom > 0 }, or: false)
+        return UIApplication.shared.keyWindow.unwrap(ifPresent: { $0.safeAreaInsets.bottom > 0 }, or: false)
     }
 }
 

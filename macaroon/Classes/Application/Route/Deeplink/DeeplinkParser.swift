@@ -16,7 +16,9 @@ public protocol DeeplinkParser {
 extension DeeplinkParser {
     public func discover(url: URL) -> Destination? {
         let urlComponents = DeeplinkComponents(url: url, deeplinkHost: host)
-        return findMatch(in: urlComponents.path).unwrapIfPresent({ makeDestination(with: urlComponents, for: $0) })
+        return findMatch(in: urlComponents.path).unwrap {
+            makeDestination(with: urlComponents, for: $0)
+        }
     }
 }
 

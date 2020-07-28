@@ -7,7 +7,7 @@ extension Array where Element == ImageProcessor {
     public func joined() -> ImageProcessor? {
         var imageProcessor: ImageProcessor?
         forEach { anImageProcessor in
-            imageProcessor = imageProcessor.unwrap({ $0 >> anImageProcessor }, or: anImageProcessor)
+            imageProcessor = imageProcessor.unwrap(ifPresent: { $0 >> anImageProcessor }, or: anImageProcessor)
         }
         return imageProcessor
     }

@@ -13,9 +13,9 @@ extension TabBarConfigurable where Self: UIViewController {
     public func setNeedsTabBarAppearanceUpdateOnAppearing(animated: Bool = true) {
         guard let tabBarContainer = tabBarContainer else { return }
         
-        isTabBarHidden.continue(
-            isTrue: { tabBarContainer.setTabBarHidden(true, animated: animated) },
-            isFalse: updateTabBarAppearanceOnStacked
+        isTabBarHidden.execute(
+            true: { tabBarContainer.setTabBarHidden(true, animated: animated) },
+            false: updateTabBarAppearanceOnStacked
         )
     }
 
@@ -52,9 +52,9 @@ extension TabBarConfigurable where Self: UIViewController {
     private func updateTabBarAppearanceOnPopped() {
         if isTabBarHidden { return }
 
-        guard let stackedViewControllers = navigationController.unwrapIfPresent({ $0.viewControllers }) else { return }
+        guard let stackedViewControllers = navigationController.unwrap({ $0.viewControllers }) else { return }
         guard let nextStackIndex = stackedViewControllers.firstIndex(of: self)
-            .unwrapIfPresent({ stackedViewControllers.index(after: $0) })
+            .unwrap({ stackedViewControllers.index(after: $0) })
             .unwrapConditionally(where: { $0 < stackedViewControllers.endIndex })
         else { return }
         if (stackedViewControllers[nextStackIndex] as? TabBarConfigurable).unwrapConditionally(where: { !$0.isTabBarHidden }) != nil { return }

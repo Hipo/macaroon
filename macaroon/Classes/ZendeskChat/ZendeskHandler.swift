@@ -85,7 +85,7 @@ extension ZendeskHandler {
 
     private func set(_ visitor: ZendeskVisitor?) {
         let configuration = ChatAPIConfiguration()
-        configuration.visitorInfo = VisitorInfo(name: visitor.unwrap(\.fullName, or: ""), email: visitor.unwrap(\.email, or: ""))
+        configuration.visitorInfo = VisitorInfo(name: visitor.unwrap(ifPresent: \.fullName, or: ""), email: visitor.unwrap(ifPresent: \.email, or: ""))
         Chat.instance?.configuration = configuration
     }
 }
@@ -100,7 +100,7 @@ extension ZendeskHandler {
 extension ZendeskHandler {
     public struct Config {
         public var themeColor: UIColor? {
-            return try? themeColorName.unwrapIfPresent({ col($0) })
+            return try? themeColorName.unwrap({ col($0) })
         }
 
         public let accountKey: String
