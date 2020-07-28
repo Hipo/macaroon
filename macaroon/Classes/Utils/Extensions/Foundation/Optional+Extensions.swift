@@ -3,47 +3,53 @@
 import Foundation
 
 extension Optional {
-    public func unwrap(or someValue: Wrapped) -> Wrapped {
-        return self ?? someValue
+    public func unwrap<T>(_ transform: (Wrapped) -> T) -> T? {
+        return map(transform)
     }
 
-    public func unwrap<T>(_ transform: (Wrapped) -> T, or someValue: T) -> T {
+    public func unwrap<T>(_ transform: (Wrapped) -> T?) -> T? {
+        return flatMap(transform)
+    }
+
+    public func unwrap<T>(ifPresent transform: (Wrapped) -> T, or someValue: T) -> T {
         return map(transform) ?? someValue
     }
 
-    public func unwrap<T>(_ keyPath: KeyPath<Wrapped, T>, or someValue: T) -> T {
-        return unwrap({ $0[keyPath: keyPath] }, or: someValue)
+    public func unwrap<T>(ifPresent transform: (Wrapped) -> T?, or someValue: T) -> T {
+        return flatMap(transform) ?? someValue
     }
 
-    public func unwrap<T>(_ keyPath: KeyPath<Wrapped, T?>, or someValue: T) -> T {
-        return unwrap({ $0[keyPath: keyPath] ?? someValue }, or: someValue)
+    public func unwrap<T>(_ keyPath: KeyPath<Wrapped, T>) -> T? {
+        return map { $0[keyPath: keyPath] }
     }
 
-    public func unwrapIfPresent<T>(_ transform: (Wrapped) -> T, or someValue: T? = nil) -> T? {
-        return map(transform) ?? someValue
+    public func unwrap<T>(_ keyPath: KeyPath<Wrapped, T?>) -> T? {
+        return flatMap { $0[keyPath: keyPath] }
     }
 
-    public func unwrapIfPresent<T>(_ transform: (Wrapped) -> T?, or someValue: T? = nil) -> T? {
-        return map(transform) ?? someValue
+    public func unwrap<T>(ifPresent keyPath: KeyPath<Wrapped, T>, or someValue: T) -> T {
+        return map { $0[keyPath: keyPath] } ?? someValue
     }
 
-    public func unwrapIfPresent<T>(_ keyPath: KeyPath<Wrapped, T>, or someValue: T? = nil) -> T? {
-        return unwrapIfPresent({ $0[keyPath: keyPath] }, or: someValue)
-    }
-
-    public func unwrapIfPresent<T>(_ keyPath: KeyPath<Wrapped, T?>, or someValue: T? = nil) -> T? {
-        return unwrapIfPresent({ $0[keyPath: keyPath] }, or: someValue)
+    public func unwrap<T>(ifPresent keyPath: KeyPath<Wrapped, T?>, or someValue: T) -> T {
+        return flatMap { $0[keyPath: keyPath] } ?? someValue
     }
 
     public func unwrapConditionally(where predicate: (Wrapped) -> Bool) -> Wrapped? {
-        return unwrap({ predicate($0) ? $0 : nil }, or: nil)
+        return unwrap { predicate($0) ? $0 : nil }
     }
 }
 
 extension Optional {
-    public func `continue`(ifPresent operation: (Wrapped) -> Void, else elseOperation: (() -> Void)? = nil) {
+    public func executeIfPresent(_ operation: (Wrapped) -> Void) {
+        if let value = self {
+            operation(value)
+        }
+    }
+
+    public func execute(ifPresent operation: (Wrapped) -> Void, else elseOperation: () -> Void) {
         if let value = self { operation(value) }
-        else { elseOperation?() }
+        else { elseOperation() }
     }
 }
 

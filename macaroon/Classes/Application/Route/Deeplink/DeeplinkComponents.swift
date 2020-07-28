@@ -24,11 +24,11 @@ public struct DeeplinkComponents {
             subdomain = ""
         } else {
             let hostComponents = url.host.nonNil.components(separatedBy: ".")
-            subdomain = hostComponents.first.unwrap(or: "")
+            subdomain = hostComponents.first.nonNil
         }
 
         let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        path = urlComponents.unwrap(\.path, or: "")
-        queryItems = urlComponents.unwrap(\.queryItems, or: [])
+        path = urlComponents.unwrap(ifPresent: \.path, or: "")
+        queryItems = urlComponents.unwrap(ifPresent: \.queryItems, or: [])
     }
 }

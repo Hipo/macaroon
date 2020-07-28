@@ -16,7 +16,7 @@ extension String {
     public subscript(safe index: Index?) -> Character? {
         return index
             .unwrapConditionally(where: { indices.contains($0) })
-            .unwrapIfPresent({ self[$0] })
+            .unwrap({ self[$0] })
     }
 
     public func substring(at range: NSRange) -> String {
