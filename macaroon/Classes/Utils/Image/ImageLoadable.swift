@@ -6,16 +6,17 @@ import UIKit
 public protocol ImageLoadable {
     var imageContainer: UIImageView { get }
 
-    func load(from source: ImageSource?)
+    func load(from source: ImageSource?, onCompleted execute: ((Swift.Error?) -> Void)?)
     func unloadSource()
 }
 
 extension ImageLoadable {
-    public func load(from source: ImageSource?) {
+    public func load(from source: ImageSource?, onCompleted execute: ((Swift.Error?) -> Void)? = nil) {
         if let source = source {
-            source.load(in: imageContainer)
+            source.load(in: imageContainer, onCompleted: execute)
         } else {
             unloadSource()
+            execute?(nil)
         }
     }
 
