@@ -3,13 +3,14 @@
 import Foundation
 import UIKit
 
-public protocol Router: AnyObject, AppLaunchable {
+public protocol Router: AnyObject {
     typealias TransitionCompletionHandler = () -> Void
 
-    associatedtype SomeRootContainer: RootContainer where SomeRootContainer.SomeRouter == Self
+    associatedtype SomeAppLaunchArgs: AppLaunchArgs
+    associatedtype SomeRootContainer: RootContainer
     associatedtype Destination: RouteDestination
 
-    init(appLaunchArgs: SomeAppLaunchArgs)
+    var appLaunchArgs: SomeAppLaunchArgs { get }
 
     /// <note> It should be called once when it is set as the root view controller in window.
     func makeRootContainer() -> SomeRootContainer

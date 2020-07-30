@@ -2,7 +2,7 @@
 
 import Foundation
 
-open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: UIViewController, ScreenLaunchable, ScreenComposable, StatusBarConfigurable, NavigationBarConfigurable, NotificationObserver {
+open class Screen: UIViewController, ScreenComposable, StatusBarConfigurable, NavigationBarConfigurable, NotificationObserver {
     public var isStatusBarHidden = false
     public var hidesStatusBarOnAppeared = false
     public var hidesStatusBarOnPresented = false
@@ -10,7 +10,7 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: U
     public var isNavigationBarHidden = false
     public var hidesCloseBarItem = false
     public var disablesInteractivePopGesture = false
-    
+
     public var leftBarItems: [NavigationBarItemConvertible] = []
     public var rightBarItems: [NavigationBarItemConvertible] = []
 
@@ -34,26 +34,9 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: U
         return isStatusBarHidden ? .fade : .none
     }
 
-    public var router: SomeRouter {
-        if let someRouter = _router {
-            return someRouter
-        }
-        mc_crash(.routerNotFound)
-    }
-
-    public let launchArgs: SomeScreenLaunchArgs
-
-    private let _router: SomeRouter?
-
-    public init(
-        launchArgs: SomeScreenLaunchArgs,
-        router: SomeRouter? = nil
-    ) {
-        self.launchArgs = launchArgs
-        self._router = router
-
+    public init() {
         super.init(nibName: nil, bundle: nil)
-        
+
         disablesInteractivePopGesture = isNavigationBarHidden || hidesCloseBarItem
 
         customizeNavigationBarAppearance()

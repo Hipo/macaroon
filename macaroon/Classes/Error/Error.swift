@@ -9,7 +9,6 @@ public enum Error: ErrorConvertible {
     case unsupportedDeviceOS
     case unsupportedDeviceFamily
     case rootContainerNotMatch
-    case routerNotFound
     case screenNotFound(RouteDestination)
     case dismissNavigationBarItemNotFound
     case popNavigationBarItemNotFound
@@ -36,8 +35,6 @@ extension Error {
             return "Unsupported device family"
         case .rootContainerNotMatch:
             return "Root container in window doesn't match the expected one"
-        case .routerNotFound:
-            return "'router' is unavailable. Please set it at launch."
         case .screenNotFound(let destination):
             return "Screen not found for \(destination)"
         case .dismissNavigationBarItemNotFound:

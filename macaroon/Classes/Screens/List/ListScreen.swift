@@ -4,24 +4,20 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: ListLayout, SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: Screen<SomeScreenLaunchArgs, SomeRouter>, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EmptyStateViewDataSource {
-    public typealias DataConnector = SomeListDataConnector
-    public typealias Layout = SomeListLayout
+open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EmptyStateViewDataSource {
 
-    public lazy var listView = ListView(listLayout: layout)
+    public lazy var listView = ListView(listLayout: listLayout)
 
-    public let dataConnector: DataConnector
-    public let layout: Layout
+    public let listDataSource: ListDataSource
+    public let listLayout: ListLayout
 
     public init(
-        dataConnector: DataConnector,
-        layout: Layout,
-        launchArgs: SomeScreenLaunchArgs,
-        router: SomeRouter? = nil
+        listDataSource: ListDataSource,
+        listLayout: ListLayout
     ) {
-        self.dataConnector = dataConnector
-        self.layout = layout
-        super.init(launchArgs: launchArgs, router: router)
+        self.listDataSource = listDataSource
+        self.listLayout = listLayout
+        super.init()
     }
 
     open override func customizeAppearance() {
@@ -55,7 +51,7 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
 
     open override func viewDidChangePreferredContentSizeCategory() {
         super.viewDidChangePreferredContentSizeCategory()
-        layout.invalidate(forceLayoutUpdate: true)
+        listLayout.invalidate(forceLayoutUpdate: true)
         updateLayoutWhenViewDidLayoutSubviews()
     }
 
@@ -64,27 +60,25 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
         finalizeListViewLayout()
     }
 
-    /// <warning> Define ObjC protocols(i.e. UICollectionViewDataSource etc.) in base for the generic types to be able to override them in subclasses.
-
     /// <mark> UICollectionViewDataSource
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return dataConnector.numberOfSections()
+        return listDataSource.numberOfSections()
     }
 
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataConnector.numberOfItems(inSection: section)
+        return listDataSource.numberOfItems(inSection: section)
     }
 
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return layout.cell(for: dataConnector[indexPath], at: indexPath)
+        return listLayout.cell(for: listDataSource[indexPath], at: indexPath)
     }
 
     open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            return layout.header(for: dataConnector[indexPath.section], in: indexPath.section)
+            return listLayout.header(for: listDataSource[indexPath.section], in: indexPath.section)
         case UICollectionView.elementKindSectionFooter:
-            return layout.footer(for: dataConnector[indexPath.section], in: indexPath.section)
+            return listLayout.footer(for: listDataSource[indexPath.section], in: indexPath.section)
         default:
             mc_crash(.unsupportedListSupplementaryView(UICollectionReusableView.self, kind))
         }
@@ -92,44 +86,44 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
 
     /// <mark> UICollectionViewDelegateFlowLayout
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return layout.size(for: dataConnector[indexPath], at: indexPath)
+        return listLayout.size(for: listDataSource[indexPath], at: indexPath)
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if dataConnector.isSectionEmpty(section) &&
-           !layout.shouldShowHeadersForEmptySection(section) {
+        if listDataSource.isSectionEmpty(section) &&
+           !listLayout.shouldShowHeadersForEmptySection(section) {
             return .zero
         }
-        return layout.headerSize(for: dataConnector[section], in: section)
+        return listLayout.headerSize(for: listDataSource[section], in: section)
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if dataConnector.isSectionEmpty(section) &&
-           !layout.shouldShowFooterForEmptySection(section) {
+        if listDataSource.isSectionEmpty(section) &&
+           !listLayout.shouldShowFooterForEmptySection(section) {
             return .zero
         }
-        return layout.footerSize(for: dataConnector[section], in: section)
+        return listLayout.footerSize(for: listDataSource[section], in: section)
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if dataConnector.isSectionEmpty(section) {
+        if listDataSource.isSectionEmpty(section) {
             return 0.0
         }
-        return layout.minimumLineSpacing(for: dataConnector[section], in: section)
+        return listLayout.minimumLineSpacing(for: listDataSource[section], in: section)
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        if dataConnector.isSectionEmpty(section) {
+        if listDataSource.isSectionEmpty(section) {
             return 0.0
         }
-        return layout.minimumInteritemSpacing(for: dataConnector[section], in: section)
+        return listLayout.minimumInteritemSpacing(for: listDataSource[section], in: section)
     }
 
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if dataConnector.isSectionEmpty(section) {
+        if listDataSource.isSectionEmpty(section) {
             return .zero
         }
-        return layout.sectionInset(for: dataConnector[section], in: section)
+        return listLayout.sectionInset(for: listDataSource[section], in: section)
     }
 
     /// <mark> UICollectionViewDelegate
@@ -139,27 +133,6 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
             view.layer.zPosition = 0.0
         }
     }
-
-    open func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) { }
-    open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { }
-    open func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { }
-    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) { }
-    open func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) { }
-
-    open func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    open func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    /// <mark> UIScrollViewDelegate
-    open func scrollViewDidScroll(_ scrollView: UIScrollView) { }
-    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) { }
-    open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) { }
-    open func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) { }
-    open func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) { }
 
     /// <mark> EmptyStateViewDataSource
     open func loadingIndicator(in view: EmptyStateView) -> LoadingIndicator? {
@@ -192,6 +165,6 @@ open class ListScreen<SomeListDataConnector: ListDataSource, SomeListLayout: Lis
 
 extension ListScreen {
     private func finalizeListViewLayout() {
-        layout.prepareForUse()
+        listLayout.prepareForUse()
     }
 }

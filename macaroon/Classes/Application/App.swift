@@ -4,10 +4,8 @@ import Foundation
 
 public protocol App: AnyObject, AppLaunchable {
     associatedtype SomeTarget: Target
-    associatedtype SomeRouter: Router
 
     var target: SomeTarget { get }
-    var router: SomeRouter { get }
 
     static var shared: Self { get }
 }

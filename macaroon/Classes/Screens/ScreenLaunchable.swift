@@ -8,6 +8,4 @@ public protocol ScreenLaunchable: AnyObject {
     var launchArgs: SomeScreenLaunchArgs { get }
 }
 
-public protocol ScreenLaunchArgs {
-    associatedtype Options: OptionSet
-}
+public protocol ScreenLaunchArgs { }
