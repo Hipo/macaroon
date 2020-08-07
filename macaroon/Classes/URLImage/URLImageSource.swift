@@ -9,17 +9,17 @@ public protocol URLImageSource: ImageSource {
     var placeholder: ImagePlaceholder? { get }
     var forceRefresh: Bool { get }
 
-    func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?, onCompleted execute: ((Swift.Error?) -> Void)?)
+    func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?, onCompleted execute: ((ErrorConvertible?) -> Void)?)
     func formOptions() -> KingfisherOptionsInfo
     func formImageProcessors() -> [ImageProcessor?]
 }
 
 extension URLImageSource {
-    public func load(in imageView: UIImageView, onCompleted execute: ((Swift.Error?) -> Void)? = nil) {
+    public func load(in imageView: UIImageView, onCompleted execute: ((ErrorConvertible?) -> Void)? = nil) {
         load(in: imageView, displayingPlaceholderIn: nil, onCompleted: execute)
     }
 
-    public func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?, onCompleted execute: ((Swift.Error?) -> Void)? = nil) {
+    public func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?, onCompleted execute: ((ErrorConvertible?) -> Void)? = nil) {
         imageView.kf.cancelDownloadTask()
         imageView.kf.setImage(with: url, placeholder: placeholderContainer, options: formOptions(), progressBlock: nil) { result in
             switch result {

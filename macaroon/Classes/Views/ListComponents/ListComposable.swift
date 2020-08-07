@@ -27,3 +27,10 @@ extension ListComposable where Self: ViewModelBindable, Self.ContextView: ViewMo
         return ContextView.calculatePreferredSize(viewModel, fittingIn: size)
     }
 }
+
+extension ListComposable where Self: ViewModelBindable & ListSeparatorAdaptable, Self.ContextView: ViewModelBindable {
+    public static func calculatePreferredSize(_ viewModel: ContextView.ViewModel?, fittingIn size: CGSize) -> CGSize {
+        let preferredSize = ContextView.calculatePreferredSize(viewModel, fittingIn: size)
+        return CGSize(width: preferredSize.width, height: preferredSize.height + separatorStyle.margin)
+    }
+}

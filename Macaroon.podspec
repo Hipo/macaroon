@@ -43,18 +43,6 @@ Pod::Spec.new do |s|
       end
     end
 
-    ss.subspec 'Data' do |sss|
-      sss.source_files = 'macaroon/Classes/Data/*.swift'
-
-      sss.subspec 'DataSources' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Data/DataSources/*.swift'
-
-        ssss.subspec 'List' do |sssss|
-          sssss.source_files = 'macaroon/Classes/Data/DataSources/List/*.swift'
-        end
-      end
-    end
-
     ss.subspec 'Error' do |sss|
       sss.source_files = 'macaroon/Classes/Error/*.swift'
     end
@@ -78,6 +66,10 @@ Pod::Spec.new do |s|
 
       sss.subspec 'List' do |ssss|
         ssss.source_files = 'macaroon/Classes/Screens/List/*.swift'
+
+        ssss.subspec 'Configuration' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Screens/List/Configuration/*.swift'
+        end
       end
     end
 
@@ -110,10 +102,6 @@ Pod::Spec.new do |s|
         ssss.source_files = 'macaroon/Classes/Utils/Performance/*.swift'
       end
 
-      sss.subspec 'Presentables' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Utils/Presentables/*.swift'
-      end
-
       sss.subspec 'Text' do |ssss|
         ssss.source_files = 'macaroon/Classes/Utils/Text/*.swift'
 
@@ -130,6 +118,10 @@ Pod::Spec.new do |s|
 
       sss.subspec 'Components' do |ssss|
         ssss.source_files = 'macaroon/Classes/Views/Components/*.swift'
+
+        ssss.subspec 'EmptyStateView' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Views/Components/EmptyStateView/*.swift'
+        end
 
         ssss.subspec 'MaskedTextInputView' do |sssss|
           sssss.source_files = 'macaroon/Classes/Views/Components/MaskedTextInputView/*.swift'

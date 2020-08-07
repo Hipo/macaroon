@@ -5,7 +5,6 @@ import SnapKit
 import UIKit
 
 open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EmptyStateViewDataSource {
-
     public lazy var listView = ListView(listLayout: listLayout)
 
     public let listDataSource: ListDataSource
@@ -22,17 +21,19 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
 
     open override func customizeAppearance() {
         super.customizeAppearance()
-        customizeListViewAppearance()
+        customizeListAppearance()
     }
 
-    open func customizeListViewAppearance() { }
+    open func customizeListAppearance() {
+        listView.backgroundColor = .clear
+    }
 
     open override func prepareLayout() {
         super.prepareLayout()
-        addListView()
+        addList()
     }
 
-    open func addListView() {
+    open func addList() {
         view.addSubview(listView)
         listView.snp.makeConstraints { maker in
             maker.top.equalTo(view.safeAreaLayoutGuide)
@@ -51,13 +52,13 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
 
     open override func viewDidChangePreferredContentSizeCategory() {
         super.viewDidChangePreferredContentSizeCategory()
-        listLayout.invalidate(forceLayoutUpdate: true)
+        listLayout.invalidateLayout(forceLayoutUpdate: true)
         updateLayoutWhenViewDidLayoutSubviews()
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        finalizeListViewLayout()
+        finalizeListLayout()
     }
 
     /// <mark> UICollectionViewDataSource
@@ -146,25 +147,25 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
         return loadingIndicator
     }
 
-    open func loadingIndicatorVerticalPositionAdjustment(in view: EmptyStateView) -> CGFloat? {
+    open func noContentView(userInfo: Any?, in view: EmptyStateView) -> UIView? {
         return nil
     }
 
-    open func noContentView(in view: EmptyStateView) -> UIView? {
+    open func noNetworkView(userInfo: Any?, in view: EmptyStateView) -> UIView? {
         return nil
     }
 
-    open func noNetworkView(in view: EmptyStateView) -> UIView? {
+    open func faultView(userInfo: Any?, in view: EmptyStateView) -> UIView? {
         return nil
     }
 
-    open func faultView(in view: EmptyStateView) -> UIView? {
+    open func contentEdgeInsets(in view: EmptyStateView) -> UIEdgeInsets? {
         return nil
     }
 }
 
 extension ListScreen {
-    private func finalizeListViewLayout() {
+    private func finalizeListLayout() {
         listLayout.prepareForUse()
     }
 }

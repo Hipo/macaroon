@@ -7,21 +7,6 @@ import UIKit
 public protocol EmptyStatePresentable: AnyObject {
     var emptyState: EmptyStateView.State { get set }
     var emptyStateView: EmptyStateView { get }
-
-    func addEmptyState()
-    func updateEmptyState(_ newEmptyState: EmptyStateView.State)
-    func removeEmptyState()
-}
-
-extension EmptyStatePresentable {
-    public var emptyState: EmptyStateView.State {
-        get { emptyStateView.state }
-        set { updateEmptyState(newValue) }
-    }
-
-    public func updateEmptyState(_ newEmptyState: EmptyStateView.State) {
-        emptyStateView.state = newEmptyState
-    }
 }
 
 extension EmptyStatePresentable {
@@ -32,7 +17,20 @@ extension EmptyStatePresentable {
 }
 
 extension EmptyStatePresentable where Self: UIView {
-    public func addEmptyState() {
+    public var emptyState: EmptyStateView.State {
+        get { emptyStateView.state }
+        set {
+            switch newValue {
+            case .none:
+                removeEmptyState()
+            default:
+                addEmptyState()
+            }
+            emptyStateView.state = newValue
+        }
+    }
+
+    private func addEmptyState() {
         if emptyStateView.isDescendant(of: self) { return }
 
         addSubview(emptyStateView)
@@ -44,37 +42,32 @@ extension EmptyStatePresentable where Self: UIView {
         }
     }
 
-    public func updateEmptyState(_ newEmptyState: EmptyStateView.State) {
-        switch newEmptyState {
-        case .none:
-            removeEmptyState()
-            emptyStateView.state = newEmptyState
-        default:
-            addEmptyState()
-            emptyStateView.state = newEmptyState
-        }
-    }
-
-    public func removeEmptyState() {
+    private func removeEmptyState() {
         emptyStateView.removeFromSuperview()
     }
 }
 
 extension EmptyStatePresentable where Self: UICollectionView {
-    public func addEmptyState() {
-        backgroundView = emptyStateView
-
-        if !bounds.isEmpty {
-            backgroundView?.frame = bounds
-        }
-    }
-
-    public func removeEmptyState() {
-        backgroundView = nil
+    public var emptyState: EmptyStateView.State {
+        get { emptyStateView.state }
+        set { emptyStateView.state = newValue }
     }
 }
 
 extension EmptyStatePresentable where Self: UIViewController {
+    public var emptyState: EmptyStateView.State {
+        get { emptyStateView.state }
+        set {
+            switch newValue {
+            case .none:
+                removeEmptyState()
+            default:
+                addEmptyState()
+            }
+            emptyStateView.state = newValue
+        }
+    }
+
     public func addEmptyState() {
         if emptyStateView.isDescendant(of: self.view) { return }
 
@@ -84,17 +77,6 @@ extension EmptyStatePresentable where Self: UIViewController {
             maker.leading.equalToSuperview()
             maker.bottom.equalToSuperview()
             maker.trailing.equalToSuperview()
-        }
-    }
-
-    public func updateEmptyState(_ newEmptyState: EmptyStateView.State) {
-        switch newEmptyState {
-        case .none:
-            removeEmptyState()
-            emptyStateView.state = newEmptyState
-        default:
-            addEmptyState()
-            emptyStateView.state = newEmptyState
         }
     }
 

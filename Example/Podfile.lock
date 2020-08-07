@@ -6,7 +6,6 @@ PODS:
   - Macaroon/Biometrics (0.1.0)
   - Macaroon/Core (0.1.0):
     - Macaroon/Core/Application (= 0.1.0)
-    - Macaroon/Core/Data (= 0.1.0)
     - Macaroon/Core/Error (= 0.1.0)
     - Macaroon/Core/Screens (= 0.1.0)
     - Macaroon/Core/Utils (= 0.1.0)
@@ -23,14 +22,6 @@ PODS:
     - Macaroon/Core/Application/Route/Deeplink (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Application/Route/Deeplink (0.1.0):
-    - SnapKit (~> 5.0.0)
-  - Macaroon/Core/Data (0.1.0):
-    - Macaroon/Core/Data/DataSources (= 0.1.0)
-    - SnapKit (~> 5.0.0)
-  - Macaroon/Core/Data/DataSources (0.1.0):
-    - Macaroon/Core/Data/DataSources/List (= 0.1.0)
-    - SnapKit (~> 5.0.0)
-  - Macaroon/Core/Data/DataSources/List (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Error (0.1.0):
     - SnapKit (~> 5.0.0)
@@ -50,6 +41,9 @@ PODS:
   - Macaroon/Core/Screens/Containers (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Screens/List (0.1.0):
+    - Macaroon/Core/Screens/List/Configuration (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Screens/List/Configuration (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils (0.1.0):
     - Macaroon/Core/Utils/Extensions (= 0.1.0)
@@ -57,7 +51,6 @@ PODS:
     - Macaroon/Core/Utils/List (= 0.1.0)
     - Macaroon/Core/Utils/Notification (= 0.1.0)
     - Macaroon/Core/Utils/Performance (= 0.1.0)
-    - Macaroon/Core/Utils/Presentables (= 0.1.0)
     - Macaroon/Core/Utils/Text (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Extensions (0.1.0):
@@ -76,8 +69,6 @@ PODS:
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Performance (0.1.0):
     - SnapKit (~> 5.0.0)
-  - Macaroon/Core/Utils/Presentables (0.1.0):
-    - SnapKit (~> 5.0.0)
   - Macaroon/Core/Utils/Text (0.1.0):
     - Macaroon/Core/Utils/Text/Attributed (= 0.1.0)
     - SnapKit (~> 5.0.0)
@@ -92,8 +83,11 @@ PODS:
   - Macaroon/Core/Views/BaseComponents (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Components (0.1.0):
+    - Macaroon/Core/Views/Components/EmptyStateView (= 0.1.0)
     - Macaroon/Core/Views/Components/MaskedTextInputView (= 0.1.0)
     - Macaroon/Core/Views/Components/SegmentedControl (= 0.1.0)
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/Views/Components/EmptyStateView (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Views/Components/MaskedTextInputView (0.1.0):
     - SnapKit (~> 5.0.0)
@@ -264,7 +258,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
-  Macaroon: 59e00267fa1cba2ab28f57dec276e54d79997478
+  Macaroon: b494789894eefc896b32b906f7568c9f51cd3513
   Macaw: 8306d775625ba003beee4186b9533fd7cf284024
   MaterialComponents: 4cb6659322cfc38bb0a7e40fba1866daaefeb12c
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
