@@ -76,7 +76,14 @@ open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
     /// <mark> ListDataLoaderDelegate
     open func listDataLoaderWillLoadList(_ dataLoader: ListDataLoader) {
         if listDataSource.isEmpty() {
-            listView.emptyState = .loading
+            switch listView.emptyState {
+            case .none,
+                 .noNetwork,
+                 .fault:
+                listView.emptyState = .loading
+            default:
+                break
+            }
         }
     }
 

@@ -41,6 +41,7 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
             maker.bottom.equalToSuperview()
             maker.trailing.equalToSuperview()
         }
+        listView.emptyStateView.frame = view.bounds
     }
 
     open override func setListeners() {
