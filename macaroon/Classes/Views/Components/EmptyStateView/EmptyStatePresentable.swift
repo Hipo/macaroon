@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-public protocol EmptyStatePresentable: AnyObject {
+public protocol EmptyStatePresentable: EmptyStateViewDataSource {
     var emptyState: EmptyStateView.State { get set }
     var emptyStateView: EmptyStateView { get }
 }
