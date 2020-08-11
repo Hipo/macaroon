@@ -250,7 +250,7 @@ Pod::Spec.new do |s|
   s.subspec 'Zendesk-Chat' do |ss|
     ss.source_files = 'macaroon/Classes/ZendeskChat/*.swift'
 
-    ss.dependency 'ZendeskChatSDK', '~> 2.6'
+    ss.dependency 'ZendeskChatSDK', '~> 2.8'
   end
 
   s.subspec 'Zendesk-Support' do |ss|
