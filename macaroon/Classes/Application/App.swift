@@ -11,6 +11,17 @@ public protocol App: AnyObject, AppLaunchable {
 }
 
 extension App {
+    public var identifier: String {
+        return Bundle.main.bundleIdentifier.nonNil
+    }
+    public var name: String {
+        let infoDictionary = Bundle.main.infoDictionary
+        return ((infoDictionary?["CFBundleDisplayName"] ?? infoDictionary?["CFBundleName"]) as? String).nonNil
+    }
+    public var version: String {
+        return (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String).nonNil
+    }
+
     public var deviceOS: DeviceOS {
         #if os(iOS)
         return .iOS

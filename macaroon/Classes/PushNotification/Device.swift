@@ -3,13 +3,19 @@
 import Foundation
 import UIKit
 
-public struct PushNotificationDevice {
-    public let platform: PushNotificationPlatform
+public struct Device {
+    public let platform: DevicePlatform
+    public let platformVersion: String
+    public let identifier: String
     public let model: String
     public let locale: String
 
     public init() {
         platform = .iOS
+
+        let rawDevice = UIDevice.current
+        platformVersion = rawDevice.systemVersion
+        identifier = rawDevice.identifierForVendor?.uuidString ?? ""
 
         #if targetEnvironment(simulator)
         model = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] ?? "simulator"
@@ -29,6 +35,6 @@ public struct PushNotificationDevice {
     }
 }
 
-public enum PushNotificationPlatform: String {
+public enum DevicePlatform: String {
     case iOS = "ios"
 }

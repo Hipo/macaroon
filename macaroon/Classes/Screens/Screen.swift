@@ -9,6 +9,7 @@ open class Screen: UIViewController, ScreenComposable, StatusBarConfigurable, Na
 
     public var isNavigationBarHidden = false
     public var hidesCloseBarItem = false
+    public var hidesDismissBarItemIniOS13AndLater = false
     public var disablesInteractivePopGesture = false
 
     public var leftBarItems: [NavigationBarItemConvertible] = []

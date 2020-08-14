@@ -31,6 +31,7 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
     open override func prepareLayout() {
         super.prepareLayout()
         addList()
+        updateListEmptyStateLayout()
     }
 
     open func addList() {
@@ -41,7 +42,6 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
             maker.bottom.equalToSuperview()
             maker.trailing.equalToSuperview()
         }
-        listView.emptyStateView.frame = view.bounds
     }
 
     open override func setListeners() {
@@ -162,6 +162,12 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
 
     open func contentEdgeInsets(in view: EmptyStateView) -> UIEdgeInsets? {
         return nil
+    }
+}
+
+extension ListScreen {
+    private func updateListEmptyStateLayout() {
+        listView.emptyStateView.frame = view.bounds
     }
 }
 
