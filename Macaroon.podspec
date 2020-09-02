@@ -109,6 +109,10 @@ Pod::Spec.new do |s|
           sssss.source_files = 'macaroon/Classes/Utils/Text/Attributed/*.swift'
         end
       end
+
+      sss.subspec 'Time' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Utils/Time/*.swift'
+      end
     end
 
     ss.subspec 'Views' do |sss|
