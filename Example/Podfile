@@ -9,6 +9,7 @@ target 'macaroon_Example' do
   pod 'Macaroon/CustomUI/FloatingPlaceholderTextInputs',  :path => '../'
   pod 'Macaroon/Form', :path => '../'
   pod 'Macaroon/MediaPicker', :path => '../'
+  pod 'Macaroon/Mixpanel', :path => '../'
   pod 'Macaroon/PushNotification', :path => '../'
   pod 'Macaroon/SwiftLint',  :path => '../'
   pod 'Macaroon/SVGImage', :path => '../'

@@ -30,6 +30,10 @@ Pod::Spec.new do |s|
     ss.subspec 'Application' do |sss|
       sss.source_files = 'macaroon/Classes/Application/*.swift'
 
+      sss.subspec 'Analytics' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Application/Analytics/*.swift'
+      end
+
       sss.subspec 'Launch' do |ssss|
         ssss.source_files = 'macaroon/Classes/Application/Launch/*.swift'
       end
@@ -193,6 +197,12 @@ Pod::Spec.new do |s|
     ss.source_files = 'macaroon/Classes/MediaPicker/*.swift'
   end
 
+  s.subspec 'Mixpanel' do |ss|
+    ss.source_files = 'macaroon/Classes/Mixpanel/*.swift'
+
+    ss.dependency 'Mixpanel-swift', '~> 2.7'
+  end
+
   s.subspec 'PushNotification' do |ss|
     ss.source_files = 'macaroon/Classes/PushNotification/*.swift'
   end
@@ -254,7 +264,7 @@ Pod::Spec.new do |s|
   s.subspec 'Zendesk-Chat' do |ss|
     ss.source_files = 'macaroon/Classes/ZendeskChat/*.swift'
 
-    ss.dependency 'ZendeskChatSDK', '~> 2.8'
+    ss.dependency 'ZendeskChatSDK', '~> 2.9'
   end
 
   s.subspec 'Zendesk-Support' do |ss|

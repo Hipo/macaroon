@@ -45,8 +45,6 @@ public protocol DeeplinkConfig: AnyObject, Decodable, ExpressibleByStringLiteral
     var host: String { get }
 }
 
-public protocol Analytics: AnyObject, Decodable, ExpressibleByNilLiteral { }
-
 public protocol DevTools: AnyObject, Decodable, ExpressibleByNilLiteral { }
 
 public protocol DevTool: AnyObject, Decodable, ExpressibleByNilLiteral { }
