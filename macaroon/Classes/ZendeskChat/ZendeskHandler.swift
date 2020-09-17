@@ -29,8 +29,7 @@ open class ZendeskHandler: DevTool {
     }
 
     open func makeScreen(_ visitor: ZendeskVisitor?) -> UIViewController {
-        /// <warning> I didn't understand why chat doesn't work if a visitor info is set as the documentation says.
-//        set(visitor)
+        set(visitor)
 
         do {
             let chatEngine = try ChatEngine.engine()
@@ -39,7 +38,7 @@ open class ZendeskHandler: DevTool {
             instance.delegate = self
 
             let chatConfiguration = ChatConfiguration()
-            chatConfiguration.isAgentAvailabilityEnabled = false
+            chatConfiguration.preChatFormConfiguration = ChatFormConfiguration(name: .hidden, email: .hidden, phoneNumber: .hidden, department: .hidden)
 
             return try instance.buildUI(engines: [chatEngine], configs: [chatConfiguration])
         } catch let error {
@@ -85,7 +84,7 @@ extension ZendeskHandler {
 
     private func set(_ visitor: ZendeskVisitor?) {
         let configuration = ChatAPIConfiguration()
-        configuration.visitorInfo = VisitorInfo(name: visitor.unwrap(ifPresent: \.fullName, or: ""), email: visitor.unwrap(ifPresent: \.email, or: ""))
+        configuration.visitorInfo = VisitorInfo(name: visitor.unwrap(ifPresent: \.fullName, or: ""), email: visitor.unwrap(ifPresent: \.email, or: ""), phoneNumber: visitor.unwrap(ifPresent: \.phoneNumber, or: ""))
         Chat.instance?.configuration = configuration
     }
 }

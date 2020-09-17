@@ -56,6 +56,14 @@ public func iOS13AndLater(execute: () -> Void) {
     }
 }
 
+public func iOS13AndLater(execute: () -> Void, else elseExecute: () -> Void) {
+    if #available(iOS 13, *) {
+        execute()
+    } else {
+        elseExecute()
+    }
+}
+
 public func iOS13AndLater<T>(execute: () -> T, else elseExecute: () -> T) -> T {
     if #available(iOS 13, *) {
         return execute()

@@ -2,17 +2,26 @@
 
 import Foundation
 
-open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: UIViewController, ScreenLaunchable, ScreenComposable, StatusBarConfigurable, NavigationBarConfigurable, NotificationObserver {
+open class Screen: UIViewController, ScreenComposable, StatusBarConfigurable, NavigationBarConfigurable, UIAdaptivePresentationControllerDelegate, NotificationObserver {
     public var isStatusBarHidden = false
     public var hidesStatusBarOnAppeared = false
     public var hidesStatusBarOnPresented = false
 
     public var isNavigationBarHidden = false
     public var hidesCloseBarItem = false
+    public var hidesDismissBarItemIniOS13AndLater = false
     public var disablesInteractivePopGesture = false
-    
+
     public var leftBarItems: [NavigationBarItemConvertible] = []
     public var rightBarItems: [NavigationBarItemConvertible] = []
+
+    public var disablesInteractiveDismiss = false {
+        didSet {
+            if #available(iOS 13.0, *) {
+                isModalInPresentation = disablesInteractiveDismiss
+            }
+        }
+    }
 
     public var observations: [NSObjectProtocol] = []
 
@@ -34,26 +43,9 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: U
         return isStatusBarHidden ? .fade : .none
     }
 
-    public var router: SomeRouter {
-        if let someRouter = _router {
-            return someRouter
-        }
-        mc_crash(.routerNotFound)
-    }
-
-    public let launchArgs: SomeScreenLaunchArgs
-
-    private let _router: SomeRouter?
-
-    public init(
-        launchArgs: SomeScreenLaunchArgs,
-        router: SomeRouter? = nil
-    ) {
-        self.launchArgs = launchArgs
-        self._router = router
-
+    public init() {
         super.init(nibName: nil, bundle: nil)
-        
+
         disablesInteractivePopGesture = isNavigationBarHidden || hidesCloseBarItem
 
         customizeNavigationBarAppearance()
@@ -120,7 +112,15 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: U
 
     open func viewDidChangePreferredContentSizeCategory() { }
 
+    open func viewDidAttemptInteractiveDismiss() { }
+
+    open func viewDidAppearAfterInteractiveDismiss() {
+        isViewFirstAppeared = false
+        (parent as? Screen)?.viewDidAppearAfterInteractiveDismiss()
+    }
+
     open func viewWillEnterForeground() { }
+
     open func viewDidEnterBackground() {
         if isViewAppeared {
             isViewFirstAppeared = false
@@ -179,5 +179,17 @@ open class Screen<SomeScreenLaunchArgs: ScreenLaunchArgs, SomeRouter: Router>: U
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             viewDidChangePreferredContentSizeCategory()
         }
+    }
+
+    /// <mark> UIAdaptivePresentationControllerDelegate
+    open func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        viewDidAppearAfterInteractiveDismiss()
+    }
+
+    open func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+        let presentingScreen =
+            (presentationController.presentingViewController as? UINavigationController)?.viewControllers.last ??
+            presentationController.presentingViewController
+        (presentingScreen as? Screen)?.viewDidAttemptInteractiveDismiss()
     }
 }

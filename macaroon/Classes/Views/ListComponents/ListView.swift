@@ -15,7 +15,6 @@ open class ListView: UICollectionView, EmptyStatePresentable {
             frame: frame,
             collectionViewLayout: layout
         )
-        customizeAppearance()
         prepareLayout()
     }
 
@@ -26,12 +25,12 @@ open class ListView: UICollectionView, EmptyStatePresentable {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-        updateLayoutWhenViewDidLayoutSubviews()
+        emptyStateView.frame = bounds
     }
 }
 
 extension ListView {
-    private func customizeAppearance() {
+    private func prepareLayout() {
         if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout {
             switch flowLayout.scrollDirection {
             case .horizontal:
@@ -43,15 +42,6 @@ extension ListView {
             }
         }
         reorderingCadence = .fast
-    }
-}
-
-extension ListView {
-    private func prepareLayout() {
-        addEmptyState()
-    }
-
-    private func updateLayoutWhenViewDidLayoutSubviews() {
-        emptyStateView.frame = bounds
+        backgroundView = emptyStateView
     }
 }

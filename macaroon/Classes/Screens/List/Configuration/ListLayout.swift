@@ -169,6 +169,16 @@ extension ListLayout {
 }
 
 extension ListLayout {
+    public func visibleHeader(in section: Int) -> UICollectionReusableView? {
+        return listView?.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: section))
+    }
+
+    public func visibleFooter(in section: Int) -> UICollectionReusableView? {
+        return listView?.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: section))
+    }
+}
+
+extension ListLayout {
     public func reloadHeader(with item: Any?, in section: Int, forceInvalidation: Bool = false, animated: Bool = false) {
         if let visibleHeader = listView?.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: section)) {
             configure(header: visibleHeader, with: item, in: section)
@@ -183,34 +193,38 @@ extension ListLayout {
 }
 
 extension ListLayout {
-    public func invalidate(_ context: UICollectionViewFlowLayoutInvalidationContext? = nil, forceLayoutUpdate: Bool = false) {
-        if let context = context {
-            collectionViewLayout.invalidateLayout(with: context)
-        } else {
-            collectionViewLayout.invalidateLayout()
-        }
+    public func invalidateLayout(forceLayoutUpdate: Bool = false) {
+        collectionViewLayout.invalidateLayout()
+
         if forceLayoutUpdate {
             listView?.layoutIfNeeded()
         }
+    }
+
+    public func invalidateItems(at indexPaths: [IndexPath], animated: Bool = false) {
+        let context = UICollectionViewFlowLayoutInvalidationContext()
+        context.invalidateFlowLayoutDelegateMetrics = true
+        context.invalidateItems(at: indexPaths)
+        invalidateLayout(context, animated: animated)
     }
 
     public func invalidateHeader(in section: Int, animated: Bool = false) {
         let context = UICollectionViewFlowLayoutInvalidationContext()
         context.invalidateFlowLayoutDelegateMetrics = true
         context.invalidateSupplementaryElements(ofKind: UICollectionView.elementKindSectionHeader, at: [IndexPath(item: 0, section: section)])
+        invalidateLayout(context, animated: animated)
+    }
 
-        let completeInvalidation = {
-            self.listView?.performBatchUpdates({ [weak self] in self?.invalidate(context) }, completion: nil)
+    public func invalidateLayout(_ context: UICollectionViewFlowLayoutInvalidationContext, animated: Bool = false) {
+        let applyUpdates: () -> Void = {
+            self.listView?.performBatchUpdates({ self.collectionViewLayout.invalidateLayout(with: context) })
         }
-
-        if !animated {
-            completeInvalidation()
-            return
+        if animated {
+            let animator = UIViewPropertyAnimator(duration: 0.33, dampingRatio: 0.5, animations: applyUpdates)
+            animator.startAnimation()
+        } else {
+            UIView.performWithoutAnimation(applyUpdates)
         }
-        let animator = UIViewPropertyAnimator(duration: 0.33, dampingRatio: 0.5) {
-            completeInvalidation()
-        }
-        animator.startAnimation()
     }
 }
 

@@ -9,17 +9,17 @@ public protocol URLImageSource: ImageSource {
     var placeholder: ImagePlaceholder? { get }
     var forceRefresh: Bool { get }
 
-    func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?)
+    func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?, onCompleted execute: ((ErrorConvertible?) -> Void)?)
     func formOptions() -> KingfisherOptionsInfo
     func formImageProcessors() -> [ImageProcessor?]
 }
 
 extension URLImageSource {
-    public func load(in imageView: UIImageView) {
-        load(in: imageView, displayingPlaceholderIn: nil)
+    public func load(in imageView: UIImageView, onCompleted execute: ((ErrorConvertible?) -> Void)? = nil) {
+        load(in: imageView, displayingPlaceholderIn: nil, onCompleted: execute)
     }
 
-    public func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?) {
+    public func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?, onCompleted execute: ((ErrorConvertible?) -> Void)? = nil) {
         imageView.kf.cancelDownloadTask()
         imageView.kf.setImage(with: url, placeholder: placeholderContainer, options: formOptions(), progressBlock: nil) { result in
             switch result {
@@ -30,8 +30,10 @@ extension URLImageSource {
                 } else {
                     imageView.image = imageResult.image
                 }
-            case .failure:
+                execute?(nil)
+            case .failure(let error):
                 imageView.image = nil
+                execute?(error)
             }
         }
 

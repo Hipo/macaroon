@@ -30,6 +30,10 @@ Pod::Spec.new do |s|
     ss.subspec 'Application' do |sss|
       sss.source_files = 'macaroon/Classes/Application/*.swift'
 
+      sss.subspec 'Analytics' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Application/Analytics/*.swift'
+      end
+
       sss.subspec 'Launch' do |ssss|
         ssss.source_files = 'macaroon/Classes/Application/Launch/*.swift'
       end
@@ -39,18 +43,6 @@ Pod::Spec.new do |s|
 
         ssss.subspec 'Deeplink' do |sssss|
             sssss.source_files = 'macaroon/Classes/Application/Route/Deeplink/*.swift'
-        end
-      end
-    end
-
-    ss.subspec 'Data' do |sss|
-      sss.source_files = 'macaroon/Classes/Data/*.swift'
-
-      sss.subspec 'DataSources' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Data/DataSources/*.swift'
-
-        ssss.subspec 'List' do |sssss|
-          sssss.source_files = 'macaroon/Classes/Data/DataSources/List/*.swift'
         end
       end
     end
@@ -78,6 +70,10 @@ Pod::Spec.new do |s|
 
       sss.subspec 'List' do |ssss|
         ssss.source_files = 'macaroon/Classes/Screens/List/*.swift'
+
+        ssss.subspec 'Configuration' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Screens/List/Configuration/*.swift'
+        end
       end
     end
 
@@ -110,16 +106,16 @@ Pod::Spec.new do |s|
         ssss.source_files = 'macaroon/Classes/Utils/Performance/*.swift'
       end
 
-      sss.subspec 'Presentables' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Utils/Presentables/*.swift'
-      end
-
       sss.subspec 'Text' do |ssss|
         ssss.source_files = 'macaroon/Classes/Utils/Text/*.swift'
 
         ssss.subspec 'Attributed' do |sssss|
           sssss.source_files = 'macaroon/Classes/Utils/Text/Attributed/*.swift'
         end
+      end
+
+      sss.subspec 'Time' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Utils/Time/*.swift'
       end
     end
 
@@ -130,6 +126,10 @@ Pod::Spec.new do |s|
 
       sss.subspec 'Components' do |ssss|
         ssss.source_files = 'macaroon/Classes/Views/Components/*.swift'
+
+        ssss.subspec 'EmptyStateView' do |sssss|
+          sssss.source_files = 'macaroon/Classes/Views/Components/EmptyStateView/*.swift'
+        end
 
         ssss.subspec 'MaskedTextInputView' do |sssss|
           sssss.source_files = 'macaroon/Classes/Views/Components/MaskedTextInputView/*.swift'
@@ -197,6 +197,12 @@ Pod::Spec.new do |s|
     ss.source_files = 'macaroon/Classes/MediaPicker/*.swift'
   end
 
+  s.subspec 'Mixpanel' do |ss|
+    ss.source_files = 'macaroon/Classes/Mixpanel/*.swift'
+
+    ss.dependency 'Mixpanel-swift', '~> 2.7'
+  end
+
   s.subspec 'PushNotification' do |ss|
     ss.source_files = 'macaroon/Classes/PushNotification/*.swift'
   end
@@ -258,7 +264,7 @@ Pod::Spec.new do |s|
   s.subspec 'Zendesk-Chat' do |ss|
     ss.source_files = 'macaroon/Classes/ZendeskChat/*.swift'
 
-    ss.dependency 'ZendeskChatSDK', '~> 2.6'
+    ss.dependency 'ZendeskChatSDK', '~> 2.9'
   end
 
   s.subspec 'Zendesk-Support' do |ss|

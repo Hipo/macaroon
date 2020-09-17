@@ -11,6 +11,7 @@ public protocol NavigationBarConfigurable: AnyObject {
     var rightBarItems: [NavigationBarItemConvertible] { get set }
     /// Return true if pop/dismiss should be hidden.
     var hidesCloseBarItem: Bool { get }
+    var hidesDismissBarItemIniOS13AndLater: Bool { get }
 
     var disablesInteractivePopGesture: Bool { get }
 
@@ -20,6 +21,9 @@ public protocol NavigationBarConfigurable: AnyObject {
 
 extension NavigationBarConfigurable {
     public var hidesCloseBarItem: Bool {
+        return false
+    }
+    public var hidesDismissBarItemIniOS13AndLater: Bool {
         return false
     }
 }
@@ -45,7 +49,16 @@ extension NavigationBarConfigurable where Self: UIViewController {
 
             if navigationController.viewControllers.first == self {
                 if presentingViewController != nil {
-                    leftBarItems.insert(makeDismissNavigationBarItem(), at: 0)
+                    iOS13AndLater(
+                        execute: {
+                            if !hidesDismissBarItemIniOS13AndLater {
+                                leftBarItems.insert(makeDismissNavigationBarItem(), at: 0)
+                            }
+                        },
+                        else: {
+                            leftBarItems.insert(makeDismissNavigationBarItem(), at: 0)
+                        }
+                    )
                 }
             } else {
                 leftBarItems.insert(makePopNavigationBarItem(), at: 0)

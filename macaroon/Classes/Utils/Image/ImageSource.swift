@@ -4,14 +4,15 @@ import Foundation
 import UIKit
 
 public protocol ImageSource {
-    func load(in imageView: UIImageView)
+    func load(in imageView: UIImageView, onCompleted execute: ((ErrorConvertible?) -> Void)?)
 }
 
 public struct NoImageSource: ImageSource {
     public init() { }
 
-    public func load(in imageView: UIImageView) {
+    public func load(in imageView: UIImageView, onCompleted execute: ((ErrorConvertible?) -> Void)? = nil) {
         imageView.image = nil
+        execute?(nil)
     }
 }
 
@@ -27,12 +28,13 @@ public struct AssetImageSource: ImageSource {
         self.color = color
     }
 
-    public func load(in imageView: UIImageView) {
+    public func load(in imageView: UIImageView, onCompleted execute: ((ErrorConvertible?) -> Void)? = nil) {
         if let color = color {
             imageView.image = asset?.template
             imageView.tintColor = color
         } else {
             imageView.image = asset
         }
+        execute?(nil)
     }
 }

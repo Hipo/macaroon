@@ -3,13 +3,14 @@
 import Foundation
 import UIKit
 
-public protocol Router: AnyObject, AppLaunchable {
+public protocol Router: AnyObject {
     typealias TransitionCompletionHandler = () -> Void
 
-    associatedtype SomeRootContainer: RootContainer where SomeRootContainer.SomeRouter == Self
+    associatedtype SomeAppLaunchArgs: AppLaunchArgs
+    associatedtype SomeRootContainer: RootContainer
     associatedtype Destination: RouteDestination
 
-    init(appLaunchArgs: SomeAppLaunchArgs)
+    var appLaunchArgs: SomeAppLaunchArgs { get }
 
     /// <note> It should be called once when it is set as the root view controller in window.
     func makeRootContainer() -> SomeRootContainer
@@ -103,7 +104,7 @@ extension Router {
 
     func presentScreens(_ screens: [UIViewController], from source: UIViewController, by transition: RouteTransition.Open.Presentation = .default, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
         if let configurableSource = source as? StatusBarConfigurable, configurableSource.isStatusBarHidden,
-            let configurableScreen = screens.last as? StatusBarConfigurable {
+           let configurableScreen = screens.last as? StatusBarConfigurable {
             configurableScreen.hidesStatusBarOnPresented = true
             configurableScreen.isStatusBarHidden = true
         }
@@ -130,7 +131,12 @@ extension Router {
             navigationContainer.modalPresentationCapturesStatusBarAppearance = true
             navigationContainer.transitioningDelegate = transitioningDelegate
         }
-        source.present(navigationContainer, animated: animated, completion: handler)
+        source.present(navigationContainer, animated: animated) {
+            if !transition.isFullScreen {
+                navigationContainer.presentationController?.delegate = source as? UIAdaptivePresentationControllerDelegate
+            }
+            handler?()
+        }
     }
 
     func popScreen(_ screen: UIViewController, by transition: RouteTransition.Close.Navigation = .previous, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
@@ -166,6 +172,15 @@ public enum RouteTransition {
             case `default`
             case modal(UIModalPresentationStyle, UIModalTransitionStyle? = nil)
             case custom(UIViewControllerTransitioningDelegate)
+
+            public var isFullScreen: Bool {
+                switch self {
+                case .modal(let presentationStyle, _):
+                    return presentationStyle == .fullScreen
+                default:
+                    return false
+                }
+            }
         }
     }
 
