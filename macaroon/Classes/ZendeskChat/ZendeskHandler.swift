@@ -18,14 +18,15 @@ open class ZendeskHandler: DevTool {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let accountKey = try container.decodeIfPresent(String.self, forKey: .accountKey) ?? ""
+        let appId = try container.decodeIfPresent(String.self, forKey: .appId)
         let themeColorName = try container.decodeIfPresent(String.self, forKey: .themeColor)
-        config = Config(accountKey: accountKey, themeColorName: themeColorName)
+        config = Config(accountKey: accountKey, appId: appId, themeColorName: themeColorName)
 
         initialize()
     }
 
     public required init(nilLiteral: ()) {
-        config = Config(accountKey: "", themeColorName: nil)
+        config = Config(accountKey: "", appId: nil, themeColorName: nil)
     }
 
     open func makeScreen(_ visitor: ZendeskVisitor?) -> UIViewController {
@@ -68,7 +69,7 @@ extension ZendeskHandler {
 extension ZendeskHandler {
     private func initialize() {
         if config.isValid {
-            Chat.initialize(accountKey: config.accountKey)
+            Chat.initialize(accountKey: config.accountKey, appId: config.appId)
 
             if let themeColor = config.themeColor {
                 CommonTheme.currentTheme.primaryColor = themeColor
@@ -92,6 +93,7 @@ extension ZendeskHandler {
 extension ZendeskHandler {
     enum CodingKeys: String, CodingKey {
         case accountKey = "account_key"
+        case appId = "app_id"
         case themeColor = "theme_color"
     }
 }
@@ -103,6 +105,7 @@ extension ZendeskHandler {
         }
 
         public let accountKey: String
+        public let appId: String?
         public let themeColorName: String?
 
         var isValid: Bool {
