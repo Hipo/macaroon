@@ -211,11 +211,11 @@ Pod::Spec.new do |s|
     ss.source_files = 'macaroon/Classes/SVGImage/*.swift'
 
     ss.dependency 'Macaroon/URLImage'
-    ss.dependency 'Macaw', '0.9.6'
+    ss.dependency 'Macaw', '0.9.7'
   end
 
   s.subspec 'SwiftLint' do |ss|
-    ss.dependency 'SwiftLint', '~> 0.37.0'
+    ss.dependency 'SwiftLint', '~> 0.40'
   end
 
   s.subspec 'TabBar' do |ss|

@@ -131,7 +131,7 @@ PODS:
   - Macaroon/PushNotification (0.1.0)
   - Macaroon/SVGImage (0.1.0):
     - Macaroon/URLImage
-    - Macaw (= 0.9.6)
+    - Macaw (= 0.9.7)
   - Macaroon/SwiftLint (0.1.0):
     - SwiftLint (~> 0.37.0)
   - Macaroon/TabBar (0.1.0)
@@ -165,7 +165,7 @@ PODS:
     - Kingfisher (~> 5.0)
   - Macaroon/Zendesk-Chat (0.1.0):
     - ZendeskChatSDK (~> 2.9)
-  - Macaw (0.9.6):
+  - Macaw (0.9.7):
     - SWXMLHash
   - MaterialComponents/AnimationTiming (110.1.0)
   - MaterialComponents/Availability (110.1.0)
@@ -271,8 +271,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
-  Macaroon: 9715a21f2b54c1c9e8cb8507ce743b174142478a
-  Macaw: 8306d775625ba003beee4186b9533fd7cf284024
+  Macaroon: 34e81ae1dbd52c2a9f435f4b76e2bade21be7058
+  Macaw: 4a931baf9a9826b06d0d8ecf300014c962ab9d50
   MaterialComponents: 4cb6659322cfc38bb0a7e40fba1866daaefeb12c
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
   Mixpanel-swift: 3a8fb9ce791e9c64d556b9446aa470b469c6fa7d
