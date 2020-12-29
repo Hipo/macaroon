@@ -64,25 +64,18 @@ public func iOS13AndLater(execute: () -> Void, else elseExecute: () -> Void) {
     }
 }
 
-public func iOS13AndLater<T>(execute: () -> T, else elseExecute: () -> T) -> T {
-    if #available(iOS 13, *) {
-        return execute()
-    }
-    return elseExecute()
-}
-
-public func iOS12AndBefore(execute: () -> Void) {
-    if #available(iOS 13, *) { }
-    else {
+public func iOS12AndLater(execute: () -> Void) {
+    if #available(iOS 12, *) {
         execute()
     }
 }
 
-public func iOS12AndBefore<T>(execute: () -> T, else elseExecute: () -> T) -> T {
-    if #available(iOS 13, *) {
-        return elseExecute()
+public func iOS12AndLater(execute: () -> Void, else elseExecute: () -> Void) {
+    if #available(iOS 12, *) {
+        execute()
+    } else {
+        elseExecute()
     }
-    return execute()
 }
 
 //// <mark> Debug

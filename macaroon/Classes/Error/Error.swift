@@ -4,12 +4,11 @@ import Foundation
 import UIKit
 
 public enum Error: ErrorConvertible {
-    case targetNotFound
-    case targetCorrupted(reason: ErrorConvertible)
+    case appTargetNotFound
+    case appTargetCorrupted(reason: ErrorConvertible)
     case unsupportedDeviceOS
     case unsupportedDeviceFamily
-    case rootContainerNotMatch
-    case screenNotFound(RouteDestination)
+    case screenNotFound
     case dismissNavigationBarItemNotFound
     case popNavigationBarItemNotFound
     case colorNotFound(String)
@@ -25,18 +24,16 @@ public enum Error: ErrorConvertible {
 extension Error {
     public var localizedDescription: String {
         switch self {
-        case .targetNotFound:
-            return "Target not found"
-        case .targetCorrupted(let reason):
-            return "Target corrupted: \(reason.localizedDescription)"
+        case .appTargetNotFound:
+            return "App Target not found"
+        case .appTargetCorrupted(let reason):
+            return "App Target corrupted: \(reason.localizedDescription)"
         case .unsupportedDeviceOS:
             return "Unsupported device operating system"
         case .unsupportedDeviceFamily:
             return "Unsupported device family"
-        case .rootContainerNotMatch:
-            return "Root container in window doesn't match the expected one"
-        case .screenNotFound(let destination):
-            return "Screen not found for \(destination)"
+        case .screenNotFound:
+            return "Screen not found for"
         case .dismissNavigationBarItemNotFound:
             return "Navigation bar button item not found for dismissing action"
         case .popNavigationBarItemNotFound:

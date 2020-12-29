@@ -3,7 +3,7 @@
 import Foundation
 
 public protocol DeeplinkRouter: Router {
-    associatedtype SomeDeeplinkParser: DeeplinkParser where SomeDeeplinkParser.Destination == Destination
+    associatedtype SomeDeeplinkParser: DeeplinkParser where SomeDeeplinkParser.Destination == SomeRoute
 
     var deeplinkParser: SomeDeeplinkParser { get }
 }
@@ -14,6 +14,6 @@ extension DeeplinkRouter {
         guard let destination = deeplinkParser.discover(url: url) else {
             return nil
         }
-        return openScreen(destination, from: source, by: transition, animated: animated, onCompleted: handler)
+        return openRoute(destination, from: source, by: transition, animated: animated, onCompleted: handler)
     }
 }

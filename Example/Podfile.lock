@@ -1,30 +1,26 @@
 PODS:
-  - Kingfisher (5.14.0):
-    - Kingfisher/Core (= 5.14.0)
-  - Kingfisher/Core (5.14.0)
+  - Kingfisher (5.15.8):
+    - Kingfisher/Core (= 5.15.8)
+  - Kingfisher/Core (5.15.8)
   - Macaroon/Banner (0.1.0)
   - Macaroon/Biometrics (0.1.0)
   - Macaroon/Core (0.1.0):
-    - Macaroon/Core/Application (= 0.1.0)
+    - Macaroon/Core/App (= 0.1.0)
     - Macaroon/Core/Error (= 0.1.0)
     - Macaroon/Core/Screens (= 0.1.0)
     - Macaroon/Core/Utils (= 0.1.0)
     - Macaroon/Core/Views (= 0.1.0)
     - SnapKit (~> 5.0.0)
-  - Macaroon/Core-Hipo (0.1.0)
-  - Macaroon/Core/Application (0.1.0):
-    - Macaroon/Core/Application/Analytics (= 0.1.0)
-    - Macaroon/Core/Application/Launch (= 0.1.0)
-    - Macaroon/Core/Application/Route (= 0.1.0)
+  - Macaroon/Core/App (0.1.0):
+    - Macaroon/Core/App/Launch (= 0.1.0)
+    - Macaroon/Core/App/Routing (= 0.1.0)
     - SnapKit (~> 5.0.0)
-  - Macaroon/Core/Application/Analytics (0.1.0):
+  - Macaroon/Core/App/Launch (0.1.0):
     - SnapKit (~> 5.0.0)
-  - Macaroon/Core/Application/Launch (0.1.0):
+  - Macaroon/Core/App/Routing (0.1.0):
+    - Macaroon/Core/App/Routing/Deeplink (= 0.1.0)
     - SnapKit (~> 5.0.0)
-  - Macaroon/Core/Application/Route (0.1.0):
-    - Macaroon/Core/Application/Route/Deeplink (= 0.1.0)
-    - SnapKit (~> 5.0.0)
-  - Macaroon/Core/Application/Route/Deeplink (0.1.0):
+  - Macaroon/Core/App/Routing/Deeplink (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/Error (0.1.0):
     - SnapKit (~> 5.0.0)
@@ -125,6 +121,7 @@ PODS:
   - Macaroon/Form/Screens (0.1.0)
   - Macaroon/Form/Utils (0.1.0)
   - Macaroon/Form/Views (0.1.0)
+  - Macaroon/HIPCore (0.1.0)
   - Macaroon/MediaPicker (0.1.0)
   - Macaroon/Mixpanel (0.1.0):
     - Mixpanel-swift (~> 2.7)
@@ -133,7 +130,7 @@ PODS:
     - Macaroon/URLImage
     - Macaw (= 0.9.7)
   - Macaroon/SwiftLint (0.1.0):
-    - SwiftLint (~> 0.37.0)
+    - SwiftLint (~> 0.40)
   - Macaroon/TabBar (0.1.0)
   - Macaroon/Tryouts (0.1.0):
     - Tryouts
@@ -163,6 +160,7 @@ PODS:
     - Macaroon/URLImage/Views/Configuration/Styling (= 0.1.0)
   - Macaroon/URLImage/Views/Configuration/Styling (0.1.0):
     - Kingfisher (~> 5.0)
+  - Macaroon/Vendors (0.1.0)
   - Macaroon/Zendesk-Chat (0.1.0):
     - ZendeskChatSDK (~> 2.9)
   - Macaw (0.9.7):
@@ -211,33 +209,32 @@ PODS:
     - "MaterialComponents/private/TextControlsPrivate+FilledStyle"
     - "MaterialComponents/TextControls+BaseTextFields"
   - MDFInternationalization (2.0.0)
-  - Mixpanel-swift (2.7.7):
-    - Mixpanel-swift/Complete (= 2.7.7)
-  - Mixpanel-swift/Complete (2.7.7)
+  - Mixpanel-swift (2.8.1):
+    - Mixpanel-swift/Complete (= 2.8.1)
+  - Mixpanel-swift/Complete (2.8.1)
   - SnapKit (5.0.1)
-  - SwiftLint (0.37.0)
+  - SwiftLint (0.42.0)
   - SWXMLHash (5.0.1)
-  - Tryouts (0.2.1)
-  - ZendeskChatProvidersSDK (2.9.0)
-  - ZendeskChatSDK (2.9.0):
-    - ZendeskChatProvidersSDK (~> 2.9.0)
-    - ZendeskMessagingSDK (~> 3.8.0)
-  - ZendeskCommonUISDK (6.0.0):
-    - ZendeskSDKConfigurationsSDK (~> 1.1.6)
-  - ZendeskMessagingAPISDK (3.8.0):
-    - ZendeskSDKConfigurationsSDK (~> 1.1.6)
-  - ZendeskMessagingSDK (3.8.0):
-    - ZendeskCommonUISDK (~> 6.0.0)
-    - ZendeskMessagingAPISDK (~> 3.8.0)
-  - ZendeskSDKConfigurationsSDK (1.1.6)
+  - Tryouts (0.2.2)
+  - ZendeskChatProvidersSDK (2.10.0)
+  - ZendeskChatSDK (2.10.0):
+    - ZendeskChatProvidersSDK (~> 2.10.0)
+    - ZendeskMessagingSDK (~> 3.8.1)
+  - ZendeskCommonUISDK (6.1.0)
+  - ZendeskMessagingAPISDK (3.8.1):
+    - ZendeskSDKConfigurationsSDK (~> 1.1.7)
+  - ZendeskMessagingSDK (3.8.1):
+    - ZendeskCommonUISDK (~> 6.1.0)
+    - ZendeskMessagingAPISDK (~> 3.8.1)
+  - ZendeskSDKConfigurationsSDK (1.1.7)
 
 DEPENDENCIES:
   - Macaroon/Banner (from `../`)
   - Macaroon/Biometrics (from `../`)
   - Macaroon/Core (from `../`)
-  - Macaroon/Core-Hipo (from `../`)
   - Macaroon/CustomUI/FloatingPlaceholderTextInputs (from `../`)
   - Macaroon/Form (from `../`)
+  - Macaroon/HIPCore (from `../`)
   - Macaroon/MediaPicker (from `../`)
   - Macaroon/Mixpanel (from `../`)
   - Macaroon/PushNotification (from `../`)
@@ -245,6 +242,7 @@ DEPENDENCIES:
   - Macaroon/SwiftLint (from `../`)
   - Macaroon/TabBar (from `../`)
   - Macaroon/Tryouts (from `../`)
+  - Macaroon/Vendors (from `../`)
   - Macaroon/Zendesk-Chat (from `../`)
 
 SPEC REPOS:
@@ -270,23 +268,23 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Kingfisher: 7b64389a43139c903ec434788344c288217c792d
-  Macaroon: 34e81ae1dbd52c2a9f435f4b76e2bade21be7058
+  Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
+  Macaroon: 4da54b5bae3723a2d9fbf37ae93e9bf00908645d
   Macaw: 4a931baf9a9826b06d0d8ecf300014c962ab9d50
   MaterialComponents: 4cb6659322cfc38bb0a7e40fba1866daaefeb12c
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
-  Mixpanel-swift: 3a8fb9ce791e9c64d556b9446aa470b469c6fa7d
+  Mixpanel-swift: 9d3a2597ef015f187abae0bfa5fda5997d5e4429
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
-  SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
+  SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   SWXMLHash: 9cc0c2e4807926c74377724aa8722ee5707a0485
-  Tryouts: dabd03aa73c2b5d253a649d306df523fc090fcee
-  ZendeskChatProvidersSDK: dd8cbf33c4b7209a8ee7945faa4d2cd3b609ff15
-  ZendeskChatSDK: 942bad4d4d5ec0c40fbd6d2690c1cc2e8c24d879
-  ZendeskCommonUISDK: f496b95e2cb728bd5729fe022f400cf1dedda00b
-  ZendeskMessagingAPISDK: e315a6ad7a9b6cae9e52d946df4aa8a7727abdf5
-  ZendeskMessagingSDK: 774d88bec0671d58ae51c9964d4c4f9bb4142095
-  ZendeskSDKConfigurationsSDK: 2fa9413915db85c993f58ad8f7902bea0b6090a5
+  Tryouts: 895f75819b337f1d0de7c2d0ed743f254e4cbb99
+  ZendeskChatProvidersSDK: dcda37575fba7ae503f3dc03313424ef1b2e729d
+  ZendeskChatSDK: 389196ae1688de1104ac05a40c5f89a9e76db838
+  ZendeskCommonUISDK: 92ca6b16956430a2cb61c89aeaa6ca123d1f81fd
+  ZendeskMessagingAPISDK: 986919a8f6f11a7019660d1ff798f1efb42fa572
+  ZendeskMessagingSDK: bf9a06f0cbb219617d9cf60a46aba1b68c8f3b30
+  ZendeskSDKConfigurationsSDK: 45fa87ec8418697f7fce5e56bec472052f0aedb5
 
-PODFILE CHECKSUM: 681680b63b4a0cb94ef7dc64a4953fceed96deb8
+PODFILE CHECKSUM: fa09d7ab1ec042d38bd31127eaf761bfa8e442bb
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

@@ -3,7 +3,7 @@
 import Foundation
 import Mixpanel
 
-open class MixpanelAnalyticsService: AnalyticsService {
+open class MixpanelAnalytics: AnalyticsPlatform {
     public let config: Config
 
     /// <mark> Decodable
@@ -20,10 +20,10 @@ open class MixpanelAnalyticsService: AnalyticsService {
         config = Config(apiToken: "")
     }
 
-    open func register<T: AnalyticsTrackableUser>(user: T?, first: Bool) {
+    open func identify<T: AnalyticsTrackableUser>(user: T, first: Bool) {
         let instance = Mixpanel.mainInstance()
 
-        guard let user = user else {
+        if user.isAnonymous {
             instance.identify(distinctId: instance.distinctId)
             return
         }
@@ -48,15 +48,15 @@ open class MixpanelAnalyticsService: AnalyticsService {
     }
 
     open func track<T: AnalyticsTrackableEvent>(_ event: T) {
-        Mixpanel.mainInstance().track(event: "Evet: \(event.type.description)", properties: event.mixpanel_analyticsMetadata)
+        Mixpanel.mainInstance().track(event: "Event: \(event.type.description)", properties: event.mixpanel_analyticsMetadata)
     }
 
-    open func unregisterUser() {
+    open func reset() {
         Mixpanel.mainInstance().reset()
     }
 }
 
-extension MixpanelAnalyticsService {
+extension MixpanelAnalytics {
     private func initialize() {
         if !config.isValid { return }
 
@@ -68,13 +68,13 @@ extension MixpanelAnalyticsService {
     }
 }
 
-extension MixpanelAnalyticsService {
+extension MixpanelAnalytics {
     public enum CodingKeys: String, CodingKey {
         case apiToken = "api_token"
     }
 }
 
-extension MixpanelAnalyticsService {
+extension MixpanelAnalytics {
     public struct Config {
         public let apiToken: String
 

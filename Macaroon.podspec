@@ -27,22 +27,18 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'Core' do |ss|
-    ss.subspec 'Application' do |sss|
-      sss.source_files = 'macaroon/Classes/Application/*.swift'
-
-      sss.subspec 'Analytics' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Application/Analytics/*.swift'
-      end
+    ss.subspec 'App' do |sss|
+      sss.source_files = 'macaroon/Classes/App/*.swift'
 
       sss.subspec 'Launch' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Application/Launch/*.swift'
+        ssss.source_files = 'macaroon/Classes/App/Launch/*.swift'
       end
 
-      sss.subspec 'Route' do |ssss|
-        ssss.source_files = 'macaroon/Classes/Application/Route/*.swift'
+      sss.subspec 'Routing' do |ssss|
+        ssss.source_files = 'macaroon/Classes/App/Routing/*.swift'
 
         ssss.subspec 'Deeplink' do |sssss|
-            sssss.source_files = 'macaroon/Classes/Application/Route/Deeplink/*.swift'
+            sssss.source_files = 'macaroon/Classes/App/Routing/Deeplink/*.swift'
         end
       end
     end
@@ -166,8 +162,8 @@ Pod::Spec.new do |s|
     ss.dependency 'SnapKit', '~> 5.0.0'
   end
 
-  s.subspec 'Core-Hipo' do |ss|
-    ss.source_files = "macaroon/Classes/Core-Hipo/*.swift"
+  s.subspec 'HIPCore' do |ss|
+    ss.source_files = "macaroon/Classes/HIPCore/**/*.swift"
   end
 
   s.subspec 'CustomUI' do |ss|
@@ -201,6 +197,10 @@ Pod::Spec.new do |s|
     ss.source_files = 'macaroon/Classes/Mixpanel/*.swift'
 
     ss.dependency 'Mixpanel-swift', '~> 2.7'
+  end
+
+  s.subspec 'Vendors' do |ss|
+    ss.source_files = 'macaroon/Classes/Vendors/**/*.swift'
   end
 
   s.subspec 'PushNotification' do |ss|

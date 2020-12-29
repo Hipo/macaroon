@@ -4,7 +4,7 @@ import Foundation
 
 public protocol DeeplinkParser {
     associatedtype Pattern: DeeplinkPattern
-    associatedtype Destination: RouteDestination
+    associatedtype Destination: Route
 
     var host: String { get }
     var matchers: [Pattern: NSRegularExpression] { get }

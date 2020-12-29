@@ -5,7 +5,7 @@ target 'macaroon_Example' do
   pod 'Macaroon/Banner',  :path => '../'
   pod 'Macaroon/Biometrics',  :path => '../'
   pod 'Macaroon/Core',  :path => '../'
-  pod 'Macaroon/Core-Hipo',  :path => '../'
+  pod 'Macaroon/HIPCore',  :path => '../'
   pod 'Macaroon/CustomUI/FloatingPlaceholderTextInputs',  :path => '../'
   pod 'Macaroon/Form', :path => '../'
   pod 'Macaroon/MediaPicker', :path => '../'
@@ -15,6 +15,7 @@ target 'macaroon_Example' do
   pod 'Macaroon/SVGImage', :path => '../'
   pod 'Macaroon/TabBar', :path => '../'
   pod 'Macaroon/Tryouts',  :path => '../'
+  pod 'Macaroon/Vendors', :path => '../'
   pod 'Macaroon/Zendesk-Chat', :path => '../'
 
   target 'macaroon_Tests' do

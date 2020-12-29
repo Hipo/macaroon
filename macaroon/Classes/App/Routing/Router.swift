@@ -6,45 +6,19 @@ import UIKit
 public protocol Router: AnyObject {
     typealias TransitionCompletionHandler = () -> Void
 
-    associatedtype SomeAppLaunchArgs: AppLaunchArgs
-    associatedtype SomeRootContainer: RootContainer
-    associatedtype Destination: RouteDestination
+    associatedtype SomeRoute: Route
 
-    var appLaunchArgs: SomeAppLaunchArgs { get }
-
-    /// <note> It should be called once when it is set as the root view controller in window.
-    func makeRootContainer() -> SomeRootContainer
+    func makeRootContainer() -> RootContainer
     func makeSplash() -> UIViewController
-    func makeScreen<T: UIViewController>(_ destination: Destination) -> T
+    func makeScreen<T: UIViewController>(_ route: SomeRoute) -> T
 
     func embedInNavigationScreen(_ root: UIViewController) -> UINavigationController
-
-    func startAuthenticationFlow(first: Bool, onCompleted handler: TransitionCompletionHandler?) -> UIViewController
-    func endAuthenticationFlow(onCompleted handler: TransitionCompletionHandler?)
-    func hasStartedAuthenticationFlow() -> Bool
-
-    func startMainFlow(force: Bool, onCompleted handler: TransitionCompletionHandler?) -> UIViewController
-    func endMainFlow(onCompleted handler: TransitionCompletionHandler?)
-    func hasStartedMainFlow() -> Bool
-}
-
-extension Router {
-    public var rootContainer: SomeRootContainer {
-        if let rootContainer = UIApplication.shared.keyWindow?.rootViewController as? SomeRootContainer {
-            return rootContainer
-        }
-        mc_crash(.rootContainerNotMatch)
-    }
-
-    public var launchController: SomeRootContainer.SomeLaunchController {
-        return rootContainer.launchController
-    }
 }
 
 extension Router {
     @discardableResult
-    public func openScreen<T: UIViewController>(_ destination: Destination, from source: UIViewController, by transition: RouteTransition.Open, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) -> T {
-        let screen: T = makeScreen(destination)
+    public func openRoute<T: UIViewController>(_ route: SomeRoute, from source: UIViewController, by transition: RouteTransition.Open, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) -> T {
+        let screen: T = makeScreen(route)
 
         switch transition {
         case .navigation(let navigation):
@@ -56,8 +30,8 @@ extension Router {
     }
 
     @discardableResult
-    public func openScreens(_ destinations: [Destination], from source: UIViewController, by transition: RouteTransition.Open, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) -> [UIViewController] {
-        let screens = destinations.map(makeScreen)
+    public func openRoutes(_ routes: [SomeRoute], from source: UIViewController, by transition: RouteTransition.Open, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) -> [UIViewController] {
+        let screens = routes.map(makeScreen)
 
         switch transition {
         case .navigation(let navigation):
@@ -73,7 +47,7 @@ extension Router {
         case .navigation(let navigation):
             popScreen(screen, by: navigation, animated: animated, onCompleted: handler)
         case .presentation:
-            dismissScreen(screen, animated: animated, onCompleted: handler)
+            dismisListScreen(screen, animated: animated, onCompleted: handler)
         }
     }
 }
@@ -151,12 +125,10 @@ extension Router {
         handler?()
     }
 
-    func dismissScreen(_ screen: UIViewController, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
+    func dismisListScreen(_ screen: UIViewController, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
         screen.presentingViewController?.dismiss(animated: animated, completion: handler)
     }
 }
-
-public protocol RouteDestination { }
 
 public enum RouteTransition {
     public enum Open {

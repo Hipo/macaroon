@@ -4,6 +4,7 @@ import Foundation
 
 public protocol AnalyticsTrackableUser: AnalyticsTrackableMetadata {
     var id: String { get }
+    var isAnonymous: Bool { get }
 }
 
 public protocol AnalyticsTrackableScreen: AnalyticsTrackableMetadata {
@@ -28,7 +29,7 @@ extension AnalyticsTrackableEvent {
     }
 }
 
-public protocol AnalyticsTrackableEventType:  CustomStringConvertible { }
+public protocol AnalyticsTrackableEventType: CustomStringConvertible { }
 
 extension AnalyticsTrackableEventType where Self: RawRepresentable, Self.RawValue == String {
     public var description: String {

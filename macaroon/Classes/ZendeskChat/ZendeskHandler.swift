@@ -7,7 +7,7 @@ import Foundation
 import MessagingSDK
 import UIKit
 
-open class ZendeskHandler: DevTool {
+open class ZendeskHandler: Decodable {
     public let config: Config
 
     private var notifierWhenChatWillAppear: (() -> Void)?
