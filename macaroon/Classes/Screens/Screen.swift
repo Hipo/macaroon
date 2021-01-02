@@ -2,7 +2,17 @@
 
 import Foundation
 
-open class Screen: UIViewController, ScreenComposable, StatusBarConfigurable, NavigationBarConfigurable, UIAdaptivePresentationControllerDelegate, NotificationObserver {
+open class Screen:
+    UIViewController,
+    ScreenComposable,
+    ScreenRoutable,
+    StatusBarConfigurable,
+    NavigationBarConfigurable,
+    UIAdaptivePresentationControllerDelegate,
+    NotificationObserver {
+    public var flowIdentifier: String?
+    public var pathIdentifier: String?
+
     public var isStatusBarHidden = false
     public var hidesStatusBarOnAppeared = false
     public var hidesStatusBarOnPresented = false
@@ -11,10 +21,6 @@ open class Screen: UIViewController, ScreenComposable, StatusBarConfigurable, Na
     public var hidesCloseBarItem = false
     public var hidesDismissBarItemIniOS13AndLater = false
     public var disablesInteractivePopGesture = false
-
-    public var leftBarItems: [NavigationBarItemConvertible] = []
-    public var rightBarItems: [NavigationBarItemConvertible] = []
-
     public var disablesInteractiveDismiss = false {
         didSet {
             if #available(iOS 13.0, *) {
@@ -22,6 +28,9 @@ open class Screen: UIViewController, ScreenComposable, StatusBarConfigurable, Na
             }
         }
     }
+
+    public var leftBarItems: [NavigationBarItemConvertible] = []
+    public var rightBarItems: [NavigationBarItemConvertible] = []
 
     public var observations: [NSObjectProtocol] = []
 

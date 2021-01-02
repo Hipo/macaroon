@@ -33,7 +33,7 @@ extension Error {
         case .unsupportedDeviceFamily:
             return "Unsupported device family"
         case .screenNotFound:
-            return "Screen not found for"
+            return "Screen not found"
         case .dismissNavigationBarItemNotFound:
             return "Navigation bar button item not found for dismissing action"
         case .popNavigationBarItemNotFound:

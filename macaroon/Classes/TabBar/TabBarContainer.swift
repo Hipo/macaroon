@@ -4,7 +4,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class TabBarContainer: UIViewController, ScreenComposable {
+open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable {
     public var items: [TabBarItemConvertible] = [] {
         didSet {
             updateLayoutWhenItemsChanged()
@@ -23,15 +23,15 @@ open class TabBarContainer: UIViewController, ScreenComposable {
             }
         }
     }
-    public var selectedContent: UIViewController?
+    public var selectedScreen: UIViewController?
 
     public private(set) lazy var tabBar = TabBar()
 
     open override var childForStatusBarHidden: UIViewController? {
-        return selectedContent
+        return selectedScreen
     }
     open override var childForStatusBarStyle: UIViewController? {
-        return selectedContent
+        return selectedScreen
     }
 
     private var isAppeared = false
@@ -59,11 +59,11 @@ open class TabBarContainer: UIViewController, ScreenComposable {
 
     open func updateLayoutWhenSelectedItemChanged() {
         guard let selectedItem = selectedItem else {
-            removeCurrentSelectedContent()
+            removeCurrentSelectedScreen()
             tabBar.selectedBarButtonIndex = nil
             return
         }
-        addNewSelectedContent()
+        addNewSelectedScreen()
         tabBar.selectedBarButtonIndex = items.firstIndex(of: selectedItem, equals: \.name)
     }
 
@@ -114,11 +114,11 @@ extension TabBarContainer {
         }
     }
 
-    public func addNewSelectedContent() {
-        removeCurrentSelectedContent()
+    public func addNewSelectedScreen() {
+        removeCurrentSelectedScreen()
 
-        if let content = selectedItem?.content {
-            selectedContent = addContent(content) { contentView in
+        if let screen = selectedItem?.screen {
+            selectedScreen = addContent(screen) { contentView in
                 view.insertSubview(contentView, belowSubview: tabBar)
                 contentView.snp.makeConstraints { maker in
                     maker.top.equalToSuperview()
@@ -130,8 +130,8 @@ extension TabBarContainer {
         }
     }
 
-    public func removeCurrentSelectedContent() {
-        selectedContent?.removeFromContainer()
-        selectedContent = nil
+    public func removeCurrentSelectedScreen() {
+        selectedScreen?.removeFromContainer()
+        selectedScreen = nil
     }
 }

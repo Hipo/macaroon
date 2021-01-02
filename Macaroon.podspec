@@ -30,12 +30,20 @@ Pod::Spec.new do |s|
     ss.subspec 'App' do |sss|
       sss.source_files = 'macaroon/Classes/App/*.swift'
 
-      sss.subspec 'Launch' do |ssss|
-        ssss.source_files = 'macaroon/Classes/App/Launch/*.swift'
+      sss.subspec 'Dependencies' do |ssss|
+          ssss.source_files = 'macaroon/Classes/App/Dependencies/*.swift'
+      end
+
+      sss.subspec 'Launching' do |ssss|
+        ssss.source_files = 'macaroon/Classes/App/Launching/*.swift'
       end
 
       sss.subspec 'Routing' do |ssss|
         ssss.source_files = 'macaroon/Classes/App/Routing/*.swift'
+
+        ssss.subspec 'Transition' do |sssss|
+          sssss.source_files = 'macaroon/Classes/App/Routing/Transition/*.swift'
+        end
 
         ssss.subspec 'Deeplink' do |sssss|
             sssss.source_files = 'macaroon/Classes/App/Routing/Deeplink/*.swift'

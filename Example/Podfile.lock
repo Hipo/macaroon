@@ -12,10 +12,13 @@ PODS:
     - Macaroon/Core/Views (= 0.1.0)
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/App (0.1.0):
-    - Macaroon/Core/App/Launch (= 0.1.0)
+    - Macaroon/Core/App/Dependencies (= 0.1.0)
+    - Macaroon/Core/App/Launching (= 0.1.0)
     - Macaroon/Core/App/Routing (= 0.1.0)
     - SnapKit (~> 5.0.0)
-  - Macaroon/Core/App/Launch (0.1.0):
+  - Macaroon/Core/App/Dependencies (0.1.0):
+    - SnapKit (~> 5.0.0)
+  - Macaroon/Core/App/Launching (0.1.0):
     - SnapKit (~> 5.0.0)
   - Macaroon/Core/App/Routing (0.1.0):
     - Macaroon/Core/App/Routing/Deeplink (= 0.1.0)
@@ -269,7 +272,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
-  Macaroon: 4da54b5bae3723a2d9fbf37ae93e9bf00908645d
+  Macaroon: a42d43dca9ab45e7bf36c215c2100ba72d087fd4
   Macaw: 4a931baf9a9826b06d0d8ecf300014c962ab9d50
   MaterialComponents: 4cb6659322cfc38bb0a7e40fba1866daaefeb12c
   MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314

@@ -5,7 +5,7 @@ import Foundation
 public protocol TabBarItemConvertible {
     var name: String { get } /// <warning> No internal checking so it is up to the application to set a unique name.
     var barButtonItem: TabBarButtonItemConvertible { get }
-    var content: UIViewController? { get }
+    var screen: UIViewController? { get }
 }
 
 extension TabBarItemConvertible {
@@ -20,7 +20,7 @@ extension TabBarItemConvertible {
 public struct FixedSpaceTabBarItem: TabBarItemConvertible {
     public let name: String
     public let barButtonItem: TabBarButtonItemConvertible
-    public let content: UIViewController?
+    public let screen: UIViewController?
 
     public init(
         name: String,
@@ -28,7 +28,7 @@ public struct FixedSpaceTabBarItem: TabBarItemConvertible {
     ) {
         self.name = name
         self.barButtonItem = TabBarButtonItem(width: width)
-        self.content = nil
+        self.screen = nil
     }
 
     private struct TabBarButtonItem: TabBarButtonItemConvertible {
