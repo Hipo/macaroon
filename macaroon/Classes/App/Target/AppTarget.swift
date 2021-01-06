@@ -15,8 +15,9 @@ extension AppTarget {
         let infoDictionary = Bundle.main.infoDictionary
         return ((infoDictionary?["CFBundleDisplayName"] ?? infoDictionary?["CFBundleName"]) as? String).nonNil
     }
-    public var version: String {
-        return (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String).nonNil
+    public var version: AppVersion {
+        let versionString = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String).nonNil
+        return AppVersion(versionString: versionString)
     }
 
     public var deviceOS: DeviceOS {
@@ -32,14 +33,14 @@ extension AppTarget {
     public var deviceFamily: DeviceFamily {
         #if os(iOS)
         switch UIScreen.main.traitCollection.userInterfaceIdiom {
-            case .unspecified:
-                return .iPhone
-            case .phone:
-                return .iPhone
-            case .pad:
-                return .iPad
-            default:
-                mc_crash(.unsupportedDeviceFamily)
+        case .unspecified:
+            return .iPhone
+        case .phone:
+            return .iPhone
+        case .pad:
+            return .iPad
+        default:
+            mc_crash(.unsupportedDeviceFamily)
         }
         #elseif os(watchOS)
         return .watch

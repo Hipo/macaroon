@@ -64,3 +64,10 @@ extension Array {
         return elem?[keyPath: keyPath]
     }
 }
+
+extension Array {
+    public func unique<T: Hashable>(_ keyPath: KeyPath<Element, T>) -> Self {
+        var observer: Set<T> = []
+        return filter { observer.insert($0[keyPath: keyPath]).inserted }
+    }
+}

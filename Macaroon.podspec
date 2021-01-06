@@ -49,6 +49,10 @@ Pod::Spec.new do |s|
             sssss.source_files = 'macaroon/Classes/App/Routing/Deeplink/*.swift'
         end
       end
+
+      sss.subspec 'Target' do |ssss|
+        ssss.source_files = 'macaroon/Classes/App/Target/*.swift'
+      end
     end
 
     ss.subspec 'Error' do |sss|

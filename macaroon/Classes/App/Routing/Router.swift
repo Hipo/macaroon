@@ -3,6 +3,8 @@
 import Foundation
 import UIKit
 
+/// <todo> Add a method to check the path is something that is the same content on the current screen.
+/// This shoulg be optional because we wanto to force the same screen sequentially.
 public protocol Router: AnyObject {
     associatedtype SomeRootContainer: RootContainer
     associatedtype SomeFlow: Flow
