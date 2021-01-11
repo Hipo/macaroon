@@ -27,4 +27,7 @@ extension AppLaunchControlling {
 public protocol AppAuthLaunchController: AppLaunchController, AppAuthLaunchControlling
 where SomeAppLaunchUIHandler: AppAuthLaunchUIHandler { }
 
-public protocol AppAuthLaunchControlling: AppLaunchControlling { }
+public protocol AppAuthLaunchControlling: AppLaunchControlling {
+    func signIn(onCompleted execute: @escaping (Swift.Error?) -> Void)
+    func signUp(onCompleted execute: @escaping (Swift.Error?) -> Void)
+}

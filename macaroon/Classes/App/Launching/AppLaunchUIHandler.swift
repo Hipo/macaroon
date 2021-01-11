@@ -5,11 +5,13 @@ import Foundation
 public protocol AppLaunchUIHandler: AnyObject {
     associatedtype SomeAppLaunchUIState: AppLaunchUIState
 
-    func launchUI(_ state: SomeAppLaunchUIState)
+    func launchUI(_ state: SomeAppLaunchUIState, first: Bool)
 }
 
 public protocol AppLaunchUIState {
-    static var readyToUse: Self { get }
+    associatedtype MainScreen: UIViewController
+
+    static func readyToUse(completion: @escaping (MainScreen) -> Void) -> Self
 }
 
 /// <mark> Auth
