@@ -4,8 +4,8 @@ import Foundation
 import UIKit
 
 public protocol TabBarButtonItemConvertible {
-    var style: ButtonStyling { get }
-    var badgeStyle: ButtonStyling? { get }
+    var style: ButtonStyle { get }
+    var badgeStyle: ButtonStyle? { get }
     var badgePositionAdjustment: CGPoint? { get }
     var spacingBetweenImageAndTitle: CGFloat { get }
     var width: CGFloat { get } /// <note> The explicit width for the tabbar button
@@ -13,7 +13,7 @@ public protocol TabBarButtonItemConvertible {
 }
 
 extension TabBarButtonItemConvertible {
-    public var badgeStyle: ButtonStyling? {
+    public var badgeStyle: ButtonStyle? {
         return nil
     }
     public var badgePositionAdjustment: CGPoint? {

@@ -4,6 +4,14 @@ import Foundation
 import UIKit
 
 extension CGSize {
+    public init(
+        _ layoutSize: LayoutSize
+    ) {
+        self.init(width: layoutSize.w, height: layoutSize.h)
+    }
+}
+
+extension CGSize {
     public static var greatestFiniteMagnitude: CGSize {
         return CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
     }

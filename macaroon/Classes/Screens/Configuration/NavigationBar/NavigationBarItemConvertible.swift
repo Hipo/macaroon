@@ -6,7 +6,7 @@ import UIKit
 public protocol NavigationBarItemConvertible {
     typealias InteractionHandler = () -> Void
 
-    var style: ButtonStyling { get }
+    var style: ButtonStyle { get }
     var size: NavigationBarButtonSize { get }
     var handler: InteractionHandler { get }
 

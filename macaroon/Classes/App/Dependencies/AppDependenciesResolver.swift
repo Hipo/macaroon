@@ -11,22 +11,22 @@ public protocol AppDependenciesResolver: AnyObject {
 }
 
 extension AppDependenciesResolver {
-    public static func register(_ appDependencies: AppDependencies) {
-        shared.appDependencies = appDependencies
+    public func register(_ appDependencies: AppDependencies) {
+        self.appDependencies = appDependencies
     }
 
-    public static func register<T>(
+    public func register<T>(
         _ appDependency: T,
         for keyPath: WritableKeyPath<AppDependencies, T>
     ) {
-        shared.appDependencies[keyPath: keyPath] = appDependency
+        appDependencies[keyPath: keyPath] = appDependency
     }
 
-    public static func resolve() -> AppDependencies {
-        return shared.appDependencies
+    public func resolve() -> AppDependencies {
+        return appDependencies
     }
 
-    public static func resolve<T>(_ keyPath: KeyPath<AppDependencies, T>) -> T {
-        return shared.appDependencies[keyPath: keyPath]
+    public func resolve<T>(_ keyPath: KeyPath<AppDependencies, T>) -> T {
+        return appDependencies[keyPath: keyPath]
     }
 }

@@ -3,12 +3,22 @@
 import Foundation
 import UIKit
 
-public protocol DownloadableImageStyling: ImageStyling {
-    var placeholder: DownloadableImagePlaceholderStyling? { get }
+public protocol DownloadableImageStyleSheet: StyleSheet {
+    var background: ViewStyle { get }
+    var image: ImageStyle { get }
+    var placeholder: DownloadableImagePlaceholderStyleSheet? { get }
 }
 
-extension DownloadableImageStyling {
-    public var placeholder: DownloadableImagePlaceholderStyling? {
+extension DownloadableImageStyleSheet {
+    public var background: ViewStyle {
+        return []
+    }
+
+    public var image: ImageStyle {
+        return .aspectFit()
+    }
+
+    public var placeholder: DownloadableImagePlaceholderStyleSheet? {
         return nil
     }
 }

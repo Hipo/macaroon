@@ -5,11 +5,27 @@ import UIKit
 
 extension UIStackView {
     public func deleteAllArrangedSubviews() {
-        arrangedSubviews.forEach { deleteArrangedSubview($0) }
+        arrangedSubviews.forEach {
+            deleteArrangedSubview(
+                $0
+            )
+        }
     }
 
-    public func deleteArrangedSubview(_ view: UIView) {
-        removeArrangedSubview(view)
+    public func deleteArrangedSubview(
+        _ view: UIView
+    ) {
+        removeArrangedSubview(
+            view
+        )
         view.removeFromSuperview()
+    }
+
+    public func deleteAllSubviews() {
+        deleteAllArrangedSubviews()
+
+        subviews.reversed().forEach {
+            $0.removeFromSuperview()
+        }
     }
 }

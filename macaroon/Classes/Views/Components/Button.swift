@@ -3,10 +3,7 @@
 import Foundation
 import UIKit
 
-open class Button: UIButton, ShadowDrawable {
-    public var shadow: Shadow?
-    public var shadowLayer: CAShapeLayer?
-    
+open class Button: UIButton {
     open override var intrinsicContentSize: CGSize {
         if currentImage == nil && currentTitle == nil {
             return .zero
@@ -14,7 +11,11 @@ open class Button: UIButton, ShadowDrawable {
         return super.intrinsicContentSize
     }
 
+    public private(set) lazy var shadowLayer = CAShapeLayer()
+
     public let layout: Layout
+
+    private var shadow: Shadow?
 
     required public init(_ layout: Layout = .none) {
         self.layout = layout
@@ -103,16 +104,17 @@ open class Button: UIButton, ShadowDrawable {
     }
     
     open func preferredUserInterfaceStyleDidChange() {
-        if let shadow = shadow {
-            drawShadow(shadow)
-        }
+        customizeBaseAppearance(shadow: shadow)
     }
     
     open func preferredContentSizeCategoryDidChange() { }
     
     open override func layoutSubviews() {
         super.layoutSubviews()
-        updateShadowWhenViewDidLayoutSubviews()
+
+        if let shadow = shadow {
+            adjustOnLayoutSubviews(shadow)
+        }
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

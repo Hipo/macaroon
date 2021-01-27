@@ -28,7 +28,7 @@ public struct DeeplinkComponents {
         }
 
         let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        path = urlComponents.unwrap(ifPresent: \.path, or: "")
-        queryItems = urlComponents.unwrap(ifPresent: \.queryItems, or: [])
+        path = urlComponents.unwrap(\.path, or: "")
+        queryItems = urlComponents.unwrap(\.queryItems, or: [])
     }
 }

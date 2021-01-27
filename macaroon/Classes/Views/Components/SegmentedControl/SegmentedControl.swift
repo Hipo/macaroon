@@ -82,10 +82,6 @@ extension SegmentedControl {
         let button = Button(segment.layout)
         button.adjustsImageWhenHighlighted = false
         button.customizeAppearance(segment.style)
-        button.setBackgroundImage(segment.style.background?.selected, for: [.selected, .highlighted])
-        button.setImage(segment.style.icon?.selected, for: [.selected, .highlighted])
-        button.setTitleColor(segment.style.textColor?.selected, for: [.selected, .highlighted])
-        button.setEditTitle(segment.style.title?.selected, for: [.selected, .highlighted])
         contentView.addArrangedSubview(button)
         return button
     }

@@ -18,10 +18,6 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
   s.default_subspec = 'Core'
 
-  s.subspec 'Banner' do |ss|
-    ss.source_files = 'macaroon/Classes/Banner/*.swift'
-  end
-
   s.subspec 'Biometrics' do |ss|
     ss.source_files = 'macaroon/Classes/Biometrics/*.swift'
   end
@@ -139,10 +135,6 @@ Pod::Spec.new do |s|
           sssss.source_files = 'macaroon/Classes/Views/Components/EmptyStateView/*.swift'
         end
 
-        ssss.subspec 'MaskedTextInputView' do |sssss|
-          sssss.source_files = 'macaroon/Classes/Views/Components/MaskedTextInputView/*.swift'
-        end
-
         ssss.subspec 'SegmentedControl' do |sssss|
           sssss.source_files = 'macaroon/Classes/Views/Components/SegmentedControl/*.swift'
         end
@@ -160,8 +152,20 @@ Pod::Spec.new do |s|
         ssss.subspec 'Styling' do |sssss|
           sssss.source_files = 'macaroon/Classes/Views/Configuration/Styling/*.swift'
 
-          sssss.subspec 'Customization' do |ssssss|
-            ssssss.source_files = 'macaroon/Classes/Views/Configuration/Styling/Customization/*.swift'
+          sssss.subspec 'Customizables' do |ssssss|
+              ssssss.source_files = 'macaroon/Classes/Views/Configuration/Styling/Customizables/*.swift'
+          end
+
+          sssss.subspec 'Drawables' do |ssssss|
+              ssssss.source_files = 'macaroon/Classes/Views/Configuration/Styling/Drawables/*.swift'
+          end
+
+          sssss.subspec 'StyleElements' do |ssssss|
+              ssssss.source_files = 'macaroon/Classes/Views/Configuration/Styling/StyleElements/*.swift'
+          end
+
+          sssss.subspec 'Styles' do |ssssss|
+              ssssss.source_files = 'macaroon/Classes/Views/Configuration/Styling/Styles/*.swift'
           end
         end
       end
@@ -179,25 +183,28 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'CustomUI' do |ss|
-    ss.subspec 'FloatingPlaceholderTextInputs' do |sss|
-      sss.source_files = 'macaroon/Classes/CustomUI/FloatingPlaceholderTextInputs/*.swift'
-
-      sss.dependency 'MaterialComponents/TextControls+FilledTextFields', '~> 110.1.0'
-      sss.dependency 'MaterialComponents/TextControls+FilledTextAreas', '~> 110.1.0'
-    end
+      ss.source_files = "macaroon/Classes/CustomUI/*.swift"
   end
 
   s.subspec 'Form' do |ss|
-    ss.subspec 'Screens' do |sss|
-      sss.source_files = 'macaroon/Classes/Form/Screens/*.swift'
+    ss.subspec 'Configuration' do |sss|
+      sss.source_files = 'macaroon/Classes/Form/Configuration/*.swift'
+    end
+
+    ss.subspec 'UI' do |sss|
+      sss.source_files = 'macaroon/Classes/Form/UI/*.swift'
+
+      sss.subspec 'Screens' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Form/UI/Screens/*.swift'
+      end
+
+      sss.subspec 'Views' do |ssss|
+        ssss.source_files = 'macaroon/Classes/Form/UI/Views/*.swift'
+      end
     end
 
     ss.subspec 'Utils' do |sss|
       sss.source_files = 'macaroon/Classes/Form/Utils/*.swift'
-    end
-
-    ss.subspec 'Views' do |sss|
-      sss.source_files = 'macaroon/Classes/Form/Views/*.swift'
     end
   end
 
@@ -227,16 +234,12 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'SwiftLint' do |ss|
+    ss.script_phase = { :name => 'Run SwiftLint', :script => 'echo "Hello"' }
     ss.dependency 'SwiftLint', '~> 0.40'
   end
 
   s.subspec 'TabBar' do |ss|
     ss.source_files = 'macaroon/Classes/TabBar/*.swift'
-  end
-
-  s.subspec 'Tryouts' do |ss|
-    ss.source_files = 'macaroon/Classes/Tryouts/*.swift'
-    ss.dependency 'Tryouts'
   end
 
   s.subspec 'URLImage' do |ss|

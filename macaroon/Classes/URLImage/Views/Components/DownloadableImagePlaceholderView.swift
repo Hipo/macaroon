@@ -20,20 +20,11 @@ public class DownloadableImagePlaceholderView: BaseView, URLImagePlaceholderCont
         prepareLayout()
     }
 
-    open func customizeAppearance(_ style: DownloadableImagePlaceholderStyling) {
-        customizeBaseAppearance(style)
+    open func customizeAppearance(_ styleSheet: DownloadableImagePlaceholderStyleSheet) {
+        customizeAppearance(styleSheet.background)
 
-        imageView.contentMode = style.contentMode
-
-        if let font = style.font?.normal {
-            textLabel.customizeAppearance(font)
-        }
-        if let textColor = style.textColor?.normal {
-            textLabel.textColor = textColor
-        }
-        textLabel.textAlignment = style.textAlignment
-
-        textLabel.customizeAppearance(style.textOverflow)
+        imageView.customizeAppearance(styleSheet.image)
+        textLabel.customizeAppearance(styleSheet.text)
     }
 
     open func prepareLayout() {

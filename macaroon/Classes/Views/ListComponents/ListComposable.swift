@@ -9,12 +9,17 @@ public protocol ListComposable: UIView {
     var contextView: ContextView { get }
 
     func getContextView() -> ContextView
-    func customizeAppearance(_ styleGuide: ContextView.StyleGuide)
+    func customizeAppearance(_ styleSheet: ContextView.StyleSheet)
+    func prepareLayout(_ layoutSheet: ContextView.LayoutSheet)
 }
 
 extension ListComposable {
-    public func customizeAppearance(_ styleGuide: ContextView.StyleGuide) {
-        contextView.customizeAppearance(styleGuide)
+    public func customizeAppearance(_ styleSheet: ContextView.StyleSheet) {
+        contextView.customizeAppearance(styleSheet)
+    }
+
+    public func prepareLayout(_ layoutSheet: ContextView.LayoutSheet) {
+        contextView.prepareLayout(layoutSheet)
     }
 }
 

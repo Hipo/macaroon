@@ -7,10 +7,10 @@ extension UILabel {
     public var editText: EditText? {
         get {
             if let attributedText = attributedText {
-                return .attributed(attributedText)
+                return .attributedString(attributedText)
             }
             if let text = text {
-                return .normal(text, font)
+                return .string(text, font)
             }
             return nil
         }
@@ -21,10 +21,10 @@ extension UILabel {
                 return
             }
             switch newEditText {
-            case .normal(let someText, _):
+            case .string(let someText, _):
                 attributedText = nil
                 text = someText
-            case .attributed(let someAttributedText):
+            case .attributedString(let someAttributedText):
                 text = nil
                 attributedText = someAttributedText
             }
@@ -36,10 +36,10 @@ extension UITextField {
     public var editText: EditText? {
         get {
             if let attributedText = attributedText {
-                return .attributed(attributedText)
+                return .attributedString(attributedText)
             }
             if let text = text {
-                return .normal(text, font)
+                return .string(text, font)
             }
             return nil
         }
@@ -50,10 +50,10 @@ extension UITextField {
                 return
             }
             switch newEditText {
-            case .normal(let someText, _):
+            case .string(let someText, _):
                 attributedText = nil
                 text = someText
-            case .attributed(let someAttributedText):
+            case .attributedString(let someAttributedText):
                 text = nil
                 attributedText = someAttributedText
             }
@@ -65,10 +65,10 @@ extension UITextView {
     public var editText: EditText? {
         get {
             if let attributedText = attributedText {
-                return .attributed(attributedText)
+                return .attributedString(attributedText)
             }
             if let text = text {
-                return .normal(text, font)
+                return .string(text, font)
             }
             return nil
         }
@@ -79,10 +79,10 @@ extension UITextView {
                 return
             }
             switch newEditText {
-            case .normal(let someText, _):
+            case .string(let someText, _):
                 attributedText = nil
                 text = someText
-            case .attributed(let someAttributedText):
+            case .attributedString(let someAttributedText):
                 text = nil
                 attributedText = someAttributedText
             }
@@ -94,10 +94,10 @@ extension UIButton {
     public var editTitle: EditText? {
         get {
             if let attributedText = currentAttributedTitle {
-                return .attributed(attributedText)
+                return .attributedString(attributedText)
             }
             if let text = currentTitle {
-                return .normal(text, titleLabel?.font)
+                return .string(text, titleLabel?.font)
             }
             return nil
         }
@@ -108,10 +108,10 @@ extension UIButton {
                 return
             }
             switch newEditText {
-            case .normal(let title, _):
+            case .string(let title, _):
                 setAttributedTitle(nil, for: state)
                 setTitle(title, for: state)
-            case .attributed(let attributedTitle):
+            case .attributedString(let attributedTitle):
                 setTitle(nil, for: state)
                 setAttributedTitle(attributedTitle, for: state)
             }
@@ -121,9 +121,9 @@ extension UIButton {
     public func setEditTitle(_ editTitle: EditText?, for state: UIControl.State) {
         if let editTitle = editTitle {
             switch editTitle {
-            case .normal(let title, _):
+            case .string(let title, _):
                 setTitle(title, for: state)
-            case .attributed(let attributedTitle):
+            case .attributedString(let attributedTitle):
                 setAttributedTitle(attributedTitle, for: state)
             }
         } else {

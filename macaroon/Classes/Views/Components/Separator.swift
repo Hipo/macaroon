@@ -5,47 +5,61 @@ import SnapKit
 import UIKit
 
 public struct Separator {
-    public let style: Styling
+    public let style: ViewStyle
     public let size: CGFloat /// <note> It means width if the separator is vertical and height if the separator is horizontal.
-    public let insets: (CGFloat, CGFloat) /// <note> It means top&bottom if the separator is vertical and left&right if the separator is vertical.
+    public let position: Position
 
     public init(
-        style: Styling,
-        size: CGFloat = 1.0,
-        insets: (CGFloat, CGFloat) = (0.0, 0.0)
+        style: ViewStyle,
+        size: CGFloat = 1,
+        position: Position = .bottom((0, 0))
     ) {
         self.style = style
         self.size = size
-        self.insets = insets
+        self.position = position
     }
 }
 
-public enum SeparatorPosition {
-    case top
-    case left
-    case bottom
-    case right
+extension Separator {
+    public enum Position {
+        case top(LayoutHorizontalPaddings)
+        case left(LayoutVerticalPaddings)
+        case bottom(LayoutHorizontalPaddings)
+        case right(LayoutVerticalPaddings)
+    }
 }
 
 extension UIView {
     /// <note> `padding` indicates the distance between separator and the edge.
     @discardableResult
-    public func addSeparator(_ separator: Separator, at position: SeparatorPosition, padding: CGFloat = 0.0) -> UIView {
-        let view = makeView(for: separator)
+    public func addSeparator(
+        _ separator: Separator,
+        padding: LayoutMetric = 0
+    ) -> UIView {
+        let view =
+            makeSeparator(
+                for: separator
+            )
 
-        addSubview(view)
-        view.snp.makeConstraints { maker in
-            switch position {
+        addSubview(
+            view
+        )
+        view.snp.makeConstraints {
+            switch separator.position {
             case .top:
-                maker.top.equalToSuperview().inset(padding)
+                $0.top == padding
             case .left:
-                maker.leading.equalToSuperview().inset(padding)
+                $0.leading == padding
             case .bottom:
-                maker.bottom.equalToSuperview().inset(padding)
+                $0.bottom == padding
             case .right:
-                maker.trailing.equalToSuperview().inset(padding)
+                $0.trailing == padding
             }
-            makeAdjustments(maker, for: separator, at: position)
+
+            makePositionConstraints(
+                $0,
+                for: separator
+            )
         }
 
         return view
@@ -53,22 +67,35 @@ extension UIView {
 
     /// <note> `padding` indicates the distance between separator and aView's edge.
     @discardableResult
-    public func attachSeparator(_ separator: Separator, to aView: UIView, at position: SeparatorPosition, margin: CGFloat = 0.0) -> UIView {
-        let view = makeView(for: separator)
+    public func attachSeparator(
+        _ separator: Separator,
+        to aView: UIView,
+        margin: LayoutMetric = 0
+    ) -> UIView {
+        let view =
+            makeSeparator(
+                for: separator
+            )
 
-        addSubview(view)
-        view.snp.makeConstraints { maker in
-            switch position {
+        addSubview(
+            view
+        )
+        view.snp.makeConstraints {
+            switch separator.position {
             case .top:
-                maker.bottom.equalTo(aView.snp.top).offset(-margin)
+                $0.bottom == aView.snp.top - margin
             case .left:
-                maker.trailing.equalTo(aView.snp.leading).offset(-margin)
+                $0.trailing == aView.snp.leading - margin
             case .bottom:
-                maker.top.equalTo(aView.snp.bottom).offset(margin)
+                $0.top == aView.snp.bottom + margin
             case .right:
-                maker.leading.equalTo(aView.snp.trailing).offset(margin)
+                $0.leading == aView.snp.trailing + margin
             }
-            makeAdjustments(maker, for: separator, at: position)
+
+            makePositionConstraints(
+                $0,
+                for: separator
+            )
         }
 
         return view
@@ -76,24 +103,31 @@ extension UIView {
 }
 
 extension UIView {
-    func makeView(for separator: Separator) -> UIView {
+    func makeSeparator(
+        for separator: Separator
+    ) -> UIView {
         let view = BaseView()
-        view.customizeBaseAppearance(separator.style)
+        view.customizeAppearance(
+            separator.style
+        )
         return view
     }
 
-    func makeAdjustments(_ maker: ConstraintMaker, for separator: Separator, at position: SeparatorPosition) {
-        switch position {
-        case .top,
-            .bottom:
-            maker.height.equalTo(separator.size)
-            maker.leading.equalToSuperview().inset(separator.insets.0)
-            maker.trailing.equalToSuperview().inset(separator.insets.1)
-        case .left,
-             .right:
-            maker.width.equalTo(separator.size)
-            maker.top.equalToSuperview().inset(separator.insets.0)
-            maker.bottom.equalToSuperview().inset(separator.insets.1)
+    func makePositionConstraints(
+        _ maker: ConstraintMaker,
+        for separator: Separator
+    ) {
+        switch separator.position {
+        case .top(let hPaddings),
+             .bottom(let hPaddings):
+            maker.height == separator.size
+            maker.leading == hPaddings.leading
+            maker.trailing == hPaddings.trailing
+        case .left(let vPaddings),
+             .right(let vPaddings):
+            maker.width == separator.size
+            maker.top == vPaddings.top
+            maker.bottom == vPaddings.bottom
         }
     }
 }

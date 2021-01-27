@@ -11,11 +11,16 @@ public struct AppVersion: ExpressibleByStringLiteral {
     public let minor: Int
     public let patch: Int
 
+    public init() {
+        let versionString = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String).nonNil
+        self.init(versionString: versionString)
+    }
+
     public init(versionString: String) {
         let components = versionString.components(separatedBy: ".")
-        self.major = components[safe: 0].unwrap(ifPresent: Int.init, or: 1)
-        self.minor = components[safe: 1].unwrap(ifPresent: Int.init, or: 0)
-        self.patch = components[safe: 2].unwrap(ifPresent: Int.init, or: 0)
+        self.major = components[safe: 0].unwrap(Int.init, or: 1)
+        self.minor = components[safe: 1].unwrap(Int.init, or: 0)
+        self.patch = components[safe: 2].unwrap(Int.init, or: 0)
     }
 
     public init(stringLiteral value: String) {

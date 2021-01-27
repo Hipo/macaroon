@@ -55,7 +55,7 @@ extension CollectionCell {
             return
         case .single(let separator, let padding):
             if separatorView.isDescendant(of: contentView) { return }
-            separatorView = contentView.addSeparator(separator, at: .bottom)
+            separatorView = contentView.addSeparator(separator)
         }
     }
 }

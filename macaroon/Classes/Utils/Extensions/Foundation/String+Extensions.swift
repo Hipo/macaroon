@@ -45,3 +45,5 @@ extension String {
         return CGSize(width: min(fittingBoundingRect.width.ceil(), fittingSize.width), height: min(fittingBoundingRect.height.ceil(), fittingSize.height))
     }
 }
+
+extension String: Swift.Error { }
