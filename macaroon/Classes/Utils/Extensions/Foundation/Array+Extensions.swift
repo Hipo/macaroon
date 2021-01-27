@@ -21,6 +21,16 @@ extension Array {
 }
 
 extension Array {
+    public func previousElement(beforeElementAt i: Index) -> Element? {
+        return i > startIndex ? self[index(before: i)] : nil
+    }
+
+    public func nextElement(afterElementAt i: Index) -> Element? {
+        return i < index(before: endIndex) ? self[index(after: i)] : nil
+    }
+}
+
+extension Array {
     public func first<T: Equatable>(of keyPath: KeyPath<Element, T>, equalsTo value: T) -> Element? {
         return first(where: { $0[keyPath: keyPath] == value })
     }
@@ -69,5 +79,17 @@ extension Array {
     public func unique<T: Hashable>(_ keyPath: KeyPath<Element, T>) -> Self {
         var observer: Set<T> = []
         return filter { observer.insert($0[keyPath: keyPath]).inserted }
+    }
+}
+
+extension Array where Element: Hashable {
+    public func element(before nextElement: Element) -> Element? {
+        guard let index = firstIndex(where: { $0 == nextElement }) else { return nil }
+        return previousElement(beforeElementAt: index)
+    }
+
+    public func element(after previousElement: Element) -> Element? {
+        guard let index = firstIndex(where: { $0 == previousElement }) else { return nil }
+        return nextElement(afterElementAt: index)
     }
 }

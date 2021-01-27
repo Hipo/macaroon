@@ -10,8 +10,8 @@ open class Screen:
     NavigationBarConfigurable,
     UIAdaptivePresentationControllerDelegate,
     NotificationObserver {
-    public var flowIdentifier: String?
-    public var pathIdentifier: String?
+    public var flowIdentifier: String = ""
+    public var pathIdentifier: String = ""
 
     public var isStatusBarHidden = false
     public var hidesStatusBarOnAppeared = false

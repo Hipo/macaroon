@@ -3,16 +3,15 @@
 import Foundation
 import UIKit
 
-public enum Error: ErrorConvertible {
+public enum Error: Swift.Error {
     case appTargetNotFound
-    case appTargetCorrupted(reason: ErrorConvertible)
-    case unsupportedDeviceOS
-    case unsupportedDeviceFamily
+    case appTargetCorrupted(reason: Swift.Error)
     case screenNotFound
     case dismissNavigationBarItemNotFound
     case popNavigationBarItemNotFound
     case colorNotFound(String)
     case imageNotFound(String)
+    case layoutConstraintCorrupted(reason: String)
     case unsupportedListCell(UICollectionViewCell.Type)
     case unsupportedListHeader(UICollectionReusableView.Type)
     case unsupportedListFooter(UICollectionReusableView.Type)
@@ -28,10 +27,6 @@ extension Error {
             return "App Target not found"
         case .appTargetCorrupted(let reason):
             return "App Target corrupted: \(reason.localizedDescription)"
-        case .unsupportedDeviceOS:
-            return "Unsupported device operating system"
-        case .unsupportedDeviceFamily:
-            return "Unsupported device family"
         case .screenNotFound:
             return "Screen not found"
         case .dismissNavigationBarItemNotFound:
@@ -42,6 +37,8 @@ extension Error {
             return "Color(\(name)) not found"
         case .imageNotFound(let name):
             return "Image(\(name)) not found"
+        case .layoutConstraintCorrupted(let reason):
+            return "Layout Constraint corrupted: \(reason)"
         case .unsupportedListCell(let cellClass):
             return "Unsupported list cell \(String(describing: cellClass.self))"
         case .unsupportedListHeader(let headerClass):

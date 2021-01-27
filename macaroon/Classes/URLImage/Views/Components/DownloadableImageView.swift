@@ -25,20 +25,12 @@ open class DownloadableImageView: BaseView, URLImageLoadable {
         prepareLayout()
     }
 
-    open func customizeAppearance(_ style: ImageStyling) {
-        customizeBaseAppearance(style)
+    open func customizeAppearance(_ styleSheet: DownloadableImageStyleSheet) {
+        customizeAppearance(styleSheet.background)
 
-        contentView.contentMode = style.contentMode
-        contentView.image = style.image
-    }
+        contentView.customizeAppearance(styleSheet.image)
 
-    open func customizeAppearance(_ style: DownloadableImageStyling) {
-        customizeBaseAppearance(style)
-
-        contentView.contentMode = style.contentMode
-        contentView.image = style.image
-
-        if let placeholder = style.placeholder {
+        if let placeholder = styleSheet.placeholder {
             placeholderView.customizeAppearance(placeholder)
         }
     }

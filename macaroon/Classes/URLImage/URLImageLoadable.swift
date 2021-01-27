@@ -9,7 +9,7 @@ public protocol URLImageLoadable: ImageLoadable {
 }
 
 extension URLImageLoadable {
-    public func load(from source: ImageSource?, onCompleted execute: ((ErrorConvertible?) -> Void)? = nil) {
+    public func load(from source: ImageSource?, onCompleted execute: ((Swift.Error?) -> Void)? = nil) {
         guard let source = source else {
             unloadSource()
             execute?(nil)

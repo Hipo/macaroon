@@ -27,7 +27,7 @@ extension PhotoViewModelConvertible {
             url: url,
             size: size,
             shape: shape,
-            placeholder: (photo as? AssetImageSource).unwrap(ifPresent: { ImagePlaceholder(source: $0) }, or: placeholder)
+            placeholder: (photo as? AssetImageSource).unwrap({ ImagePlaceholder(source: $0) }, or: placeholder)
         )
     }
 
@@ -41,7 +41,7 @@ extension PhotoViewModelConvertible {
         let size = self.size.reduce() ?? .zero
         let resizedImage = photo.image.resized(size, .aspectFit)
         let fitImage = resizedImage?.cropped(resizedImage?.size.minSquare)
-        let scale = fitImage.unwrap(ifPresent: { min($0.size.width / size.width, $0.size.height / size.height) }, or: 1.0)
+        let scale = fitImage.unwrap({ min($0.size.width / size.width, $0.size.height / size.height) }, or: 1.0)
         self.photo = AssetImageSource(asset: fitImage?.shaped(shape, nil, scale))
     }
 

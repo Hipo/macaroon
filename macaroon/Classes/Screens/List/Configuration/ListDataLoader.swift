@@ -50,7 +50,7 @@ public enum ListModifier {
     case reload
 }
 
-public struct ListError: ErrorConvertible {
+public struct ListError: Swift.Error {
     public let reason: Reason
     public let userInfo: Any?
 

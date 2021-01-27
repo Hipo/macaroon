@@ -68,15 +68,21 @@ extension EmptyStateView {
     }
 
     private func addNoContent(userInfo: Any?) {
-        dataSource?.noContentView(userInfo: userInfo, in: self).executeIfPresent(addCustomContent)
+        if let noContentView = dataSource?.noContentView(userInfo: userInfo, in: self) {
+            addCustomContent(noContentView)
+        }
     }
 
     private func addNoNetwork(userInfo: Any?) {
-        dataSource?.noNetworkView(userInfo: userInfo, in: self).executeIfPresent(addCustomContent)
+        if let noNetworkView = dataSource?.noNetworkView(userInfo: userInfo, in: self) {
+            addCustomContent(noNetworkView)
+        }
     }
 
     private func addFault(userInfo: Any?) {
-        dataSource?.faultView(userInfo: userInfo, in: self).executeIfPresent(addCustomContent)
+        if let faultView = dataSource?.faultView(userInfo: userInfo, in: self) {
+            addCustomContent(faultView)
+        }
     }
 
     private func addCustomContent(_ contentView: UIView) {

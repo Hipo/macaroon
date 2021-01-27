@@ -3,28 +3,22 @@
 import Foundation
 import UIKit
 
-public protocol DownloadableImagePlaceholderStyling: Styling {
-    var contentMode: UIView.ContentMode { get }
-    var font: FontGroup? { get }
-    var textColor: ColorGroup? { get }
-    var textAlignment: NSTextAlignment { get }
-    var textOverflow: TextOverflow { get }
+public protocol DownloadableImagePlaceholderStyleSheet: StyleSheet {
+    var background: ViewStyle { get }
+    var image: ImageStyle { get }
+    var text: TextStyle { get }
 }
 
-extension DownloadableImagePlaceholderStyling {
-    public var contentMode: UIView.ContentMode {
-        return .scaleAspectFit
+extension DownloadableImagePlaceholderStyleSheet {
+    public var background: ViewStyle {
+        return []
     }
-    public var font: FontGroup? {
-        return nil
+
+    public var image: ImageStyle {
+        return .aspectFit()
     }
-    public var textColor: ColorGroup? {
-        return nil
-    }
-    public var textAlignment: NSTextAlignment {
-        return .left
-    }
-    public var textOverflow: TextOverflow {
-        return .truncated
+
+    public var text: TextStyle {
+        return []
     }
 }

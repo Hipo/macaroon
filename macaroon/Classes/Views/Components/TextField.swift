@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-open class TextField: UITextField, ShadowDrawable {
+open class TextField: UITextField {
     public var leftAccessory: TextFieldAccessory? {
         didSet {
             leftView = leftAccessory?.content
@@ -20,13 +20,12 @@ open class TextField: UITextField, ShadowDrawable {
     public var contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: 8.0)
     public var textEdgeInsets = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: 8.0)
 
-    public var shadow: Shadow?
-    public var shadowLayer: CAShapeLayer?
+    public private(set) lazy var shadowLayer = CAShapeLayer()
+
+    private var shadow: Shadow?
 
     open func preferredUserInterfaceStyleDidChange() {
-        if let shadow = shadow {
-            drawShadow(shadow)
-        }
+        customizeBaseAppearance(shadow: shadow)
     }
 
     open func preferredContentSizeCategoryDidChange() { }
@@ -67,7 +66,10 @@ open class TextField: UITextField, ShadowDrawable {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-        updateShadowWhenViewDidLayoutSubviews()
+
+        if let shadow = shadow {
+            adjustOnLayoutSubviews(shadow)
+        }
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

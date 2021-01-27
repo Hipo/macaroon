@@ -15,12 +15,10 @@ public protocol Router: AnyObject {
     /// The router depends on `visibleScreen` to navigate to the routes.
     var visibleScreen: UIViewController! { get set }
 
-    func makeScreen<T: UIViewController>(_ path: SomePath) -> T
-
     /// <warning>
-    /// App decides the routing mechanism for any flow.
-    /// Do NOT forget to set the visible screen for the flow.
-    func open(_ flow: SomeFlow, by transition: SelfTransition)
+    /// Every app determines the transition for its flows. This method just returns the transition,
+    /// not perform it.
+    func makeTransition(to flow: SomeFlow) -> Transition
 
 //    func embedInNavigationScreen(_ hhroot: UIViewController) -> UINavigationController
 }
@@ -35,47 +33,19 @@ extension Router {
 }
 
 extension Router {
-    public func open(_ route: Route<SomeFlow, SomePath>...) {
+    public func navigate(
+        _ route: Route<SomeFlow, SomePath>...,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) {
         if route.isEmpty { return }
 
-        var navigate: () -> Void = { }
+        var dispatch: () -> Void = { }
 
         route.reversed().forEach { subroute in
-            navigate = {
-                let subflowTransition = SelfTransition(animated: subroute.transition.animated) {
-                    subroute.transition.completeTransition()
-//                    var subpathTransition = subroute.transition
-//                    subpathTransition.completion = {
-//                        navigate()
-//                        subpathTransition.completeTransition()
-//                    }
-//                    self.visibleScreen = self.open(subroute.paths, by: subpathTransition)
-                }
-                self.open(subroute.flow, by: subflowTransition)
-            }
         }
 
-        navigate()
-    }
-
-    private func open(subroute: Route<SomeFlow, SomePath>) -> UIViewController {
-        if subroute.paths.isEmpty {
-            subroute.transition.completeTransition()
-            return visibleScreen
-        }
-
-        switch subroute.anchorPath {
-            case .initial:
-                if visibleScreen as? ScreenRoutable == nil {
-                    visibleScreen = findVisibleScreen(over: visibleScreen)
-                }
-            case .current:
-                break
-            case .interim(let interimScreen):
-                break
-        }
-
-        fatalError()
+        dispatch()
     }
 }
 

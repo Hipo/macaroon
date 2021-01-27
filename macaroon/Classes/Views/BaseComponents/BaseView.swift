@@ -3,9 +3,10 @@
 import Foundation
 import UIKit
 
-open class BaseView: UIView, ShadowDrawable {
-    public var shadow: Shadow?
-    public var shadowLayer: CAShapeLayer?
+open class BaseView: UIView {
+    public private(set) lazy var shadowLayer = CAShapeLayer()
+
+    private var shadow: Shadow?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -17,16 +18,17 @@ open class BaseView: UIView, ShadowDrawable {
     }
 
     open func preferredUserInterfaceStyleDidChange() {
-        if let shadow = shadow {
-            drawShadow(shadow)
-        }
+        customizeBaseAppearance(shadow: shadow)
     }
 
     open func preferredContentSizeCategoryDidChange() { }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-        updateShadowWhenViewDidLayoutSubviews()
+
+        if let shadow = shadow {
+            adjustOnLayoutSubviews(shadow)
+        }
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

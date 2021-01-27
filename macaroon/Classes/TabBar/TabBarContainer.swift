@@ -4,7 +4,10 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable {
+open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable, ScreenRoutable {
+    public var flowIdentifier: String = "main"
+    public var pathIdentifier: String = "tabbarContainer"
+
     public var items: [TabBarItemConvertible] = [] {
         didSet {
             updateLayoutWhenItemsChanged()
