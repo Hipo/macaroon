@@ -16,7 +16,7 @@ target 'macaroon_Example' do
   pod 'Macaroon/TabBar', :path => '../'
   pod 'Macaroon/Tryouts',  :path => '../'
   pod 'Macaroon/Vendors', :path => '../'
-  pod 'Macaroon/Zendesk-Chat', :path => '../'
+#  pod 'Macaroon/Zendesk-Chat', :path => '../'
 
   target 'macaroon_Tests' do
     inherit! :search_paths

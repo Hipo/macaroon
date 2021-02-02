@@ -25,10 +25,15 @@ public struct AppVersion: ExpressibleByStringLiteral {
 
 extension AppVersion: Comparable {
     public static func < (lhs: Self, rhs: Self) -> Bool {
-        return
-            lhs.major < rhs.major ||
-            lhs.minor < rhs.minor ||
-            lhs.patch < rhs.patch
+        if lhs.major != rhs.major {
+            return lhs.major < rhs.major
+        }
+
+        if lhs.minor != rhs.minor {
+            return lhs.minor < rhs.minor
+        }
+
+        return lhs.patch < rhs.patch
     }
 
     public static func == (lhs: Self, rhs: Self) -> Bool {

@@ -170,8 +170,6 @@ PODS:
   - Macaroon/URLImage/Views/Configuration/Styling (0.1.0):
     - Kingfisher (~> 5.0)
   - Macaroon/Vendors (0.1.0)
-  - Macaroon/Zendesk-Chat (0.1.0):
-    - ZendeskChatSDK (~> 2.9)
   - Macaw (0.9.7):
     - SWXMLHash
   - MaterialComponents/AnimationTiming (110.1.0)
@@ -225,17 +223,6 @@ PODS:
   - SwiftLint (0.42.0)
   - SWXMLHash (5.0.1)
   - Tryouts (0.2.2)
-  - ZendeskChatProvidersSDK (2.10.0)
-  - ZendeskChatSDK (2.10.0):
-    - ZendeskChatProvidersSDK (~> 2.10.0)
-    - ZendeskMessagingSDK (~> 3.8.1)
-  - ZendeskCommonUISDK (6.1.0)
-  - ZendeskMessagingAPISDK (3.8.1):
-    - ZendeskSDKConfigurationsSDK (~> 1.1.7)
-  - ZendeskMessagingSDK (3.8.1):
-    - ZendeskCommonUISDK (~> 6.1.0)
-    - ZendeskMessagingAPISDK (~> 3.8.1)
-  - ZendeskSDKConfigurationsSDK (1.1.7)
 
 DEPENDENCIES:
   - Macaroon/Banner (from `../`)
@@ -252,7 +239,6 @@ DEPENDENCIES:
   - Macaroon/TabBar (from `../`)
   - Macaroon/Tryouts (from `../`)
   - Macaroon/Vendors (from `../`)
-  - Macaroon/Zendesk-Chat (from `../`)
 
 SPEC REPOS:
   trunk:
@@ -265,12 +251,6 @@ SPEC REPOS:
     - SwiftLint
     - SWXMLHash
     - Tryouts
-    - ZendeskChatProvidersSDK
-    - ZendeskChatSDK
-    - ZendeskCommonUISDK
-    - ZendeskMessagingAPISDK
-    - ZendeskMessagingSDK
-    - ZendeskSDKConfigurationsSDK
 
 EXTERNAL SOURCES:
   Macaroon:
@@ -287,13 +267,7 @@ SPEC CHECKSUMS:
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   SWXMLHash: 9cc0c2e4807926c74377724aa8722ee5707a0485
   Tryouts: 895f75819b337f1d0de7c2d0ed743f254e4cbb99
-  ZendeskChatProvidersSDK: dcda37575fba7ae503f3dc03313424ef1b2e729d
-  ZendeskChatSDK: 389196ae1688de1104ac05a40c5f89a9e76db838
-  ZendeskCommonUISDK: 92ca6b16956430a2cb61c89aeaa6ca123d1f81fd
-  ZendeskMessagingAPISDK: 986919a8f6f11a7019660d1ff798f1efb42fa572
-  ZendeskMessagingSDK: bf9a06f0cbb219617d9cf60a46aba1b68c8f3b30
-  ZendeskSDKConfigurationsSDK: 45fa87ec8418697f7fce5e56bec472052f0aedb5
 
-PODFILE CHECKSUM: fa09d7ab1ec042d38bd31127eaf761bfa8e442bb
+PODFILE CHECKSUM: 862c204e594bf510dbabff9b3d700a52b0ebd316
 
 COCOAPODS: 1.10.1
