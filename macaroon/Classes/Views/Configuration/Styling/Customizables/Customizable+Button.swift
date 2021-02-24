@@ -17,18 +17,6 @@ extension Customizable where Self: UIButton {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
-            case .border(let border):
-                customizeBaseAppearance(
-                    border: border
-                )
-            case .corner(let corner):
-                customizeBaseAppearance(
-                    corner: corner
-                )
-            case .shadow(let shadow):
-                customizeBaseAppearance(
-                    shadow: shadow
-                )
             case .backgroundImage(let backgroundImage):
                 customizeBaseAppearance(
                     backgroundImage: backgroundImage
@@ -88,7 +76,7 @@ extension Customizable where Self: UIButton {
         backgroundImage: Image?
     ) {
         setBackgroundImage(
-            backgroundImage?.origin,
+            backgroundImage?.image,
             for: .normal
         )
         setBackgroundImage(
@@ -113,7 +101,7 @@ extension Customizable where Self: UIButton {
         icon: Image?
     ) {
         setImage(
-            icon?.origin,
+            icon?.image,
             for: .normal
         )
         setImage(
@@ -137,14 +125,14 @@ extension Customizable where Self: UIButton {
     public func customizeBaseAppearance(
         font: Font?
     ) {
-        titleLabel?.font = font?.origin
+        titleLabel?.font = font?.font
     }
 
     public func customizeBaseAppearance(
         titleColor: Color?
     ) {
         setTitleColor(
-            titleColor?.origin,
+            titleColor?.color,
             for: .normal
         )
         setTitleColor(
@@ -169,7 +157,7 @@ extension Customizable where Self: UIButton {
         title: Text?
     ) {
         setEditTitle(
-            title?.origin,
+            title?.text,
             for: .normal
         )
         setEditTitle(

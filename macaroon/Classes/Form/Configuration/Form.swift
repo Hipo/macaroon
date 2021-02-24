@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 public struct Form: ExpressibleByArrayLiteral {
-    public var paddings: LayoutPaddings = (0.0, 0.0, 0.0, 0.0)
+    public var contentInset: LayoutPaddings = (0, 0, 0, 0)
 
     public let elements: [Element]
 
@@ -24,7 +24,7 @@ public struct Form: ExpressibleByArrayLiteral {
 extension Form {
     public enum Element {
         case field(
-                FormFieldIdentifier
+                FormField
              )
         case hGroup(
                 [(subelement: Self, proportion: CGFloat)] /// <note> 0 < wProportion < 1
@@ -42,11 +42,11 @@ extension Form {
     }
 }
 
-public protocol FormFieldIdentifier {
+public protocol FormField {
     var rawValue: String { get }
 }
 
-extension FormFieldIdentifier {
+extension FormField {
     public static func == (
         lhs: Self,
         rhs: Self
@@ -55,7 +55,7 @@ extension FormFieldIdentifier {
     }
 }
 
-extension String: FormFieldIdentifier {
+extension String: FormField {
     public var rawValue: String {
         return self
     }

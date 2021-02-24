@@ -84,12 +84,18 @@ extension Array {
 
 extension Array where Element: Hashable {
     public func element(before nextElement: Element) -> Element? {
-        guard let index = firstIndex(where: { $0 == nextElement }) else { return nil }
+        guard let index = firstIndex(where: { $0 == nextElement }) else {
+            return nil
+        }
+
         return previousElement(beforeElementAt: index)
     }
 
     public func element(after previousElement: Element) -> Element? {
-        guard let index = firstIndex(where: { $0 == previousElement }) else { return nil }
+        guard let index = firstIndex(where: { $0 == previousElement }) else {
+            return nil
+        }
+
         return nextElement(afterElementAt: index)
     }
 }

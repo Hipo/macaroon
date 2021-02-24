@@ -7,14 +7,79 @@ import UIKit
 open class ScrollScreen:
     Screen,
     UIScrollViewDelegate {
-    public lazy var scrollView = ScrollView()
-    public lazy var contentView = UIView()
-    public lazy var footerView = UIView()
+    public var blursFooterBackgroundOnUnderScrolling = false
 
-    public var pinsFooterToTopForEmptyContent = true {
-        didSet {
-            if !isViewLoaded { return }
-            updateLayoutWhenViewDidLayoutSubviews()
+    public private(set) lazy var scrollView = ScrollView()
+    public private(set) lazy var contentView = UIView()
+    public private(set) lazy var footerView = UIView()
+
+    private lazy var footerBackgroundView = UIView()
+    private lazy var footerBlurBackgroundView =
+        UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+
+    open func customizeScrollAppearance() {
+        scrollView.alwaysBounceVertical = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+    }
+
+    open func addScroll() {
+        view.addSubview(
+            scrollView
+        )
+        scrollView.snp.makeConstraints {
+            $0.setPaddings(
+                (0, 0, 0, 0)
+            )
+        }
+
+        addContent()
+    }
+
+    open func updateScrollLayoutWhenViewDidLayoutSubviews() {
+        if footerView.bounds.isEmpty {
+            return
+        }
+
+        scrollView.setContentInset(
+            bottom: footerView.bounds.height
+        )
+    }
+
+    open func addContent() {
+        scrollView.addSubview(
+            contentView
+        )
+        contentView.snp.makeConstraints {
+            $0.width == view
+
+            $0.setPaddings(
+                (0, 0, 0, 0)
+            )
+        }
+    }
+
+    open func addFooter() {
+        view.addSubview(
+            footerBackgroundView
+        )
+        footerBackgroundView.snp.makeConstraints {
+            $0.setPaddings(
+                (.noMetric, 0, 0, 0)
+            )
+        }
+
+        footerBackgroundView.addSubview(
+            footerView
+        )
+        footerView.snp.makeConstraints {
+            $0.setPaddings(
+                (0, 0, .noMetric, 0)
+            )
+            $0.setBottomPadding(
+                0,
+                inSafeAreaOf: footerBackgroundView
+            )
         }
     }
 
@@ -26,11 +91,12 @@ open class ScrollScreen:
     open override func prepareLayout() {
         super.prepareLayout()
         addScroll()
+        addFooter()
     }
 
     open override func updateLayoutWhenViewDidLayoutSubviews() {
         super.updateLayoutWhenViewDidLayoutSubviews()
-        updateFooterLayoutWhenViewDidLayoutSubviews()
+        updateScrollLayoutWhenViewDidLayoutSubviews()
     }
 
     open override func setListeners() {
@@ -38,75 +104,51 @@ open class ScrollScreen:
         scrollView.delegate = self
     }
 
-    open func customizeScrollAppearance() {
-        scrollView.alwaysBounceVertical = true
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
+    /// <mark>
+    /// UIScrollViewDelegate
+    public func scrollViewDidScroll(
+        _ scrollView: UIScrollView
+    ) {
+        updateLayoutOnScroll()
+    }
+}
+
+extension ScrollScreen {
+    private func updateLayoutOnScroll() {
+        updateFooterBackgroundLayoutOnScroll()
     }
 
-    open func addScroll() {
-        view.addSubview(scrollView)
-        scrollView.snp.makeConstraints {
-            $0.setPaddings((0, 0, 0, 0))
+    private func updateFooterBackgroundLayoutOnScroll() {
+        if !blursFooterBackgroundOnUnderScrolling {
+            return
         }
 
-        addContent()
-        addFooter()
-    }
-
-    open func addContent() {
-        scrollView.addSubview(contentView)
-        contentView.snp.makeConstraints {
-            $0.width == view
-            $0.setPaddings((0, 0, .noConstraint, 0))
+        if footerView.bounds.isEmpty {
+            return
         }
-    }
 
-    open func addFooter() {
-        scrollView.addSubview(footerView)
-        footerView.snp.makeConstraints {
-            $0.width == view
-            $0.top == contentView.snp.bottom
-            $0.setPaddings((.noConstraint, 0, 0, 0))
-        }
-    }
-
-    open func updateFooterLayoutWhenViewDidLayoutSubviews() {
-        if !isViewLoaded { return }
-        if scrollView.bounds.isEmpty { return }
+        addFooterBlurBackground()
 
         let scrollHeight = scrollView.bounds.height
-        let contentHeight = contentView.bounds.height
-        let footerHeight = contentView.bounds.height
-        let scrollableHeight =
-            contentHeight +
-            footerHeight +
-            scrollView.adjustedContentInset.y
+        let scrollableHeight = contentView.bounds.height + scrollView.adjustedContentInset.y
+        let contentOffsetYAtBottom = scrollableHeight - scrollHeight
 
-        footerView.snp.makeConstraints {
-            let offset: CGFloat
+        footerBlurBackgroundView.isHidden =
+            contentOffsetYAtBottom > 0 && scrollView.contentOffset.y >= contentOffsetYAtBottom
+    }
 
-            if scrollableHeight > scrollHeight ||
-               footerHeight == 0.0 ||
-               (contentHeight == 0.0 && pinsFooterToTopForEmptyContent) {
-                offset = 0.0
-            } else {
-                offset = scrollHeight - scrollableHeight
-            }
-
-            $0.top == contentView.snp.bottom + offset
+    private func addFooterBlurBackground() {
+        if footerBlurBackgroundView.isDescendant(
+            of: footerBackgroundView
+        ) {
+            return
         }
-    }
 
-    open func updateFooterLayoutWhenContentDidChange() {
-        if !isViewLoaded { return }
-
-        contentView.layoutIfNeeded()
-        updateFooterLayoutWhenViewDidLayoutSubviews()
-    }
-
-    /// <mark> UIScrollViewDelegate
-    open func scrollViewDidChangeAdjustedContentInset(_ scrollView: UIScrollView) {
-        updateLayoutWhenViewDidLayoutSubviews()
+        footerBackgroundView.addSubview(
+            footerBlurBackgroundView
+        )
+        footerBlurBackgroundView.snp.makeConstraints {
+            $0.setPaddings()
+        }
     }
 }

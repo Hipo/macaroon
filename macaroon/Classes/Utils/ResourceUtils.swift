@@ -27,7 +27,7 @@ public func rgba(
         red: red,
         green: green,
         blue: blue,
-        alpha: min(1.0, max(0.0, alpha))
+        alpha: min(1, max(0, alpha))
     )
 }
 
@@ -40,18 +40,6 @@ public func col(
     return color
 }
 
-extension String {
-    public var color: UIColor {
-        return col(self)
-    }
-}
-
-extension RawRepresentable where RawValue == String {
-    public var color: UIColor {
-        return rawValue.color
-    }
-}
-
 /// <mark>
 /// Images
 public func img(_ named: String) -> UIImage {
@@ -59,18 +47,6 @@ public func img(_ named: String) -> UIImage {
         mc_crash(.imageNotFound(named))
     }
     return image
-}
-
-extension String {
-    public var image: UIImage {
-        return img(self)
-    }
-}
-
-extension RawRepresentable where RawValue == String {
-    public var image: UIImage {
-        return rawValue.image
-    }
 }
 
 /// <mark>
@@ -96,7 +72,7 @@ extension RawRepresentable where RawValue == String {
 
     public func localized(args: [CVarArg]) -> String {
         return rawValue.localized(
-            args
+            args: args
         )
     }
 }

@@ -17,18 +17,6 @@ extension Customizable where Self: UILabel {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
-            case .border(let border):
-                customizeBaseAppearance(
-                    border: border
-                )
-            case .corner(let corner):
-                customizeBaseAppearance(
-                    corner: corner
-                )
-            case .shadow(let shadow):
-                customizeBaseAppearance(
-                    shadow: shadow
-                )
             case .font(let font):
                 customizeBaseAppearance(
                     font: font
@@ -87,7 +75,7 @@ extension Customizable where Self: UILabel {
     public func customizeBaseAppearance(
         font: Font?
     ) {
-        self.font = font?.origin
+        self.font = font?.font
         self.adjustsFontForContentSizeCategory = font?.adjustsFontForContentSizeCategory ?? true
     }
 
@@ -101,7 +89,9 @@ extension Customizable where Self: UILabel {
         textOverflow: TextOverflow?
     ) {
         guard let textOverflow = textOverflow else {
-            customizeBaseAppearance(textOverflow: .singleLine())
+            customizeBaseAppearance(
+                textOverflow: .singleLine()
+            )
             return
         }
 
@@ -126,13 +116,13 @@ extension Customizable where Self: UILabel {
     public func customizeBaseAppearance(
         textColor: Color?
     ) {
-        self.textColor = textColor?.origin
+        self.textColor = textColor?.color
     }
 
     public func customizeBaseAppearance(
         content: Text?
     ) {
-        self.editText = content?.origin
+        self.editText = content?.text
     }
 }
 
@@ -149,18 +139,6 @@ extension Customizable where Self: UITextField {
             case .tintColor(let tintColor):
                 customizeBaseAppearance(
                     tintColor: tintColor
-                )
-            case .border(let border):
-                customizeBaseAppearance(
-                    border: border
-                )
-            case .corner(let corner):
-                customizeBaseAppearance(
-                    corner: corner
-                )
-            case .shadow(let shadow):
-                customizeBaseAppearance(
-                    shadow: shadow
                 )
             case .font(let font):
                 customizeBaseAppearance(

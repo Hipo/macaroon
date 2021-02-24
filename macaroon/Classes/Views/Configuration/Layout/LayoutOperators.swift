@@ -23,7 +23,7 @@ extension LayoutConstraint {
         return LayoutConstraint(
             target: lhs.target,
             multiplier: lhs.multiplier,
-            constant: lhs.constant.unwrap { $0 + rhs },
+            constant: lhs.constant.unwrap { $0 + rhs } ?? rhs,
             priority: lhs.priority
         )
     }
@@ -35,7 +35,7 @@ extension LayoutConstraint {
         return LayoutConstraint(
             target: lhs.target,
             multiplier: lhs.multiplier,
-            constant: lhs.constant.unwrap { $0 - rhs },
+            constant: lhs.constant.unwrap { $0 - rhs } ?? -rhs,
             priority: lhs.priority
         )
     }
@@ -46,7 +46,7 @@ extension LayoutConstraint {
     ) -> LayoutConstraint {
         return LayoutConstraint(
             target: lhs.target,
-            multiplier: lhs.multiplier.unwrap { $0 * rhs },
+            multiplier: lhs.multiplier.unwrap { $0 * rhs } ?? rhs,
             constant: lhs.constant,
             priority: lhs.priority
         )

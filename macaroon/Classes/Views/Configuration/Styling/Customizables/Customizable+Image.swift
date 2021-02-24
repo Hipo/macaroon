@@ -17,18 +17,6 @@ extension Customizable where Self: UIImageView {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
-            case .border(let border):
-                customizeBaseAppearance(
-                    border: border
-                )
-            case .corner(let corner):
-                customizeBaseAppearance(
-                    corner: corner
-                )
-            case .shadow(let shadow):
-                customizeBaseAppearance(
-                    shadow: shadow
-                )
             case .contentMode(let contentMode):
                 customizeBaseAppearance(
                     contentMode: contentMode
@@ -72,6 +60,6 @@ extension Customizable where Self: UIImageView {
     public func customizeBaseAppearance(
         content: Image?
     ) {
-        image = content?.origin
+        image = content?.image
     }
 }

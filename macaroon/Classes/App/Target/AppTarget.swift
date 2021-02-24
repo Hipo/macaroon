@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 public protocol AppTarget: AnyObject, Decodable {
-    var isDevelopment: Bool { get }
+    var isProduction: Bool { get }
     var bundleIdentifier: String { get }
     var displayName: String { get }
     var version: AppVersion { get }

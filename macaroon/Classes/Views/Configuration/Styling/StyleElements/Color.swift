@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 public protocol Color {
-    var origin: UIColor { get }
+    var color: UIColor { get }
     var highlighted: UIColor? { get }
     var selected: UIColor? { get }
     var disabled: UIColor? { get }
@@ -23,26 +23,38 @@ extension Color {
 }
 
 extension UIColor: Color {
-    public var origin: UIColor {
+    public var color: UIColor {
         return self
     }
 }
 
+extension String: Color {
+    public var color: UIColor {
+        return col(self)
+    }
+}
+
+extension RawRepresentable where RawValue == String {
+    public var color: UIColor {
+        return rawValue.color
+    }
+}
+
 public struct ColorSet: Color {
-    public let origin: UIColor
+    public let color: UIColor
     public let highlighted: UIColor?
     public let selected: UIColor?
     public let disabled: UIColor?
 
     public init(
-        _ origin: UIColor,
-        highlighted: UIColor? = nil,
-        selected: UIColor? = nil,
-        disabled: UIColor? = nil
+        _ color: Color,
+        highlighted: Color? = nil,
+        selected: Color? = nil,
+        disabled: Color? = nil
     ) {
-        self.origin = origin
-        self.highlighted = highlighted
-        self.selected = selected
-        self.disabled = disabled
+        self.color = color.color
+        self.highlighted = highlighted?.color
+        self.selected = selected?.color
+        self.disabled = disabled?.color
     }
 }

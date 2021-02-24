@@ -15,13 +15,29 @@ public protocol URLImageSource: ImageSource {
 }
 
 extension URLImageSource {
-    public func load(in imageView: UIImageView, onCompleted execute: ((Swift.Error?) -> Void)? = nil) {
-        load(in: imageView, displayingPlaceholderIn: nil, onCompleted: execute)
+    public func load(
+        in imageView: UIImageView,
+        onCompleted execute: ((Swift.Error?) -> Void)? = nil
+    ) {
+        load(
+            in: imageView,
+            displayingPlaceholderIn: nil,
+            onCompleted: execute
+        )
     }
 
-    public func load(in imageView: UIImageView, displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?, onCompleted execute: ((Swift.Error?) -> Void)? = nil) {
+    public func load(
+        in imageView: UIImageView,
+        displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?,
+        onCompleted execute: ((Swift.Error?) -> Void)? = nil
+    ) {
         imageView.kf.cancelDownloadTask()
-        imageView.kf.setImage(with: url, placeholder: placeholderContainer, options: formOptions(), progressBlock: nil) { result in
+        imageView.kf.setImage(
+            with: url,
+            placeholder: placeholderContainer,
+            options: formOptions(),
+            progressBlock: nil
+        ) { result in
             switch result {
             case .success(let imageResult):
                 if let color = self.color {
@@ -30,10 +46,16 @@ extension URLImageSource {
                 } else {
                     imageView.image = imageResult.image
                 }
-                execute?(nil)
+
+                execute?(
+                    nil
+                )
             case .failure(let error):
                 imageView.image = nil
-                execute?(error)
+
+                execute?(
+                    error
+                )
             }
         }
 
@@ -44,11 +66,17 @@ extension URLImageSource {
         var options = formDefaultOptions()
 
         if forceRefresh {
-            options.append(.forceRefresh)
+            options.append(
+                .forceRefresh
+            )
         }
+
         if let imageProcessor = formImageProcessors().compactJoined() {
-            options.append(.processor(imageProcessor))
+            options.append(
+                .processor(imageProcessor)
+            )
         }
+
         return options
     }
 }

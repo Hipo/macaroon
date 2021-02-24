@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-public protocol TabbedContainer: UIViewController {
+public protocol TabbedContainer: Container {
     var selectedScreen: UIViewController? { get }
 }
 

@@ -4,46 +4,49 @@ import Foundation
 import UIKit
 
 public protocol ShadowDrawable: UIView {
-    var shadowLayer: CAShapeLayer? { get }
-
-    func draw(_ shadow: Shadow)
-    func adjustOnLayoutSubviews(_ shadow: Shadow)
-    func eraseShadow()
+    var shadow: Shadow? { get set }
+    var shadowLayer: CAShapeLayer { get }
 }
 
 extension ShadowDrawable {
-    public var shadowLayer: CAShapeLayer? {
-        return nil
+    public func drawAppearance(
+        shadow: Shadow?
+    ) {
+        guard let shadow = shadow else {
+            eraseShadow()
+            return
+        }
+
+        draw(
+            shadow
+        )
     }
 }
 
 extension ShadowDrawable {
     public func draw(
-        _ shadow: Shadow
+        _ someShadow: Shadow
     ) {
         defer {
             layer.masksToBounds = false
 
-            adjustOnLayoutSubviews(
-                shadow
+            updateOnLayoutSubviews(
+                someShadow
             )
-        }
 
-        guard let shadowLayer = shadowLayer else {
-            layer.draw(
-                shadow
-            )
-            return
+            shadow = someShadow
         }
 
         shadowLayer.draw(
-            shadow
+            someShadow
         )
 
         if let sublayers = layer.sublayers,
            sublayers.contains(
                shadowLayer
-           ) { return }
+           ) {
+            return
+        }
 
         layer.insertSublayer(
             shadowLayer,
@@ -51,41 +54,24 @@ extension ShadowDrawable {
         )
     }
 
-    public func adjustOnLayoutSubviews(
-        _ shadow: Shadow
+    public func updateOnLayoutSubviews(
+        _ someShadow: Shadow
     ) {
-        if bounds.isEmpty { return }
-
-        guard let shadowLayer = shadowLayer else {
-            layer.frame = bounds
-            layer.drawPath(
-                shadow
-            )
-
+        if bounds.isEmpty {
             return
         }
 
         shadowLayer.frame = bounds
         shadowLayer.drawPath(
-            shadow
+            someShadow
         )
     }
 
     public func eraseShadow() {
-        guard let shadowLayer = shadowLayer else {
-            layer.draw(
-                Shadow(
-                    color: .black,
-                    opacity: 0.0,
-                    offset: (0, -3),
-                    radius: 3.0,
-                    fillColor: nil
-                )
-            )
-            return
-        }
-
         shadowLayer.removeFromSuperlayer()
+        shadowLayer.eraseShadow()
+
+        shadow = nil
     }
 }
 
@@ -125,7 +111,9 @@ extension CALayer {
             return UIBezierPath(rect: bounds).cgPath
         }
 
-        if bounds.isEmpty { return }
+        if bounds.isEmpty {
+            return
+        }
 
         if let shapeLayer = self as? CAShapeLayer {
             shapeLayer.path = calculatePath()
@@ -133,6 +121,16 @@ extension CALayer {
             shadowPath = calculatePath()
         }
     }
-}
 
-extension UIView: ShadowDrawable {}
+    public func eraseShadow() {
+        draw(
+            Shadow(
+                color: .black,
+                opacity: 0,
+                offset: (0, -3),
+                radius: 3,
+                fillColor: nil
+            )
+        )
+    }
+}

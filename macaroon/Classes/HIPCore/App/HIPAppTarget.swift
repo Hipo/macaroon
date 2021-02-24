@@ -3,7 +3,7 @@
 import Foundation
 
 open class HIPAppTarget<ServerConfig: Decodable, DeeplinkConfig: Decodable>: AppTarget {
-    public let isDevelopment: Bool
+    public let isProduction: Bool
     public let serverConfig: ServerConfig
     public let deeplinkConfig: DeeplinkConfig
 
@@ -12,11 +12,11 @@ open class HIPAppTarget<ServerConfig: Decodable, DeeplinkConfig: Decodable>: App
     public let version = getVersion()
 
     public init(
-        isDevelopment: Bool,
+        isProduction: Bool,
         serverConfig: ServerConfig,
         deeplinkConfig: DeeplinkConfig
     ) {
-        self.isDevelopment = isDevelopment
+        self.isProduction = isProduction
         self.serverConfig = serverConfig
         self.deeplinkConfig = deeplinkConfig
     }
@@ -24,7 +24,7 @@ open class HIPAppTarget<ServerConfig: Decodable, DeeplinkConfig: Decodable>: App
 
 extension HIPAppTarget {
     private enum CodingKeys: String, CodingKey {
-        case isDevelopment
+        case isProduction
         case serverConfig
         case deeplinkConfig
     }

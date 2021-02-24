@@ -11,3 +11,15 @@ extension UIImage {
         return withRenderingMode(.alwaysTemplate)
     }
 }
+
+extension UIImage {
+    public var width: CGFloat {
+        return size.width
+    }
+    public var height: CGFloat {
+        return size.height
+    }
+    public var aspectRatio: CGFloat {
+        return size.aspectRatio
+    }
+}

@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 public protocol Font {
-    var origin: UIFont { get }
+    var font: UIFont { get }
     var highlighted: UIFont? { get }
     var selected: UIFont? { get }
     var disabled: UIFont? { get }
@@ -29,13 +29,13 @@ extension Font {
 }
 
 extension UIFont: Font {
-    public var origin: UIFont {
+    public var font: UIFont {
         return self
     }
 }
 
 public struct CustomFont: Font {
-    public var origin: UIFont {
+    public var font: UIFont {
         return preferred
     }
 
@@ -78,7 +78,7 @@ public struct CustomFont: Font {
 }
 
 extension CustomFont {
-    public enum Size: ExpressibleByFloatLiteral {
+    public enum Size: ExpressibleByFloatLiteral, ExpressibleByIntegerLiteral {
         case constant(CGFloat)
         case scaled(actual: CGFloat, max: CGFloat)
 
@@ -92,23 +92,27 @@ extension CustomFont {
         public init(floatLiteral value: FloatLiteralType) {
             self = .constant(CGFloat(value))
         }
+
+        public init(integerLiteral value: Int) {
+            self = .constant(CGFloat(value))
+        }
     }
 }
 
 public struct FontSet: Font {
-    public let origin: UIFont
+    public let font: UIFont
     public let highlighted: UIFont?
     public let selected: UIFont?
     public let disabled: UIFont?
     public let adjustsFontForContentSizeCategory: Bool
 
     public init(
-        _ origin: UIFont,
+        _ font: UIFont,
         highlighted: UIFont? = nil,
         selected: UIFont? = nil,
         disabled: UIFont? = nil
     ) {
-        self.origin = origin
+        self.font = font
         self.highlighted = highlighted
         self.selected = selected
         self.disabled = disabled
@@ -116,16 +120,16 @@ public struct FontSet: Font {
     }
 
     public init(
-        _ origin: CustomFont,
+        _ font: CustomFont,
         highlighted: CustomFont? = nil,
         selected: CustomFont? = nil,
         disabled: CustomFont? = nil
     ) {
-        self.origin = origin.preferred
+        self.font = font.preferred
         self.highlighted = highlighted?.preferred
         self.selected = selected?.preferred
         self.disabled = disabled?.preferred
-        self.adjustsFontForContentSizeCategory = origin.adjustsFontForContentSizeCategory
+        self.adjustsFontForContentSizeCategory = font.adjustsFontForContentSizeCategory
     }
 }
 

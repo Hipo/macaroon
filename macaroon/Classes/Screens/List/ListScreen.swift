@@ -12,20 +12,15 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
 
     public init(
         listDataSource: ListDataSource,
-        listLayout: ListLayout
+        listLayout: ListLayout,
+        configurator: ScreenConfigurable? = nil
     ) {
         self.listDataSource = listDataSource
         self.listLayout = listLayout
-        super.init()
-    }
 
-    open override func customizeAppearance() {
-        super.customizeAppearance()
-        customizeListAppearance()
-    }
-
-    open func customizeListAppearance() {
-        listView.backgroundColor = .clear
+        super.init(
+            configurator: configurator
+        )
     }
 
     open override func prepareLayout() {

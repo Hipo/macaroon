@@ -13,11 +13,15 @@ public protocol FormInputFieldView: FormFieldView {
     var editingDelegate: FormInputFieldViewEditingDelegate? { get set }
     var state: FormInputFieldState { get set }
 
+    var validator: Validator? { get set }
+
     var inputType: FormInputType { get }
     var isEditing: Bool { get }
 
     func beginEditing()
     func endEditing()
+
+    func editingRect(in view: UIView) -> CGRect?
 }
 
 extension FormInputFieldView {
@@ -29,30 +33,51 @@ extension FormInputFieldView {
     }
 }
 
+extension FormInputFieldView {
+    public func editingRect(
+        in view: UIView
+    ) -> CGRect? {
+        return superview?.convert(
+            frame,
+            to: view
+        )
+    }
+}
+
+public protocol FormTextInputFieldView: FormInputFieldView {
+    var text: String? { get set }
+    var formatter: TextInputFormatter? { get set }
+}
+
 public protocol FormInputFieldViewEditingDelegate: AnyObject {
     func formInputFieldViewDidBeginEditing(_ formInputFieldView: FormInputFieldView)
+    func formInputFieldViewDidEdit(_ formInputFieldView: FormInputFieldView)
     func formInputFieldViewDidEndEditing(_ formInputFieldView: FormInputFieldView)
 }
 
 public enum FormInputFieldState {
     case none
     case focus
-    case invalid
-    case incorrect
+    case invalid(ValidationError)
+    case incorrect(Swift.Error)
 }
 
 public enum FormInputType {
     case none
     case keyboard
-    case inselection /// <note> The selection input types displayed inside the form, i.e. checkbox.
-    case outselection /// <note> The selection input types displayed outside the form, i.e. picker.
+    /// <note>
+    /// The selection input types displayed inside the form, i.e. checkbox.
+    case inSelection
+    /// <note>
+    /// The selection input types displayed outside the form, i.e. picker.
+    case outSelection
 }
 
 extension FormInputType {
     public var isExternal: Bool {
         switch self {
         case .keyboard,
-             .outselection: return true
+             .outSelection: return true
         default: return false
         }
     }

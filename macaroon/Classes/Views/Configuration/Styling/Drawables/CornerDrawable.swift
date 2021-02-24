@@ -3,9 +3,21 @@
 import Foundation
 import UIKit
 
-public protocol CornerDrawable: UIView {
-    func draw(_ corner: Corner)
-    func eraseCorner()
+public protocol CornerDrawable: UIView {}
+
+extension CornerDrawable {
+    public func drawAppearance(
+        corner: Corner?
+    ) {
+        guard let corner = corner else {
+            eraseCorner()
+            return
+        }
+
+        draw(
+            corner
+        )
+    }
 }
 
 extension CornerDrawable {
@@ -16,7 +28,7 @@ extension CornerDrawable {
             corner
         )
 
-        if !(self is ShadowDrawable) {
+        if layer.shadowOpacity == 0 {
             layer.masksToBounds = true
         }
     }
@@ -36,5 +48,3 @@ extension CALayer {
         maskedCorners = corner.mask
     }
 }
-
-extension UIView: CornerDrawable {}

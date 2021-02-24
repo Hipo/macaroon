@@ -3,14 +3,18 @@
 import Foundation
 import UIKit
 
-public class Label: UILabel {
-    open var contentEdgeInsets: UIEdgeInsets = .zero {
+public class Label:
+    UILabel,
+    BorderDrawable,
+    CornerDrawable,
+    ShadowDrawable {
+    public var contentEdgeInsets: LayoutPaddings = (0, 0, 0, 0) {
         didSet { invalidateIntrinsicContentSize() }
     }
 
-    public private(set) lazy var shadowLayer = CAShapeLayer()
+    public var shadow: Shadow?
 
-    private var shadow: Shadow?
+    public private(set) lazy var shadowLayer = CAShapeLayer()
 
     open override func textRect(
         forBounds bounds: CGRect,
@@ -19,15 +23,17 @@ public class Label: UILabel {
         let textRect =
             super.textRect(
                 forBounds: bounds.inset(
-                    by: contentEdgeInsets
+                    by: UIEdgeInsets(contentEdgeInsets)
                 ),
                 limitedToNumberOfLines: numberOfLines
             )
 
-        if text.isNilOrEmpty { return textRect }
+        if text.isNilOrEmpty {
+            return textRect
+        }
 
         return textRect.inset(
-            by: contentEdgeInsets.inverted()
+            by: UIEdgeInsets(contentEdgeInsets).inverted()
         )
     }
 
@@ -35,7 +41,7 @@ public class Label: UILabel {
         let someRect = text.isNilOrEmpty
             ? rect
             : rect.inset(
-                by: contentEdgeInsets
+                by: UIEdgeInsets(contentEdgeInsets)
             )
         super.drawText(
             in: someRect
@@ -43,9 +49,7 @@ public class Label: UILabel {
     }
     
     open func preferredUserInterfaceStyleDidChange() {
-        guard let shadow = shadow else { return }
-
-        customizeBaseAppearance(
+        drawAppearance(
             shadow: shadow
         )
     }
@@ -55,9 +59,11 @@ public class Label: UILabel {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        if let shadow = shadow {
-            adjustOnLayoutSubviews(shadow)
+        guard let shadow = shadow else {
+            return
         }
+
+        updateOnLayoutSubviews(shadow)
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

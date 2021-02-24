@@ -120,14 +120,20 @@ extension UIView {
         switch separator.position {
         case .top(let hPaddings),
              .bottom(let hPaddings):
-            maker.height == separator.size
             maker.leading == hPaddings.leading
             maker.trailing == hPaddings.trailing
+
+            maker.fitToHeight(
+                separator.size
+            )
         case .left(let vPaddings),
              .right(let vPaddings):
-            maker.width == separator.size
             maker.top == vPaddings.top
             maker.bottom == vPaddings.bottom
+
+            maker.fitToWidth(
+                separator.size
+            )
         }
     }
 }

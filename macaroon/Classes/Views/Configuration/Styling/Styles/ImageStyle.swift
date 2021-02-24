@@ -6,6 +6,30 @@ import UIKit
 public typealias ImageStyle = BaseStyle<ImageStyleAttribute>
 
 extension ImageStyle {
+    public var tintColor: Color? {
+        for attribute in self {
+            switch attribute {
+            case .tintColor(let tintColor): return tintColor
+            default: break
+            }
+        }
+
+        return nil
+    }
+
+    public var content: Image? {
+        for attribute in self {
+            switch attribute {
+            case .content(let content): return content
+            default: break
+            }
+        }
+
+        return nil
+    }
+}
+
+extension ImageStyle {
     public func mutate(
         by viewStyle: ViewStyle
     ) -> Self {
@@ -17,12 +41,6 @@ extension ImageStyle {
                 derivedImageStyle.append(.backgroundColor(backgroundColor))
             case .tintColor(let tintColor):
                 derivedImageStyle.append(.tintColor(tintColor))
-            case .border(let border):
-                derivedImageStyle.append(.border(border))
-            case .corner(let corner):
-                derivedImageStyle.append(.corner(corner))
-            case .shadow(let shadow):
-                derivedImageStyle.append(.shadow(shadow))
             }
         }
 
@@ -63,9 +81,6 @@ public enum ImageStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
-    case border(Border)
-    case corner(Corner)
-    case shadow(Shadow)
 
     /// <mark>
     /// Image
@@ -78,9 +93,6 @@ extension ImageStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
-        case .border: return Self.getBorderAttributeId()
-        case .corner: return Self.getCornerAttributeId()
-        case .shadow: return Self.getShadowAttributeId()
         case .contentMode: return "image.contentMode"
         case .content: return "image.content"
         }

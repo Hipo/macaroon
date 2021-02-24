@@ -20,7 +20,10 @@ public protocol Flow: Equatable {
 }
 
 extension Flow {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
+    public static func == (
+        lhs: Self,
+        rhs: Self
+    ) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 }

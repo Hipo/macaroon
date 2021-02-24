@@ -6,6 +6,19 @@ import UIKit
 public typealias TextStyle = BaseStyle<TextStyleAttribute>
 
 extension TextStyle {
+    public var font: Font? {
+        for attribute in self {
+            switch attribute {
+            case .font(let font): return font
+            default: break
+            }
+        }
+
+        return nil
+    }
+}
+
+extension TextStyle {
     public func mutate(
         by viewStyle: ViewStyle
     ) -> Self {
@@ -17,12 +30,6 @@ extension TextStyle {
                 derivedTextStyle.append(.backgroundColor(backgroundColor))
             case .tintColor(let tintColor):
                 derivedTextStyle.append(.tintColor(tintColor))
-            case .border(let border):
-                derivedTextStyle.append(.border(border))
-            case .corner(let corner):
-                derivedTextStyle.append(.corner(corner))
-            case .shadow(let shadow):
-                derivedTextStyle.append(.shadow(shadow))
             }
         }
 
@@ -35,9 +42,6 @@ public enum TextStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
-    case border(Border)
-    case corner(Corner)
-    case shadow(Shadow)
 
     /// <mark>
     /// Text
@@ -53,9 +57,6 @@ extension TextStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
-        case .border: return Self.getBorderAttributeId()
-        case .corner: return Self.getCornerAttributeId()
-        case .shadow: return Self.getShadowAttributeId()
         case .font: return "text.font"
         case .textAlignment: return "text.textAlignment"
         case .textOverflow: return "text.textOverflow"

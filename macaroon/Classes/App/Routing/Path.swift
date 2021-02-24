@@ -16,15 +16,20 @@ public protocol Path: Equatable {
 }
 
 extension Path {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
+    public static func == (
+        lhs: Self,
+        rhs: Self
+    ) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 }
 
 /// <note>
 /// Identifies a pre-defined path in a flow.
-public enum AnchorPath {
+public enum ExistingPath {
     case initial
-    case current
+    /// <note>
+    /// Shows the visible path
+    case last
     case interim(ScreenRoutable)
 }

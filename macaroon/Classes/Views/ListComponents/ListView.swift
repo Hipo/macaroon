@@ -15,6 +15,7 @@ open class ListView: UICollectionView, EmptyStatePresentable {
             frame: frame,
             collectionViewLayout: layout
         )
+        customizeAppearance()
         prepareLayout()
     }
 
@@ -26,6 +27,12 @@ open class ListView: UICollectionView, EmptyStatePresentable {
     open override func layoutSubviews() {
         super.layoutSubviews()
         emptyStateView.frame = bounds
+    }
+}
+
+extension ListView {
+    private func customizeAppearance() {
+        backgroundColor = .clear
     }
 }
 

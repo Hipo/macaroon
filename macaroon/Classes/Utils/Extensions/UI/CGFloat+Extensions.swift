@@ -24,3 +24,10 @@ extension CGFloat {
         return self * scale
     }
 }
+
+extension CGFloat {
+    public func projected(decelerationRate: UIScrollView.DecelerationRate) -> CGFloat {
+        let factor = -1 / (1000 * log(decelerationRate.rawValue))
+        return factor * self
+    }
+}

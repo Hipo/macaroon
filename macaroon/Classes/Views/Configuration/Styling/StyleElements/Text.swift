@@ -3,7 +3,7 @@
 import Foundation
 
 public protocol Text {
-    var origin: EditText { get }
+    var text: EditText { get }
     var highlighted: EditText? { get }
     var selected: EditText? { get }
     var disabled: EditText? { get }
@@ -22,33 +22,45 @@ extension Text {
 }
 
 extension String: Text {
-    public var origin: EditText {
+    public var text: EditText {
         return .string(self)
     }
 }
 
 extension NSAttributedString: Text {
-    public var origin: EditText {
+    public var text: EditText {
         return .attributedString(self)
     }
 }
 
+extension EditText: Text {
+    public var text: EditText {
+        return self
+    }
+}
+
+extension RawRepresentable where RawValue == String {
+    public var text: EditText {
+        return rawValue.text
+    }
+}
+
 public struct TextSet: Text {
-    public let origin: EditText
+    public let text: EditText
     public let highlighted: EditText?
     public let selected: EditText?
     public let disabled: EditText?
 
     public init(
-        _ origin: EditText,
-        highlighted: EditText? = nil,
-        selected: EditText? = nil,
-        disabled: EditText? = nil
+        _ text: Text,
+        highlighted: Text? = nil,
+        selected: Text? = nil,
+        disabled: Text? = nil
     ) {
-        self.origin = origin
-        self.highlighted = highlighted
-        self.selected = selected
-        self.disabled = disabled
+        self.text = text.text
+        self.highlighted = highlighted?.text
+        self.selected = selected?.text
+        self.disabled = disabled?.text
     }
 }
 

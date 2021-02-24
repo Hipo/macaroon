@@ -3,7 +3,9 @@
 import Foundation
 import UIKit
 
-public struct Corner: ExpressibleByFloatLiteral {
+public struct Corner:
+    ExpressibleByFloatLiteral,
+    ExpressibleByIntegerLiteral {
     public let radius: CGFloat
     public let mask: CACornerMask
 
@@ -21,6 +23,10 @@ public struct Corner: ExpressibleByFloatLiteral {
     }
 
     public init(floatLiteral value: FloatLiteralType) {
+        self.init(radius: CGFloat(value))
+    }
+
+    public init(integerLiteral value: IntegerLiteralType) {
         self.init(radius: CGFloat(value))
     }
 }

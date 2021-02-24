@@ -3,9 +3,21 @@
 import Foundation
 import UIKit
 
-public protocol BorderDrawable: UIView {
-    func draw(_ border: Border)
-    func eraseBorder()
+public protocol BorderDrawable: UIView {}
+
+extension BorderDrawable {
+    public func drawAppearance(
+        border: Border?
+    ) {
+        guard let border = border else {
+            eraseBorder()
+            return
+        }
+
+        draw(
+            border
+        )
+    }
 }
 
 extension BorderDrawable {
@@ -19,10 +31,7 @@ extension BorderDrawable {
 
     public func eraseBorder() {
         layer.draw(
-            Border(
-                color: .black,
-                width: 0.0
-            )
+            Border(color: .black, width: 0.0)
         )
     }
 }
@@ -35,5 +44,3 @@ extension CALayer {
         borderWidth = border.width
     }
 }
-
-extension UIView: BorderDrawable {}

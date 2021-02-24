@@ -20,7 +20,7 @@ public protocol AppAuthLaunchUIHandler: AppLaunchUIHandler
 where SomeAppLaunchUIState: AppAuthLaunchUIState { }
 
 public protocol AppAuthLaunchUIState: AppLaunchUIState {
-    associatedtype AuthScreen: UIViewController
+    associatedtype OnboardingScreen: UIViewController
 
-    static func authRequired(completion: ((AuthScreen) -> Void)?) -> Self
+    static func onboarding(completion: ((OnboardingScreen) -> Void)?) -> Self
 }

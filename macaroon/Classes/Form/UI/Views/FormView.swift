@@ -8,8 +8,9 @@ open class FormView:
     FormInputFieldViewEditingDelegate {
     public weak var dataSource: FormViewDataSource? {
         didSet {
-            if dataSource == nil { return }
-            reloadData()
+            if dataSource != nil {
+                reloadData()
+            }
         }
     }
     public weak var delegate: FormViewDelegate?
@@ -17,6 +18,10 @@ open class FormView:
     public private(set) var inputFieldViews: [FormInputFieldView] = []
 
     public private(set) var editingInputFieldView: FormInputFieldView?
+
+    public var isEditing: Bool {
+        return editingInputFieldView != nil
+    }
 
     public var previousEditingInputFieldView: FormInputFieldView? {
         guard let editingInputFieldView = editingInputFieldView else {
@@ -29,7 +34,9 @@ open class FormView:
                         $0 === editingInputFieldView
                     }
                 )
-        else { return nil }
+        else {
+            return nil
+        }
 
         return inputFieldViews.previousElement(
             beforeElementAt: editingInputFieldIndex
@@ -46,7 +53,9 @@ open class FormView:
                         $0 === editingInputFieldView
                     }
                 )
-        else { return nil }
+        else {
+            return nil
+        }
 
         return inputFieldViews.nextElement(
             afterElementAt: editingInputFieldIndex
@@ -75,12 +84,12 @@ open class FormView:
     }
 
     open private(set) subscript<T: UIView>(
-        identifier: FormFieldIdentifier
+        field: FormField
     ) -> T {
         get {
-            guard let anInputView = fieldViewsRefTable[identifier.rawValue] else {
+            guard let anInputView = fieldViewsRefTable[field.rawValue] else {
                 crash(
-                    "Input view not found for \(identifier.rawValue)"
+                    "Input view not found for \(field.rawValue)"
                 )
             }
 
@@ -93,7 +102,7 @@ open class FormView:
             return inputView
         }
         set {
-            fieldViewsRefTable[identifier.rawValue] = newValue
+            fieldViewsRefTable[field.rawValue] = newValue
         }
     }
 
@@ -104,7 +113,9 @@ open class FormView:
                 dataSource?.form(
                     in: self
                 )
-        else { return }
+        else {
+            return
+        }
 
         newForm.elements.forEach {
             add(
@@ -146,9 +157,34 @@ open class FormView:
         )
     }
 
+    open func formInputFieldViewDidEdit(
+        _ formInputFieldView: FormInputFieldView
+    ) {
+        formInputFieldView.state = .focus
+
+        delegate?.formView(
+            self,
+            didEdit: formInputFieldView
+        )
+    }
+
     open func formInputFieldViewDidEndEditing(
         _ formInputFieldView: FormInputFieldView
     ) {
+        let shouldValidate =
+            delegate?.formView(
+                self,
+                shouldValidate: formInputFieldView
+            ) ?? true
+
+        if shouldValidate {
+            validate(
+                formInputFieldView
+            )
+        } else {
+            formInputFieldView.state = .none
+        }
+
         if editingInputFieldView === formInputFieldView {
             editingInputFieldView = nil
         }
@@ -165,22 +201,12 @@ extension FormView {
         (lastEditingInputFieldView ?? inputFieldViews.first)?.beginEditing()
     }
 
-    public func beginPreviousEditing(
-        before inputFieldView: FormInputFieldView? = nil
-    ) {
-        guard let inputFieldView = inputFieldView else {
-            previousEditingInputFieldView?.beginEditing()
-            return
-        }
+    public func beginPreviousEditing() {
+        previousEditingInputFieldView?.beginEditing()
     }
 
-    public func beginNextEditing(
-        after inputFieldView: FormInputFieldView? = nil
-    ) {
-        guard let inputFieldView = inputFieldView else {
-            nextEditingInputFieldView?.beginEditing()
-            return
-        }
+    public func beginNextEditing() {
+        nextEditingInputFieldView?.beginEditing()
     }
 
     public func endEditing() {
@@ -189,10 +215,42 @@ extension FormView {
 }
 
 extension FormView {
+    @discardableResult
+    public func validateAll() -> Bool {
+        return inputFieldViews.allSatisfy(validate)
+    }
+
+    @discardableResult
+    public func validate(
+        _ inputFieldView: FormInputFieldView
+    ) -> Bool {
+        guard let validator = inputFieldView.validator else {
+            inputFieldView.state = .none
+            return true
+        }
+
+        let validation =
+            validator.validate(
+                inputFieldView
+            )
+
+        switch validation {
+        case .success:
+            inputFieldView.state = .none
+            return true
+        case .failure(let error):
+            inputFieldView.state = .invalid(error)
+            return false
+        }
+    }
+ }
+
+extension FormView {
     private func updateLayoutWhenFormDidChange(
         _ newForm: Form
     ) {
-        directionalLayoutMargins = NSDirectionalEdgeInsets(newForm.paddings)
+        directionalLayoutMargins = NSDirectionalEdgeInsets(newForm.contentInset)
+        isLayoutMarginsRelativeArrangement = true
     }
 
     @discardableResult
@@ -233,28 +291,30 @@ extension FormView {
     }
 
     private func addField(
-        _ identifier: FormFieldIdentifier,
+        _ field: FormField,
         in view: UIStackView
     ) -> UIView? {
         guard let fieldView =
                 dataSource?.fieldView(
-                    for: identifier,
+                    for: field,
                     in: self
                 )
-        else { return nil }
+        else {
+            return nil
+        }
 
         view.addArrangedSubview(
             fieldView
         )
 
-        self[identifier] = fieldView
+        self[field] = fieldView
 
         if let inputFieldView = fieldView as? FormInputFieldView {
             inputFieldView.editingDelegate = self
             inputFieldViews.append(inputFieldView)
         }
 
-        return inputView
+        return fieldView
     }
 
     private func addHGroup(
@@ -262,6 +322,7 @@ extension FormView {
         in view: UIStackView
     ) -> UIStackView {
         let hGroupView = HStackView()
+        hGroupView.alignment = .top
 
         view.addArrangedSubview(
             hGroupView
@@ -280,6 +341,7 @@ extension FormView {
         in view: UIStackView
     ) -> UIStackView {
         let vGroupView = VStackView()
+        vGroupView.alignment = .leading
 
         view.addArrangedSubview(
             vGroupView
@@ -303,7 +365,7 @@ extension FormView {
             default: return nil
             }
         }
-        let totalSpacing: CGFloat = spacings.reduce(0.0, +)
+        let totalSpacing: CGFloat = spacings.reduce(0, +)
         let numberOfItems = items.count - spacings.count
         let proportionOffset = totalSpacing / CGFloat(numberOfItems)
 
@@ -313,16 +375,18 @@ extension FormView {
                         element: item.subelement,
                         in: groupView
                     )
-            else { return }
+            else {
+                return
+            }
 
             switch groupView.axis {
             case .horizontal:
                 fieldView.snp.makeConstraints {
-                    $0.width == snp.width * item.proportion + proportionOffset
+                    $0.width == groupView.snp.width * item.proportion - proportionOffset
                 }
             case .vertical:
                 fieldView.snp.makeConstraints {
-                    $0.height == snp.height * item.proportion + proportionOffset
+                    $0.height == groupView.snp.height * item.proportion - proportionOffset
                 }
             }
         }
@@ -332,7 +396,9 @@ extension FormView {
         _ spacing: CGFloat,
         in view: UIStackView
     ) {
-        guard let lastArrangedView = view.arrangedSubviews.last else { return }
+        guard let lastArrangedView = view.arrangedSubviews.last else {
+            return
+        }
 
         view.setCustomSpacing(
             spacing,
@@ -345,8 +411,12 @@ extension FormView {
         _ margin: CGFloat,
         in view: UIStackView
     ) {
-        guard let lastArrangedView = view.arrangedSubviews.last else { return }
+        guard let lastArrangedView = view.arrangedSubviews.last else {
+            return
+        }
 
+        /// <todo>
+        /// Add the sepearator as an arranged view not subview.
         view.attachSeparator(
             separator,
             to: lastArrangedView,
@@ -357,10 +427,12 @@ extension FormView {
 
 public protocol FormViewDataSource: AnyObject {
     func form(in formView: FormView) -> Form
-    func fieldView(for identifier: FormFieldIdentifier, in formView: FormView) -> FormFieldView?
+    func fieldView(for field: FormField, in formView: FormView) -> FormFieldView?
 }
 
 public protocol FormViewDelegate: AnyObject {
     func formView(_ formView: FormView, didBeginEditing inputFieldView: FormInputFieldView)
+    func formView(_ formView: FormView, didEdit inputFieldView: FormInputFieldView)
+    func formView(_ formView: FormView, shouldValidate inputFieldView: FormInputFieldView) -> Bool
     func formView(_ formView: FormView, didEndEditing inputFieldView: FormInputFieldView)
 }
