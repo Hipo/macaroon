@@ -3,7 +3,13 @@
 import Foundation
 import UIKit
 
-open class BaseControl: UIControl {
+open class BaseControl:
+    UIControl,
+    BorderDrawable,
+    CornerDrawable,
+    ShadowDrawable {
+    public var shadow: Shadow?
+
     public private(set) lazy var shadowLayer = CAShapeLayer()
 
     open override var isEnabled: Bool {
@@ -22,8 +28,6 @@ open class BaseControl: UIControl {
         }
     }
 
-    private var shadow: Shadow?
-
     public override init(frame: CGRect) {
         super.init(frame: frame)
         recustomizeAppearance(for: .normal)
@@ -38,7 +42,9 @@ open class BaseControl: UIControl {
     open func recustomizeAppearance(for touchState: UIControl.TouchState) { }
 
     open func preferredUserInterfaceStyleDidChange() {
-        customizeBaseAppearance(shadow: shadow)
+        drawAppearance(
+            shadow: shadow
+        )
     }
 
     open func preferredContentSizeCategoryDidChange() { }
@@ -46,9 +52,13 @@ open class BaseControl: UIControl {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        if let shadow = shadow {
-            adjustOnLayoutSubviews(shadow)
+        guard let shadow = shadow else {
+            return
         }
+
+        updateOnLayoutSubviews(
+            shadow
+        )
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

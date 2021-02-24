@@ -17,18 +17,6 @@ extension Customizable where Self: UITextField {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
-            case .border(let border):
-                customizeBaseAppearance(
-                    border: border
-                )
-            case .corner(let corner):
-                customizeBaseAppearance(
-                    corner: corner
-                )
-            case .shadow(let shadow):
-                customizeBaseAppearance(
-                    shadow: shadow
-                )
             case .backgroundImage(let backgroundImage):
                 customizeBaseAppearance(
                     backgroundImage: backgroundImage
@@ -73,6 +61,10 @@ extension Customizable where Self: UITextField {
             case .autocorrectionType(let autocorrectionType):
                 customizeBaseAppearance(
                     autocorrectionType: autocorrectionType
+                )
+            case .textContentType(let textContentType):
+                customizeBaseAppearance(
+                    textContentType: textContentType
                 )
             }
         }
@@ -124,6 +116,9 @@ extension Customizable where Self: UITextField {
         customizeBaseAppearance(
             autocorrectionType: nil
         )
+        customizeBaseAppearance(
+            textContentType: nil
+        )
     }
 }
 
@@ -131,14 +126,14 @@ extension Customizable where Self: UITextField {
     public func customizeBaseAppearance(
         backgroundImage: Image?
     ) {
-        background = backgroundImage?.origin
+        background = backgroundImage?.image
         disabledBackground = backgroundImage?.disabled
     }
 
     public func customizeBaseAppearance(
         font: Font?
     ) {
-        self.font = font?.origin
+        self.font = font?.font
         self.adjustsFontForContentSizeCategory = font?.adjustsFontForContentSizeCategory ?? true
     }
 
@@ -151,13 +146,13 @@ extension Customizable where Self: UITextField {
     public func customizeBaseAppearance(
         textColor: Color?
     ) {
-        self.textColor = textColor?.origin ?? .black
+        self.textColor = textColor?.color ?? .black
     }
 
     public func customizeBaseAppearance(
         content: Text?
     ) {
-        self.editText = content?.origin
+        self.editText = content?.text
     }
 
     public func customizeBaseAppearance(
@@ -171,12 +166,12 @@ extension Customizable where Self: UITextField {
             return
         }
 
-        switch placeholder.origin {
+        switch placeholder.text {
         case .string(let string, _):
             if let placeholderColor = placeholderColor {
                 self.attributedPlaceholder =
                     string?.attributed(
-                        .textColor(placeholderColor.origin)
+                        .textColor(placeholderColor.color)
                     )
             } else {
                 self.placeholder = string
@@ -187,7 +182,7 @@ extension Customizable where Self: UITextField {
                     NSMutableAttributedString(attributedString: attributedString)
                 mAttributedString.addAttribute(
                     .foregroundColor,
-                    value: placeholderColor.origin,
+                    value: placeholderColor.color,
                     range: NSRange(location: 0, length: attributedString.length)
                 )
 
@@ -227,6 +222,12 @@ extension Customizable where Self: UITextField {
     ) {
         self.autocorrectionType = autocorrectionType ?? .default
     }
+
+    public func customizeBaseAppearance(
+        textContentType: UITextContentType?
+    ) {
+        self.textContentType = textContentType
+    }
 }
 
 extension Customizable where Self: UITextView {
@@ -242,18 +243,6 @@ extension Customizable where Self: UITextView {
             case .tintColor(let tintColor):
                 customizeBaseAppearance(
                     tintColor: tintColor
-                )
-            case .border(let border):
-                customizeBaseAppearance(
-                    border: border
-                )
-            case .corner(let corner):
-                customizeBaseAppearance(
-                    corner: corner
-                )
-            case .shadow(let shadow):
-                customizeBaseAppearance(
-                    shadow: shadow
                 )
             case .backgroundImage:
                 break
@@ -292,6 +281,10 @@ extension Customizable where Self: UITextView {
             case .autocorrectionType(let autocorrectionType):
                 customizeBaseAppearance(
                     autocorrectionType: autocorrectionType
+                )
+            case .textContentType(let textContentType):
+                customizeBaseAppearance(
+                    textContentType: textContentType
                 )
             }
         }
@@ -333,6 +326,9 @@ extension Customizable where Self: UITextView {
         customizeBaseAppearance(
             autocorrectionType: nil
         )
+        customizeBaseAppearance(
+            textContentType: nil
+        )
     }
 }
 
@@ -340,7 +336,7 @@ extension Customizable where Self: UITextView {
     public func customizeBaseAppearance(
         font: Font?
     ) {
-        self.font = font?.origin
+        self.font = font?.font
         self.adjustsFontForContentSizeCategory = font?.adjustsFontForContentSizeCategory ?? true
     }
 
@@ -353,13 +349,13 @@ extension Customizable where Self: UITextView {
     public func customizeBaseAppearance(
         textColor: Color?
     ) {
-        self.textColor = textColor?.origin ?? .black
+        self.textColor = textColor?.color ?? .black
     }
 
     public func customizeBaseAppearance(
         content: Text?
     ) {
-        self.editText = content?.origin
+        self.editText = content?.text
     }
 
     public func customizeBaseAppearance(
@@ -384,5 +380,11 @@ extension Customizable where Self: UITextView {
         autocorrectionType: UITextAutocorrectionType?
     ) {
         self.autocorrectionType = autocorrectionType ?? .default
+    }
+
+    public func customizeBaseAppearance(
+        textContentType: UITextContentType?
+    ) {
+        self.textContentType = textContentType
     }
 }

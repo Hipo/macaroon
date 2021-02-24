@@ -7,11 +7,11 @@ import UIKit
 public typealias LayoutMetric = CGFloat
 
 extension LayoutMetric {
-    public var isNoConstraint: Bool {
-        return self == .noConstraint
+    public var isNoMetric: Bool {
+        return self == .noMetric
     }
 
-    public static var noConstraint: CGFloat {
+    public static var noMetric: CGFloat {
         return -1000000
     }
 }
@@ -127,6 +127,10 @@ public typealias PrioritizedLayoutOffset =
     )
 
 extension UILayoutPriority {
+    public static func none() -> UILayoutPriority {
+        return .custom(-1000000)
+    }
+
     public static func custom(
         _ rawValue: Float
     ) -> UILayoutPriority {

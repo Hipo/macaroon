@@ -13,6 +13,16 @@ extension UIView {
 }
 
 extension UIView {
+    public func layoutIfNeededInParent() {
+        if window == nil {
+            return
+        }
+
+        layoutIfNeeded()
+    }
+}
+
+extension UIView {
     public func removeAllSubviews() {
         subviews.forEach { $0.removeFromSuperview() }
     }

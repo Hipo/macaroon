@@ -3,7 +3,7 @@
 import Foundation
 
 open class HIPDeeplinkConfig: Decodable {
-    public var host: String
+    public let host: String
 
     public init(host: String) {
         self.host = host

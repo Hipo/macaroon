@@ -6,14 +6,22 @@ public protocol ScreenComposable: UIViewController {
     func customizeAppearance()
     func prepareLayout()
     func updateLayoutWhenViewDidLayoutSubviews()
-    func setListeners() /// <note> Set dataSource(s) & delegate(s)
-    func linkInteractors() /// <note> Link action-target(s)
+    /// <note>
+    /// Set dataSource(s) & delegate(s)
+    func setListeners()
+    /// <note>
+    /// Link action-target(s)
+    func linkInteractors()
+    /// <note>
+    /// Bind static data
+    func bindData()
 }
 
 extension ScreenComposable {
-    public func updateLayoutWhenViewDidLayoutSubviews() { }
-    public func setListeners() { }
-    public func linkInteractors() { }
+    public func updateLayoutWhenViewDidLayoutSubviews() {}
+    public func setListeners() {}
+    public func linkInteractors() {}
+    public func bindData() {}
 }
 
 extension ScreenComposable {
@@ -22,5 +30,6 @@ extension ScreenComposable {
         prepareLayout()
         setListeners()
         linkInteractors()
+        bindData()
     }
 }

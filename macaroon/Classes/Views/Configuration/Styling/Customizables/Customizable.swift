@@ -17,52 +17,13 @@ extension Customizable {
     public func customizeBaseAppearance(
         backgroundColor: Color?
     ) {
-        self.backgroundColor = backgroundColor?.origin
+        self.backgroundColor = backgroundColor?.color
     }
 
     public func customizeBaseAppearance(
         tintColor: Color?
     ) {
-        self.tintColor = tintColor?.origin
-    }
-
-    public func customizeBaseAppearance(
-        border: Border?
-    ) {
-        guard let border = border else {
-            eraseBorder()
-            return
-        }
-
-        draw(
-            border
-        )
-    }
-
-    public func customizeBaseAppearance(
-        corner: Corner?
-    ) {
-        guard let corner = corner else {
-            eraseCorner()
-            return
-        }
-
-        draw(
-            corner
-        )
-    }
-
-    public func customizeBaseAppearance(
-        shadow: Shadow?
-    ) {
-        guard let shadow = shadow else {
-            eraseShadow()
-            return
-        }
-
-        draw(
-            shadow
-        )
+        self.tintColor = tintColor?.color
     }
 }
 
@@ -73,15 +34,6 @@ extension Customizable {
         )
         customizeBaseAppearance(
             tintColor: nil
-        )
-        customizeBaseAppearance(
-            border: nil
-        )
-        customizeBaseAppearance(
-            corner: nil
-        )
-        customizeBaseAppearance(
-            shadow: nil
         )
     }
 }

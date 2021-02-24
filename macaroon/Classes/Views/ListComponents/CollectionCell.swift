@@ -3,23 +3,40 @@
 import Foundation
 import UIKit
 
-open class CollectionCell<ContextView: ViewComposable & ListReusable>: UICollectionViewCell, ListComposable, ListSeparatorAdaptable {
-    open class var separatorStyle: ListSeparatorStyle {
-        return .none
+open class CollectionCell<
+    ContextView: ViewComposable & ListReusable
+>: UICollectionViewCell,
+   ListComposable,
+   ListSeparatorAdaptable {
+    open class var contextPaddings: LayoutPaddings {
+        return (0, 0, 0, 0)
     }
 
     public private(set) lazy var contextView = getContextView()
-    public private(set) lazy var separatorView = UIView()
+    public private(set) var separatorView: UIView?
 
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    open var separatorStyle: ListSeparatorStyle {
+        return .none
+    }
+
+    public override init(
+        frame: CGRect
+    ) {
+        super.init(
+            frame: frame
+        )
+
         prepareLayout()
         setListeners()
     }
 
     @available(*, unavailable)
-    public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public required init?(
+        coder: NSCoder
+    ) {
+        fatalError(
+            "init(coder:) has not been implemented"
+        )
     }
 
     open func prepareLayout() {
@@ -28,12 +45,13 @@ open class CollectionCell<ContextView: ViewComposable & ListReusable>: UICollect
     }
 
     open func addContext() {
-        contentView.addSubview(contextView)
-        contextView.snp.makeConstraints { maker in
-            maker.top.equalToSuperview()
-            maker.leading.equalToSuperview()
-            maker.bottom.equalToSuperview().inset(Self.separatorStyle.margin)
-            maker.trailing.equalToSuperview()
+        contentView.addSubview(
+            contextView
+        )
+        contextView.snp.makeConstraints {
+            $0.setPaddings(
+                Self.contextPaddings
+            )
         }
     }
 
@@ -50,12 +68,21 @@ open class CollectionCell<ContextView: ViewComposable & ListReusable>: UICollect
 
 extension CollectionCell {
     private func addSeparator() {
-        switch Self.separatorStyle {
+        switch separatorStyle {
         case .none:
             return
-        case .single(let separator, let padding):
-            if separatorView.isDescendant(of: contentView) { return }
-            separatorView = contentView.addSeparator(separator)
+        case .single(let separator):
+            if let separatorView = separatorView,
+               separatorView.isDescendant(
+                   of: contentView
+               ) {
+                return
+            }
+
+            separatorView =
+                contentView.addSeparator(
+                    separator
+                )
         }
     }
 }

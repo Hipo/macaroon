@@ -47,3 +47,9 @@ extension CGSize {
         return CGSize(width: width * scale, height: height * scale)
     }
 }
+
+extension CGSize {
+    public var aspectRatio: CGFloat {
+        return width / height
+    }
+}

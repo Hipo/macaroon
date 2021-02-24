@@ -10,14 +10,16 @@ public enum NavigationBarStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
-    case border(Border)
-    case corner(Corner)
-    case shadow(Shadow)
 
     /// <mark>
     /// NavigationBar
-    case font(Font)
-    case textColor(Color)
+    case opaque
+    case shadowImage(Image?)
+    case shadowColor(Color?)
+    case titleAttributes([NSAttributedString.Key: Any])
+    /// <note>
+    /// `Large Title`s are also enabled for the navigation bar.
+    case largeTitleAttributes([NSAttributedString.Key: Any])
 }
 
 extension NavigationBarStyleAttribute {
@@ -25,11 +27,11 @@ extension NavigationBarStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
-        case .border: return Self.getBorderAttributeId()
-        case .corner: return Self.getCornerAttributeId()
-        case .shadow: return Self.getShadowAttributeId()
-        case .font: return "navigationBar.font"
-        case .textColor: return "navigationBar.textColor"
+        case .opaque: return "navigationBar.opaque"
+        case .shadowImage: return "navigationBar.shadowImage"
+        case .shadowColor: return "navigationBar.shadowColor"
+        case .titleAttributes: return "navigationBar.titleAttributes"
+        case .largeTitleAttributes: return "navigationBar.largeTitleAttributes"
         }
     }
 }

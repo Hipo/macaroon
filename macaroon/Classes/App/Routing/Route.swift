@@ -2,90 +2,111 @@
 
 import Foundation
 
-public struct Route<SomeFlow: Flow, SomePath: Path> {
-    public typealias Source = (flow: SomeFlow, anchor: AnchorPath)
-    public typealias Destination = [SomePath]
+public struct Route<
+    SomeFlow: Flow,
+    SomePath: Path
+>: Equatable {
+    let identifier: String
+    let start: Start
+    let end: End
+    let transitionStyle: TransitionStyle
 
-    public let source: Source
-    public let destination: Destination
-
-    internal let transition: Transition
-
-    internal init(
-        from source: Source,
-        to destination: Destination,
-        by transition: Transition
+    init(
+        start: Start,
+        end: End,
+        transitionStyle: TransitionStyle
     ) {
-        self.source = source
-        self.destination = destination
-        self.transition = transition
+        self.identifier = UUID().uuidString
+        self.start = start
+        self.end = end
+        self.transitionStyle = transitionStyle
     }
 }
 
 extension Route {
+    public static func flow(
+        _ flow: SomeFlow,
+        at existingPath: ExistingPath = .last
+    ) -> Self {
+        return .init(start: flow, end: .existing(existingPath), transitionStyle: .existing)
+    }
+
+    public static func path(
+        _ aScreen: ScreenRoutable
+    ) -> Self {
+        return .flow(.instance(aScreen.flowIdentifier), at: .interim(aScreen))
+    }
+
+    public static func next(
+        _ paths: SomePath...
+    ) -> Self {
+        return .init(start: .current, end: .new(paths), transitionStyle: .next)
+    }
+
+    public static func stack(
+        _ paths: SomePath...
+    ) -> Self {
+        return .init(start: .current, end: .new(paths), transitionStyle: .stack)
+    }
+
+    public static func modal(
+        _ paths: SomePath...
+    ) -> Self {
+        return .init(start: .current, end: .new(paths), transitionStyle: .modal)
+    }
+
+    public static func builtInModal(
+        _ paths: SomePath...,
+        modalPresentationStyle: UIModalPresentationStyle = .fullScreen,
+        modalTransitionStyle: UIModalTransitionStyle? = nil
+    ) -> Self {
+        return .init(
+            start: .current,
+            end: .new(paths),
+            transitionStyle: .builtInModal(modalPresentationStyle, modalTransitionStyle)
+        )
+    }
+
+    public static func customModal(
+        _ paths: SomePath...,
+        transitioningDelegate: UIViewControllerTransitioningDelegate
+    ) -> Self {
+        return .init(
+            start: .current,
+            end: .new(paths),
+            transitionStyle: .customModal(transitioningDelegate)
+        )
+    }
 }
 
 extension Route {
-//    public static func flow(
-//        _ flow: SomeFlow,
-//        attachedTo anchorPath: AnchorPath = .current,
-//        transition: SelfTransition = SelfTransition()
-//    ) -> Self {
-//        return Route(flow: flow, paths: [], attachedTo: anchorPath, transition: transition)
-//    }
+    public static func ==(
+        lhs: Self,
+        rhs: Self
+    ) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+}
 
-//    public static func path(
-//        _ aScreen: ScreenRoutable,
-//        transition: SelfTransition = SelfTransition()
-//    ) -> Self {
-//        guard
-//            let pathIdentifier = aScreen.pathIdentifier,
-//            let flowIdentifier = aScreen.flowIdentifier
-//        else {
-//            return Route(flow: .current, paths: [], transition: transition)
-//        }
-//        let path: SomePath = .instance(pathIdentifier)
-//        let flow: SomeFlow = .instance(flowIdentifier)
-//        return Route(flow: flow, paths: [path], transition: transition)
-//    }
+extension Route {
+    typealias Start = SomeFlow
 
-//    public static func next(
-//        _ paths: SomePath...,
-//        attachedTo anchorPath: AnchorPath = .current,
-//        transition: NavigationTransition = DefaultPushTransition()
-//    ) -> Self {
-//        return Route(flow: .current, paths: paths, attachedTo: anchorPath, transition: transition)
-//    }
-//
-//    public static func stack(
-//        _ paths: SomePath...,
-//        attachedTo anchorPath: AnchorPath = .current,
-//        transition: DefaultStackTransition = DefaultStackTransition()
-//    ) -> Self {
-//        return Route(flow: .current, paths: paths, attachedTo: anchorPath, transition: transition)
-//    }
-//
-//    public static func presented(
-//        _ paths: SomePath...,
-//        attachedTo anchorPath: AnchorPath = .current,
-//        transition: PresentationTransition = DefaultModalTransition()
-//    ) -> Self {
-//        return Route(flow: .current, paths: paths, attachedTo: anchorPath, transition: transition)
-//    }
-//
-//    public static func builtInPresented(
-//        _ paths: SomePath...,
-//        attachedTo anchorPath: AnchorPath = .current,
-//        transition: BuiltInModalTransition = BuiltInModalTransition(presentationStyle: .fullScreen)
-//    ) -> Self {
-//        return Route(flow: .current, paths: paths, attachedTo: anchorPath, transition: transition)
-//    }
-//
-//    public static func customPresented(
-//        _ paths: SomePath...,
-//        attachedTo anchorPath: AnchorPath = .current,
-//        transition: CustomModalTransition
-//    ) -> Self {
-//        return Route(flow: .current, paths: paths, attachedTo: anchorPath, transition: transition)
-//    }
+    enum End {
+        case existing(ExistingPath)
+        case new([SomePath])
+    }
+
+    enum TransitionStyle {
+        /// <mark>
+        /// A backward transition to an existing path, or an application flow.
+        case existing
+
+        /// <mark>
+        /// A forward transition to a new path.
+        case next
+        case stack
+        case modal
+        case builtInModal(UIModalPresentationStyle, UIModalTransitionStyle?)
+        case customModal(UIViewControllerTransitioningDelegate)
+    }
 }

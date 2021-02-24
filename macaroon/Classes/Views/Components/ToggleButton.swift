@@ -52,7 +52,8 @@ open class ToggleButton: BaseControl {
 
 extension ToggleButton {
     public func toggle() {
-        if !isEnabled { return }
-        isSelected.toggle()
+        if isEnabled {
+            isSelected.toggle()
+        }
     }
 }

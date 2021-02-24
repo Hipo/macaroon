@@ -31,7 +31,9 @@ extension EmptyStatePresentable where Self: UIView {
     }
 
     private func addEmptyState() {
-        if emptyStateView.isDescendant(of: self) { return }
+        if emptyStateView.isDescendant(of: self) {
+            return
+        }
 
         addSubview(emptyStateView)
         emptyStateView.snp.makeConstraints { maker in
@@ -69,7 +71,9 @@ extension EmptyStatePresentable where Self: UIViewController {
     }
 
     public func addEmptyState() {
-        if emptyStateView.isDescendant(of: self.view) { return }
+        if emptyStateView.isDescendant(of: self.view) {
+            return
+        }
 
         view.addSubview(emptyStateView)
         emptyStateView.snp.makeConstraints { maker in

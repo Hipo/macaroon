@@ -16,12 +16,36 @@ extension LayoutSheet {
 }
 
 public enum LayoutFamily {
-    case small /// <note> iPhone 5{s, c}, iPhone 6{s}, iPhone SE, iPhone 7, iPhone 8
-    case medium /// <note> iPhone 6s plus, iPhone 7s plus, iPhone 8s plus, iPhone X{S}, iPhone 11 Pro, iPhone 12, iPhone 12 Pro, iPhone 12 Mini
-    case large /// <note> iPhone XS Max, iPhone XR, iPhone 11, iPhone 11 Pro Max, iPhone 12 Pro Max
-    case extraLarge /// <note> iPads
+    /// <note>
+    /// iPhone 5{s, c}, iPhone 6{s}, iPhone SE, iPhone 7, iPhone 8
+    case small
+    /// <note>
+    /// iPhone 6s plus, iPhone 7s plus, iPhone 8s plus, iPhone X{S}, iPhone 11 Pro, iPhone 12, iPhone 12 Pro, iPhone 12 Mini
+    case medium
+    /// <note>
+    /// iPhone XS Max, iPhone XR, iPhone 11, iPhone 11 Pro Max, iPhone 12 Pro Max
+    case large
+    /// <note>
+    /// iPads
+    case extraLarge
 
     public static let current = getCurrentLayoutFamily()
+}
+
+extension LayoutFamily {
+    public func pick<T>(
+        small: T,
+        medium: T,
+        large: T,
+        extraLarge: T
+    ) -> T {
+        switch self {
+        case .small: return small
+        case .medium: return medium
+        case .large: return large
+        case .extraLarge: return extraLarge
+        }
+    }
 }
 
 extension LayoutFamily {
@@ -37,4 +61,10 @@ extension LayoutFamily {
             }
         }
     }
+}
+
+public struct NoLayoutSheet: LayoutSheet {
+    public init(
+        _ family: LayoutFamily
+    ) {}
 }

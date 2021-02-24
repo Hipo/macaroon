@@ -2,7 +2,7 @@
 
 import Foundation
 
-public class Polling {
+public class Repeater {
     public typealias Operation = () -> Void
 
     public private(set) var isRunning = false

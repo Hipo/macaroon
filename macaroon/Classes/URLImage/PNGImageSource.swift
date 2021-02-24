@@ -29,7 +29,10 @@ public struct PNGImageSource: URLImageSource {
     }
 
     public func formImageProcessors() -> [ImageProcessor?] {
-        return [formSizeImageProcessor(), formShapeImageProcessor()]
+        return [
+            formSizeImageProcessor(),
+            formShapeImageProcessor()
+        ]
     }
 }
 

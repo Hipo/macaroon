@@ -39,33 +39,3 @@ extension Optional {
         return unwrap { predicate($0) ? $0 : nil }
     }
 }
-
-extension Optional where Wrapped == String {
-    public var isNilOrEmpty: Bool {
-        return unwrap(
-            \.isEmpty,
-            or: true
-        )
-    }
-
-    public var nonNil: String {
-        return self ?? ""
-    }
-}
-
-extension Optional where Wrapped == EditText {
-    public var isNilOrEmpty: Bool {
-        guard let someSelf = self else {
-            return true
-        }
-
-        switch someSelf {
-        case .string(let string, _): return string.isNilOrEmpty
-        case .attributedString(let attributedString): return attributedString.string.isEmpty
-        }
-    }
-
-    public var nonNil: EditText {
-        return self ?? .string("")
-    }
-}

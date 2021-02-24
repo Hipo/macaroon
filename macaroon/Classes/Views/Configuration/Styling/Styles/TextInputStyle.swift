@@ -17,12 +17,6 @@ extension TextInputStyle {
                 derivedTextInputStyle.append(.backgroundColor(backgroundColor))
             case .tintColor(let tintColor):
                 derivedTextInputStyle.append(.tintColor(tintColor))
-            case .border(let border):
-                derivedTextInputStyle.append(.border(border))
-            case .corner(let corner):
-                derivedTextInputStyle.append(.corner(corner))
-            case .shadow(let shadow):
-                derivedTextInputStyle.append(.shadow(shadow))
             }
         }
 
@@ -35,9 +29,6 @@ public enum TextInputStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
-    case border(Border)
-    case corner(Corner)
-    case shadow(Shadow)
 
     /// <mark>
     /// TextInput
@@ -52,6 +43,7 @@ public enum TextInputStyleAttribute: BaseStyleAttribute {
     case returnKeyType(UIReturnKeyType)
     case autocapitalizationType(UITextAutocapitalizationType)
     case autocorrectionType(UITextAutocorrectionType)
+    case textContentType(UITextContentType)
 }
 
 extension TextInputStyleAttribute {
@@ -59,9 +51,6 @@ extension TextInputStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
-        case .border: return Self.getBorderAttributeId()
-        case .corner: return Self.getCornerAttributeId()
-        case .shadow: return Self.getShadowAttributeId()
         case .backgroundImage: return "textInput.backgroundImage"
         case .font: return "textInput.font"
         case .textAlignment: return "textInput.textAlignment"
@@ -73,6 +62,7 @@ extension TextInputStyleAttribute {
         case .returnKeyType: return "textInput.returnKeyType"
         case .autocapitalizationType: return "textInput.autocapitalizationType"
         case .autocorrectionType: return "textInput.autocorrectionType"
+        case .textContentType: return "textInput.textContentType"
         }
     }
 }

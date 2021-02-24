@@ -17,18 +17,6 @@ extension Customizable where Self: UIView {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
-            case .border(let border):
-                customizeBaseAppearance(
-                    border: border
-                )
-            case .corner(let corner):
-                customizeBaseAppearance(
-                    corner: corner
-                )
-            case .shadow(let shadow):
-                customizeBaseAppearance(
-                    shadow: shadow
-                )
             }
         }
     }

@@ -19,6 +19,10 @@ extension ListDataController {
         return false
     }
 
+    public func reloadListData(onCompleted execute: @escaping (Result<ListModifier, ListError>) -> Void) {
+        loadListData(onCompleted: execute)
+    }
+
     public func loadNextListData(onCompleted execute: @escaping (Result<ListModifier, ListError>) -> Void) {
         execute(.success(.none))
     }
@@ -32,7 +36,9 @@ extension ListDataController {
 
         delegate?.listDataLoaderWillLoadList(self)
         loadListData { [weak self] result in
-            guard let self = self else { return }
+            guard let self = self else {
+                return
+            }
 
             switch result {
             case .success(let listModifier):
@@ -44,13 +50,24 @@ extension ListDataController {
     }
 
     public func loadNextList() {
-        if !hasNextList { return }
-        if isEmpty() { return }
-        if isLoadingList || isLoadingNextList { return }
+        if !hasNextList {
+            return
+        }
+
+        if isEmpty() {
+            return
+        }
+
+        if isLoadingList ||
+           isLoadingNextList {
+            return
+        }
 
         delegate?.listDataLoaderWillLoadNextList(self)
         loadNextListData { [weak self] result in
-            guard let self = self else { return }
+            guard let self = self else {
+                return
+            }
 
             switch result {
             case .success(let listModifier):
@@ -70,7 +87,9 @@ extension ListDataController {
 
         delegate?.listDataLoaderWillReloadList(self)
         reloadListData { [weak self] result in
-            guard let self = self else { return }
+            guard let self = self else {
+                return
+            }
 
             switch result {
             case .success(let listModifier):
@@ -85,7 +104,10 @@ extension ListDataController {
         cancelList()
 
         unloadListData { [weak self] in
-            guard let self = self else { return }
+            guard let self = self else {
+                return
+            }
+
             self.delegate?.listDataLoaderDidUnloadList(self)
         }
     }

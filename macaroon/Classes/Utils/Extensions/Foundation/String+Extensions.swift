@@ -33,6 +33,12 @@ extension String {
 }
 
 extension String {
+    public func replacingCharacters(in range: NSRange, with replacement: String) -> String {
+        return (self as NSString).replacingCharacters(in: range, with: replacement)
+    }
+}
+
+extension String {
     public func boundingSize(attributes: AttributedTextBuilder.Attribute..., multiline: Bool = true, fittingSize: CGSize = .greatestFiniteMagnitude) -> CGSize {
         let options: NSStringDrawingOptions
 
@@ -41,9 +47,22 @@ extension String {
         } else {
             options = [.usesFontLeading]
         }
-        let fittingBoundingRect = NSString(string: self).boundingRect(with: fittingSize, options: options, attributes: attributes.convertedToSystemAttributes(), context: nil)
+        let fittingBoundingRect = NSString(string: self).boundingRect(with: fittingSize, options: options, attributes: attributes.asSystemAttributes(), context: nil)
         return CGSize(width: min(fittingBoundingRect.width.ceil(), fittingSize.width), height: min(fittingBoundingRect.height.ceil(), fittingSize.height))
     }
 }
 
-extension String: Swift.Error { }
+extension String: Swift.Error {}
+
+extension Optional where Wrapped == String {
+    public var isNilOrEmpty: Bool {
+        return unwrap(
+            \.isEmpty,
+            or: true
+        )
+    }
+
+    public var nonNil: String {
+        return self ?? ""
+    }
+}

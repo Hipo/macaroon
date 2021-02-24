@@ -6,6 +6,30 @@ import UIKit
 public typealias ButtonStyle = BaseStyle<ButtonStyleAttribute>
 
 extension ButtonStyle {
+    public var font: Font? {
+        for attribute in self {
+            switch attribute {
+            case .font(let font): return font
+            default: break
+            }
+        }
+
+        return nil
+    }
+
+    public var titleColor: Color? {
+        for attribute in self {
+            switch attribute {
+            case .titleColor(let titleColor): return titleColor
+            default: break
+            }
+        }
+
+        return nil
+    }
+}
+
+extension ButtonStyle {
     public func mutate(
         by viewStyle: ViewStyle
     ) -> Self {
@@ -17,12 +41,6 @@ extension ButtonStyle {
                 derivedButtonStyle.append(.backgroundColor(backgroundColor))
             case .tintColor(let tintColor):
                 derivedButtonStyle.append(.tintColor(tintColor))
-            case .border(let border):
-                derivedButtonStyle.append(.border(border))
-            case .corner(let corner):
-                derivedButtonStyle.append(.corner(corner))
-            case .shadow(let shadow):
-                derivedButtonStyle.append(.shadow(shadow))
             }
         }
 
@@ -35,9 +53,6 @@ public enum ButtonStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
-    case border(Border)
-    case corner(Corner)
-    case shadow(Shadow)
 
     /// <mark>
     /// Button
@@ -53,9 +68,6 @@ extension ButtonStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
-        case .border: return Self.getBorderAttributeId()
-        case .corner: return Self.getCornerAttributeId()
-        case .shadow: return Self.getShadowAttributeId()
         case .backgroundImage: return "button.backgroundImage"
         case .icon: return "button.icon"
         case .font: return "button.font"

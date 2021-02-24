@@ -5,8 +5,4 @@ import UIKit
 
 /// <note>
 /// The base protocol which includes the common metrics in an application.
-public protocol LayoutGuide: LayoutSheet {
-    associatedtype Element
-
-    subscript<T>(_ element: Element) -> T { get }
-}
+public protocol LayoutGuide: LayoutSheet {}

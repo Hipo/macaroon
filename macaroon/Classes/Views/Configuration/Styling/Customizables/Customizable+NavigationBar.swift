@@ -7,7 +7,18 @@ extension Customizable where Self: UINavigationBar {
     public func customizeAppearance(
         _ style: NavigationBarStyle
     ) {
-        style.forEach {
+        /// <note>
+        /// Set `opaque` first so that it can't override the previous attributes for iOS 13 and
+        /// later.
+        let orderedStyle = style.sorted {
+            switch ($0, $1) {
+            case (.opaque, _): return true
+            case (_, .opaque): return true
+            default: return false
+            }
+        }
+
+        orderedStyle.forEach {
             switch $0 {
             case .backgroundColor(let backgroundColor):
                 customizeBarAppearance(
@@ -17,19 +28,25 @@ extension Customizable where Self: UINavigationBar {
                 customizeBarAppearance(
                     tintColor: tintColor
                 )
-            case .border:
-                break
-            case .corner:
-                break
-            case .shadow:
-                break
-            case .font(let font):
+            case .opaque:
                 customizeBarAppearance(
-                    font: font
+                    opaque: true
                 )
-            case .textColor(let textColor):
+            case .shadowImage(let shadowImage):
                 customizeBarAppearance(
-                    textColor: textColor
+                    shadowImage: shadowImage
+                )
+            case .shadowColor(let shadowColor):
+                customizeBarAppearance(
+                    shadowColor: shadowColor
+                )
+            case .titleAttributes(let titleAttributes):
+                customizeBarAppearance(
+                    titleAttributes: titleAttributes
+                )
+            case .largeTitleAttributes(let largeTitleAttributes):
+                customizeBarAppearance(
+                    largeTitleAttributes: largeTitleAttributes
                 )
             }
         }
@@ -54,10 +71,19 @@ extension Customizable where Self: UINavigationBar {
             tintColor: nil
         )
         customizeBarAppearance(
-            font: nil
+            opaque: false
         )
         customizeBarAppearance(
-            textColor: nil
+            shadowImage: nil
+        )
+        customizeBarAppearance(
+            shadowColor: nil
+        )
+        customizeBarAppearance(
+            titleAttributes: nil
+        )
+        customizeBarAppearance(
+            largeTitleAttributes: nil
         )
     }
 }
@@ -66,28 +92,135 @@ extension Customizable where Self: UINavigationBar {
     public func customizeBarAppearance(
         backgroundColor: Color?
     ) {
-        self.barTintColor = backgroundColor?.origin
+        if #available(iOS 13, *) {
+            self.backgroundColor = backgroundColor?.color
+
+            customizeBarAppearance(
+                backgroundColor?.color,
+                \.backgroundColor
+            )
+        } else {
+            self.barTintColor = backgroundColor?.color
+        }
     }
 
     public func customizeBarAppearance(
         tintColor: Color?
     ) {
-        self.tintColor = tintColor?.origin
+        self.tintColor = tintColor?.color
     }
 
     public func customizeBarAppearance(
-        font: Font?
+        opaque: Bool
     ) {
-        var titleTextAttributes = self.titleTextAttributes ?? [:]
-        titleTextAttributes[.font] = font?.origin
-        self.titleTextAttributes = titleTextAttributes
+        self.isTranslucent = !opaque
+
+        if #available(iOS 13, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+
+            standardAppearance = appearance
+            compactAppearance = appearance
+            scrollEdgeAppearance = appearance
+        }
     }
 
     public func customizeBarAppearance(
-        textColor: Color?
+        shadowImage: Image?
     ) {
-        var titleTextAttributes = self.titleTextAttributes ?? [:]
-        titleTextAttributes[.foregroundColor] = textColor?.origin
-        self.titleTextAttributes = titleTextAttributes
+        if #available(iOS 13, *) {
+            customizeBarAppearance(
+                shadowImage?.image,
+                \.shadowImage
+            )
+        } else {
+            self.shadowImage = shadowImage?.image
+        }
+    }
+
+    public func customizeBarAppearance(
+        shadowColor: Color?
+    ) {
+        if #available(iOS 13, *) {
+            customizeBarAppearance(
+                shadowColor?.color,
+                \.shadowColor
+            )
+        }
+    }
+
+    public func customizeBarAppearance(
+        titleAttributes: [NSAttributedString.Key: Any]?
+    ) {
+        if #available(iOS 13, *) {
+            customizeBarAppearance(
+                titleAttributes ?? [:],
+                \.titleTextAttributes
+            )
+        } else {
+            self.titleTextAttributes = titleAttributes
+        }
+    }
+
+    public func customizeBarAppearance(
+        largeTitleAttributes: [NSAttributedString.Key: Any]?
+    ) {
+        /// <note> Don't support large title for iOS 13 and later.
+        if #available(iOS 13, *) {
+            self.prefersLargeTitles = largeTitleAttributes != nil
+
+            customizeBarAppearance(
+                largeTitleAttributes ?? [:],
+                \.largeTitleTextAttributes
+            )
+        }
+    }
+}
+
+@available(iOS 13, *)
+extension Customizable where Self: UINavigationBar {
+    public func customizeBarAppearance<T>(
+        _ value: T,
+        _ keyPath: ReferenceWritableKeyPath<UINavigationBarAppearance, T>
+    ) {
+        customizeBarStandardAppearance(
+            value,
+            keyPath
+        )
+        customizeBarCompactAppearance(
+            value,
+            keyPath
+        )
+        customizeBarScrollEdgeAppearance(
+            value,
+            keyPath
+        )
+    }
+
+    public func customizeBarStandardAppearance<T>(
+        _ value: T,
+        _ keyPath: ReferenceWritableKeyPath<UINavigationBarAppearance, T>
+    ) {
+        let appearance = standardAppearance.copy()
+        appearance[keyPath: keyPath] = value
+        standardAppearance = appearance
+    }
+
+    public func customizeBarCompactAppearance<T>(
+        _ value: T,
+        _ keyPath: ReferenceWritableKeyPath<UINavigationBarAppearance, T>
+    ) {
+        let appearance = compactAppearance?.copy()
+        appearance?[keyPath: keyPath] = value
+        compactAppearance = appearance
+    }
+
+    public func customizeBarScrollEdgeAppearance<T>(
+        _ value: T,
+        _ keyPath: ReferenceWritableKeyPath<UINavigationBarAppearance, T>
+    ) {
+        let appearance = scrollEdgeAppearance?.copy()
+        appearance?[keyPath: keyPath] = value
+        scrollEdgeAppearance = appearance
     }
 }

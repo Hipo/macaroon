@@ -8,6 +8,17 @@ public enum EditText {
 }
 
 extension EditText {
+    public var string: String? {
+        switch self {
+        case .string(let string, _):
+            return string
+        case .attributedString(let attributedString):
+            return attributedString.string
+        }
+    }
+}
+
+extension EditText {
     public var isEmpty: Bool {
         switch self {
         case .string(let text, _):
@@ -52,5 +63,39 @@ extension EditText: ExpressibleByStringLiteral {
 extension EditText: ExpressibleByNilLiteral {
     public init(nilLiteral: ()) {
         self = .string(nil)
+    }
+}
+
+extension Optional where Wrapped == EditText {
+    public var isNilOrEmpty: Bool {
+        guard let someSelf = self else {
+            return true
+        }
+
+        switch someSelf {
+        case .string(let string, _): return string.isNilOrEmpty
+        case .attributedString(let attributedString): return attributedString.string.isEmpty
+        }
+    }
+
+    public var nonNil: EditText {
+        return self ?? .string("")
+    }
+}
+
+extension Optional where Wrapped == EditText {
+    public func boundingSize(
+        multiline: Bool = true,
+        fittingSize: CGSize = .greatestFiniteMagnitude
+    ) -> CGSize {
+        switch self {
+        case .none:
+            return .zero
+        case .some(let some):
+            return some.boundingSize(
+                multiline: multiline,
+                fittingSize: fittingSize
+            )
+        }
     }
 }
