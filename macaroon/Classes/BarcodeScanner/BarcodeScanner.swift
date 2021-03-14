@@ -83,5 +83,5 @@ extension BarcodeScanner {
 }
 
 public protocol BarcodeScannerDelegate: CameraControllerDelegate {
-    func barcodeScanner(_ scanner: BarcodeScanner, didReadBarcode barcode: String)
+    func barcodeScanner(_ scanner: BarcodeScanner, didReadBarcode barcodeNumber: String)
 }

@@ -4,6 +4,12 @@ import Foundation
 import UIKit
 
 extension UIScrollView {
+    public var isScrollAtTop: Bool {
+        return contentOffset.y <= adjustedContentInset.top
+    }
+}
+
+extension UIScrollView {
     public func setContentInset(
         _ contentInset: LayoutPaddings
     ) {
@@ -103,12 +109,19 @@ extension UIScrollView {
 }
 
 extension UIScrollView {
-    public func scrollToBottom(force: Bool = false, animated: Bool = true) {
+    public func scrollToBottom(
+        force: Bool = false,
+        animated: Bool = true
+    ) {
         let height = bounds.height
         let contentHeight = contentSize.height + adjustedContentInset.y
 
-        if force || height < contentHeight {
-            setContentOffset(CGPoint(x: contentOffset.x, y: contentHeight - height), animated: animated)
+        if force ||
+           height < contentHeight {
+            setContentOffset(
+                CGPoint(x: contentOffset.x, y: contentHeight - height),
+                animated: animated
+            )
         }
     }
 }

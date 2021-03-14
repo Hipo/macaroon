@@ -20,6 +20,7 @@ public enum Error: Swift.Error {
     case unsupportedListFooter(UICollectionReusableView.Type)
     case unsupportedListSupplementaryView(UICollectionReusableView.Type, String)
     case unsupportedListLayout
+    case shouldBeImplementedBySubclass(functionName: String)
     case ambiguous
 }
 
@@ -58,6 +59,8 @@ extension Error {
             return "Unsupported supplementary view \(String(describing: supplementaryViewClass.self)) for \(kind)"
         case .unsupportedListLayout:
             return "This protocol can't form a layout other than UICollectionViewFlowLayout"
+        case .shouldBeImplementedBySubclass(let functionName):
+            return "No implementation is found for \(functionName). It should be implemented by the subclass."
         case .ambiguous:
             return "Ambiguous error"
         }

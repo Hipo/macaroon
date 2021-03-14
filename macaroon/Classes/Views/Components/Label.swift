@@ -38,11 +38,12 @@ public class Label:
     }
 
     open override func drawText(in rect: CGRect) {
-        let someRect = text.isNilOrEmpty
-            ? rect
-            : rect.inset(
-                by: UIEdgeInsets(contentEdgeInsets)
-            )
+        let someRect =
+            text.isNilOrEmpty
+                ? rect
+                : rect.inset(
+                    by: UIEdgeInsets(contentEdgeInsets)
+                )
         super.drawText(
             in: someRect
         )
@@ -59,11 +60,19 @@ public class Label:
     open override func layoutSubviews() {
         super.layoutSubviews()
 
+        if bounds.isEmpty {
+            return
+        }
+
+        preferredMaxLayoutWidth = bounds.width
+
         guard let shadow = shadow else {
             return
         }
 
-        updateOnLayoutSubviews(shadow)
+        updateOnLayoutSubviews(
+            shadow: shadow
+        )
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

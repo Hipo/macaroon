@@ -12,50 +12,85 @@ extension ShadowDrawable {
     public func drawAppearance(
         shadow: Shadow?
     ) {
-        guard let shadow = shadow else {
-            eraseShadow()
-            return
-        }
-
-        draw(
-            shadow
+        drawAppearance(
+            shadow: shadow,
+            on: shadowLayer
         )
+
+        self.shadow = shadow
     }
 }
 
 extension ShadowDrawable {
     public func draw(
-        _ someShadow: Shadow
+        shadow: Shadow
     ) {
-        defer {
-            layer.masksToBounds = false
-
-            updateOnLayoutSubviews(
-                someShadow
-            )
-
-            shadow = someShadow
-        }
-
-        shadowLayer.draw(
-            someShadow
+        draw(
+            shadow: shadow,
+            on: shadowLayer
         )
 
-        if let sublayers = layer.sublayers,
-           sublayers.contains(
-               shadowLayer
-           ) {
-            return
-        }
-
-        layer.insertSublayer(
-            shadowLayer,
-            at: 0
-        )
+        self.shadow = shadow
     }
 
     public func updateOnLayoutSubviews(
-        _ someShadow: Shadow
+        shadow: Shadow
+    ) {
+        updateOnLayoutSubviews(
+            shadow: shadow,
+            on: shadowLayer
+        )
+    }
+
+    public func eraseShadow() {
+        eraseShadow(
+            from: shadowLayer
+        )
+
+        shadow = nil
+    }
+}
+
+extension ShadowDrawable {
+    func drawAppearance(
+        shadow: Shadow?,
+        on shadowLayer: CAShapeLayer
+    ) {
+        guard let shadow = shadow else {
+            eraseShadow(
+                from: shadowLayer
+            )
+            return
+        }
+
+        draw(
+            shadow: shadow,
+            on: shadowLayer
+        )
+    }
+
+    func draw(
+        shadow: Shadow,
+        on shadowLayer: CAShapeLayer
+    ) {
+        shadowLayer.draw(
+            shadow: shadow
+        )
+
+        layer.addIfNeeded(
+            shadowLayer: shadowLayer
+        )
+        layer.masksToBounds = false
+
+        updateOnLayoutSubviews(
+            shadow: shadow,
+            on: shadowLayer
+        )
+    }
+
+    func updateOnLayoutSubviews(
+        shadow: Shadow,
+        on shadowLayer: CAShapeLayer
     ) {
         if bounds.isEmpty {
             return
@@ -63,28 +98,39 @@ extension ShadowDrawable {
 
         shadowLayer.frame = bounds
         shadowLayer.drawPath(
-            someShadow
+            shadow: shadow
         )
     }
 
-    public func eraseShadow() {
+    func eraseShadow(
+        from shadowLayer: CAShapeLayer
+    ) {
         shadowLayer.removeFromSuperlayer()
         shadowLayer.eraseShadow()
-
-        shadow = nil
     }
 }
 
 extension CALayer {
     public func draw(
-        _ shadow: Shadow
+        shadow: Shadow
     ) {
         shadowColor = shadow.color.cgColor
         shadowOpacity = shadow.opacity
         shadowOffset = shadow.offset
         shadowRadius = shadow.radius
 
+        if shadow.isRounded {
+            maskedCorners = shadow.maskedCorners
+            cornerRadius = shadow.cornerRadius
+        }
+
+        if shadow.shouldRasterize {
+            shouldRasterize = shadow.shouldRasterize
+            rasterizationScale = UIScreen.main.scale
+        }
+
         if let shapeLayer = self as? CAShapeLayer {
+            shapeLayer.backgroundColor = shadow.fillColor?.cgColor
             shapeLayer.fillColor = shadow.fillColor?.cgColor
             shapeLayer.zPosition = -1000
         } else {
@@ -92,12 +138,12 @@ extension CALayer {
         }
 
         drawPath(
-            shadow
+            shadow: shadow
         )
     }
 
     public func drawPath(
-        _ shadow: Shadow
+        shadow: Shadow
     ) {
         func calculatePath() -> CGPath {
             if shadow.isRounded {
@@ -115,22 +161,30 @@ extension CALayer {
             return
         }
 
-        if let shapeLayer = self as? CAShapeLayer {
-            shapeLayer.path = calculatePath()
-        } else {
-            shadowPath = calculatePath()
-        }
+        shadowPath = calculatePath()
     }
 
     public func eraseShadow() {
         draw(
-            Shadow(
-                color: .black,
-                opacity: 0,
-                offset: (0, -3),
-                radius: 3,
-                fillColor: nil
-            )
+            shadow: Shadow(color: .black, opacity: 0, offset: (0, -3), radius: 3, fillColor: nil)
+        )
+    }
+}
+
+extension CALayer {
+    public func addIfNeeded(
+        shadowLayer: CAShapeLayer
+    ) {
+        if let sublayers = sublayers,
+           sublayers.contains(
+               shadowLayer
+           ) {
+            return
+        }
+
+        insertSublayer(
+            shadowLayer,
+            at: 0
         )
     }
 }

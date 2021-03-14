@@ -10,6 +10,36 @@ public struct Shadow {
             !corners.isEmpty
     }
 
+    public var cornerRadius: CGFloat {
+        return max(cornerRadii.width, cornerRadii.height)
+    }
+    public var maskedCorners: CACornerMask {
+        var convertedMaskedCorners: CACornerMask = []
+
+        if corners.contains(.topLeft) {
+            convertedMaskedCorners.insert(
+                .layerMinXMinYCorner
+            )
+        }
+        if corners.contains(.topRight) {
+            convertedMaskedCorners.insert(
+                .layerMaxXMinYCorner
+            )
+        }
+        if corners.contains(.bottomLeft) {
+            convertedMaskedCorners.insert(
+                .layerMinXMaxYCorner
+            )
+        }
+        if corners.contains(.bottomRight) {
+            convertedMaskedCorners.insert(
+                .layerMaxXMaxYCorner
+            )
+        }
+
+        return convertedMaskedCorners
+    }
+
     public let color: UIColor
     public let opacity: Float
     public let offset: CGSize
@@ -17,6 +47,7 @@ public struct Shadow {
     public let fillColor: UIColor?
     public let cornerRadii: CGSize
     public let corners: UIRectCorner
+    public let shouldRasterize: Bool
 
     public init(
         color: UIColor,
@@ -25,7 +56,8 @@ public struct Shadow {
         radius: CGFloat,
         fillColor: UIColor?,
         cornerRadii: LayoutSize = (0, 0),
-        corners: UIRectCorner = []
+        corners: UIRectCorner = [],
+        shouldRasterize: Bool = false
     ) {
         self.color = color
         self.opacity = opacity
@@ -34,5 +66,6 @@ public struct Shadow {
         self.fillColor = fillColor
         self.cornerRadii = CGSize(cornerRadii)
         self.corners = corners
+        self.shouldRasterize = shouldRasterize
     }
 }

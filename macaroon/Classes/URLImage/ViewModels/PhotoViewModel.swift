@@ -12,7 +12,7 @@ public protocol PhotoViewModel: ViewModel {
 }
 
 extension PhotoViewModel {
-    public mutating func setPhoto(
+    public mutating func bindPhoto(
         _ url: URL?
     ) {
         photo = PNGImageSource(
@@ -26,7 +26,7 @@ extension PhotoViewModel {
         )
     }
 
-    public mutating func setHasSomePhoto(
+    public mutating func bindHasSomePhoto(
         _ url: URL?
     ) {
         hasSomePhoto = url != nil
@@ -34,7 +34,7 @@ extension PhotoViewModel {
 }
 
 extension PhotoViewModel {
-    public mutating func setPhoto(
+    public mutating func bindPhoto(
         _ photo: Photo
     ) {
         let size = self.size.reduce() ?? .zero
@@ -62,7 +62,7 @@ extension PhotoViewModel {
         self.photo = AssetImageSource(asset: shapedImage)
     }
 
-    public mutating func setHasSomePhoto(
+    public mutating func bindHasSomePhoto(
         _ photo: Photo
     ) {
         hasSomePhoto = true

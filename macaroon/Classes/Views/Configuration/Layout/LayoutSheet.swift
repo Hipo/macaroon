@@ -17,7 +17,10 @@ extension LayoutSheet {
 
 public enum LayoutFamily {
     /// <note>
-    /// iPhone 5{s, c}, iPhone 6{s}, iPhone SE, iPhone 7, iPhone 8
+    /// iPhone 5{s, c}, iPhone SE 1.Gen
+    case extraSmall
+    /// <note>
+    /// iPhone 6{s}, iPhone 7, iPhone 8, iPhone SE 2.Gen
     case small
     /// <note>
     /// iPhone 6s plus, iPhone 7s plus, iPhone 8s plus, iPhone X{S}, iPhone 11 Pro, iPhone 12, iPhone 12 Pro, iPhone 12 Mini
@@ -33,29 +36,14 @@ public enum LayoutFamily {
 }
 
 extension LayoutFamily {
-    public func pick<T>(
-        small: T,
-        medium: T,
-        large: T,
-        extraLarge: T
-    ) -> T {
-        switch self {
-        case .small: return small
-        case .medium: return medium
-        case .large: return large
-        case .extraLarge: return extraLarge
-        }
-    }
-}
-
-extension LayoutFamily {
     public static func getCurrentLayoutFamily() -> LayoutFamily {
         switch UIScreen.main.traitCollection.userInterfaceIdiom {
         case .pad:
             return .extraLarge
         default:
             switch UIScreen.main.bounds.height {
-            case 0...667: return .small
+            case 0...568: return .extraSmall
+            case 569...667: return .small
             case 668...844: return .medium
             default: return .large
             }

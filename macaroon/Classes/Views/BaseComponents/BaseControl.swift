@@ -13,19 +13,13 @@ open class BaseControl:
     public private(set) lazy var shadowLayer = CAShapeLayer()
 
     open override var isEnabled: Bool {
-        didSet {
-            recustomizeAppearanceWhenStateChanged()
-        }
+        didSet { recustomizeAppearanceWhenStateDidChange() }
     }
     open override var isSelected: Bool {
-        didSet {
-            recustomizeAppearanceWhenStateChanged()
-        }
+        didSet { recustomizeAppearanceWhenStateDidChange() }
     }
     open override var isHighlighted: Bool {
-        didSet {
-            recustomizeAppearanceWhenStateChanged()
-        }
+        didSet { recustomizeAppearanceWhenStateDidChange() }
     }
 
     public override init(frame: CGRect) {
@@ -57,7 +51,7 @@ open class BaseControl:
         }
 
         updateOnLayoutSubviews(
-            shadow
+            shadow: shadow
         )
     }
 
@@ -94,7 +88,7 @@ open class BaseControl:
 }
 
 extension BaseControl {
-    private func recustomizeAppearanceWhenStateChanged() {
+    public func recustomizeAppearanceWhenStateDidChange() {
         if isEnabled {
             if isSelected {
                 recustomizeAppearance(for: .selected)

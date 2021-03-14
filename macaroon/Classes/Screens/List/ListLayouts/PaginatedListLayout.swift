@@ -21,25 +21,26 @@ open class PaginatedListLayout: UICollectionViewFlowLayout {
             width: collectionViewSize.width * 0.5,
             height: collectionViewSize.height
         )
-        let layoutAttributes =
-            layoutAttributesForElements(
+
+        let someLayoutAttributesToClosestToCenter =
+            layoutAttributesForItem(
+                closestTo: expectedCenterX,
                 in: targetRect
             )
-        let closestLayoutAttribute =
-            layoutAttributes?
-                .min {
-                    if $0.representedElementCategory != .cell {
-                        return false
-                    }
 
-                    return abs($0.center.x - expectedCenterX) < abs($1.center.x - expectedCenterX)
-                }
+        guard let layoutAttributesToClosestToCenter = someLayoutAttributesToClosestToCenter else {
+            return proposedContentOffset
+        }
 
-        return closestLayoutAttribute.unwrap(
-            {
-                CGPoint(x: $0.center.x - centerXOffset, y: proposedContentOffset.y)
-            },
-            or: proposedContentOffset
+        let centerLayoutAttributes =
+            layoutAttributesForItem(
+                closestToProposedLayoutAttributes: layoutAttributesToClosestToCenter,
+                forScrollingVelocity: velocity.x
+            )
+
+        return CGPoint(
+            x: centerLayoutAttributes.center.x - centerXOffset,
+            y: proposedContentOffset.y
         )
     }
 
@@ -60,24 +61,26 @@ open class PaginatedListLayout: UICollectionViewFlowLayout {
             width: collectionViewSize.width,
             height: collectionViewSize.height * collectionViewSize.height * 0.5
         )
-        let layoutAttributes =
-            layoutAttributesForElements(
+
+        let someLayoutAttributesToClosestToCenter =
+            layoutAttributesForItem(
+                closestTo: expectedCenterY,
                 in: targetRect
             )
-        let closestLayoutAttribute =
-            layoutAttributes?
-                .min {
-                    if $0.representedElementCategory != .cell {
-                        return false
-                    }
 
-                    return abs($0.center.y - expectedCenterY) < abs($1.center.y - expectedCenterY)
-                }
-        return closestLayoutAttribute.unwrap(
-            {
-                CGPoint(x: proposedContentOffset.x, y: $0.center.y - centerYOffset)
-            },
-            or: proposedContentOffset
+        guard let layoutAttributesToClosestToCenter = someLayoutAttributesToClosestToCenter else {
+            return proposedContentOffset
+        }
+
+        let centerLayoutAttributes =
+            layoutAttributesForItem(
+                closestToProposedLayoutAttributes: layoutAttributesToClosestToCenter,
+                forScrollingVelocity: velocity.y
+            )
+
+        return CGPoint(
+            x: centerLayoutAttributes.center.y - centerYOffset,
+            y: proposedContentOffset.y
         )
     }
 
@@ -99,5 +102,52 @@ open class PaginatedListLayout: UICollectionViewFlowLayout {
         @unknown default:
             return proposedContentOffset
         }
+    }
+}
+
+extension PaginatedListLayout {
+    public func layoutAttributesForItem(
+        closestTo point: CGFloat,
+        in rect: CGRect
+    ) -> UICollectionViewLayoutAttributes? {
+        let layoutAttributesInRect =
+            layoutAttributesForElements(
+                in: rect
+            )
+
+        return layoutAttributesInRect?
+            .min {
+                if $0.representedElementCategory != .cell {
+                    return false
+                }
+
+                switch scrollDirection {
+                case .horizontal: return abs($0.center.x - point) < abs($1.center.x - point)
+                case .vertical: return abs($0.center.y - point) < abs($1.center.y - point)
+                @unknown default: return false
+                }
+            }
+    }
+
+    public func layoutAttributesForItem(
+        closestToProposedLayoutAttributes proposedLayoutAttributes: UICollectionViewLayoutAttributes,
+        forScrollingVelocity velocity: CGFloat
+    ) -> UICollectionViewLayoutAttributes {
+        if abs(velocity) < 0.3 {
+            return proposedLayoutAttributes
+        }
+
+        let proposedIndexPath = proposedLayoutAttributes.indexPath
+        let indexPath =
+            IndexPath(
+                item: proposedIndexPath.item + (velocity > 0 ? 1 : -1),
+                section: proposedIndexPath.section
+            )
+        let layoutAttributes =
+            layoutAttributesForItem(
+                at: indexPath
+            )
+
+        return layoutAttributes ?? proposedLayoutAttributes
     }
 }

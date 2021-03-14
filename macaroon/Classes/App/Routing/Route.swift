@@ -7,18 +7,18 @@ public struct Route<
     SomePath: Path
 >: Equatable {
     let identifier: String
-    let start: Start
-    let end: End
+    let flow: SomeFlow
+    let destination: Destination
     let transitionStyle: TransitionStyle
 
     init(
-        start: Start,
-        end: End,
+        flow: SomeFlow,
+        destination: Destination,
         transitionStyle: TransitionStyle
     ) {
         self.identifier = UUID().uuidString
-        self.start = start
-        self.end = end
+        self.flow = flow
+        self.destination = destination
         self.transitionStyle = transitionStyle
     }
 }
@@ -28,31 +28,42 @@ extension Route {
         _ flow: SomeFlow,
         at existingPath: ExistingPath = .last
     ) -> Self {
-        return .init(start: flow, end: .existing(existingPath), transitionStyle: .existing)
+        return .init(flow: flow, destination: .existing(existingPath), transitionStyle: .existing)
     }
 
     public static func path(
-        _ aScreen: ScreenRoutable
+        _ existingScreen: ScreenRoutable
     ) -> Self {
-        return .flow(.instance(aScreen.flowIdentifier), at: .interim(aScreen))
+        return .flow(.instance(existingScreen.flowIdentifier), at: .interim(existingScreen))
     }
 
     public static func next(
         _ paths: SomePath...
     ) -> Self {
-        return .init(start: .current, end: .new(paths), transitionStyle: .next)
+        return .init(flow: .current, destination: .new(paths), transitionStyle: .next)
     }
 
     public static func stack(
         _ paths: SomePath...
     ) -> Self {
-        return .init(start: .current, end: .new(paths), transitionStyle: .stack)
+        return .init(flow: .current, destination: .new(paths), transitionStyle: .stack)
+    }
+
+    public static func stack(
+        _ paths: SomePath...,
+        attachedTo existingScreen: ScreenRoutable
+    ) -> Self {
+        return .init(
+            flow: .instance(existingScreen.flowIdentifier),
+            destination: .override(existingScreen, paths),
+            transitionStyle: .stack
+        )
     }
 
     public static func modal(
         _ paths: SomePath...
     ) -> Self {
-        return .init(start: .current, end: .new(paths), transitionStyle: .modal)
+        return .init(flow: .current, destination: .new(paths), transitionStyle: .modal)
     }
 
     public static func builtInModal(
@@ -61,8 +72,8 @@ extension Route {
         modalTransitionStyle: UIModalTransitionStyle? = nil
     ) -> Self {
         return .init(
-            start: .current,
-            end: .new(paths),
+            flow: .current,
+            destination: .new(paths),
             transitionStyle: .builtInModal(modalPresentationStyle, modalTransitionStyle)
         )
     }
@@ -72,8 +83,8 @@ extension Route {
         transitioningDelegate: UIViewControllerTransitioningDelegate
     ) -> Self {
         return .init(
-            start: .current,
-            end: .new(paths),
+            flow: .current,
+            destination: .new(paths),
             transitionStyle: .customModal(transitioningDelegate)
         )
     }
@@ -89,11 +100,10 @@ extension Route {
 }
 
 extension Route {
-    typealias Start = SomeFlow
-
-    enum End {
+    enum Destination {
         case existing(ExistingPath)
         case new([SomePath])
+        case override(ScreenRoutable, [SomePath])
     }
 
     enum TransitionStyle {

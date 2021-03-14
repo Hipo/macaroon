@@ -19,10 +19,10 @@ extension NavigationTransition {
             return
         }
 
-        let isStatusBarHidden = source.isStatusBarHidden
+        let isStatusBarHidden = source.statusBarHidden
 
         lastDestination.hidesStatusBarOnAppeared = isStatusBarHidden
-        lastDestination.isStatusBarHidden = isStatusBarHidden
+        lastDestination.statusBarHidden = isStatusBarHidden
     }
 }
 
@@ -55,6 +55,7 @@ struct PushTransition: NavigationTransition {
 
         if destination.count == 1 {
             let nextScreen = destination[0]
+
             navigationContainer.pushViewController(
                 nextScreen,
                 animated: animated,
@@ -62,6 +63,7 @@ struct PushTransition: NavigationTransition {
             )
         } else {
             let nextScreens = navigationContainer.viewControllers + destination
+
             navigationContainer.setViewControllers(
                 nextScreens,
                 animated: animated,
@@ -74,6 +76,9 @@ struct PushTransition: NavigationTransition {
 struct StackTransition: NavigationTransition {
     var source: UIViewController?
     var destination: [UIViewController]
+    /// <note>
+    /// newStack == ...sourceLink + destination
+    var overridesFullStack: Bool
     var completion: Completion?
 
     func perform(
@@ -93,11 +98,30 @@ struct StackTransition: NavigationTransition {
             to: destination
         )
 
+        let currentStack = navigationContainer.viewControllers
+
+        if !overridesFullStack,
+           let sourceIndex =
+                currentStack.firstIndex(
+                    of: source
+                ) {
+            let newStack = Array(currentStack[0...sourceIndex]) + destination
+
+            navigationContainer.setViewControllers(
+                newStack,
+                animated: true,
+                completion: completion
+            )
+
+            return
+        }
+
         navigationContainer.setViewControllers(
             destination,
-            animated: !navigationContainer.viewControllers.isEmpty,
+            animated: !currentStack.isEmpty,
             completion: completion
         )
+
     }
 }
 

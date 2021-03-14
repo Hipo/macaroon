@@ -61,6 +61,9 @@ public enum ButtonStyleAttribute: BaseStyleAttribute {
     case font(Font)
     case titleColor(Color)
     case title(Text)
+    /// <note>
+    /// isUserInteractionEnabled
+    case isInteractable(Bool)
 }
 
 extension ButtonStyleAttribute {
@@ -73,6 +76,7 @@ extension ButtonStyleAttribute {
         case .font: return "button.font"
         case .titleColor: return "button.titleColor"
         case .title: return "button.title"
+        case .isInteractable: return "button.isInteractable"
         }
     }
 }

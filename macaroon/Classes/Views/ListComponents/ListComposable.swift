@@ -44,11 +44,13 @@ extension ListComposable where Self: ViewModelBindable, Self.ContextView: ViewMo
 
     public static func calculatePreferredSize(
         _ viewModel: ContextView.ViewModel?,
+        for layoutSheet: ContextView.ViewLayoutSheet,
         fittingIn size: CGSize
     ) -> CGSize {
         let preferredSize =
             ContextView.calculatePreferredSize(
                 viewModel,
+                for: layoutSheet,
                 fittingIn: size
             )
         return CGSize(

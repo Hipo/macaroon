@@ -17,9 +17,9 @@ extension PresentationTransition {
         if
             let lastDestination = destination.last as? StatusBarConfigurable,
             let source = source as? StatusBarConfigurable,
-            source.isStatusBarHidden {
+            source.statusBarHidden {
             lastDestination.hidesStatusBarOnPresented = true
-            lastDestination.isStatusBarHidden = true
+            lastDestination.statusBarHidden = true
         }
 
         guard let navigationContainer = navigationContainer else {

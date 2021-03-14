@@ -97,11 +97,12 @@ extension LoadingButton {
             )
         }
 
-        guard let normalTitle =
-                getTitle(
-                    for: .normal
-                )
-        else {
+        let someNormalTitle =
+            getTitle(
+                for: .normal
+            )
+
+        guard let normalTitle = someNormalTitle else {
             cachedTitle = nil
             return
         }
@@ -129,18 +130,19 @@ extension LoadingButton {
     }
 
     private func saveIcons() {
-        guard let someImage =
-                image(
-                    for: .normal
-                )
-        else {
+        let someNormalImage =
+            image(
+                for: .normal
+            )
+
+        guard let normalImage = someNormalImage else {
             cachedIcon = nil
             return
         }
 
         cachedIcon =
             ImageSet(
-                someImage,
+                normalImage,
                 highlighted: image(for: .highlighted),
                 selected: image(for: .selected),
                 disabled: image(for: .disabled)

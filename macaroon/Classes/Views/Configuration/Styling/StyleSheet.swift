@@ -7,4 +7,6 @@ import UIKit
 /// The base protocol which includes the required styles in a view.
 public protocol StyleSheet {}
 
-public struct NoStyleSheet: StyleSheet {}
+public struct NoStyleSheet: StyleSheet {
+    public init() {}
+}

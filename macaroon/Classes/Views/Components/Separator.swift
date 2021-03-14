@@ -5,16 +5,16 @@ import SnapKit
 import UIKit
 
 public struct Separator {
-    public let style: ViewStyle
+    public let color: UIColor
     public let size: CGFloat /// <note> It means width if the separator is vertical and height if the separator is horizontal.
     public let position: Position
 
     public init(
-        style: ViewStyle,
+        color: Color,
         size: CGFloat = 1,
         position: Position = .bottom((0, 0))
     ) {
-        self.style = style
+        self.color = color.color
         self.size = size
         self.position = position
     }
@@ -107,9 +107,7 @@ extension UIView {
         for separator: Separator
     ) -> UIView {
         let view = BaseView()
-        view.customizeAppearance(
-            separator.style
-        )
+        view.backgroundColor = separator.color
         return view
     }
 

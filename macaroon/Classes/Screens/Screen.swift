@@ -10,11 +10,11 @@ open class Screen:
     ScreenRoutable,
     UIAdaptivePresentationControllerDelegate,
     NotificationObserver {
-    public var isStatusBarHidden = false
+    public var statusBarHidden = false
     public var hidesStatusBarOnAppeared = false
     public var hidesStatusBarOnPresented = false
 
-    public var isNavigationBarHidden = false
+    public var navigationBarHidden = false
     public var hidesCloseBarButton = false
     public var hidesDismissBarButtonIniOS13AndLater = false
     public var disablesInteractivePop = false
@@ -44,13 +44,13 @@ open class Screen:
     public private(set) var isViewPopped = false
 
     open override var prefersStatusBarHidden: Bool {
-        return isStatusBarHidden
+        return statusBarHidden
     }
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
     open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return isStatusBarHidden ? .fade : .none
+        return statusBarHidden ? .fade : .none
     }
 
     private let configurator: ScreenConfigurable?
@@ -210,7 +210,7 @@ open class Screen:
         setNeedsStatusBarAppearanceUpdateOnBeingAppeared()
         setNeedsNavigationBarAppearanceUpdateOnBeingAppeared()
 
-        disablesInteractivePop = isNavigationBarHidden || hidesCloseBarButton
+        disablesInteractivePop = navigationBarHidden || hidesCloseBarButton
 
         isViewDisappearing = false
         isViewDisappeared = false

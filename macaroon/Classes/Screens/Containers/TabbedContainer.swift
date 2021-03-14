@@ -4,11 +4,17 @@ import Foundation
 import UIKit
 
 public protocol TabbedContainer: Container {
-    var selectedScreen: UIViewController? { get }
+    var selectedScreen: UIViewController? { get set }
+    var screens: [UIViewController] { get }
 }
 
 extension UITabBarController: TabbedContainer {
     public var selectedScreen: UIViewController? {
-        return selectedViewController
+        get { return selectedViewController }
+        set { selectedViewController = newValue }
+    }
+
+    public var screens: [UIViewController] {
+        return viewControllers ?? []
     }
 }

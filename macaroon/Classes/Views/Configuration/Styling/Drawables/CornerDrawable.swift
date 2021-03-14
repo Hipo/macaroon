@@ -15,17 +15,17 @@ extension CornerDrawable {
         }
 
         draw(
-            corner
+            corner: corner
         )
     }
 }
 
 extension CornerDrawable {
     public func draw(
-        _ corner: Corner
+        corner: Corner
     ) {
         layer.draw(
-            corner
+            corner: corner
         )
 
         if layer.shadowOpacity == 0 {
@@ -35,14 +35,14 @@ extension CornerDrawable {
 
     public func eraseCorner() {
         layer.draw(
-            Corner(radius: 0.0)
+            corner: Corner(radius: 0.0)
         )
     }
 }
 
 extension CALayer {
     public func draw(
-        _ corner: Corner
+        corner: Corner
     ) {
         cornerRadius = corner.radius
         maskedCorners = corner.mask

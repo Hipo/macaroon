@@ -52,6 +52,12 @@ extension String {
     }
 }
 
+extension String {
+    public func copyToClipboard() {
+        UIPasteboard.general.string = self
+    }
+}
+
 extension String: Swift.Error {}
 
 extension Optional where Wrapped == String {

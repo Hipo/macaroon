@@ -18,7 +18,7 @@ open class HStackView: UIStackView {
         axis = .horizontal
         alignment = .fill
         distribution = .fill
-        spacing = 0.0
+        spacing = 0
     }
 }
 
@@ -37,6 +37,6 @@ open class VStackView: UIStackView {
         axis = .vertical
         alignment = .fill
         distribution = .fill
-        spacing = 0.0
+        spacing = 0
     }
 }

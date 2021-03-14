@@ -66,13 +66,13 @@ extension KeyboardController {
             )
         }
 
-        guard
-            let editingRect =
-                screen.keyboardController(
-                    self,
-                    editingRectIn: scrollView
-                )
-        else {
+        let someEditingRect =
+            screen.keyboardController(
+                self,
+                editingRectIn: scrollView
+            )
+
+        guard let editingRect = someEditingRect else {
             return
         }
 
@@ -82,12 +82,13 @@ extension KeyboardController {
             return
         }
 
-        guard let newContentOffset =
-                calculateContentOffset(
-                    forScrollingToEditingRect: editingRect,
-                    inRect: visibleRect
-                )
-        else {
+        let someNewContentOffset =
+            calculateContentOffset(
+                forScrollingToEditingRect: editingRect,
+                inRect: visibleRect
+            )
+
+        guard let newContentOffset = someNewContentOffset else {
             return
         }
 
@@ -240,13 +241,13 @@ extension KeyboardController {
             )
         }
 
-        guard
-            let editingRect =
-                screen.keyboardController(
-                    self,
-                    editingRectIn: scrollView
-                )
-        else {
+        let someEditingRect =
+            screen.keyboardController(
+                self,
+                editingRectIn: scrollView
+            )
+
+        guard let editingRect = someEditingRect else {
             performExecutableIfNeeded()
             return
         }
@@ -258,12 +259,13 @@ extension KeyboardController {
             return
         }
 
-        guard let newContentOffset =
-                calculateContentOffset(
-                    forScrollingToEditingRect: editingRect,
-                    inRect: visibleRect
-                )
-        else {
+        let someNewContentOffset =
+            calculateContentOffset(
+                forScrollingToEditingRect: editingRect,
+                inRect: visibleRect
+            )
+
+        guard let newContentOffset = someNewContentOffset else {
             performExecutableIfNeeded()
             return
         }

@@ -167,12 +167,19 @@ extension Customizable where Self: UINavigationBar {
     ) {
         /// <note> Don't support large title for iOS 13 and later.
         if #available(iOS 13, *) {
+            if LayoutFamily.current == .extraSmall {
+                self.prefersLargeTitles = false
+                return
+            }
+
             self.prefersLargeTitles = largeTitleAttributes != nil
 
             customizeBarAppearance(
                 largeTitleAttributes ?? [:],
                 \.largeTitleTextAttributes
             )
+        } else {
+            self.prefersLargeTitles = false
         }
     }
 }

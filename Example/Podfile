@@ -2,6 +2,8 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'macaroon_Example' do
+  pod 'Macaroon/Banner',  :path => '../'
+  pod 'Macaroon/BottomSheet',  :path => '../'
   pod 'Macaroon/Core',  :path => '../'
   pod 'Macaroon/HIPCore',  :path => '../'
   pod 'Macaroon/Form', :path => '../'

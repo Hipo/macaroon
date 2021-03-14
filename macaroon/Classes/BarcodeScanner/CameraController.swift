@@ -13,12 +13,12 @@ open class CameraController:
 
     public var observations: [NSObjectProtocol] = []
 
-    private(set) public var permission: Permission
+    public private(set) var permission: Permission
 
-    private(set) public var videoInput: AVCaptureDeviceInput!
-    private(set) public var photoOutput: AVCapturePhotoOutput!
+    public private(set) var videoInput: AVCaptureDeviceInput!
+    public private(set) var photoOutput: AVCapturePhotoOutput!
 
-    private(set) public var isRunning = false
+    public private(set) var isRunning = false
 
     private var initError: Error?
 

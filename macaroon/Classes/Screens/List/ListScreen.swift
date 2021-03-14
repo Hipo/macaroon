@@ -10,6 +10,8 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
     public let listDataSource: ListDataSource
     public let listLayout: ListLayout
 
+    private var isListLayoutFinalized = false
+
     public init(
         listDataSource: ListDataSource,
         listLayout: ListLayout,
@@ -23,10 +25,33 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
         )
     }
 
+    open override func customizeAppearance() {
+        super.customizeAppearance()
+        customizeListAppearance()
+    }
+
+    open func customizeListAppearance() {
+        listView.alwaysBounceVertical = true
+        listView.showsHorizontalScrollIndicator = false
+        listView.showsVerticalScrollIndicator = false
+    }
+
     open override func prepareLayout() {
         super.prepareLayout()
         addList()
         updateListEmptyStateLayout()
+    }
+
+    open override func updateLayoutWhenViewDidLayoutSubviews() {
+        super.updateLayoutWhenViewDidLayoutSubviews()
+
+        if isListLayoutFinalized {
+            return
+        }
+
+        updateListLayoutWhenViewDidFirstLayoutSubviews()
+
+        isListLayoutFinalized = true
     }
 
     open func addList() {
@@ -39,6 +64,12 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
         }
     }
 
+    private func updateListLayoutWhenViewDidFirstLayoutSubviews() {
+        listView.setContentInset(
+            listLayout.contentInset
+        )
+    }
+
     open override func setListeners() {
         super.setListeners()
         listView.dataSource = self
@@ -48,13 +79,18 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
 
     open override func viewDidChangePreferredContentSizeCategory() {
         super.viewDidChangePreferredContentSizeCategory()
+
+        if !isViewAppeared {
+            return
+        }
+
         listLayout.invalidateLayout(forceLayoutUpdate: true)
         updateLayoutWhenViewDidLayoutSubviews()
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        finalizeListLayout()
+        listLayout.prepareForUse()
     }
 
     /// <mark> UICollectionViewDataSource
@@ -155,19 +191,13 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
         return nil
     }
 
-    open func contentEdgeInsets(in view: EmptyStateView) -> UIEdgeInsets? {
-        return nil
+    open func contentAlignment(for state: EmptyStateView.State, in view: EmptyStateView) -> EmptyStateView.ContentAlignment {
+        return .center(offset: 0, horizontalPaddings: (0, 0))
     }
 }
 
 extension ListScreen {
     private func updateListEmptyStateLayout() {
         listView.emptyStateView.frame = view.bounds
-    }
-}
-
-extension ListScreen {
-    private func finalizeListLayout() {
-        listLayout.prepareForUse()
     }
 }

@@ -9,9 +9,6 @@ public protocol StyleGuide: StyleSheet {}
 
 public protocol StyleGroup {
     associatedtype Identifier
-    associatedtype SharedStyleElements
-
-    var sharedStyleElements: SharedStyleElements { get }
 
     subscript<T>(identifier: Identifier) -> T { get }
 }

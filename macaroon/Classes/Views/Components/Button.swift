@@ -12,7 +12,45 @@ open class Button:
         if currentImage == nil && currentTitle == nil {
             return .zero
         }
-        return super.intrinsicContentSize
+
+        let superIntrinsicContentSize = super.intrinsicContentSize
+
+        if layout.isHorizontal {
+            return superIntrinsicContentSize
+        }
+
+        if bounds.isEmpty {
+            return superIntrinsicContentSize
+        }
+
+        var rect =
+            super.contentRect(
+                forBounds: bounds
+            )
+        let iRect = super.imageRect(
+            forContentRect: rect
+        )
+        let tRect = super.titleRect(
+            forContentRect: rect
+        )
+
+        switch layout {
+        case .imageAtTop(let spacing):
+            let width = max(iRect.width, tRect.width) + contentEdgeInsets.x
+            let height = iRect.height + tRect.height + spacing + contentEdgeInsets.y
+            return CGSize(width: width, height: height)
+        case .imageAtTopmost(let padding, let titleAdjustmentY):
+            let width = max(iRect.width, tRect.width) + contentEdgeInsets.x
+            let height =
+                iRect.height + tRect.height + padding + contentEdgeInsets.y + titleAdjustmentY
+            return CGSize(width: width, height: height)
+        case .titleAtBottommost(let padding, let imageAdjustmentY):
+            let width = max(iRect.width, tRect.width) + contentEdgeInsets.x
+            let height =
+                iRect.height + tRect.height + padding + contentEdgeInsets.y - imageAdjustmentY
+            return CGSize(width: width, height: height)
+        default: return superIntrinsicContentSize
+        }
     }
 
     public var shadow: Shadow?
@@ -23,13 +61,29 @@ open class Button:
 
     public init(_ layout: Layout = .none) {
         self.layout = layout
+
         super.init(frame: .zero)
+
+        /// <note>
+        /// The content width will be set as the title width, so if the title is short to fill the
+        /// width, then it will be centered, which is what the caller expects.
+        if layout.isVertical {
+            titleLabel?.textAlignment = .center
+        }
     }
 
     @available(*, unavailable)
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    open func preferredUserInterfaceStyleDidChange() {
+        drawAppearance(
+            shadow: shadow
+        )
+    }
+
+    open func preferredContentSizeCategoryDidChange() {}
 
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
         var rect = super.imageRect(forContentRect: contentRect)
@@ -80,12 +134,14 @@ open class Button:
             return rect
         case .imageAtTop(let spacing):
             let imageHeight = super.imageRect(forContentRect: contentRect).height
-            rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
+            rect.origin.x = contentEdgeInsets.left
             rect.origin.y = contentRect.height - ((contentRect.height - (imageHeight + spacing + rect.height)) / 2.0).rounded() - (rect.height + contentEdgeInsets.bottom)
+            rect.size.width = contentRect.width - contentEdgeInsets.x
             return rect
         case .imageAtTopmost(_, let titleAdjustmentY):
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
             rect.origin.y = ((contentRect.height - rect.height) / 2.0).rounded() + titleAdjustmentY + contentEdgeInsets.top
+            rect.size.width = contentRect.width - contentEdgeInsets.x
             return rect
         case .imageAtLeft(let spacing):
             rect.origin.x = rect.origin.x + (spacing / 2.0).rounded()
@@ -103,17 +159,32 @@ open class Button:
         case .titleAtBottommost(let padding, _):
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
             rect.origin.y = contentRect.maxY - (rect.height + padding + contentEdgeInsets.bottom)
+            rect.size.width = contentRect.width - contentEdgeInsets.x
             return rect
         }
     }
-    
-    open func preferredUserInterfaceStyleDidChange() {
-        drawAppearance(
-            shadow: shadow
+
+    open override func point(
+        inside point: CGPoint,
+        with event: UIEvent?
+    ) -> Bool {
+        let leastTouchMagnitude = CGSize.leastTouchMagnitude
+
+        if bounds.size > leastTouchMagnitude {
+            return bounds.contains(
+                point
+            )
+        }
+
+        let touchBounds =
+            bounds.insetBy(
+                dx: min(0, (bounds.width - leastTouchMagnitude.width) / 2),
+                dy: min(0, (bounds.height - leastTouchMagnitude.height) / 2)
+            )
+        return touchBounds.contains(
+            point
         )
     }
-    
-    open func preferredContentSizeCategoryDidChange() { }
     
     open override func layoutSubviews() {
         super.layoutSubviews()
@@ -123,7 +194,7 @@ open class Button:
         }
 
         updateOnLayoutSubviews(
-            shadow
+            shadow: shadow
         )
     }
 
@@ -151,5 +222,21 @@ extension Button {
         case imageAtRight(spacing: CGFloat) /// <note> Spacing equals to the distance between image and title.
         case imageAtRightmost(padding: CGFloat, titleAdjustmentX: CGFloat) /// <note> Padding equals to the inset from right for the image while the title is centered offset by titleAdjustmentX.
         case titleAtBottommost(padding: CGFloat, imageAdjustmentY: CGFloat)
+
+        public var isHorizontal: Bool {
+            switch self {
+            case .none,
+                 .imageAtLeft,
+                 .imageAtLeftmost,
+                 .imageAtRight,
+                 .imageAtRightmost:
+                return true
+            default: return false
+            }
+        }
+
+        public var isVertical: Bool {
+            return !isHorizontal
+        }
     }
 }

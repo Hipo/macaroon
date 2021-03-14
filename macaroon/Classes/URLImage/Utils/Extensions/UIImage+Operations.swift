@@ -55,12 +55,12 @@ extension UIImage {
             newSize?.scaled(
                 scale
             )
+        let someSize =
+            scaledSize.unwrapConditionally(
+                where: { !$0.isEmpty && $0 < self.size }
+            )
 
-        guard let size =
-                scaledSize.unwrapConditionally(
-                    where: { !$0.isEmpty && $0 < self.size }
-                )
-        else {
+        guard let size = someSize else {
             return self
         }
 
@@ -80,12 +80,12 @@ extension UIImage {
             newSize?.scaled(
                 scale
             )
+        let someSize =
+            scaledSize.unwrapConditionally(
+                where: { !$0.isEmpty && $0 < self.size }
+            )
 
-        guard let size =
-                scaledSize.unwrapConditionally(
-                    where: { !$0.isEmpty && $0 < self.size }
-                )
-        else {
+        guard let size = someSize else {
             return self
         }
 
@@ -106,12 +106,12 @@ extension UIImage {
             size?.scaled(
                 scale
             )
+        let someSize =
+            scaledSize.unwrapConditionally(
+                where: { !$0.isEmpty }
+            )
 
-        guard let size =
-                scaledSize.unwrapConditionally(
-                    where: { !$0.isEmpty }
-                )
-        else {
+        guard let size = someSize else {
             return self
         }
 

@@ -15,30 +15,30 @@ extension BorderDrawable {
         }
 
         draw(
-            border
+            border: border
         )
     }
 }
 
 extension BorderDrawable {
     public func draw(
-        _ border: Border
+        border: Border
     ) {
         layer.draw(
-            border
+            border: border
         )
     }
 
     public func eraseBorder() {
         layer.draw(
-            Border(color: .black, width: 0.0)
+            border: Border(color: .black, width: 0.0)
         )
     }
 }
 
 extension CALayer {
     public func draw(
-        _ border: Border
+        border: Border
     ) {
         borderColor = border.color.cgColor
         borderWidth = border.width

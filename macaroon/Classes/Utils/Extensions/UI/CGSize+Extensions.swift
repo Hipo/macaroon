@@ -33,6 +33,10 @@ extension CGSize {
     public static func < (lhs: CGSize, rhs: CGSize) -> Bool {
         return lhs.width <= rhs.width && lhs.height <= rhs.height
     }
+
+    public static func > (lhs: CGSize, rhs: CGSize) -> Bool {
+        return lhs.width > rhs.width && lhs.height > rhs.height
+    }
 }
 
 extension CGSize {

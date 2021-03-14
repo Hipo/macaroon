@@ -49,6 +49,19 @@ extension ImageStyle {
 }
 
 extension ImageStyle {
+    public static func scaleToFill(
+        content: Image? = nil
+    ) -> ImageStyle {
+        var style = ImageStyle()
+        style.append(.contentMode(.scaleToFill))
+
+        if let content = content {
+            style.append(.content(content))
+        }
+
+        return style
+    }
+
     public static func aspectFit(
         _ content: Image? = nil
     ) -> ImageStyle {

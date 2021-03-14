@@ -62,57 +62,62 @@ extension Router {
         animated: Bool = true,
         completion: (() -> Void)? = nil
     ) {
-        if route.isEmpty {
-            return
-        }
-
-        var navigate: (() -> Void)?
-        var navigateToNext: () -> Void = {
-            completion?()
-        }
-
-        route
-            .reversed()
-            .forEach { subroute in
-                let navigateToSubroute: () -> Void = {
-                    let navigateToEnd = {
-                        self.navigateToEnd(
-                            subroute,
-                            animated: animated,
-                            completion: navigateToNext
-                        )
-                    }
-
-                    if subroute.start == .current {
-                        navigateToEnd()
-                    } else {
-                        self.navigateToStart(
-                            subroute,
-                            animated: animated,
-                            completion: navigateToEnd
-                        )
-                    }
-                }
-
-                /// <note>
-                /// Combine the serial navigations for the last subroute.
-                if route.first == subroute {
-                    navigate = navigateToSubroute
-                } else {
-                    navigateToNext = navigateToSubroute
-                }
+        let navigation =
+            makeNavigation(
+                route,
+                animated: animated
+            ) {
+                completion?()
             }
 
-        navigate?()
+        navigation()
     }
 
-    private func navigateToStart(
+    func makeNavigation(
+        _ subroute: [SomeRoute],
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) -> () -> Void {
+        guard let nextSubroute = subroute.last else {
+            return completion
+        }
+
+        return makeNavigation(
+            subroute.dropLast(),
+            animated: animated
+        ) { [unowned self] in
+
+            if nextSubroute.flow == .current {
+                self.navigateToDestination(
+                    nextSubroute,
+                    animated: animated,
+                    completion: completion
+                )
+
+                return
+            }
+
+            self.navigateToFlow(
+                nextSubroute,
+                animated: animated
+            ) { [unowned self] in
+
+                self.navigateToDestination(
+                    nextSubroute,
+                    animated: animated,
+                    completion: completion
+                )
+            }
+        }
+    }
+
+    private func navigateToFlow(
         _ subroute: SomeRoute,
         animated: Bool,
         completion: @escaping () -> Void
     ) {
-        let flow = subroute.start
-        let finishTransition = {
+        let flow = subroute.flow
+        let transitionCompletion = {
             self.visibleFlow = flow
             self.visibleScreen = self.findVisibleScreen()
 
@@ -123,27 +128,28 @@ extension Router {
             completion()
         }
 
-        guard var flowTransition =
-                self.makeTransition(
-                    to: flow
-                )
-        else {
-            finishTransition()
+        let someFlowTransition =
+            self.makeTransition(
+                to: flow
+            )
+
+        guard var flowTransition = someFlowTransition else {
+            transitionCompletion()
             return
         }
 
-        flowTransition.completion = finishTransition
+        flowTransition.completion = transitionCompletion
         flowTransition.perform(
             animated: animated
         )
     }
 
-    private func navigateToEnd(
+    private func navigateToDestination(
         _ subroute: SomeRoute,
         animated: Bool,
         completion: @escaping () -> Void
     ) {
-        switch subroute.end {
+        switch subroute.destination {
         case .existing(let existingPath):
             navigate(
                 to: existingPath,
@@ -157,36 +163,118 @@ extension Router {
                 animated: animated,
                 completion: completion
             )
+        case .override(let existingScreen, let newPaths):
+            navigate(
+                to: newPaths,
+                attachedTo: existingScreen,
+                animated: animated,
+                completion: completion
+            )
         }
     }
 
     private func navigate(
         to existingPath: ExistingPath,
         animated: Bool,
-        completion: () -> Void
+        completion: @escaping () -> Void
     ) {
         switch existingPath {
         case .initial:
-            var bottommostPresentingScreen = visibleScreen
-
-            exit: while let previousPresentingScreen = bottommostPresentingScreen!.presentingViewController {
-                switch previousPresentingScreen {
-                case let previousPresentingNavigationContainer as UINavigationController:
-                    for screen in previousPresentingNavigationContainer.viewControllers {
-                        if let configurableScreen = screen as? ScreenRoutable,
-                           SomeFlow.instance(configurableScreen.flowIdentifier) == visibleFlow {
-                            
-                        }
-                    }
-                default:
-                    break
-                }
+            guard let firstScreenInVisibleFlow = findFirstScreenInVisibleFlow() else {
+                completion()
+                return
             }
+
+            navigate(
+                to: firstScreenInVisibleFlow,
+                animated: animated,
+                completion: completion
+            )
         case .last:
             completion()
         case .interim(let aScreen):
-            break
+            navigate(
+                to: aScreen,
+                animated: animated,
+                completion: completion
+            )
         }
+    }
+
+    private func findFirstScreenInVisibleFlow() -> UIViewController? {
+        var firstScreenInVisibleFlow =
+            findFirstScreenInVisibleFlow(
+                appearedWithinHierarchyOf: visibleScreen.parent ?? visibleScreen
+            )
+
+        while let presentingFirstScreenInVisibleFlow =
+                findFirstScreenInVisibleFlow(
+                    appearedWithinHierarchyOf: firstScreenInVisibleFlow?.presentingViewController
+                ) {
+            firstScreenInVisibleFlow = presentingFirstScreenInVisibleFlow
+        }
+
+        return firstScreenInVisibleFlow
+    }
+
+    private func findFirstScreenInVisibleFlow(
+        appearedWithinHierarchyOf screen: UIViewController?
+    ) -> UIViewController? {
+        switch screen {
+        case let navigationContainer as UINavigationController:
+            return navigationContainer.viewControllers.first {
+                ($0 as? ScreenRoutable)?.flowIdentifier == visibleFlow.identifier
+            }
+        case let tabbedContainer as TabbedContainer:
+            return tabbedContainer.screens.first {
+                findFirstScreenInVisibleFlow(
+                    appearedWithinHierarchyOf: $0
+                ) != nil
+            }
+        case let someScreen as ScreenRoutable:
+            return someScreen.flowIdentifier == visibleFlow.identifier ? someScreen : nil
+        default: return nil
+        }
+    }
+
+    private func navigate(
+        to existingScreen: UIViewController,
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) {
+        let isPresenting = existingScreen.presentedViewController != nil
+        let transitionCompletion = {
+            [unowned self] in
+
+            self.visibleScreen = existingScreen
+            completion()
+        }
+
+        if isPresenting {
+            existingScreen.dismiss(
+                animated: animated
+            )
+        }
+
+        if let navigationContainer = existingScreen.navigationController,
+           navigationContainer.viewControllers.last != existingScreen {
+            navigationContainer.popToViewController(
+                existingScreen,
+                animated: !isPresenting && animated,
+                completion: transitionCompletion
+            )
+
+            return
+        }
+
+        if let tabbedContainer = existingScreen.parent as? TabbedContainer {
+            tabbedContainer.selectedScreen = existingScreen
+            transitionCompletion()
+
+            return
+        }
+
+        transitionCompletion()
     }
 
     private func navigate(
@@ -195,13 +283,12 @@ extension Router {
         animated: Bool,
         completion: @escaping () -> Void
     ) {
-        let destination: [ScreenRoutable] = newPaths.map {
-            let screen = $0.build()
-            screen.flowIdentifier = visibleFlow.identifier
-            screen.pathIdentifier = $0.identifier
-            return screen
-        }
-        let transitionCompletion = { [unowned self] in
+        let destination = makeDestination(
+            newPaths
+        )
+        let transitionCompletion = {
+            [unowned self] in
+
             self.visibleScreen = destination.last
             completion()
         }
@@ -215,6 +302,17 @@ extension Router {
         transition?.perform(
             animated: animated
         )
+    }
+
+    private func makeDestination(
+        _ paths: [SomePath]
+    ) -> [ScreenRoutable] {
+        return paths.map {
+            let screen = $0.build()
+            screen.flowIdentifier = visibleFlow.identifier
+            screen.pathIdentifier = $0.identifier
+            return screen
+        }
     }
 
     private func makeTransition(
@@ -237,6 +335,7 @@ extension Router {
             return StackTransition(
                 source: visibleScreen,
                 destination: destination,
+                overridesFullStack: true,
                 completion: completion
             )
         case .modal:
@@ -264,6 +363,61 @@ extension Router {
                 completion: completion
             )
         }
+    }
+
+    private func navigate(
+        to newPaths: [SomePath],
+        attachedTo existingScreen: UIViewController,
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) {
+        let destination = makeDestination(
+            newPaths
+        )
+        let transitionCompletion = {
+            [unowned self] in
+
+            self.visibleScreen = destination.last
+            completion()
+        }
+
+        let isPresenting = existingScreen.presentedViewController != nil
+
+        if isPresenting {
+            existingScreen.dismiss(
+                animated: animated
+            )
+        }
+
+        let transition =
+            StackTransition(
+                source: existingScreen,
+                destination: destination,
+                overridesFullStack: false,
+                completion: completion
+            )
+
+        transition.perform(
+            animated: !isPresenting && animated
+        )
+    }
+}
+
+extension Router {
+    public func navigateToSafari(
+        _ url: URL
+    ) {
+        if !UIApplication.shared.canOpenURL(
+            url
+        ) {
+            return
+        }
+
+        UIApplication.shared.open(
+            url,
+            options: [:],
+            completionHandler: nil
+        )
     }
 }
 
@@ -305,7 +459,14 @@ extension Router {
             animated: animated
         ) { [unowned self] in
 
-            self.visibleScreen = presentingScreen
+            if let presentingNavigationContainer = presentingScreen as? UINavigationController {
+                self.visibleScreen =
+                    self.findVisibleScreen(
+                        in: presentingNavigationContainer
+                    )
+            } else {
+                self.visibleScreen = presentingScreen
+            }
 
             if let vs = self.visibleScreen as? ScreenRoutable {
                 self.visibleFlow = .instance(vs.flowIdentifier)

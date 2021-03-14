@@ -37,7 +37,7 @@ open class BaseView:
         }
 
         updateOnLayoutSubviews(
-            shadow
+            shadow: shadow
         )
     }
 

@@ -20,15 +20,15 @@ extension UICollectionView {
         register(someClass, forCellWithReuseIdentifier: someClass.reuseIdentifier)
     }
 
-    public func register(_ someClass: (UICollectionViewCell & ListIdentifiable).Type, forSupplementaryViewOfKind kind: String) {
+    public func register(_ someClass: (UICollectionReusableView & ListIdentifiable).Type, forSupplementaryViewOfKind kind: String) {
         register(someClass, forSupplementaryViewOfKind: kind, withReuseIdentifier: someClass.reuseIdentifier)
     }
 
-    public func register(header someClass: (UICollectionViewCell & ListIdentifiable).Type) {
+    public func register(header someClass: (UICollectionReusableView & ListIdentifiable).Type) {
         register(someClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
     }
 
-    public func register(footer someClass: (UICollectionViewCell & ListIdentifiable).Type) {
+    public func register(footer someClass: (UICollectionReusableView & ListIdentifiable).Type) {
         register(someClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter)
     }
 }

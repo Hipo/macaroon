@@ -15,6 +15,9 @@ public class Repeater {
 
     private let timer: DispatchSourceTimer
 
+    /// <warning>
+    /// If a task is being dispatched to the main thread in `operation`, `self` should be captured
+    /// first before calling async operation.
     public init(
         intervalInSeconds: TimeInterval,
         operation: @escaping Operation

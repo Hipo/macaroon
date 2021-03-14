@@ -310,6 +310,62 @@ extension ConstraintMaker {
     }
 
     @discardableResult
+    public func scale(
+        _ view: UIView,
+        aspectRatio: LayoutMetric
+    ) -> Constraint? {
+        return scale(
+            view,
+            aspectRatio: (aspectRatio, .required)
+        )
+    }
+
+    @discardableResult
+    public func scale(
+        _ view: UIView,
+        aspectRatio: PrioritizedLayoutMetric
+    ) -> Constraint? {
+        if aspectRatio.metric.isNoMetric {
+            return nil
+        }
+
+        return
+            width
+            .equalTo(view.snp.height)
+            .multipliedBy(aspectRatio.metric)
+            .priority(aspectRatio.priority)
+            .constraint
+    }
+
+    @discardableResult
+    public func scale(
+        _ view: UIView,
+        reversedAspectRatio: LayoutMetric
+    ) -> Constraint? {
+        return scale(
+            view,
+            reversedAspectRatio: (reversedAspectRatio, .required)
+        )
+    }
+
+    @discardableResult
+    public func scale(
+        _ view: UIView,
+        reversedAspectRatio: PrioritizedLayoutMetric
+    ) -> Constraint? {
+        if reversedAspectRatio.metric.isNoMetric {
+            return nil
+        }
+
+        return
+            height
+            .equalTo(view.snp.width)
+            .multipliedBy(reversedAspectRatio.metric)
+            .priority(reversedAspectRatio.priority)
+            .constraint
+    }
+
+    @discardableResult
     public func matchToSize(
         of view: UIView,
         offset: LayoutSize
@@ -423,6 +479,76 @@ extension ConstraintMaker {
             )
         let verticalConstraints =
             setVerticalPaddings(
+                (paddings.top, paddings.bottom)
+            )
+
+        return (
+            verticalConstraints.top,
+            horizontalConstraints.leading,
+            verticalConstraints.bottom,
+            horizontalConstraints.trailing
+        )
+    }
+
+    @discardableResult
+    public func greaterThanPaddings(
+        _ paddings: LayoutPaddings = (0, 0, 0, 0)
+    ) -> PaddingConstraints {
+        return greaterThanPaddings(
+            (
+                (paddings.top, .required),
+                (paddings.leading, .required),
+                (paddings.bottom, .required),
+                (paddings.trailing, .required)
+            )
+        )
+    }
+
+    @discardableResult
+    public func greaterThanPaddings(
+        _ paddings: PrioritizedLayoutPaddings
+    ) -> PaddingConstraints {
+        let horizontalConstraints =
+            greaterThanHorizontalPaddings(
+                (paddings.leading, paddings.trailing)
+            )
+        let verticalConstraints =
+            greaterThanVerticalPaddings(
+                (paddings.top, paddings.bottom)
+            )
+
+        return (
+            verticalConstraints.top,
+            horizontalConstraints.leading,
+            verticalConstraints.bottom,
+            horizontalConstraints.trailing
+        )
+    }
+
+    @discardableResult
+    public func lessThanPaddings(
+        _ paddings: LayoutPaddings = (0, 0, 0, 0)
+    ) -> PaddingConstraints {
+        return lessThanPaddings(
+            (
+                (paddings.top, .required),
+                (paddings.leading, .required),
+                (paddings.bottom, .required),
+                (paddings.trailing, .required)
+            )
+        )
+    }
+
+    @discardableResult
+    public func lessThanPaddings(
+        _ paddings: PrioritizedLayoutPaddings
+    ) -> PaddingConstraints {
+        let horizontalConstraints =
+            lessThanHorizontalPaddings(
+                (paddings.leading, paddings.trailing)
+            )
+        let verticalConstraints =
+            lessThanVerticalPaddings(
                 (paddings.top, paddings.bottom)
             )
 
@@ -707,6 +833,94 @@ extension ConstraintMaker {
             .priority(padding.priority)
             .constraint
     }
+
+    @discardableResult
+    public func greaterThanVerticalPaddings(
+        _ paddings: LayoutVerticalPaddings
+    ) -> VerticalPaddingConstraints {
+        return greaterThanVerticalPaddings(
+            (
+                (paddings.top, .required),
+                (paddings.bottom, .required)
+            )
+        )
+    }
+
+    @discardableResult
+    public func greaterThanVerticalPaddings(
+        _ paddings: PrioritizedLayoutVerticalPaddings
+    ) -> VerticalPaddingConstraints {
+        var topConstraint: Constraint?
+        var bottomConstraint: Constraint?
+
+        if !paddings.top.metric.isNoMetric {
+            topConstraint =
+                top
+                .lessThanOrEqualToSuperview()
+                .inset(
+                    paddings.top.metric
+                )
+                .priority(paddings.top.priority)
+                .constraint
+        }
+
+        if !paddings.bottom.metric.isNoMetric {
+            bottomConstraint =
+                bottom
+                .greaterThanOrEqualToSuperview()
+                .inset(
+                    paddings.bottom.metric
+                )
+                .priority(paddings.bottom.priority)
+                .constraint
+        }
+
+        return (topConstraint, bottomConstraint)
+    }
+
+    @discardableResult
+    public func lessThanVerticalPaddings(
+        _ paddings: LayoutVerticalPaddings
+    ) -> VerticalPaddingConstraints {
+        return lessThanVerticalPaddings(
+            (
+                (paddings.top, .required),
+                (paddings.bottom, .required)
+            )
+        )
+    }
+
+    @discardableResult
+    public func lessThanVerticalPaddings(
+        _ paddings: PrioritizedLayoutVerticalPaddings
+    ) -> VerticalPaddingConstraints {
+        var topConstraint: Constraint?
+        var bottomConstraint: Constraint?
+
+        if !paddings.top.metric.isNoMetric {
+            topConstraint =
+                top
+                .greaterThanOrEqualToSuperview()
+                .inset(
+                    paddings.top.metric
+                )
+                .priority(paddings.top.priority)
+                .constraint
+        }
+
+        if !paddings.bottom.metric.isNoMetric {
+            bottomConstraint =
+                bottom
+                .lessThanOrEqualToSuperview()
+                .inset(
+                    paddings.bottom.metric
+                )
+                .priority(paddings.bottom.priority)
+                .constraint
+        }
+
+        return (topConstraint, bottomConstraint)
+    }
 }
 
 /// <mark>
@@ -741,7 +955,7 @@ extension ConstraintMaker {
         }
 
         if !offset.y.metric.isNoMetric {
-            xConstraint =
+            yConstraint =
                 centerY
                 .equalToSuperview()
                 .offset(offset.y.metric)

@@ -10,6 +10,10 @@ open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable,
 
     public var items: [TabBarItemConvertible] = [] {
         didSet {
+            screens = items.compactMap {
+                $0.screen
+            }
+
             updateLayoutWhenItemsChanged()
         }
     }
@@ -26,6 +30,9 @@ open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable,
             }
         }
     }
+    public var screens: [UIViewController] = []
+    /// <todo>
+    /// Selecting selectedScreen should change the current item.
     public var selectedScreen: UIViewController?
 
     public private(set) lazy var tabBar = TabBar()

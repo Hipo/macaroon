@@ -28,13 +28,14 @@ open class FormView:
             return lastEditingInputFieldView ?? inputFieldViews.first
         }
 
-        guard let editingInputFieldIndex =
-                inputFieldViews.firstIndex(
-                    where: {
-                        $0 === editingInputFieldView
-                    }
-                )
-        else {
+        let foundEditingInputFieldIndex =
+            inputFieldViews.firstIndex(
+                where: {
+                    $0 === editingInputFieldView
+                }
+            )
+
+        guard let editingInputFieldIndex = foundEditingInputFieldIndex else {
             return nil
         }
 
@@ -47,13 +48,14 @@ open class FormView:
             return lastEditingInputFieldView ?? inputFieldViews.first
         }
 
-        guard let editingInputFieldIndex =
-                inputFieldViews.firstIndex(
-                    where: {
-                        $0 === editingInputFieldView
-                    }
-                )
-        else {
+        let foundEditingInputFieldIndex =
+            inputFieldViews.firstIndex(
+                where: {
+                    $0 === editingInputFieldView
+                }
+            )
+
+        guard let editingInputFieldIndex = foundEditingInputFieldIndex else {
             return nil
         }
 
@@ -109,11 +111,12 @@ open class FormView:
     open func reloadData() {
         deleteAllSubviews()
 
-        guard let newForm =
-                dataSource?.form(
-                    in: self
-                )
-        else {
+        let someNewForm =
+            dataSource?.form(
+                in: self
+            )
+
+        guard let newForm = someNewForm else {
             return
         }
 
@@ -132,7 +135,7 @@ open class FormView:
     /// <mark>
     /// FormInputFieldViewEditingDelegate
     open func formInputFieldViewDidBeginEditing(
-        _ formInputFieldView: FormInputFieldView
+        _ view: FormInputFieldView
     ) {
         /// <note>
         /// The input fields with an external input has its own mechanism to notify the end of
@@ -141,57 +144,57 @@ open class FormView:
         /// `formInputFieldViewDidEndEditing(_:)`.
         if let currentEditingInputFieldView = editingInputFieldView {
             if !currentEditingInputFieldView.inputType.isExternal ||
-               !formInputFieldView.inputType.isExternal {
+               !view.inputType.isExternal {
                 currentEditingInputFieldView.endEditing()
             }
         }
 
-        formInputFieldView.state = .focus
+        view.inputState = .focus
 
-        editingInputFieldView = formInputFieldView
-        lastEditingInputFieldView = formInputFieldView
+        editingInputFieldView = view
+        lastEditingInputFieldView = view
 
         delegate?.formView(
             self,
-            didBeginEditing: formInputFieldView
+            didBeginEditing: view
         )
     }
 
     open func formInputFieldViewDidEdit(
-        _ formInputFieldView: FormInputFieldView
+        _ view: FormInputFieldView
     ) {
-        formInputFieldView.state = .focus
+        view.inputState = .focus
 
         delegate?.formView(
             self,
-            didEdit: formInputFieldView
+            didEdit: view
         )
     }
 
     open func formInputFieldViewDidEndEditing(
-        _ formInputFieldView: FormInputFieldView
+        _ view: FormInputFieldView
     ) {
         let shouldValidate =
             delegate?.formView(
                 self,
-                shouldValidate: formInputFieldView
+                shouldValidate: view
             ) ?? true
 
         if shouldValidate {
             validate(
-                formInputFieldView
+                view
             )
         } else {
-            formInputFieldView.state = .none
+            view.inputState = .none
         }
 
-        if editingInputFieldView === formInputFieldView {
+        if editingInputFieldView === view {
             editingInputFieldView = nil
         }
 
         delegate?.formView(
             self,
-            didEndEditing: formInputFieldView
+            didEndEditing: view
         )
     }
 }
@@ -225,7 +228,7 @@ extension FormView {
         _ inputFieldView: FormInputFieldView
     ) -> Bool {
         guard let validator = inputFieldView.validator else {
-            inputFieldView.state = .none
+            inputFieldView.inputState = .none
             return true
         }
 
@@ -236,10 +239,10 @@ extension FormView {
 
         switch validation {
         case .success:
-            inputFieldView.state = .none
+            inputFieldView.inputState = .none
             return true
         case .failure(let error):
-            inputFieldView.state = .invalid(error)
+            inputFieldView.inputState = .invalid(error)
             return false
         }
     }
@@ -294,12 +297,13 @@ extension FormView {
         _ field: FormField,
         in view: UIStackView
     ) -> UIView? {
-        guard let fieldView =
-                dataSource?.fieldView(
-                    for: field,
-                    in: self
-                )
-        else {
+        let someFieldView =
+            dataSource?.fieldView(
+                for: field,
+                in: self
+            )
+
+        guard let fieldView = someFieldView else {
             return nil
         }
 
@@ -431,8 +435,8 @@ public protocol FormViewDataSource: AnyObject {
 }
 
 public protocol FormViewDelegate: AnyObject {
-    func formView(_ formView: FormView, didBeginEditing inputFieldView: FormInputFieldView)
-    func formView(_ formView: FormView, didEdit inputFieldView: FormInputFieldView)
-    func formView(_ formView: FormView, shouldValidate inputFieldView: FormInputFieldView) -> Bool
-    func formView(_ formView: FormView, didEndEditing inputFieldView: FormInputFieldView)
+    func formView(_ view: FormView, didBeginEditing inputFieldView: FormInputFieldView)
+    func formView(_ view: FormView, didEdit inputFieldView: FormInputFieldView)
+    func formView(_ view: FormView, shouldValidate inputFieldView: FormInputFieldView) -> Bool
+    func formView(_ view: FormView, didEndEditing inputFieldView: FormInputFieldView)
 }

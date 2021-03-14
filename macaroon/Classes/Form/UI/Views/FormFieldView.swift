@@ -11,7 +11,7 @@ public protocol FormInputFieldView: FormFieldView {
     /// <warning>
     /// The conforming input field views should call the delegate methods for the regarding events.
     var editingDelegate: FormInputFieldViewEditingDelegate? { get set }
-    var state: FormInputFieldState { get set }
+    var inputState: FormInputFieldState { get set }
 
     var validator: Validator? { get set }
 
@@ -26,7 +26,7 @@ public protocol FormInputFieldView: FormFieldView {
 
 extension FormInputFieldView {
     public var isEditing: Bool {
-        switch state {
+        switch inputState {
         case .focus: return true
         default: return false
         }
@@ -50,9 +50,9 @@ public protocol FormTextInputFieldView: FormInputFieldView {
 }
 
 public protocol FormInputFieldViewEditingDelegate: AnyObject {
-    func formInputFieldViewDidBeginEditing(_ formInputFieldView: FormInputFieldView)
-    func formInputFieldViewDidEdit(_ formInputFieldView: FormInputFieldView)
-    func formInputFieldViewDidEndEditing(_ formInputFieldView: FormInputFieldView)
+    func formInputFieldViewDidBeginEditing(_ view: FormInputFieldView)
+    func formInputFieldViewDidEdit(_ view: FormInputFieldView)
+    func formInputFieldViewDidEndEditing(_ view: FormInputFieldView)
 }
 
 public enum FormInputFieldState {

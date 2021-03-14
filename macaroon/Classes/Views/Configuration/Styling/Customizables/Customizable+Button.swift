@@ -37,6 +37,10 @@ extension Customizable where Self: UIButton {
                 customizeBaseAppearance(
                     title: title
                 )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
+                )
             }
         }
     }
@@ -67,6 +71,9 @@ extension Customizable where Self: UIButton {
         )
         customizeBaseAppearance(
             title: nil
+        )
+        customizeBaseAppearance(
+            isInteractable: true
         )
     }
 }
@@ -176,5 +183,11 @@ extension Customizable where Self: UIButton {
             title?.disabled,
             for: .disabled
         )
+    }
+
+    public func customizeBaseAppearance(
+        isInteractable: Bool
+    ) {
+        isUserInteractionEnabled = isInteractable
     }
 }

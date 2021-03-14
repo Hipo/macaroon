@@ -148,7 +148,7 @@ open class FormScreen:
     /// <mark>
     /// FormViewDelegate
     open func formView(
-        _ formView: FormView,
+        _ view: FormView,
         didBeginEditing inputFieldView: FormInputFieldView
     ) {
         keyboardController.scrollToEditingRect(
@@ -158,12 +158,12 @@ open class FormScreen:
     }
 
     open func formView(
-        _ formView: FormView,
+        _ view: FormView,
         didEdit inputFieldView: FormInputFieldView
     ) {}
 
     public func formView(
-        _ formView: FormView,
+        _ view: FormView,
         shouldValidate inputFieldView: FormInputFieldView
     ) -> Bool {
         return !(
@@ -173,7 +173,7 @@ open class FormScreen:
     }
 
     open func formView(
-        _ formView: FormView,
+        _ view: FormView,
         didEndEditing inputFieldView: FormInputFieldView
     ) {}
 
@@ -183,11 +183,17 @@ open class FormScreen:
         _ keyboardController: KeyboardController,
         editingRectIn view: UIView
     ) -> CGRect? {
-        return formView
-            .editingInputFieldView?
-            .editingRect(
-                in: view
-            )
+        guard let editingInputFieldView = formView.editingInputFieldView else {
+            return nil
+        }
+
+        if !editingInputFieldView.inputType.isExternal {
+            return nil
+        }
+
+        return editingInputFieldView.editingRect(
+            in: view
+        )
     }
 
     open func bottomInsetOverKeyboardWhenKeyboardDidShow(
@@ -219,6 +225,10 @@ extension FormScreen {
         view.layoutIfNeeded()
 
         formView.beginEditing()
+    }
+
+    public func endEditing() {
+        formView.endEditing()
     }
 }
 

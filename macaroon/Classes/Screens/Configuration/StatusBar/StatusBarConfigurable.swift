@@ -11,7 +11,7 @@ public protocol StatusBarConfigurable: UIViewController {
     /// <sample>
     /// If a screen is pushed while the status bar is hidden, this variable should be true for
     /// the screen to prevent an unneeded status bar animation.
-    var isStatusBarHidden: Bool { get set }
+    var statusBarHidden: Bool { get set }
 
     var hidesStatusBarOnAppeared: Bool { get set }
 
@@ -26,17 +26,17 @@ extension StatusBarConfigurable {
     public func setNeedsStatusBarAppearanceUpdateOnBeingAppeared() {
         if hidesStatusBarOnPresented,
            presentingViewController != nil {
-            if isStatusBarHidden {
+            if statusBarHidden {
                 return
             }
 
-            isStatusBarHidden = true
+            statusBarHidden = true
         } else {
-            if isStatusBarHidden == hidesStatusBarOnAppeared {
+            if statusBarHidden == hidesStatusBarOnAppeared {
                 return
             }
 
-            isStatusBarHidden = hidesStatusBarOnAppeared
+            statusBarHidden = hidesStatusBarOnAppeared
         }
 
         let animator = UIViewPropertyAnimator(duration: 0.25, curve: .linear) {
@@ -65,7 +65,7 @@ extension StatusBarConfigurable {
 
         if configurablePresentedScreen.hidesStatusBarOnPresented ||
            configurablePresentedScreen.hidesStatusBarOnAppeared {
-            isStatusBarHidden = true
+            statusBarHidden = true
         }
     }
 }

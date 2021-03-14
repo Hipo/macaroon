@@ -18,12 +18,26 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
   s.default_subspec = 'Core'
 
+  s.subspec 'Banner' do |ss|
+      ss.source_files = 'macaroon/Classes/Banner/*.swift'
+
+      ss.dependency 'Macaroon/Concurrency'
+  end
+
+  s.subspec 'BottomSheet' do |ss|
+      ss.source_files = 'macaroon/Classes/BottomSheet/*.swift'
+  end
+
   s.subspec 'BarcodeScanner' do |ss|
     ss.source_files = 'macaroon/Classes/BarcodeScanner/*.swift'
   end
 
   s.subspec 'Biometrics' do |ss|
     ss.source_files = 'macaroon/Classes/Biometrics/*.swift'
+  end
+
+  s.subspec 'Concurrency' do |ss|
+      ss.source_files = 'macaroon/Classes/Concurrency/*.swift'
   end
 
   s.subspec 'Core' do |ss|
@@ -59,6 +73,14 @@ Pod::Spec.new do |s|
       sss.source_files = 'macaroon/Classes/Error/*.swift'
     end
 
+    ss.subspec 'Managers' do |sss|
+        sss.source_files = 'macaroon/Classes/Managers/*.swift'
+
+        sss.subspec 'Loading' do |ssss|
+            ssss.source_files = 'macaroon/Classes/Managers/Loading/*.swift'
+        end
+    end
+
     ss.subspec 'Screens' do |sss|
       sss.source_files = 'macaroon/Classes/Screens/*.swift'
 
@@ -89,10 +111,22 @@ Pod::Spec.new do |s|
             sssss.source_files = 'macaroon/Classes/Screens/List/ListLayouts/*.swift'
         end
       end
+
+      sss.subspec 'CustomTransition' do |ssss|
+          ssss.source_files = 'macaroon/Classes/Screens/CustomTransition/*.swift'
+
+          ssss.subspec 'Modal' do |sssss|
+              sssss.source_files = 'macaroon/Classes/Screens/CustomTransition/Modal/*.swift'
+          end
+      end
     end
 
     ss.subspec 'Utils' do |sss|
       sss.source_files = 'macaroon/Classes/Utils/*.swift'
+
+      sss.subspec 'DataStructures' do |ssss|
+          ssss.source_files = 'macaroon/Classes/Utils/DataStructures/*.swift'
+      end
 
       sss.subspec 'Debugging' do |ssss|
           ssss.source_files = 'macaroon/Classes/Utils/Debugging/*.swift'
@@ -106,6 +140,10 @@ Pod::Spec.new do |s|
         sss.subspec 'UI' do |ssss|
           ssss.source_files = 'macaroon/Classes/Utils/Extensions/UI/*.swift'
         end
+      end
+
+      sss.subspec 'Gestures' do |ssss|
+          ssss.source_files = 'macaroon/Classes/Utils/Gestures/*.swift'
       end
 
       sss.subspec 'Image' do |ssss|

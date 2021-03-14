@@ -27,6 +27,14 @@ public func asyncMain(
     )
 }
 
+public func asyncMain(
+    workItem: DispatchWorkItem
+) {
+    DispatchQueue.main.async(
+        execute: workItem
+    )
+}
+
 public func asyncMain<T: AnyObject>(
     _ instance: T,
     execute: @escaping (T) -> Void
@@ -51,6 +59,16 @@ public func asyncMainAfter(
     DispatchQueue.main.asyncAfter(
         deadline: DispatchTime.now() + duration,
         execute: execute
+    )
+}
+
+public func asyncMainAfter(
+    duration: TimeInterval,
+    workItem: DispatchWorkItem
+) {
+    DispatchQueue.main.asyncAfter(
+        deadline: DispatchTime.now() + duration,
+        execute: workItem
     )
 }
 

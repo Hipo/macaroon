@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 public protocol NavigationBarConfigurable: UIViewController {
-    var isNavigationBarHidden: Bool { get set }
+    var navigationBarHidden: Bool { get set }
 
     /// <note>
     /// It may be a string or a view.
@@ -96,9 +96,21 @@ extension NavigationBarConfigurable {
     }
 
     public func setNeedsNavigationBarAppearanceUpdateOnBeingAppeared() {
-        navigationController?.setNavigationBarHidden(
-            isNavigationBarHidden,
-            animated: true
+        guard let navigationController = navigationController else {
+            return
+        }
+
+        if navigationController.isNavigationBarHidden == navigationBarHidden {
+            return
+        }
+
+        navigationController.setNavigationBarHidden(
+            navigationBarHidden,
+            animated:
+                !(
+                    navigationController.isBeingPresented &&
+                    navigationController.viewControllers.first == self
+                )
         )
     }
 }

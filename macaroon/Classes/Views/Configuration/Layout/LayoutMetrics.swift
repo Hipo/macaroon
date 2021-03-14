@@ -7,6 +7,10 @@ import UIKit
 public typealias LayoutMetric = CGFloat
 
 extension LayoutMetric {
+    public var layoutMetric: LayoutMetric {
+        return isNoMetric ? 0 : self
+    }
+
     public var isNoMetric: Bool {
         return self == .noMetric
     }

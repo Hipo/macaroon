@@ -13,6 +13,7 @@ public protocol ListLayout: AnyObject {
     var footerSize: ListSupplementarySize { get }
     var minimumLineSpacing: ListSpacing { get }
     var minimumInteritemSpacing: ListSpacing { get }
+    var contentInset: LayoutPaddings { get }
     var sectionInset: ListSectionInset { get }
     var headersPinToVisibleBounds: Bool { get }
     var footersPinToVisibleBounds: Bool { get }
@@ -47,6 +48,9 @@ extension ListLayout {
     }
     public var minimumInteritemSpacing: ListSpacing {
         return .fixed(0)
+    }
+    public var contentInset: LayoutPaddings {
+        return (.noMetric, .noMetric, .noMetric, .noMetric)
     }
     public var sectionInset: ListSectionInset {
         return .fixed(.zero)
@@ -92,7 +96,7 @@ extension ListLayout {
         return listView.bounds.height - listView.adjustedContentInset.y
     }
 
-    public var cellFittingSize: CGSize {
+    public var contentElementFittingSize: CGSize {
         return CGSize(width: contentWidth, height: .greatestFiniteMagnitude)
     }
 }

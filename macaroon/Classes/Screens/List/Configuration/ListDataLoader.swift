@@ -11,6 +11,7 @@ public protocol ListDataLoader: AnyObject {
     func loadNextList()
     func reloadList()
     func unloadList()
+    func discardList()
 }
 
 extension ListDataLoader {
