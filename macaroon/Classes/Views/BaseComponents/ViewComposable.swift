@@ -4,18 +4,16 @@ import Foundation
 import UIKit
 
 public protocol ViewComposable: UIView {
-    associatedtype StyleGuide
-    associatedtype LayoutGuide
+    associatedtype StyleSheet
+    associatedtype LayoutSheet
 
-    func customizeAppearance(_ styleGuide: StyleGuide)
-    func prepareLayout(_ layoutGuide: LayoutGuide)
-    
-    func prepareLayout()
+    func customizeAppearance(_ styleSheet: StyleSheet)
+    func prepareLayout(_ layoutSheet: LayoutSheet)
     func setListeners()
     func linkInteractors()
 }
 
 extension ViewComposable {
-    public func setListeners() { }
-    public func linkInteractors() { }
+    public func setListeners() {}
+    public func linkInteractors() {}
 }

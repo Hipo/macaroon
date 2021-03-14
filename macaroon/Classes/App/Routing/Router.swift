@@ -3,103 +3,513 @@
 import Foundation
 import UIKit
 
-/// <todo> Add a method to check the path is something that is the same content on the current screen.
-/// This shoulg be optional because we wanto to force the same screen sequentially.
 public protocol Router: AnyObject {
-    associatedtype SomeRootContainer: RootContainer
     associatedtype SomeFlow: Flow
     associatedtype SomePath: Path
 
-    var rootContainer: SomeRootContainer! { get }
+    typealias SomeRoute = Route<SomeFlow, SomePath>
+
+    /// <note>
+    /// Knowing the visible flow helps if the visible screen is a system or a service screen.
+    var visibleFlow: SomeFlow! { get set }
+
     /// <warning>
     /// The router depends on `visibleScreen` to navigate to the routes.
     var visibleScreen: UIViewController! { get set }
 
-    func makeScreen<T: UIViewController>(_ path: SomePath) -> T
+    var window: UIWindow? { get }
+    var rootContainer: UIViewController { get }
+
+    func makeNavigationContainer() -> UINavigationController
 
     /// <warning>
-    /// App decides the routing mechanism for any flow.
-    /// Do NOT forget to set the visible screen for the flow.
-    func open(_ flow: SomeFlow, by transition: SelfTransition)
-
-//    func embedInNavigationScreen(_ hhroot: UIViewController) -> UINavigationController
+    /// Every app determines the transition for its flows. This method just returns the transition,
+    /// not perform it.
+    func makeTransition(to flow: SomeFlow) -> Transition?
 }
 
 extension Router {
-    public func makeScreen<T: UIViewController>(_ path: SomePath) -> T {
-        if let screen = path.build() as? T {
-            return screen
+    public var rootContainer: UIViewController {
+        guard let currentRootContainer = window?.rootViewController else {
+            mc_crash(
+                .rootContainerNotFound
+            )
         }
-        mc_crash(.screenNotFound)
+
+        return currentRootContainer
     }
 }
 
 extension Router {
-    public func open(_ route: Route<SomeFlow, SomePath>...) {
-        if route.isEmpty { return }
+    public func makeScreen<T: ScreenRoutable>(
+        _ path: SomePath
+    ) -> T {
+        guard let screen = path.build() as? T else {
+            mc_crash(
+                .screenNotFound
+            )
+        }
 
-        var navigate: () -> Void = { }
+        screen.pathIdentifier = path.identifier
 
-        route.reversed().forEach { subroute in
-            navigate = {
-                let subflowTransition = SelfTransition(animated: subroute.transition.animated) {
-                    subroute.transition.completeTransition()
-//                    var subpathTransition = subroute.transition
-//                    subpathTransition.completion = {
-//                        navigate()
-//                        subpathTransition.completeTransition()
-//                    }
-//                    self.visibleScreen = self.open(subroute.paths, by: subpathTransition)
-                }
-                self.open(subroute.flow, by: subflowTransition)
+        return screen
+    }
+}
+
+extension Router {
+    public func navigate(
+        _ route: SomeRoute...,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) {
+        let navigation =
+            makeNavigation(
+                route,
+                animated: animated
+            ) {
+                completion?()
+            }
+
+        navigation()
+    }
+
+    func makeNavigation(
+        _ subroute: [SomeRoute],
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) -> () -> Void {
+        guard let nextSubroute = subroute.last else {
+            return completion
+        }
+
+        return makeNavigation(
+            subroute.dropLast(),
+            animated: animated
+        ) { [unowned self] in
+
+            if nextSubroute.flow == .current {
+                self.navigateToDestination(
+                    nextSubroute,
+                    animated: animated,
+                    completion: completion
+                )
+
+                return
+            }
+
+            self.navigateToFlow(
+                nextSubroute,
+                animated: animated
+            ) { [unowned self] in
+
+                self.navigateToDestination(
+                    nextSubroute,
+                    animated: animated,
+                    completion: completion
+                )
             }
         }
-
-        navigate()
     }
 
-    private func open(subroute: Route<SomeFlow, SomePath>) -> UIViewController {
-        if subroute.paths.isEmpty {
-            subroute.transition.completeTransition()
-            return visibleScreen
+    private func navigateToFlow(
+        _ subroute: SomeRoute,
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) {
+        let flow = subroute.flow
+        let transitionCompletion = {
+            self.visibleFlow = flow
+            self.visibleScreen = self.findVisibleScreen()
+
+            if let vs = self.visibleScreen as? ScreenRoutable {
+                vs.flowIdentifier = flow.identifier
+            }
+
+            completion()
         }
 
-        switch subroute.anchorPath {
-            case .initial:
-                if visibleScreen as? ScreenRoutable == nil {
-                    visibleScreen = findVisibleScreen(over: visibleScreen)
-                }
-            case .current:
-                break
-            case .interim(let interimScreen):
-                break
+        let someFlowTransition =
+            self.makeTransition(
+                to: flow
+            )
+
+        guard var flowTransition = someFlowTransition else {
+            transitionCompletion()
+            return
         }
 
-        fatalError()
+        flowTransition.completion = transitionCompletion
+        flowTransition.perform(
+            animated: animated
+        )
+    }
+
+    private func navigateToDestination(
+        _ subroute: SomeRoute,
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) {
+        switch subroute.destination {
+        case .existing(let existingPath):
+            navigate(
+                to: existingPath,
+                animated: animated,
+                completion: completion
+            )
+        case .new(let newPaths):
+            navigate(
+                to: newPaths,
+                transitionStyle: subroute.transitionStyle,
+                animated: animated,
+                completion: completion
+            )
+        case .override(let existingScreen, let newPaths):
+            navigate(
+                to: newPaths,
+                attachedTo: existingScreen,
+                animated: animated,
+                completion: completion
+            )
+        }
+    }
+
+    private func navigate(
+        to existingPath: ExistingPath,
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) {
+        switch existingPath {
+        case .initial:
+            guard let firstScreenInVisibleFlow = findFirstScreenInVisibleFlow() else {
+                completion()
+                return
+            }
+
+            navigate(
+                to: firstScreenInVisibleFlow,
+                animated: animated,
+                completion: completion
+            )
+        case .last:
+            completion()
+        case .interim(let aScreen):
+            navigate(
+                to: aScreen,
+                animated: animated,
+                completion: completion
+            )
+        }
+    }
+
+    private func findFirstScreenInVisibleFlow() -> UIViewController? {
+        var firstScreenInVisibleFlow =
+            findFirstScreenInVisibleFlow(
+                appearedWithinHierarchyOf: visibleScreen.parent ?? visibleScreen
+            )
+
+        while let presentingFirstScreenInVisibleFlow =
+                findFirstScreenInVisibleFlow(
+                    appearedWithinHierarchyOf: firstScreenInVisibleFlow?.presentingViewController
+                ) {
+            firstScreenInVisibleFlow = presentingFirstScreenInVisibleFlow
+        }
+
+        return firstScreenInVisibleFlow
+    }
+
+    private func findFirstScreenInVisibleFlow(
+        appearedWithinHierarchyOf screen: UIViewController?
+    ) -> UIViewController? {
+        switch screen {
+        case let navigationContainer as UINavigationController:
+            return navigationContainer.viewControllers.first {
+                ($0 as? ScreenRoutable)?.flowIdentifier == visibleFlow.identifier
+            }
+        case let tabbedContainer as TabbedContainer:
+            return tabbedContainer.screens.first {
+                findFirstScreenInVisibleFlow(
+                    appearedWithinHierarchyOf: $0
+                ) != nil
+            }
+        case let someScreen as ScreenRoutable:
+            return someScreen.flowIdentifier == visibleFlow.identifier ? someScreen : nil
+        default: return nil
+        }
+    }
+
+    private func navigate(
+        to existingScreen: UIViewController,
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) {
+        let isPresenting = existingScreen.presentedViewController != nil
+        let transitionCompletion = {
+            [unowned self] in
+
+            self.visibleScreen = existingScreen
+            completion()
+        }
+
+        if isPresenting {
+            existingScreen.dismiss(
+                animated: animated
+            )
+        }
+
+        if let navigationContainer = existingScreen.navigationController,
+           navigationContainer.viewControllers.last != existingScreen {
+            navigationContainer.popToViewController(
+                existingScreen,
+                animated: !isPresenting && animated,
+                completion: transitionCompletion
+            )
+
+            return
+        }
+
+        if let tabbedContainer = existingScreen.parent as? TabbedContainer {
+            tabbedContainer.selectedScreen = existingScreen
+            transitionCompletion()
+
+            return
+        }
+
+        transitionCompletion()
+    }
+
+    private func navigate(
+        to newPaths: [SomePath],
+        transitionStyle: SomeRoute.TransitionStyle,
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) {
+        let destination = makeDestination(
+            newPaths
+        )
+        let transitionCompletion = {
+            [unowned self] in
+
+            self.visibleScreen = destination.last
+            completion()
+        }
+        let transition =
+            makeTransition(
+                to: destination,
+                transitionStyle: transitionStyle,
+                completion: transitionCompletion
+            )
+
+        transition?.perform(
+            animated: animated
+        )
+    }
+
+    private func makeDestination(
+        _ paths: [SomePath]
+    ) -> [ScreenRoutable] {
+        return paths.map {
+            let screen = $0.build()
+            screen.flowIdentifier = visibleFlow.identifier
+            screen.pathIdentifier = $0.identifier
+            return screen
+        }
+    }
+
+    private func makeTransition(
+        to destination: [UIViewController],
+        transitionStyle: SomeRoute.TransitionStyle,
+        completion: @escaping () -> Void
+    ) -> Transition? {
+        switch transitionStyle {
+        /// <warning>
+        /// It must not be used for the transitions for the new screens.
+        case .existing:
+            return nil
+        case .next:
+            return PushTransition(
+                source: visibleScreen,
+                destination: destination,
+                completion: completion
+            )
+        case .stack:
+            return StackTransition(
+                source: visibleScreen,
+                destination: destination,
+                overridesFullStack: true,
+                completion: completion
+            )
+        case .modal:
+            return ModalTransition(
+                source: visibleScreen,
+                destination: destination,
+                navigationContainer: makeNavigationContainer(),
+                completion: completion
+            )
+        case .builtInModal(let modalPresentationStyle, let modalTransitionStyle):
+            return BuiltInModalTransition(
+                source: visibleScreen,
+                destination: destination,
+                navigationContainer: makeNavigationContainer(),
+                modalPresentationStyle: modalPresentationStyle,
+                modalTransitionStyle: modalTransitionStyle,
+                completion: completion
+            )
+        case .customModal(let transitioningDelegate):
+            return CustomModalTransition(
+                source: visibleScreen,
+                destination: destination,
+                navigationContainer: makeNavigationContainer(),
+                transitioningDelegate: transitioningDelegate,
+                completion: completion
+            )
+        }
+    }
+
+    private func navigate(
+        to newPaths: [SomePath],
+        attachedTo existingScreen: UIViewController,
+        animated: Bool,
+        completion: @escaping () -> Void
+    ) {
+        let destination = makeDestination(
+            newPaths
+        )
+        let transitionCompletion = {
+            [unowned self] in
+
+            self.visibleScreen = destination.last
+            completion()
+        }
+
+        let isPresenting = existingScreen.presentedViewController != nil
+
+        if isPresenting {
+            existingScreen.dismiss(
+                animated: animated
+            )
+        }
+
+        let transition =
+            StackTransition(
+                source: existingScreen,
+                destination: destination,
+                overridesFullStack: false,
+                completion: completion
+            )
+
+        transition.perform(
+            animated: !isPresenting && animated
+        )
     }
 }
 
 extension Router {
-    public func findVisibleScreen(over screen: UIViewController? = nil) -> UIViewController {
-        /// <warning>
-        /// It is useless at the moment the app doesn't have a root container yet.
-        if screen == nil && rootContainer == nil {
-            mc_crash(.screenNotFound)
+    public func navigateToSafari(
+        _ url: URL
+    ) {
+        if !UIApplication.shared.canOpenURL(
+            url
+        ) {
+            return
         }
 
-        var topmostPresentedScreen = findVisibleScreen(presentedBy: screen ?? rootContainer)
+        UIApplication.shared.open(
+            url,
+            options: [:],
+            completionHandler: nil
+        )
+    }
+}
+
+extension Router {
+    public func popVisibleScreen(
+        animated: Bool = true
+    ) {
+        guard let navigationContainer = visibleScreen.navigationController else {
+            return
+        }
+
+        if navigationContainer.viewControllers.count < 2 {
+            return
+        }
+
+        navigationContainer.popViewController(
+            animated: animated) {
+            [unowned self] in
+
+            self.visibleScreen =
+                self.findVisibleScreen(
+                    in: navigationContainer
+                )
+
+            if let vs = self.visibleScreen as? ScreenRoutable {
+                self.visibleFlow = .instance(vs.flowIdentifier)
+            }
+        }
+    }
+
+    public func dismissVisibleScreen(
+        animated: Bool = true
+    ) {
+        guard let presentingScreen = visibleScreen.presentingViewController else {
+            return
+        }
+
+        presentingScreen.dismiss(
+            animated: animated
+        ) { [unowned self] in
+
+            if let presentingNavigationContainer = presentingScreen as? UINavigationController {
+                self.visibleScreen =
+                    self.findVisibleScreen(
+                        in: presentingNavigationContainer
+                    )
+            } else {
+                self.visibleScreen = presentingScreen
+            }
+
+            if let vs = self.visibleScreen as? ScreenRoutable {
+                self.visibleFlow = .instance(vs.flowIdentifier)
+            }
+        }
+    }
+}
+
+extension Router {
+    public func findVisibleScreen(
+        over screen: UIViewController? = nil
+    ) -> UIViewController {
+        /// <warning>
+        /// It is useless at the moment the app doesn't have a root container yet.
+        if screen == nil &&
+           rootContainer == nil {
+            mc_crash(
+                .screenNotFound
+            )
+        }
+
+        var topmostPresentedScreen =
+            findVisibleScreen(
+                presentedBy: screen ?? rootContainer
+            )
 
         switch topmostPresentedScreen {
         case let navigationContainer as UINavigationController:
-            return findVisibleScreen(in: navigationContainer)
+            return findVisibleScreen(
+                in: navigationContainer
+            )
         case let tabbedContainer as TabbedContainer:
-            return findVisibleScreen(in: tabbedContainer)
+            return findVisibleScreen(
+                in: tabbedContainer
+            )
         default:
             return topmostPresentedScreen
         }
     }
 
-    public func findVisibleScreen(presentedBy screen: UIViewController) -> UIViewController {
+    public func findVisibleScreen(
+        presentedBy screen: UIViewController
+    ) -> UIViewController {
         var topmostPresentedScreen = screen
 
         while let nextPresentedScreen = topmostPresentedScreen.presentedViewController {
@@ -108,53 +518,15 @@ extension Router {
         return topmostPresentedScreen
     }
 
-    public func findVisibleScreen(in navigationContainer: UINavigationController) -> UIViewController {
+    public func findVisibleScreen(
+        in navigationContainer: UINavigationController
+    ) -> UIViewController {
         return navigationContainer.viewControllers.last ?? navigationContainer
     }
 
-    public func findVisibleScreen(in tabbedContainer: TabbedContainer) -> UIViewController {
+    public func findVisibleScreen(
+        in tabbedContainer: TabbedContainer
+    ) -> UIViewController {
         return tabbedContainer.selectedScreen ?? tabbedContainer
     }
 }
-
-//    func presentScreens(_ screens: [UIViewController], from source: UIViewController, by transition: RouteTransition.Open.Presentation = .default, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
-//        if let configurableSource = source as? StatusBarConfigurable, configurableSource.isStatusBarHidden,
-//           let configurableScreen = screens.last as? StatusBarConfigurable {
-//            configurableScreen.hidesStatusBarOnPresented = true
-//            configurableScreen.isStatusBarHidden = true
-//        }
-//
-//        let navigationContainer: UINavigationController
-//        if screens.count > 1 {
-//            navigationContainer = embedInNavigationScreen(screens[0])
-//            navigationContainer.setViewControllers(screens, animated: false)
-//        } else {
-//           navigationContainer = screens[0] as? UINavigationController ?? embedInNavigationScreen(screens[0])
-//        }
-//
-//        switch transition {
-//        case .`default`:
-//            break
-//        case .modal(let presentationStyle, let transitionStyle):
-//            navigationContainer.modalPresentationStyle = presentationStyle
-//
-//            if let someTransitionStyle = transitionStyle {
-//                navigationContainer.modalTransitionStyle = someTransitionStyle
-//            }
-//        case .custom(let transitioningDelegate):
-//            navigationContainer.modalPresentationStyle = .custom
-//            navigationContainer.modalPresentationCapturesStatusBarAppearance = true
-//            navigationContainer.transitioningDelegate = transitioningDelegate
-//        }
-//        source.present(navigationContainer, animated: animated) {
-//            if !transition.isFullScreen {
-//                navigationContainer.presentationController?.delegate = source as? UIAdaptivePresentationControllerDelegate
-//            }
-//            handler?()
-//        }
-//    }
-//
-//    func dismisListScreen(_ screen: UIViewController, animated: Bool = true, onCompleted handler: TransitionCompletionHandler? = nil) {
-//        screen.presentingViewController?.dismiss(animated: animated, completion: handler)
-//    }
-//}

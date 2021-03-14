@@ -5,19 +5,22 @@ import Foundation
 public protocol AppLaunchUIHandler: AnyObject {
     associatedtype SomeAppLaunchUIState: AppLaunchUIState
 
-    func launchUI(_ state: SomeAppLaunchUIState, first: Bool)
+    func launchUI(_ state: SomeAppLaunchUIState, firstTime: Bool)
 }
 
 public protocol AppLaunchUIState {
     associatedtype MainScreen: UIViewController
 
-    static func readyToUse(completion: @escaping (MainScreen) -> Void) -> Self
+    static func main(completion: ((MainScreen) -> Void)?) -> Self
 }
 
-/// <mark> Auth
+/// <mark>
+/// Auth
 public protocol AppAuthLaunchUIHandler: AppLaunchUIHandler
 where SomeAppLaunchUIState: AppAuthLaunchUIState { }
 
 public protocol AppAuthLaunchUIState: AppLaunchUIState {
-    static var authRequired: Self { get }
+    associatedtype OnboardingScreen: UIViewController
+
+    static func onboarding(completion: ((OnboardingScreen) -> Void)?) -> Self
 }

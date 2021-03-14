@@ -6,13 +6,14 @@ import UIKit
 public protocol ListLayout: AnyObject {
     static var flowLayoutClass: AnyClass { get }
 
-    var listView: UICollectionView? { get set }
+    var listView: UICollectionView! { get set }
     var scrollDirection: UICollectionView.ScrollDirection { get }
     var itemSize: ListItemSize { get }
     var headerSize: ListSupplementarySize { get }
     var footerSize: ListSupplementarySize { get }
     var minimumLineSpacing: ListSpacing { get }
     var minimumInteritemSpacing: ListSpacing { get }
+    var contentInset: LayoutPaddings { get }
     var sectionInset: ListSectionInset { get }
     var headersPinToVisibleBounds: Bool { get }
     var footersPinToVisibleBounds: Bool { get }
@@ -43,10 +44,13 @@ extension ListLayout {
         return .fixed(.zero)
     }
     public var minimumLineSpacing: ListSpacing {
-        return .fixed(0.0)
+        return .fixed(0)
     }
     public var minimumInteritemSpacing: ListSpacing {
-        return .fixed(0.0)
+        return .fixed(0)
+    }
+    public var contentInset: LayoutPaddings {
+        return (.noMetric, .noMetric, .noMetric, .noMetric)
     }
     public var sectionInset: ListSectionInset {
         return .fixed(.zero)
@@ -85,10 +89,15 @@ extension ListLayout {
 
 extension ListLayout {
     public var contentWidth: CGFloat {
-        if let listView = listView {
-            return listView.bounds.width - listView.contentInset.x
-        }
-        return UIScreen.main.bounds.width
+        return listView.bounds.width - listView.adjustedContentInset.x
+    }
+
+    public var contentHeight: CGFloat {
+        return listView.bounds.height - listView.adjustedContentInset.y
+    }
+
+    public var contentElementFittingSize: CGSize {
+        return CGSize(width: contentWidth, height: .greatestFiniteMagnitude)
     }
 }
 
@@ -170,17 +179,17 @@ extension ListLayout {
 
 extension ListLayout {
     public func visibleHeader(in section: Int) -> UICollectionReusableView? {
-        return listView?.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: section))
+        return listView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: section))
     }
 
     public func visibleFooter(in section: Int) -> UICollectionReusableView? {
-        return listView?.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: section))
+        return listView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: section))
     }
 }
 
 extension ListLayout {
     public func reloadHeader(with item: Any?, in section: Int, forceInvalidation: Bool = false, animated: Bool = false) {
-        if let visibleHeader = listView?.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: section)) {
+        if let visibleHeader = listView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(item: 0, section: section)) {
             configure(header: visibleHeader, with: item, in: section)
 
             if forceInvalidation {
@@ -197,7 +206,7 @@ extension ListLayout {
         collectionViewLayout.invalidateLayout()
 
         if forceLayoutUpdate {
-            listView?.layoutIfNeeded()
+            listView.layoutIfNeeded()
         }
     }
 
@@ -217,7 +226,7 @@ extension ListLayout {
 
     public func invalidateLayout(_ context: UICollectionViewFlowLayoutInvalidationContext, animated: Bool = false) {
         let applyUpdates: () -> Void = {
-            self.listView?.performBatchUpdates({ self.collectionViewLayout.invalidateLayout(with: context) })
+            self.listView.performBatchUpdates({ self.collectionViewLayout.invalidateLayout(with: context) })
         }
         if animated {
             let animator = UIViewPropertyAnimator(duration: 0.33, dampingRatio: 0.5, animations: applyUpdates)
@@ -230,7 +239,7 @@ extension ListLayout {
 
 extension ListLayout {
     var collectionViewLayout: UICollectionViewFlowLayout {
-        guard let listView = listView else {
+        if listView == nil {
             return formFlowLayout()
         }
         guard let flowLayout = listView.collectionViewLayout as? UICollectionViewFlowLayout else {

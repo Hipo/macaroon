@@ -1,96 +1,127 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import UIKit
 
-public protocol NavigationTransition: Transition {
-    func prepareForTransition(
-        to screens: [ScreenRoutable],
-        from fromScreen: ScreenRoutable
-    )
+protocol NavigationTransition: Transition {
+    var source: UIViewController? { get set }
 }
 
 extension NavigationTransition {
-    public func prepareForTransition(
-        to screens: [ScreenRoutable],
-        from fromScreen: ScreenRoutable
+    func prepareForTransition(
+        from source: UIViewController,
+        to destination: [UIViewController]
     ) {
         guard
-            let toScreen = screens.last as? StatusBarConfigurable,
-            let fromScreen = fromScreen as? StatusBarConfigurable
-        else { return }
+            let source = source as? StatusBarConfigurable,
+            let lastDestination = destination.last as? StatusBarConfigurable
+        else {
+            return
+        }
 
-        let isStatusBarHidden = fromScreen.isStatusBarHidden
-        toScreen.hidesStatusBarOnAppeared = isStatusBarHidden
-        toScreen.isStatusBarHidden = isStatusBarHidden
+        let isStatusBarHidden = source.statusBarHidden
+
+        lastDestination.hidesStatusBarOnAppeared = isStatusBarHidden
+        lastDestination.statusBarHidden = isStatusBarHidden
     }
 }
 
-public struct DefaultPushTransition: NavigationTransition {
-    public var completion: (() -> Void)?
+struct PushTransition: NavigationTransition {
+    var source: UIViewController?
+    var destination: [UIViewController]
+    var completion: Completion?
 
-    public let animated: Bool
-
-    public init(
-        animated: Bool = true,
-        completion: (() -> Void)? = nil
+    func perform(
+        animated: Bool
     ) {
-        self.animated = animated
-        self.completion = completion
-    }
+        if destination.isEmpty {
+            completion?()
+            return
+        }
 
-    public func playTransition(
-        to screens: [ScreenRoutable],
-        from fromScreen: ScreenRoutable
-    ) {
-        if screens.isEmpty { return }
+        guard
+            let source = source,
+            let navigationContainer =
+                source as? UINavigationController ?? source.navigationController
+        else {
+            completion?()
+            return
+        }
 
-        guard let navigationContainer =
-                fromScreen as? UINavigationController ?? fromScreen.navigationController
-        else { return }
+        prepareForTransition(
+            from: source,
+            to: destination
+        )
 
-        prepareForTransition(to: screens, from: fromScreen)
+        if destination.count == 1 {
+            let nextScreen = destination[0]
 
-        if screens.count == 1 {
-            let screen = screens[screens.startIndex]
-            navigationContainer.pushViewController(screen, animated: animated, completion: completeTransition)
+            navigationContainer.pushViewController(
+                nextScreen,
+                animated: animated,
+                completion: completion
+            )
         } else {
-            let currentScreens = navigationContainer.viewControllers
-            let lastScreens = currentScreens + screens
-            navigationContainer.setViewControllers(lastScreens, animated: animated, completion: completeTransition)
+            let nextScreens = navigationContainer.viewControllers + destination
+
+            navigationContainer.setViewControllers(
+                nextScreens,
+                animated: animated,
+                completion: completion
+            )
         }
     }
 }
 
-public struct DefaultStackTransition: NavigationTransition {
-    public var completion: (() -> Void)?
+struct StackTransition: NavigationTransition {
+    var source: UIViewController?
+    var destination: [UIViewController]
+    /// <note>
+    /// newStack == ...sourceLink + destination
+    var overridesFullStack: Bool
+    var completion: Completion?
 
-    public let animated: Bool
-
-    public init(
-        animated: Bool = true,
-        completion: (() -> Void)? = nil
+    func perform(
+        animated: Bool
     ) {
-        self.animated = animated
-        self.completion = completion
-    }
-
-    public func playTransition(
-        to screens: [ScreenRoutable],
-        from fromScreen: ScreenRoutable
-    ) {
-        if screens.isEmpty { return }
-
-        guard let navigationContainer =
-                fromScreen as? UINavigationController ?? fromScreen.navigationController
-        else { return }
-
-        prepareForTransition(to: screens, from: fromScreen)
-
-        if navigationContainer.viewControllers.isEmpty {
-            navigationContainer.setViewControllers(screens, animated: false, completion: completeTransition)
-        } else {
-            navigationContainer.setViewControllers(screens, animated: animated, completion: completeTransition)
+        guard
+            let source = source,
+            let navigationContainer =
+                source as? UINavigationController ?? source.navigationController
+        else {
+            completion?()
+            return
         }
+
+        prepareForTransition(
+            from: source,
+            to: destination
+        )
+
+        let currentStack = navigationContainer.viewControllers
+
+        if !overridesFullStack,
+           let sourceIndex =
+                currentStack.firstIndex(
+                    of: source
+                ) {
+            let newStack = Array(currentStack[0...sourceIndex]) + destination
+
+            navigationContainer.setViewControllers(
+                newStack,
+                animated: true,
+                completion: completion
+            )
+
+            return
+        }
+
+        navigationContainer.setViewControllers(
+            destination,
+            animated: !currentStack.isEmpty,
+            completion: completion
+        )
+
     }
 }
 
@@ -100,8 +131,14 @@ extension UINavigationController {
         animated: Bool,
         completion: (() -> Void)?
     ) {
-        setViewControllers(viewControllers, animated: animated)
-        completeTransition(completion, animated: animated)
+        setViewControllers(
+            viewControllers,
+            animated: animated
+        )
+        finishTransition(
+            completion,
+            animated: animated
+        )
     }
 
     public func pushViewController(
@@ -109,16 +146,28 @@ extension UINavigationController {
         animated: Bool,
         completion: (() -> Void)?
     ) {
-        pushViewController(screen, animated: animated)
-        completeTransition(completion, animated: animated)
+        pushViewController(
+            screen,
+            animated: animated
+        )
+        finishTransition(
+            completion,
+            animated: animated
+        )
     }
 
     public func popViewController(
         animated: Bool,
         completion: (() -> Void)?
     ) -> UIViewController? {
-        let poppedScreen = popViewController(animated: animated)
-        completeTransition(completion, animated: animated)
+        let poppedScreen =
+            popViewController(
+                animated: animated
+            )
+        finishTransition(
+            completion,
+            animated: animated
+        )
         return poppedScreen
     }
 
@@ -127,23 +176,37 @@ extension UINavigationController {
         animated: Bool,
         completion: (() -> Void)?
     ) -> [UIViewController]? {
-        let poppedScreens = popToViewController(viewController, animated: animated)
-        completeTransition(completion, animated: animated)
+        let poppedScreens =
+            popToViewController(
+                viewController,
+                animated: animated
+            )
+        finishTransition(
+            completion,
+            animated: animated
+        )
         return poppedScreens
     }
 }
 
 extension UINavigationController {
-    private func completeTransition(
+    private func finishTransition(
         _ completion: (() -> Void)?,
         animated: Bool
     ) {
-        if animated,
-           let transitionCoordinator = transitionCoordinator {
-            transitionCoordinator.animate(alongsideTransition: nil) { _ in
-                completion?()
-            }
-        } else {
+        guard let transitionCoordinator = transitionCoordinator else {
+            completion?()
+            return
+        }
+
+        if !animated {
+            completion?()
+            return
+        }
+
+        transitionCoordinator.animate(
+            alongsideTransition: nil
+        ) { _ in
             completion?()
         }
     }

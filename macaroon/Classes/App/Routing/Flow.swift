@@ -8,11 +8,10 @@ import Foundation
 /// If the deeplink flow is a distinct flow, then each one should has its own unique identifier.
 /// There shouldn't be a second flow with the same unique identifier in the hierarchy.
 public protocol Flow: Equatable {
-    var uniqueIdentifier: String { get }
-
     /// <note>
-    /// A special kind of flow to point the root container.
-    static var root: Self { get }
+    /// It should be unique for every flow out there.
+    var identifier: String { get }
+
     /// <note>
     /// A special kind of flow to point the current flow.
     static var current:  Self { get }
@@ -21,7 +20,10 @@ public protocol Flow: Equatable {
 }
 
 extension Flow {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.uniqueIdentifier == rhs.uniqueIdentifier
+    public static func == (
+        lhs: Self,
+        rhs: Self
+    ) -> Bool {
+        return lhs.identifier == rhs.identifier
     }
 }

@@ -9,16 +9,31 @@ public protocol URLImageLoadable: ImageLoadable {
 }
 
 extension URLImageLoadable {
-    public func load(from source: ImageSource?, onCompleted execute: ((ErrorConvertible?) -> Void)? = nil) {
+    public func load(
+        from source: ImageSource?,
+        onCompleted execute: ((Swift.Error?) -> Void)? = nil
+    ) {
         guard let source = source else {
             unloadSource()
-            execute?(nil)
+
+            execute?(
+                nil
+            )
+
             return
         }
+
         if let urlSource = source as? PNGImageSource {
-            urlSource.load(in: imageContainer, displayingPlaceholderIn: placeholderContainer, onCompleted: execute)
+            urlSource.load(
+                in: imageContainer,
+                displayingPlaceholderIn: placeholderContainer,
+                onCompleted: execute
+            )
         } else {
-            source.load(in: imageContainer, onCompleted: execute)
+            source.load(
+                in: imageContainer,
+                onCompleted: execute
+            )
         }
     }
 

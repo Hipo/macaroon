@@ -35,6 +35,14 @@ extension NotificationObserver {
         observe(notificationWith: UIApplication.didEnterBackgroundNotification, onNotified: handler)
     }
 
+    public func notifyWhenKeyboardWillShow(_ handler: @escaping NotificationHandler) {
+        observe(notificationWith: UIResponder.keyboardWillShowNotification, onNotified: handler)
+    }
+
+    public func notifyWhenKeyboardWillHide(_ handler: @escaping NotificationHandler) {
+        observe(notificationWith: UIResponder.keyboardWillHideNotification, onNotified: handler)
+    }
+
     public func unobserveNotifications() {
         observations.forEach { NotificationCenter.default.removeObserver($0) }
         observations = []

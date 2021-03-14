@@ -4,53 +4,24 @@ import Foundation
 import UIKit
 
 public protocol AppTarget: AnyObject, Decodable {
-    var isDevelopment: Bool { get }
+    var isProduction: Bool { get }
+    var bundleIdentifier: String { get }
+    var displayName: String { get }
+    var version: AppVersion { get }
 }
 
 extension AppTarget {
-    public var bundleIdentifier: String {
+    public static func getBundleIdentifier() -> String {
         return Bundle.main.bundleIdentifier.nonNil
     }
-    public var displayName: String {
+
+    public static func getDisplayName() -> String {
         let infoDictionary = Bundle.main.infoDictionary
         return ((infoDictionary?["CFBundleDisplayName"] ?? infoDictionary?["CFBundleName"]) as? String).nonNil
     }
-    public var version: AppVersion {
-        let versionString = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String).nonNil
-        return AppVersion(versionString: versionString)
-    }
 
-    public var deviceOS: DeviceOS {
-        #if os(iOS)
-        return .iOS
-        #elseif os(watchOS)
-        return .watchOS
-        #else
-        mc_crash(.unsupportedDeviceOS)
-        #endif
-    }
-
-    public var deviceFamily: DeviceFamily {
-        #if os(iOS)
-        switch UIScreen.main.traitCollection.userInterfaceIdiom {
-        case .unspecified:
-            return .iPhone
-        case .phone:
-            return .iPhone
-        case .pad:
-            return .iPad
-        default:
-            mc_crash(.unsupportedDeviceFamily)
-        }
-        #elseif os(watchOS)
-        return .watch
-        #else
-        mc_crash(.unsupportedDeviceFamily)
-        #endif
-    }
-
-    public var hasNotch: Bool {
-        return UIApplication.shared.keyWindow.unwrap(ifPresent: { $0.safeAreaInsets.bottom > 0 }, or: false)
+    public static func getVersion() -> AppVersion {
+        return AppVersion()
     }
 }
 
@@ -73,15 +44,4 @@ extension AppTarget {
             mc_crash(.appTargetCorrupted(reason: err))
         }
     }
-}
-
-public enum DeviceOS {
-    case iOS
-    case watchOS
-}
-
-public enum DeviceFamily {
-    case iPhone
-    case iPad
-    case watch
 }

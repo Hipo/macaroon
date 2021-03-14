@@ -96,7 +96,9 @@ extension TabBarButton {
     }
 
     private func addBadge(animated: Bool) {
-        if badgeView.isDescendant(of: self) { return }
+        if badgeView.isDescendant(of: self) {
+            return
+        }
 
         addSubview(badgeView)
         badgeView.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 4.0, bottom: 0.0, right: 4.0)

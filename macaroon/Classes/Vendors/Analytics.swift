@@ -19,14 +19,20 @@ extension Analytics {
 
     public func track<T: AnalyticsTrackableScreen>(_ screen: T) {
         platforms.forEach {
-            if !$0.canTrack(screen) { return }
+            if !$0.canTrack(screen) {
+                return
+            }
+
             $0.track(screen)
         }
     }
 
     public func track<T: AnalyticsTrackableEvent>(_ event: T) {
         platforms.forEach {
-            if !$0.canTrack(event) { return }
+            if !$0.canTrack(event) {
+                return
+            }
+
             $0.track(event)
         }
     }

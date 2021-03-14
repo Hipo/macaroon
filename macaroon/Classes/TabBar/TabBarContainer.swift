@@ -4,9 +4,16 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable {
+open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable, ScreenRoutable {
+    public var flowIdentifier: String = "main"
+    public var pathIdentifier: String = "tabbarContainer"
+
     public var items: [TabBarItemConvertible] = [] {
         didSet {
+            screens = items.compactMap {
+                $0.screen
+            }
+
             updateLayoutWhenItemsChanged()
         }
     }
@@ -23,6 +30,9 @@ open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable 
             }
         }
     }
+    public var screens: [UIViewController] = []
+    /// <todo>
+    /// Selecting selectedScreen should change the current item.
     public var selectedScreen: UIViewController?
 
     public private(set) lazy var tabBar = TabBar()
@@ -87,7 +97,9 @@ open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable 
         tabBar.snp.updateConstraints { maker in
             maker.bottom.equalToSuperview().inset(isHidden ? -tabBar.bounds.height : 0.0)
         }
-        if !animated || !isAppeared { return }
+        if !animated || !isAppeared {
+            return
+        }
 
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) { [unowned self] in
             self.view.layoutIfNeeded()
@@ -118,15 +130,23 @@ extension TabBarContainer {
         removeCurrentSelectedScreen()
 
         if let screen = selectedItem?.screen {
-            selectedScreen = addContent(screen) { contentView in
-                view.insertSubview(contentView, belowSubview: tabBar)
-                contentView.snp.makeConstraints { maker in
-                    maker.top.equalToSuperview()
-                    maker.leading.equalToSuperview()
-                    maker.trailing.equalToSuperview()
-                    maker.bottom.equalTo(tabBar.snp.top)
+            selectedScreen =
+                addScreen(
+                    screen
+                ) {
+                    screenView in
+                    view.insertSubview(
+                        screenView,
+                        belowSubview: tabBar
+                    )
+                    screenView.snp.makeConstraints {
+                        $0.bottom == tabBar.snp.top
+
+                        $0.setPaddings(
+                            (0, 0, .noMetric, 0)
+                        )
+                    }
                 }
-            }
         }
     }
 

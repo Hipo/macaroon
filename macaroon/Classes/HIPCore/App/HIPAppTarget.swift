@@ -3,17 +3,29 @@
 import Foundation
 
 open class HIPAppTarget<ServerConfig: Decodable, DeeplinkConfig: Decodable>: AppTarget {
-    public var isDevelopment: Bool
-    public var serverConfig: ServerConfig
-    public var deeplinkConfig: DeeplinkConfig
+    public let isProduction: Bool
+    public let serverConfig: ServerConfig
+    public let deeplinkConfig: DeeplinkConfig
+
+    public let bundleIdentifier = getBundleIdentifier()
+    public let displayName = getDisplayName()
+    public let version = getVersion()
 
     public init(
-        isDevelopment: Bool,
+        isProduction: Bool,
         serverConfig: ServerConfig,
         deeplinkConfig: DeeplinkConfig
     ) {
-        self.isDevelopment = isDevelopment
+        self.isProduction = isProduction
         self.serverConfig = serverConfig
         self.deeplinkConfig = deeplinkConfig
+    }
+}
+
+extension HIPAppTarget {
+    private enum CodingKeys: String, CodingKey {
+        case isProduction
+        case serverConfig
+        case deeplinkConfig
     }
 }

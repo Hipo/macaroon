@@ -11,6 +11,7 @@ public protocol ListDataLoader: AnyObject {
     func loadNextList()
     func reloadList()
     func unloadList()
+    func discardList()
 }
 
 extension ListDataLoader {
@@ -50,7 +51,7 @@ public enum ListModifier {
     case reload
 }
 
-public struct ListError: ErrorConvertible {
+public struct ListError: Swift.Error {
     public let reason: Reason
     public let userInfo: Any?
 

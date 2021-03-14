@@ -2,13 +2,7 @@
 
 import Foundation
 
-public protocol AppLaunchController: AppLaunchControlling {
-    associatedtype SomeAppLaunchUIHandler: AppLaunchUIHandler
-
-    var uiHandler: SomeAppLaunchUIHandler { get }
-}
-
-public protocol AppLaunchControlling: AnyObject {
+public protocol AppLaunchController: AnyObject {
     func launch()
     func enterForeground()
     func becomeActive()
@@ -16,18 +10,19 @@ public protocol AppLaunchControlling: AnyObject {
     func enterBackground()
 }
 
-extension AppLaunchControlling {
+extension AppLaunchController {
     public func enterForeground() { }
     public func becomeActive() { }
     public func resignActive() { }
     public func enterBackground() { }
 }
 
-/// <mark> Auth
-public protocol AppAuthLaunchController: AppLaunchController, AppAuthLaunchControlling
-where SomeAppLaunchUIHandler: AppAuthLaunchUIHandler { }
+/// <mark>
+/// Auth
+public protocol AppAuthLaunchController: AppLaunchController {
+    typealias AuthCompletionHandler = (Swift.Error?) -> Void
 
-public protocol AppAuthLaunchControlling: AppLaunchControlling {
-    func signIn(onCompleted execute: @escaping (Swift.Error?) -> Void)
-    func signUp(onCompleted execute: @escaping (Swift.Error?) -> Void)
+    func signIn(onCompleted execute: AuthCompletionHandler?)
+    func signUp(onCompleted execute: AuthCompletionHandler?)
+    func signOut(onCompleted execute: AuthCompletionHandler?)
 }

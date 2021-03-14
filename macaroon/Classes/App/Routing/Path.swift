@@ -5,37 +5,31 @@ import Foundation
 /// <note>
 /// Identifies a single screen.
 public protocol Path: Equatable {
-    associatedtype SomePathSpecifier: PathSpecifier
+    typealias ScreenBuilder = () -> ScreenRoutable
 
-    var specifier: SomePathSpecifier { get }
-    var build: () -> ScreenRoutable? { get }
+    /// <note>
+    /// It should be unique for every path out there.
+    var identifier: String { get }
+    var build: ScreenBuilder { get }
 
-    static func instance(_ specifier: SomePathSpecifier) -> Self
     static func instance(_ identifier: String) -> Self
 }
 
 extension Path {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.specifier == rhs.specifier
+    public static func == (
+        lhs: Self,
+        rhs: Self
+    ) -> Bool {
+        return lhs.identifier == rhs.identifier
     }
 }
 
-public protocol PathSpecifier: Equatable {
-    /// <note>
-    ///  Should be unique for the different instances of the same path.
-    var uniqueIdentifier: String { get }
-
-    static func instance(_ identifier: String) -> Self
-}
-
-extension PathSpecifier {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.uniqueIdentifier == rhs.uniqueIdentifier
-    }
-}
-
-public enum AnchorPath {
+/// <note>
+/// Identifies a pre-defined path in a flow.
+public enum ExistingPath {
     case initial
-    case current
+    /// <note>
+    /// Shows the visible path
+    case last
     case interim(ScreenRoutable)
 }

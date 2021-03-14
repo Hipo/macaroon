@@ -3,24 +3,23 @@
 import Foundation
 import UIKit
 
-open class BaseControl: UIControl, ShadowDrawable {
+open class BaseControl:
+    UIControl,
+    BorderDrawable,
+    CornerDrawable,
+    ShadowDrawable {
     public var shadow: Shadow?
-    public var shadowLayer: CAShapeLayer?
+
+    public private(set) lazy var shadowLayer = CAShapeLayer()
 
     open override var isEnabled: Bool {
-        didSet {
-            recustomizeAppearanceWhenStateChanged()
-        }
+        didSet { recustomizeAppearanceWhenStateDidChange() }
     }
     open override var isSelected: Bool {
-        didSet {
-            recustomizeAppearanceWhenStateChanged()
-        }
+        didSet { recustomizeAppearanceWhenStateDidChange() }
     }
     open override var isHighlighted: Bool {
-        didSet {
-            recustomizeAppearanceWhenStateChanged()
-        }
+        didSet { recustomizeAppearanceWhenStateDidChange() }
     }
 
     public override init(frame: CGRect) {
@@ -37,16 +36,23 @@ open class BaseControl: UIControl, ShadowDrawable {
     open func recustomizeAppearance(for touchState: UIControl.TouchState) { }
 
     open func preferredUserInterfaceStyleDidChange() {
-        if let shadow = shadow {
-            drawShadow(shadow)
-        }
+        drawAppearance(
+            shadow: shadow
+        )
     }
 
     open func preferredContentSizeCategoryDidChange() { }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-        updateShadowWhenViewDidLayoutSubviews()
+
+        guard let shadow = shadow else {
+            return
+        }
+
+        updateOnLayoutSubviews(
+            shadow: shadow
+        )
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -82,7 +88,7 @@ open class BaseControl: UIControl, ShadowDrawable {
 }
 
 extension BaseControl {
-    private func recustomizeAppearanceWhenStateChanged() {
+    public func recustomizeAppearanceWhenStateDidChange() {
         if isEnabled {
             if isSelected {
                 recustomizeAppearance(for: .selected)

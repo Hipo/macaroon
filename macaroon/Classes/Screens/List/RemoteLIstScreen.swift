@@ -15,10 +15,11 @@ open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
 
     public init(
         listDataLoader: ListDataLoader & ListDataSource,
-        listLayout: ListLayout
+        listLayout: ListLayout,
+        configurator: ScreenConfigurable? = nil
     ) {
         self.listDataLoader = listDataLoader
-        super.init(listDataSource: listDataLoader, listLayout: listLayout)
+        super.init(listDataSource: listDataLoader, listLayout: listLayout, configurator: configurator)
     }
 
     open override func observeNotifications() {

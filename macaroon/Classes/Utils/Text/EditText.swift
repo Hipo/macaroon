@@ -3,16 +3,27 @@
 import Foundation
 
 public enum EditText {
-    case normal(String?, UIFont? = nil)
-    case attributed(NSAttributedString)
+    case string(String?, UIFont? = nil)
+    case attributedString(NSAttributedString)
+}
+
+extension EditText {
+    public var string: String? {
+        switch self {
+        case .string(let string, _):
+            return string
+        case .attributedString(let attributedString):
+            return attributedString.string
+        }
+    }
 }
 
 extension EditText {
     public var isEmpty: Bool {
         switch self {
-        case .normal(let text, _):
+        case .string(let text, _):
             return text.nonNil.isEmpty
-        case .attributed(let attributedText):
+        case .attributedString(let attributedText):
             return attributedText.string.isEmpty
         }
     }
@@ -21,9 +32,9 @@ extension EditText {
 extension EditText {
     public func boundingSize(multiline: Bool = true, fittingSize: CGSize = .greatestFiniteMagnitude) -> CGSize {
         switch self {
-        case .normal(let text, let font):
+        case .string(let text, let font):
             return text?.boundingSize(attributes: .font(font), multiline: multiline, fittingSize: fittingSize) ?? .zero
-        case .attributed(let attributedText):
+        case .attributedString(let attributedText):
             return attributedText.boundingSize(multiline: multiline, fittingSize: fittingSize)
         }
     }
@@ -32,12 +43,12 @@ extension EditText {
 extension EditText: Equatable {
     public static func == (lhs: EditText, rhs: EditText) -> Bool {
         switch (lhs, rhs) {
-        case (.normal(let lString, _), .normal(let rString, _)):
+        case (.string(let lString, _), .string(let rString, _)):
             return lString == rString
-        case (.normal(let string, _), .attributed(let attributedString)),
-             (.attributed(let attributedString), .normal(let string, _)):
+        case (.string(let string, _), .attributedString(let attributedString)),
+             (.attributedString(let attributedString), .string(let string, _)):
             return string == attributedString.string
-        case (.attributed(let lAttributedString), .attributed(let rAttributedString)):
+        case (.attributedString(let lAttributedString), .attributedString(let rAttributedString)):
             return lAttributedString.string == rAttributedString.string
         }
     }
@@ -45,12 +56,46 @@ extension EditText: Equatable {
 
 extension EditText: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
-        self = .normal(value)
+        self = .string(value)
     }
 }
 
 extension EditText: ExpressibleByNilLiteral {
     public init(nilLiteral: ()) {
-        self = .normal(nil)
+        self = .string(nil)
+    }
+}
+
+extension Optional where Wrapped == EditText {
+    public var isNilOrEmpty: Bool {
+        guard let someSelf = self else {
+            return true
+        }
+
+        switch someSelf {
+        case .string(let string, _): return string.isNilOrEmpty
+        case .attributedString(let attributedString): return attributedString.string.isEmpty
+        }
+    }
+
+    public var nonNil: EditText {
+        return self ?? .string("")
+    }
+}
+
+extension Optional where Wrapped == EditText {
+    public func boundingSize(
+        multiline: Bool = true,
+        fittingSize: CGSize = .greatestFiniteMagnitude
+    ) -> CGSize {
+        switch self {
+        case .none:
+            return .zero
+        case .some(let some):
+            return some.boundingSize(
+                multiline: multiline,
+                fittingSize: fittingSize
+            )
+        }
     }
 }

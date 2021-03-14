@@ -4,7 +4,7 @@ import Foundation
 
 public protocol Segment {
     var layout: Button.Layout { get }
-    var style: ButtonStyling { get }
+    var style: ButtonStyle { get }
 }
 
 extension Segment {
