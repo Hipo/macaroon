@@ -10,8 +10,8 @@ public protocol ListDataController: ListDataSource, ListDataLoader {
     func loadNextListData(onCompleted execute: @escaping (Result<ListModifier, ListError>) -> Void)
     func reloadListData(onCompleted execute: @escaping (Result<ListModifier, ListError>) -> Void)
     func unloadListData(onCompleted execute: @escaping () -> Void)
-    func discardListData() /// <note> Cancel both list data and reload list data endpoints. Both can be handled by a single endpoint handler.
-    func discardListNextData()
+    func discardLoadingListData() /// <note> Cancel both list data and reload list data endpoints. Both can be handled by a single endpoint handler.
+    func discardLoadingNextListData()
 }
 
 extension ListDataController {
@@ -27,7 +27,7 @@ extension ListDataController {
         execute(.success(.none))
     }
 
-    public func discardListNextData() { }
+    public func discardLoadingNextListData() { }
 }
 
 extension ListDataController {
@@ -113,7 +113,7 @@ extension ListDataController {
     }
 
     public func discardList() {
-        discardListNextData()
-        discardListData()
+        discardLoadingNextListData()
+        discardLoadingListData()
     }
 }

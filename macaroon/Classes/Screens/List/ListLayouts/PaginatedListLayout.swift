@@ -133,7 +133,7 @@ extension PaginatedListLayout {
         closestToProposedLayoutAttributes proposedLayoutAttributes: UICollectionViewLayoutAttributes,
         forScrollingVelocity velocity: CGFloat
     ) -> UICollectionViewLayoutAttributes {
-        if abs(velocity) < 0.3 {
+        if abs(velocity) < 0.1 {
             return proposedLayoutAttributes
         }
 

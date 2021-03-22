@@ -16,3 +16,14 @@ extension NSAttributedString {
         return CGSize(width: min(fittingBoundingRect.width.ceil(), fittingSize.width), height: min(fittingBoundingRect.height.ceil(), fittingSize.height))
     }
 }
+
+extension Optional where Wrapped == NSAttributedString {
+    public var isNilOrEmpty: Bool {
+        return unwrap(
+            {
+                $0.string.isEmpty
+            },
+            or: true
+        )
+    }
+}

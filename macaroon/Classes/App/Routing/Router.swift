@@ -1,6 +1,7 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MapKit
 import UIKit
 
 public protocol Router: AnyObject {

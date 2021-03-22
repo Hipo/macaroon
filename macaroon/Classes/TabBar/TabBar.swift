@@ -5,105 +5,132 @@ import SnapKit
 import UIKit
 
 open class TabBar: BaseView {
-    public var barButtonItems: [TabBarButtonItemConvertible] = [] {
-        didSet {
-            updateLayoutWhenBarButtonItemsChanged()
-        }
+    open override var intrinsicContentSize: CGSize {
+        return CGSize((UIView.noIntrinsicMetric, 44.0 + compactSafeAreaInsets.bottom))
     }
-    public var selectedBarButtonIndex: Int? {
-        didSet {
-            updateLayoutWhenSelectedBarButtonItemChanged()
-        }
+
+    public var items: [TabBarItem] = [] {
+        didSet { updateLayoutWhenItemsDidChange() }
+    }
+    public var selectedIndex: Int? {
+        didSet { updateLayoutWhenSelectedIndexDidChange() }
     }
     public var barButtonDidSelect: ((Int) -> Void)?
 
-    public lazy var container = UIStackView()
+    public private(set) var barButtons: [TabBarButton] = []
 
-    public var barButtons: [TabBarButton] {
-        return container.arrangedSubviews as? [TabBarButton] ?? []
-    }
+    private lazy var contentView = HStackView()
 
     private var selectedBarButton: TabBarButton?
 
-    open override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: 44.0 + compactSafeAreaInsets.bottom)
-    }
+    public override init(
+        frame: CGRect
+    ) {
+        super.init(
+            frame: frame
+        )
 
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
         prepareLayout()
     }
 
     open func prepareLayout() {
-        addContainer()
+        addContent()
     }
 
-    open func updateLayoutWhenBarButtonItemsChanged() {
+    open func updateLayoutWhenItemsDidChange() {
         removeBarButtons()
         addBarButtons()
+
+        barButtons = contentView.arrangedSubviews as! [TabBarButton]
     }
 
-    open func updateLayoutWhenSelectedBarButtonItemChanged() {
+    open func updateLayoutWhenSelectedIndexDidChange() {
         selectedBarButton?.isSelected = false
-        selectedBarButton = barButtons[safe: selectedBarButtonIndex]
+        selectedBarButton = barButtons[safe: selectedIndex]
         selectedBarButton?.isSelected = true
-    }
-
-    open func getBadge(forBarButtonAt index: Int) -> String? {
-        return barButtons[safe: index]?.badge
-    }
-
-    open func set(badge: String?, forBarButtonAt index: Int, animated: Bool) {
-        barButtons[safe: index]?.set(badge: badge, animated: animated)
-    }
-
-    @objc
-    private func notifyWhenBarButtonSelected(_ sender: TabBarButton) {
-        if let index = barButtons.firstIndex(of: sender) {
-            barButtonDidSelect?(index)
-        }
     }
 }
 
 extension TabBar {
-    private func addContainer() {
-        addSubview(container)
-        container.axis = .horizontal
-        container.alignment = .fill
-        container.distribution = .fill
-        container.spacing = 0.0
-        container.snp.makeConstraints { maker in
-            maker.top.equalToSuperview()
-            maker.leading.equalToSuperview()
-            maker.bottom.equalTo(safeAreaLayoutGuide)
-            maker.trailing.equalToSuperview()
+    public func set(
+        badge: String?,
+        forBarButtonAt index: Int,
+        animated: Bool
+    ) {
+        guard let barButton = barButtons[safe: index] else {
+            return
+        }
+
+        barButton.set(
+            badge: badge,
+            animated: animated
+        )
+    }
+}
+
+extension TabBar {
+    private func addContent() {
+        addSubview(
+            contentView
+        )
+        contentView.snp.makeConstraints {
+            $0.setPaddings(
+                (0, 0, .noMetric, 0)
+            )
+            $0.setBottomPadding(
+                0,
+                inSafeAreaOf: self
+            )
         }
     }
 
     private func addBarButtons() {
-        var referenceAutosizedBarButton: TabBarButton?
+        var siblingBarButton: TabBarButton?
 
-        barButtonItems.forEach { barButtonItem in
+        items.forEach { item in
+            let barButtonItem = item.barButtonItem
             let barButton = TabBarButton(barButtonItem)
 
-            container.addArrangedSubview(barButton)
-            barButton.snp.makeConstraints { maker in
-                if barButtonItem.width.isIntrinsicMetric {
-                    maker.width.equalTo(barButtonItem.width)
-                } else if let reference = referenceAutosizedBarButton {
-                    maker.width.equalTo(reference)
+            contentView.addArrangedSubview(
+                barButton
+            )
+            barButton.snp.makeConstraints {
+                if !item.width.isNoMetric {
+                    $0.fitToWidth(
+                        item.width
+                    )
+                } else if let siblingBarButton = siblingBarButton {
+                    $0.matchToWidth(
+                        of: siblingBarButton
+                    )
                 } else {
-                    referenceAutosizedBarButton = barButton
+                    siblingBarButton = barButton
                 }
             }
 
-            if barButtonItem.isSelectable {
-                barButton.addTarget(self, action: #selector(notifyWhenBarButtonSelected(_:)), for: .touchUpInside)
+            if item.isSelectable {
+                barButton.addTouch(
+                    target: self,
+                    action: #selector(notifyWhenBarButtonWasSelected(_:))
+                )
             }
         }
     }
 
     private func removeBarButtons() {
-        container.deleteAllArrangedSubviews()
+        contentView.deleteAllArrangedSubviews()
+    }
+}
+
+extension TabBar {
+    @objc
+    private func notifyWhenBarButtonWasSelected(
+        _ sender: TabBarButton
+    ) {
+        guard let index = barButtons.firstIndex(of: sender) else {
+            return
+        }
+
+        barButtonDidSelect?(index)
     }
 }

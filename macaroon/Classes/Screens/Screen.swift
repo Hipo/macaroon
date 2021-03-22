@@ -56,7 +56,7 @@ open class Screen:
     private let configurator: ScreenConfigurable?
 
     public init(
-        configurator: ScreenConfigurable? = nil
+        configurator: ScreenConfigurable?
     ) {
         self.configurator = configurator
 

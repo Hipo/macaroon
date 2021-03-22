@@ -14,7 +14,7 @@ open class URLImagePlaceholderView:
     }
 
     public private(set) lazy var imageView = UIImageView()
-    public private(set) lazy var textView = UILabel()
+    public private(set) lazy var textView = Label()
 
     public override init(
         frame: CGRect

@@ -50,3 +50,51 @@ extension DoubleShadowDrawable {
         self.secondShadow = nil
     }
 }
+
+public protocol TripleShadowDrawable: DoubleShadowDrawable {
+    var thirdShadow: Shadow? { get set }
+    var thirdShadowLayer: CAShapeLayer { get }
+}
+
+extension TripleShadowDrawable {
+    public func drawAppearance(
+        thirdShadow: Shadow?
+    ) {
+        drawAppearance(
+            shadow: thirdShadow,
+            on: thirdShadowLayer
+        )
+
+        self.thirdShadow = thirdShadow
+    }
+}
+
+extension TripleShadowDrawable {
+    public func draw(
+        thirdShadow: Shadow
+    ) {
+        draw(
+            shadow: thirdShadow,
+            on: thirdShadowLayer
+        )
+
+        self.thirdShadow = thirdShadow
+    }
+
+    public func updateOnLayoutSubviews(
+        thirdShadow: Shadow
+    ) {
+        updateOnLayoutSubviews(
+            shadow: thirdShadow,
+            on: thirdShadowLayer
+        )
+    }
+
+    public func eraseThirdShadow() {
+        eraseShadow(
+            from: thirdShadowLayer
+        )
+
+        self.thirdShadow = nil
+    }
+}

@@ -28,6 +28,10 @@ Pod::Spec.new do |s|
       ss.source_files = 'macaroon/Classes/BottomSheet/*.swift'
   end
 
+  s.subspec 'BottomOverlay' do |ss|
+      ss.source_files = 'macaroon/Classes/BottomOverlay/*.swift'
+  end
+
   s.subspec 'BarcodeScanner' do |ss|
     ss.source_files = 'macaroon/Classes/BarcodeScanner/*.swift'
   end
@@ -272,6 +276,10 @@ Pod::Spec.new do |s|
     end
 
     ss.dependency 'AnyFormatKit', '~> 2.2.1'
+  end
+
+  s.subspec 'Map' do |ss|
+      ss.source_files = 'macaroon/Classes/Map/*.swift'
   end
 
   s.subspec 'MediaPicker' do |ss|

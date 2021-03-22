@@ -9,9 +9,7 @@ public protocol AppLaunchUIHandler: AnyObject {
 }
 
 public protocol AppLaunchUIState {
-    associatedtype MainScreen: UIViewController
-
-    static func main(completion: ((MainScreen) -> Void)?) -> Self
+    static var main: Self { get }
 }
 
 /// <mark>
@@ -20,7 +18,5 @@ public protocol AppAuthLaunchUIHandler: AppLaunchUIHandler
 where SomeAppLaunchUIState: AppAuthLaunchUIState { }
 
 public protocol AppAuthLaunchUIState: AppLaunchUIState {
-    associatedtype OnboardingScreen: UIViewController
-
-    static func onboarding(completion: ((OnboardingScreen) -> Void)?) -> Self
+    static var onboarding: Self { get }
 }

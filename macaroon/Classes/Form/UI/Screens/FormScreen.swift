@@ -28,7 +28,7 @@ open class FormScreen:
 
     public init(
         fieldViewGenerator: FormFieldViewGenerator,
-        configurator: ScreenConfigurable? = nil
+        configurator: ScreenConfigurable?
     ) {
         self.fieldViewGenerator = fieldViewGenerator
 

@@ -58,7 +58,9 @@ extension NavigationBarConfigurable {
             )
         }
 
-        guard let navigationController = navigationController else {
+        guard let navigationController = navigationController,
+              navigationController == parent
+        else {
             return
         }
 

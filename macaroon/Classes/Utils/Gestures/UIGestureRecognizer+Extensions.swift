@@ -37,3 +37,33 @@ extension UIPanGestureRecognizer {
         return (1.0 - (1.0 / ((diff * 0.55 / dim) + 1.0))) * dim
     }
 }
+
+extension UIPanGestureRecognizer {
+    public func project(
+        pointY: CGFloat,
+        decelerationRate: CGFloat
+    ) -> CGFloat {
+        let initialVelocityY =
+            velocity(
+                in: view
+            ).y
+
+        return
+            pointY +
+            project(
+                initialVelocity: initialVelocityY,
+                decelerationRate: decelerationRate
+            )
+    }
+
+    public func project(
+        initialVelocity: CGFloat,
+        decelerationRate: CGFloat
+    ) -> CGFloat {
+        if decelerationRate >= 1 {
+            return initialVelocity
+        }
+
+        return (initialVelocity / 1000) * decelerationRate / (1 - decelerationRate)
+    }
+}

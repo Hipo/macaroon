@@ -80,6 +80,12 @@ extension Array {
         var observer: Set<T> = []
         return filter { observer.insert($0[keyPath: keyPath]).inserted }
     }
+
+    public func nonNil<T>() -> [T] where Element == T? {
+        return compactMap {
+            $0
+        }
+    }
 }
 
 extension Array {

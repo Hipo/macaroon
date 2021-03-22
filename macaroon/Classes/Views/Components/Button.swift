@@ -9,53 +9,20 @@ open class Button:
     CornerDrawable,
     ShadowDrawable {
     open override var intrinsicContentSize: CGSize {
-        if currentImage == nil && currentTitle == nil {
+        if currentImage == nil &&
+           currentTitle.isNilOrEmpty &&
+           currentAttributedTitle.isNilOrEmpty {
             return .zero
         }
 
-        let superIntrinsicContentSize = super.intrinsicContentSize
-
-        if layout.isHorizontal {
-            return superIntrinsicContentSize
-        }
-
-        if bounds.isEmpty {
-            return superIntrinsicContentSize
-        }
-
-        var rect =
-            super.contentRect(
-                forBounds: bounds
-            )
-        let iRect = super.imageRect(
-            forContentRect: rect
-        )
-        let tRect = super.titleRect(
-            forContentRect: rect
-        )
-
-        switch layout {
-        case .imageAtTop(let spacing):
-            let width = max(iRect.width, tRect.width) + contentEdgeInsets.x
-            let height = iRect.height + tRect.height + spacing + contentEdgeInsets.y
-            return CGSize(width: width, height: height)
-        case .imageAtTopmost(let padding, let titleAdjustmentY):
-            let width = max(iRect.width, tRect.width) + contentEdgeInsets.x
-            let height =
-                iRect.height + tRect.height + padding + contentEdgeInsets.y + titleAdjustmentY
-            return CGSize(width: width, height: height)
-        case .titleAtBottommost(let padding, let imageAdjustmentY):
-            let width = max(iRect.width, tRect.width) + contentEdgeInsets.x
-            let height =
-                iRect.height + tRect.height + padding + contentEdgeInsets.y - imageAdjustmentY
-            return CGSize(width: width, height: height)
-        default: return superIntrinsicContentSize
-        }
+        return calculateIntrinsicContentSize() ?? super.intrinsicContentSize
     }
 
     public var shadow: Shadow?
 
     public private(set) lazy var shadowLayer = CAShapeLayer()
+
+    private var cachedIntrinsicContentSize: CGSize?
 
     public let layout: Layout
 
@@ -85,12 +52,18 @@ open class Button:
 
     open func preferredContentSizeCategoryDidChange() {}
 
+    open override func invalidateIntrinsicContentSize() {
+        cachedIntrinsicContentSize = nil
+        super.invalidateIntrinsicContentSize()
+    }
+
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
         var rect = super.imageRect(forContentRect: contentRect)
 
-        if currentTitle == nil {
+        if currentImage == nil {
             return rect
         }
+
         switch layout {
         case .none:
             return rect
@@ -126,9 +99,11 @@ open class Button:
     open override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
         var rect = super.titleRect(forContentRect: contentRect)
 
-        if currentImage == nil {
+        if currentTitle == nil &&
+           currentAttributedTitle == nil {
             return rect
         }
+
         switch layout {
         case .none:
             return rect
@@ -209,6 +184,70 @@ open class Button:
         if traitCollection.preferredContentSizeCategory != previousTraitCollection?.preferredContentSizeCategory {
             preferredContentSizeCategoryDidChange()
         }
+    }
+}
+
+extension Button {
+    private func calculateIntrinsicContentSize() -> CGSize? {
+        if bounds.isEmpty {
+            return nil
+        }
+
+        if layout.isHorizontal {
+            return nil
+        }
+
+        if let cachedIntrinsicContentSize = cachedIntrinsicContentSize {
+            return cachedIntrinsicContentSize
+        }
+
+        let imageSize = currentImage?.size ?? .zero
+        let titleSize: CGSize
+
+        if let currentTitle = currentTitle {
+            titleSize =
+                currentTitle.boundingSize(
+                    attributes: .font(titleLabel?.font),
+                    multiline: false,
+                    fittingSize: .greatestFiniteMagnitude
+                )
+        } else if let currentAttributedTitle = currentAttributedTitle {
+            titleSize =
+                currentAttributedTitle.boundingSize(
+                    multiline: false,
+                    fittingSize: .greatestFiniteMagnitude
+                )
+        } else {
+            titleSize = .zero
+        }
+
+        let width = max(imageSize.width, titleSize.width) + contentEdgeInsets.x
+        let height: CGFloat
+
+        switch layout {
+        case .imageAtTop(let spacing):
+            height = imageSize.height + titleSize.height + spacing + contentEdgeInsets.y
+        case .imageAtTopmost(let padding, let titleAdjustmentY):
+            height =
+                imageSize.height +
+                titleSize.height +
+                padding +
+                contentEdgeInsets.y +
+                titleAdjustmentY
+        case .titleAtBottommost(let padding, let imageAdjustmentY):
+            height =
+                imageSize.height +
+                titleSize.height +
+                padding +
+                contentEdgeInsets.y -
+                imageAdjustmentY
+        default:
+            height = 0
+        }
+
+        cachedIntrinsicContentSize = CGSize((width, height))
+
+        return cachedIntrinsicContentSize
     }
 }
 

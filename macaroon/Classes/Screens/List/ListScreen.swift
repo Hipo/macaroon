@@ -15,7 +15,7 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
     public init(
         listDataSource: ListDataSource,
         listLayout: ListLayout,
-        configurator: ScreenConfigurable? = nil
+        configurator: ScreenConfigurable?
     ) {
         self.listDataSource = listDataSource
         self.listLayout = listLayout

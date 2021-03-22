@@ -3,7 +3,9 @@
 import Foundation
 import UIKit
 
-public protocol ScreenConfigurable {
+public protocol ScreenConfigurable: AnyObject {
+    var screen: Screen? { get set }
+
     func viewCustomizeAppearance()
     func viewDidLoad()
     func viewDidLayoutSubviews()

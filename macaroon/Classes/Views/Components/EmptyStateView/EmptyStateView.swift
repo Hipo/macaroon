@@ -82,18 +82,30 @@ extension EmptyStateView {
         addSubview(
             loadingIndicator
         )
+        loadingIndicator.fitToHorizontalIntrinsicSize()
         loadingIndicator.snp.makeConstraints {
+            let horizontalPaddings: LayoutHorizontalPaddings
+
             switch contentAlignment {
-            case .center(let offsetY, _):
+            case .center(let offsetY, let someHorizontalPaddings):
+                horizontalPaddings = someHorizontalPaddings
+
                 $0.center(
                     offset: (0, offsetY)
                 )
-            case .scaleToFit(let contentInset):
+            case .scaleToFit(let paddings):
+                horizontalPaddings = (paddings.leading, paddings.trailing)
+
                 $0.centerHorizontally(
                     offset: 0,
-                    verticalPaddings: (contentInset.top, .noMetric)
+                    verticalPaddings: (paddings.top, .noMetric)
                 )
             }
+
+            $0.width <=
+                snp.width -
+                horizontalPaddings.leading.layoutMetric -
+                horizontalPaddings.trailing.layoutMetric
         }
 
         loadingIndicator.startAnimating()
@@ -169,10 +181,14 @@ extension EmptyStateView {
                     horizontalPaddings.leading.layoutMetric -
                     horizontalPaddings.trailing.layoutMetric
                 $0.height <= snp.height
+                $0.top >= 16
 
                 $0.centerVertically(
-                    offset: offsetY,
-                    horizontalPaddings: horizontalPaddings
+                    offset: (offsetY, .defaultHigh),
+                    horizontalPaddings: (
+                        (horizontalPaddings.leading, .required),
+                        (horizontalPaddings.trailing, .required)
+                    )
                 )
             case .scaleToFit(let paddings):
                 $0.width <=

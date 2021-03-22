@@ -8,11 +8,11 @@ public protocol Container: UIViewController {}
 
 extension Container {
     @discardableResult
-    public func fitInScreen(
+    public func fitInContainer(
         _ screen: UIViewController,
         insetBy paddings: LayoutPaddings = (0, 0, 0, 0)
     ) -> UIViewController {
-        return addScreen(
+        return addFragment(
             screen
         ) { screenView in
             view.addSubview(
@@ -27,7 +27,7 @@ extension Container {
     }
 
     @discardableResult
-    public func addScreen(
+    public func addFragment(
         _ screen: UIViewController,
         prepareLayout: (UIView) -> Void
     ) -> UIViewController {
@@ -44,7 +44,7 @@ extension Container {
         return screen
     }
 
-    public func removeScreen(
+    public func removeFragment(
         _ screen: UIViewController
     ) {
         screen.removeFromContainer()

@@ -7,6 +7,10 @@ extension UIScrollView {
     public var isScrollAtTop: Bool {
         return contentOffset.y <= adjustedContentInset.top
     }
+
+    public var contentOffsetAtTop: CGPoint {
+        return CGPoint(x: contentOffset.x, y: -contentInset.top)
+    }
 }
 
 extension UIScrollView {
@@ -109,6 +113,15 @@ extension UIScrollView {
 }
 
 extension UIScrollView {
+    public func scrollToTop(
+        animated: Bool = true
+    ) {
+        setContentOffset(
+            contentOffsetAtTop,
+            animated: animated
+        )
+    }
+
     public func scrollToBottom(
         force: Bool = false,
         animated: Bool = true

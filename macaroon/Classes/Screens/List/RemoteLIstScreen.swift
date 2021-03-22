@@ -13,10 +13,12 @@ open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
 
     private var lastActiveDate: Date?
 
+    private var isViewFirstLoaded = false
+
     public init(
         listDataLoader: ListDataLoader & ListDataSource,
         listLayout: ListLayout,
-        configurator: ScreenConfigurable? = nil
+        configurator: ScreenConfigurable?
     ) {
         self.listDataLoader = listDataLoader
         super.init(listDataSource: listDataLoader, listLayout: listLayout, configurator: configurator)
@@ -32,9 +34,20 @@ open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
         listDataLoader.delegate = self
     }
 
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        listDataLoader.loadList()
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if view.bounds.isEmpty {
+            return
+        }
+
+        /// <note>
+        /// Some screens need the layout to be stabilized so that they can calculate the layout of
+        /// the data-driven views correctly, i.e. the layouts of the contents of the empty state view.
+        if !isViewFirstLoaded {
+            listDataLoader.loadList()
+            isViewFirstLoaded = true
+        }
     }
 
     open override func viewDidAppear(_ animated: Bool) {

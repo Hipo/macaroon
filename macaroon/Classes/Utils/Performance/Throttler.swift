@@ -10,10 +10,14 @@ public class Throttler {
     private var nextTask: DispatchWorkItem?
     private var lastTaskRuntime: Date?
 
-    private lazy var queue = DispatchQueue.global(qos: .userInitiated)
+    private let queue: DispatchQueue
 
-    public init(intervalInSeconds: TimeInterval) {
+    public init(
+        intervalInSeconds: TimeInterval,
+        queue: DispatchQueue = DispatchQueue.global(qos: .userInitiated)
+    ) {
         self.intervalInSeconds = intervalInSeconds
+        self.queue = queue
     }
 
     public func performNext(_ task: @escaping Task) {

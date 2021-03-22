@@ -4,39 +4,9 @@ import Foundation
 import SnapKit
 import UIKit
 
-open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable, ScreenRoutable {
-    public var flowIdentifier: String = "main"
-    public var pathIdentifier: String = "tabbarContainer"
-
-    public var items: [TabBarItemConvertible] = [] {
-        didSet {
-            screens = items.compactMap {
-                $0.screen
-            }
-
-            updateLayoutWhenItemsChanged()
-        }
-    }
-    public var selectedItem: TabBarItemConvertible? {
-        didSet {
-            if let selectedItem = selectedItem {
-                if !selectedItem.equalsTo(oldValue) {
-                    updateLayoutWhenSelectedItemChanged()
-                }
-            } else {
-                if oldValue != nil {
-                    updateLayoutWhenSelectedItemChanged()
-                }
-            }
-        }
-    }
-    public var screens: [UIViewController] = []
-    /// <todo>
-    /// Selecting selectedScreen should change the current item.
-    public var selectedScreen: UIViewController?
-
-    public private(set) lazy var tabBar = TabBar()
-
+open class TabBarContainer:
+    Screen,
+    TabbedContainer {
     open override var childForStatusBarHidden: UIViewController? {
         return selectedScreen
     }
@@ -44,114 +14,175 @@ open class TabBarContainer: UIViewController, TabbedContainer, ScreenComposable,
         return selectedScreen
     }
 
-    private var isAppeared = false
-
-    open func customizeAppearance() {
-        customizeViewAppearance()
+    public var items: [TabBarItem] = [] {
+        didSet { updateLayoutWhenItemsDidChange() }
     }
+    public var selectedIndex: Int? {
+        willSet {
+            if selectedIndex == newValue {
+                return
+            }
 
-    open func customizeViewAppearance() { }
+            hideSelectedTab()
+        }
+        didSet {
+            if selectedIndex == oldValue {
+                return
+            }
 
-    open func prepareLayout() {
-        addTabBar()
-        updateLayoutWhenItemsChanged()
-    }
+            tabBar.selectedIndex = selectedIndex
 
-    open func updateLayoutWhenItemsChanged() {
-        tabBar.barButtonItems = items.map(\.barButtonItem)
-
-        if selectedItem == nil {
-            selectedItem = items.first
-        } else {
-            updateLayoutWhenSelectedItemChanged()
+            showSelectedTab()
         }
     }
 
-    open func updateLayoutWhenSelectedItemChanged() {
-        guard let selectedItem = selectedItem else {
-            removeCurrentSelectedScreen()
-            tabBar.selectedBarButtonIndex = nil
-            return
+    public var screens: [UIViewController] = []
+    public var selectedScreen: UIViewController? {
+        get {
+            selectedIndex.unwrap {
+                return items[safe: $0]?.screen
+            }
         }
-        addNewSelectedScreen()
-        tabBar.selectedBarButtonIndex = items.firstIndex(of: selectedItem, equals: \.name)
-    }
+        set {
+            selectedIndex =
+                newValue.unwrap {
+                    selectedScreen in
 
-    open func setListeners() {
-        tabBar.barButtonDidSelect = { [unowned self] index in
-            self.selectedItem = self.items[index]
-        }
-    }
-
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-        compose()
-    }
-
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        isAppeared = true
-    }
-
-    open func setTabBarHidden(_ isHidden: Bool, animated: Bool) {
-        tabBar.snp.updateConstraints { maker in
-            maker.bottom.equalToSuperview().inset(isHidden ? -tabBar.bounds.height : 0.0)
-        }
-        if !animated || !isAppeared {
-            return
-        }
-
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) { [unowned self] in
-            self.view.layoutIfNeeded()
-        }
-        animator.startAnimation()
-    }
-
-    open func getBadge(forItemAt index: Int) -> String? {
-        return tabBar.getBadge(forBarButtonAt: index)
-    }
-
-    open func set(badge: String?, forItemAt index: Int, animated: Bool) {
-        tabBar.set(badge: badge, forBarButtonAt: index, animated: animated)
-    }
-}
-
-extension TabBarContainer {
-    public func addTabBar() {
-        view.addSubview(tabBar)
-        tabBar.snp.makeConstraints { maker in
-            maker.leading.equalToSuperview()
-            maker.bottom.equalToSuperview()
-            maker.trailing.equalToSuperview()
-        }
-    }
-
-    public func addNewSelectedScreen() {
-        removeCurrentSelectedScreen()
-
-        if let screen = selectedItem?.screen {
-            selectedScreen =
-                addScreen(
-                    screen
-                ) {
-                    screenView in
-                    view.insertSubview(
-                        screenView,
-                        belowSubview: tabBar
-                    )
-                    screenView.snp.makeConstraints {
-                        $0.bottom == tabBar.snp.top
-
-                        $0.setPaddings(
-                            (0, 0, .noMetric, 0)
-                        )
+                    items.firstIndex {
+                        $0.screen == selectedScreen
                     }
                 }
         }
     }
 
-    public func removeCurrentSelectedScreen() {
-        selectedScreen?.removeFromContainer()
-        selectedScreen = nil
+    public private(set) lazy var tabBar = TabBar()
+
+    public init() {
+        super.init(
+            configurator: nil
+        )
+
+        self.flowIdentifier = "main"
+        self.pathIdentifier = "mainContainer"
+    }
+
+    open func addTabBar() {
+        view.addSubview(
+            tabBar
+        )
+        tabBar.snp.makeConstraints {
+            $0.setPaddings(
+                (.noMetric, 0, 0, 0)
+            )
+        }
+    }
+
+    open func updateLayoutWhenItemsDidChange() {
+        if !isViewLoaded {
+            return
+        }
+
+        selectedIndex = nil
+
+        tabBar.items = items
+        screens =
+            items.compactMap {
+                $0.screen
+            }
+
+        if items.isEmpty {
+            return
+        }
+
+        selectedIndex = items.startIndex
+    }
+
+    open override func prepareLayout() {
+        super.prepareLayout()
+
+        addTabBar()
+        updateLayoutWhenItemsDidChange()
+    }
+
+    open override func setListeners() {
+        tabBar.barButtonDidSelect = {
+            [unowned self] index in
+
+            self.selectedIndex = index
+        }
+    }
+}
+
+extension TabBarContainer {
+    public func setTabBarHidden(
+        _ isHidden: Bool,
+        animated: Bool
+    ) {
+        tabBar.snp.updateConstraints { maker in
+            maker.bottom.equalToSuperview().inset(isHidden ? -tabBar.bounds.height : 0.0)
+        }
+
+        if !animated ||
+           !isViewAppeared {
+            return
+        }
+
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.3,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                [unowned self] in
+
+                self.view.layoutIfNeeded()
+            },
+            completion: nil
+        )
+    }
+
+    public func set(
+        badge: String?,
+        forItemAt index: Int,
+        animated: Bool
+    ) {
+        tabBar.set(
+            badge: badge,
+            forBarButtonAt: index,
+            animated: animated
+        )
+    }
+}
+
+extension TabBarContainer {
+    public func showSelectedTab() {
+        guard let selectedScreen = items[safe: selectedIndex]?.screen else {
+            return
+        }
+
+        addFragment(
+            selectedScreen
+        ) { [unowned self] screenView in
+            view.insertSubview(
+                screenView,
+                belowSubview: tabBar
+            )
+            screenView.snp.makeConstraints {
+                $0.bottom == tabBar.snp.top
+
+                $0.setPaddings(
+                    (0, 0, .noMetric, 0)
+                )
+            }
+        }
+    }
+
+    public func hideSelectedTab() {
+        guard let selectedScreen = selectedScreen else {
+            return
+        }
+
+        removeFragment(
+            selectedScreen
+        )
     }
 }
