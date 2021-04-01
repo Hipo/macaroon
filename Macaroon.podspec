@@ -123,6 +123,10 @@ Pod::Spec.new do |s|
               sssss.source_files = 'macaroon/Classes/Screens/CustomTransition/Modal/*.swift'
           end
       end
+
+      sss.subspec 'Other' do |ssss|
+          ssss.source_files = 'macaroon/Classes/Screens/Other/*.swift'
+      end
     end
 
     ss.subspec 'Utils' do |sss|

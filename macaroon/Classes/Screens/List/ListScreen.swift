@@ -197,6 +197,30 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
 }
 
 extension ListScreen {
+    public func reloadData(
+        _ modifier: ListModifier,
+        onCompleted execute: (() -> Void)? = nil
+    ) {
+        listView.reloadData(
+            modifier,
+            for: listLayout,
+            onAppeared: isViewAppeared,
+            onCompleted: execute
+        )
+    }
+}
+
+extension ListScreen {
+    public func item(for cell: UICollectionViewCell) -> Any? {
+        guard let indexPath = listView.indexPath(for: cell) else {
+            return nil
+        }
+
+        return listDataSource[indexPath]
+    }
+}
+
+extension ListScreen {
     private func updateListEmptyStateLayout() {
         listView.emptyStateView.frame = view.bounds
     }

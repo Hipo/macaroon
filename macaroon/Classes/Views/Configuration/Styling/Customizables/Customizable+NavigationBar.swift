@@ -93,8 +93,6 @@ extension Customizable where Self: UINavigationBar {
         backgroundColor: Color?
     ) {
         if #available(iOS 13, *) {
-            self.backgroundColor = backgroundColor?.color
-
             customizeBarAppearance(
                 backgroundColor?.color,
                 \.backgroundColor

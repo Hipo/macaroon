@@ -8,6 +8,8 @@ public protocol AppDependenciesResolver: AnyObject {
     var appDependencies: AppDependencies! { get set }
 
     static var shared: Self { get }
+
+    func invalidate()
 }
 
 extension AppDependenciesResolver {

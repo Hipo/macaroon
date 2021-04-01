@@ -88,6 +88,10 @@ extension NavigationBarConfigurable {
             leftNavigationBarButtonItems.map {
                 $0.asSystemBarButtonItem()
             }
+
+        if isViewLoaded {
+            navigationController.navigationBar.layoutIfNeeded()
+        }
     }
 
     public func setNeedsNavigationBarRightBarButtonsUpdate() {
@@ -95,6 +99,10 @@ extension NavigationBarConfigurable {
             rightNavigationBarButtonItems.map {
                 $0.asSystemBarButtonItem()
             }
+
+        if isViewLoaded {
+            navigationController?.navigationBar.layoutIfNeeded()
+        }
     }
 
     public func setNeedsNavigationBarAppearanceUpdateOnBeingAppeared() {

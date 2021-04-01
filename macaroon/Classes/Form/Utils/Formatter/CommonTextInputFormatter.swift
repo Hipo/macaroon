@@ -3,7 +3,7 @@
 import AnyFormatKit
 import Foundation
 
-public struct BasicTextInputFormatter: TextInputFormatter {
+public struct CommonTextInputFormatter: TextInputFormatter {
     public let pattern: String
     public let symbol: Character
     public let placeholder: String?

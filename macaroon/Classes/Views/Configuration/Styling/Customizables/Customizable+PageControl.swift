@@ -27,6 +27,9 @@ extension Customizable where Self: UIPageControl {
                 )
             }
         }
+
+        hidesForSinglePage = true
+        isUserInteractionEnabled = false
     }
 
     public func recustomizeAppearance(
@@ -47,6 +50,9 @@ extension Customizable where Self: UIPageControl {
         customizeBaseAppearance(
             indicatorImage: nil
         )
+
+        hidesForSinglePage = false
+        isUserInteractionEnabled = true
     }
 }
 

@@ -3,11 +3,14 @@
 import Foundation
 
 public struct EmailValidator: Validator {
+    public let optional: Bool
     public let failureReason: String
 
     public init(
-        _ failureReason: String = ""
+        optional: Bool = false,
+        failureReason: String = ""
     ) {
+        self.optional = optional
         self.failureReason = failureReason
     }
 
@@ -30,7 +33,7 @@ public struct EmailValidator: Validator {
             let text = text,
             !text.isEmpty
         else {
-            return .failure(failureReason)
+            return optional ? .success : .failure(failureReason)
         }
 
         let detector =

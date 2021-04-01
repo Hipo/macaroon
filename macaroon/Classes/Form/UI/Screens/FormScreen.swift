@@ -152,7 +152,7 @@ open class FormScreen:
         didBeginEditing inputFieldView: FormInputFieldView
     ) {
         keyboardController.scrollToEditingRect(
-            afterContentDidChange: false,
+            afterContentDidChange: true,
             animated: true
         )
     }

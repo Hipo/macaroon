@@ -88,7 +88,8 @@ extension Router {
             animated: animated
         ) { [unowned self] in
 
-            if nextSubroute.flow == .current {
+            if nextSubroute.flow == .current ||
+               nextSubroute.flow == self.visibleFlow {
                 self.navigateToDestination(
                     nextSubroute,
                     animated: animated,
@@ -199,42 +200,6 @@ extension Router {
                 animated: animated,
                 completion: completion
             )
-        }
-    }
-
-    private func findFirstScreenInVisibleFlow() -> UIViewController? {
-        var firstScreenInVisibleFlow =
-            findFirstScreenInVisibleFlow(
-                appearedWithinHierarchyOf: visibleScreen.parent ?? visibleScreen
-            )
-
-        while let presentingFirstScreenInVisibleFlow =
-                findFirstScreenInVisibleFlow(
-                    appearedWithinHierarchyOf: firstScreenInVisibleFlow?.presentingViewController
-                ) {
-            firstScreenInVisibleFlow = presentingFirstScreenInVisibleFlow
-        }
-
-        return firstScreenInVisibleFlow
-    }
-
-    private func findFirstScreenInVisibleFlow(
-        appearedWithinHierarchyOf screen: UIViewController?
-    ) -> UIViewController? {
-        switch screen {
-        case let navigationContainer as UINavigationController:
-            return navigationContainer.viewControllers.first {
-                ($0 as? ScreenRoutable)?.flowIdentifier == visibleFlow.identifier
-            }
-        case let tabbedContainer as TabbedContainer:
-            return tabbedContainer.screens.first {
-                findFirstScreenInVisibleFlow(
-                    appearedWithinHierarchyOf: $0
-                ) != nil
-            }
-        case let someScreen as ScreenRoutable:
-            return someScreen.flowIdentifier == visibleFlow.identifier ? someScreen : nil
-        default: return nil
         }
     }
 
@@ -476,6 +441,36 @@ extension Router {
     }
 }
 
+/// <warning>
+/// Normally, the visible screen is automatically updated by the router when a screen is
+/// navigated programmatically. But, the interactive transitions(pop or dismiss or tab selection)
+/// prevent this, so it should be set manually after returning the previous screen.
+extension Router {
+    public func updateVisibleScreenAfterViewDidAppear(
+        of screen: UIViewController
+    ) {
+        defer {
+            if let aVisibleScreen = visibleScreen as? ScreenRoutable,
+               !aVisibleScreen.flowIdentifier.isEmpty {
+                visibleFlow = SomeFlow.instance(aVisibleScreen.flowIdentifier)
+            }
+        }
+
+        guard let parent = screen.parent else {
+            visibleScreen = screen
+            return
+        }
+
+        if parent is UINavigationController ||
+           parent is TabbedContainer {
+            visibleScreen = screen
+            return
+        }
+
+        visibleScreen = parent
+    }
+}
+
 extension Router {
     public func findVisibleScreen(
         over screen: UIViewController? = nil
@@ -528,6 +523,55 @@ extension Router {
     public func findVisibleScreen(
         in tabbedContainer: TabbedContainer
     ) -> UIViewController {
-        return tabbedContainer.selectedScreen ?? tabbedContainer
+        guard let selectedScreen = tabbedContainer.selectedScreen else {
+            return tabbedContainer
+        }
+
+        switch selectedScreen {
+        case let navigationContainer as UINavigationController:
+            return findVisibleScreen(
+                in: navigationContainer
+            )
+        default:
+            return selectedScreen
+        }
+    }
+}
+
+extension Router {
+    private func findFirstScreenInVisibleFlow() -> UIViewController? {
+        var firstScreenInVisibleFlow =
+            findFirstScreenInVisibleFlow(
+                appearedWithinHierarchyOf: visibleScreen.parent ?? visibleScreen
+            )
+
+        while let presentingFirstScreenInVisibleFlow =
+                findFirstScreenInVisibleFlow(
+                    appearedWithinHierarchyOf: firstScreenInVisibleFlow?.presentingViewController
+                ) {
+            firstScreenInVisibleFlow = presentingFirstScreenInVisibleFlow
+        }
+
+        return firstScreenInVisibleFlow
+    }
+
+    private func findFirstScreenInVisibleFlow(
+        appearedWithinHierarchyOf screen: UIViewController?
+    ) -> UIViewController? {
+        switch screen {
+        case let navigationContainer as UINavigationController:
+            return navigationContainer.viewControllers.first {
+                ($0 as? ScreenRoutable)?.flowIdentifier == visibleFlow.identifier
+            }
+        case let tabbedContainer as TabbedContainer:
+            return tabbedContainer.screens.first {
+                findFirstScreenInVisibleFlow(
+                    appearedWithinHierarchyOf: $0
+                ) != nil
+            }
+        case let someScreen as ScreenRoutable:
+            return someScreen.flowIdentifier == visibleFlow.identifier ? someScreen : nil
+        default: return nil
+        }
     }
 }

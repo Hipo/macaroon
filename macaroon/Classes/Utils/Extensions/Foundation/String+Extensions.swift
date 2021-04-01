@@ -30,6 +30,20 @@ extension String {
     public func without(_ string: String) -> String {
         return replacingOccurrences(of: string, with: "")
     }
+
+    public func without(prefix: String) -> String {
+        if !hasPrefix(
+            prefix
+        ) {
+            return self
+        }
+
+        return String(
+            dropFirst(
+                prefix.count
+            )
+        )
+    }
 }
 
 extension String {

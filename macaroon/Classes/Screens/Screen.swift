@@ -65,7 +65,7 @@ open class Screen:
             bundle: nil
         )
 
-        customizeNavigationBarAppearance()
+        configureNavigationBar()
         observeNotifications()
     }
 
@@ -93,7 +93,7 @@ open class Screen:
         }
     }
 
-    open func customizeNavigationBarAppearance() {
+    open func configureNavigationBar() {
         customizeNavigationBarTitle()
         customizeNavigationBarLeftBarButtons()
         customizeNavigationBarRightBarButtons()

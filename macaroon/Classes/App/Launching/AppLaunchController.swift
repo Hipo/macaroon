@@ -22,7 +22,7 @@ extension AppLaunchController {
 public protocol AppAuthLaunchController: AppLaunchController {
     typealias AuthCompletionHandler = (Swift.Error?) -> Void
 
-    func signIn(onCompleted execute: AuthCompletionHandler?)
-    func signUp(onCompleted execute: AuthCompletionHandler?)
-    func signOut(onCompleted execute: AuthCompletionHandler?)
+    func launchAfterSignIn(onCompleted execute: AuthCompletionHandler?)
+    func launchAfterSignUp(onCompleted execute: AuthCompletionHandler?)
+    func launchAfterSignOut(onCompleted execute: AuthCompletionHandler?)
 }

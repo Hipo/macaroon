@@ -52,13 +52,17 @@ public struct MaskInputFormatter: TextInputFormatter {
                 replacementString: string
             )
 
-        if value.formattedText == pattern,
-           let placeholder = placeholder {
-            value = base.formatInput(
-                currentText: value.formattedText,
-                range: range,
-                replacementString: placeholder
-            )
+        if value.formattedText == pattern {
+            if let placeholder = placeholder {
+                value =
+                    base.formatInput(
+                        currentText: value.formattedText,
+                        range: range,
+                        replacementString: placeholder
+                    )
+            } else {
+                value = FormattedTextValue(formattedText: "", caretBeginOffset: 0)
+            }
         }
 
         return (

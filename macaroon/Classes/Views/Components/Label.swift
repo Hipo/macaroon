@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-public class Label:
+open class Label:
     UILabel,
     BorderDrawable,
     CornerDrawable,

@@ -2,4 +2,6 @@
 
 import Foundation
 
-public protocol AppDependencies: AnyObject { }
+public protocol AppDependencies: AnyObject {
+    func invalidate()
+}

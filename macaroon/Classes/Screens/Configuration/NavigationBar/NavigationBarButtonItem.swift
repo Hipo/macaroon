@@ -13,7 +13,7 @@ public protocol NavigationBarButtonItem {
 
 extension NavigationBarButtonItem {
     public var size: LayoutSize? {
-        return (44, 44)
+        return (40, 40)
     }
 
     public func add(

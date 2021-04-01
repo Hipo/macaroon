@@ -8,6 +8,7 @@ public enum Error: Swift.Error {
     case appTargetCorrupted(reason: Swift.Error)
     case rootContainerNotFound
     case screenNotFound
+    case flowNotFound
     case dismissNavigationBarButtonItemNotFound
     case popNavigationBarButtonItemNotFound
     case colorNotFound(String)
@@ -35,6 +36,8 @@ extension Error {
             return "Root container not found"
         case .screenNotFound:
             return "Screen not found"
+        case .flowNotFound:
+            return "Flow not found"
         case .dismissNavigationBarButtonItemNotFound:
             return "Navigation bar button item not found for dismissing action"
         case .popNavigationBarButtonItemNotFound:

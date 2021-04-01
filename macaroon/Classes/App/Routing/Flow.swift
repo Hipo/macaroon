@@ -27,3 +27,26 @@ extension Flow {
         return lhs.identifier == rhs.identifier
     }
 }
+
+extension Flow where Self: RawRepresentable, Self.RawValue == String {
+    public var identifier: String {
+        return "flow.\(rawValue)"
+    }
+
+    public static func instance(
+        _ identifier: String
+    ) -> Self {
+        let rawValue =
+            identifier.without(
+                prefix: "flow."
+            )
+
+        if let flow = Self(rawValue: rawValue) {
+            return flow
+        }
+
+        mc_crash(
+            .flowNotFound
+        )
+    }
+}

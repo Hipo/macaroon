@@ -33,6 +33,8 @@ open class TabBarContainer:
             tabBar.selectedIndex = selectedIndex
 
             showSelectedTab()
+
+            selectedIndexDidChange()
         }
     }
 
@@ -97,6 +99,8 @@ open class TabBarContainer:
         selectedIndex = items.startIndex
     }
 
+    open func selectedIndexDidChange() {}
+
     open override func prepareLayout() {
         super.prepareLayout()
 
@@ -118,8 +122,18 @@ extension TabBarContainer {
         _ isHidden: Bool,
         animated: Bool
     ) {
-        tabBar.snp.updateConstraints { maker in
-            maker.bottom.equalToSuperview().inset(isHidden ? -tabBar.bounds.height : 0.0)
+        let bottomPadding = isHidden ? -tabBar.bounds.height : 0.0
+
+        if isViewAppeared {
+            let currentBottomPadding = view.bounds.height - tabBar.frame.maxY
+
+            if currentBottomPadding == bottomPadding {
+                return
+            }
+        }
+
+        tabBar.snp.updateConstraints {
+            $0.bottom == bottomPadding
         }
 
         if !animated ||
