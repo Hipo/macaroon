@@ -7,10 +7,6 @@ public protocol NavigationBarConfigurable: UIViewController {
     var navigationBarHidden: Bool { get set }
 
     /// <note>
-    /// It may be a string or a view.
-    var navigationBarTitle: NavigationBarTitle? { get set }
-
-    /// <note>
     /// `Pop` or `Dismiss` left bar button will be inserted automatically when
     /// `setNeedsNavigationBarAppearanceUpdate()` is called.
     var leftNavigationBarButtonItems: [NavigationBarButtonItem] { get set }
@@ -30,17 +26,8 @@ public protocol NavigationBarConfigurable: UIViewController {
 
 extension NavigationBarConfigurable {
     public func setNeedsNavigationBarAppearanceUpdate() {
-        setNeedsNavigationBarTitleUpdate()
         setNeedsNavigationBarLeftBarButtonsUpdate()
         setNeedsNavigationBarRightBarButtonsUpdate()
-    }
-
-    public func setNeedsNavigationBarTitleUpdate() {
-        switch navigationBarTitle {
-        case let string as String: navigationItem.title = string
-        case let view as UIView: navigationItem.titleView = view
-        default: break
-        }
     }
 
     public func setNeedsNavigationBarLeftBarButtonsUpdate() {

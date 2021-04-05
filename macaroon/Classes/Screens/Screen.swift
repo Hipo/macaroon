@@ -26,7 +26,6 @@ open class Screen:
         }
     }
 
-    public var navigationBarTitle: NavigationBarTitle?
     public var leftNavigationBarButtonItems: [NavigationBarButtonItem] = []
     public var rightNavigationBarButtonItems: [NavigationBarButtonItem] = []
 
@@ -53,7 +52,7 @@ open class Screen:
         return statusBarHidden ? .fade : .none
     }
 
-    private let configurator: ScreenConfigurable?
+    public let configurator: ScreenConfigurable?
 
     public init(
         configurator: ScreenConfigurable?

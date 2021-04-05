@@ -19,7 +19,14 @@ open class FormScreen:
     public var screenChangesAlongsideWhenKeyboardIsHiding:
         ScreenChangesAlongsideKeyboardTransition?
 
-    public private(set) lazy var formView = FormView()
+    public private(set) lazy var formView: FormView = {
+        let view = FormView()
+        /// <note>
+        /// Setting `dataSource` before the `formView` has actually been added into the screen,
+        /// will ensure that the form elements can be accessible any time in screen lifecycle.
+        view.dataSource = self
+        return view
+    }()
 
     public private(set) lazy var keyboardController =
         KeyboardController(scrollView: scrollView, screen: self)
@@ -50,7 +57,6 @@ open class FormScreen:
 
     open override func setListeners() {
         super.setListeners()
-        formView.dataSource = self
         formView.delegate = self
     }
 

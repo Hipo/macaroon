@@ -56,6 +56,12 @@ extension KeyboardController {
             return
         }
 
+        let editingRectBeforeUpdates =
+            screen.keyboardController(
+                self,
+                editingRectIn: scrollView
+            )
+
         /// <note>
         /// Finalize the layout so that the calculations could produce the correct results.
         screen.view.layoutIfNeeded()
@@ -66,13 +72,13 @@ extension KeyboardController {
             )
         }
 
-        let someEditingRect =
+        let editingRectAfterUpdates =
             screen.keyboardController(
                 self,
                 editingRectIn: scrollView
             )
 
-        guard let editingRect = someEditingRect else {
+        guard let editingRect = editingRectAfterUpdates else {
             return
         }
 
@@ -80,6 +86,14 @@ extension KeyboardController {
 
         if visibleRect.contains(editingRect) {
             return
+        }
+
+        if let rect = editingRectBeforeUpdates {
+            let yDeltaAfterUpdates = editingRect.minY - rect.minY
+
+            scrollView.setContentOffset(
+                y: scrollView.contentOffset.y + yDeltaAfterUpdates
+            )
         }
 
         let someNewContentOffset =

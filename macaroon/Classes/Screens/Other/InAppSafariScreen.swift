@@ -9,23 +9,4 @@ public final class InAppSafariScreen:
     ScreenRoutable {
     public var flowIdentifier: String = ""
     public var pathIdentifier: String = ""
-
-    public override init(
-        url URL: URL,
-        configuration: SFSafariViewController.Configuration
-    ) {
-        super.init(
-            url: URL,
-            configuration: configuration
-        )
-    }
-
-    public convenience init(
-        url: URL
-    ) {
-        self.init(
-            url: url,
-            configuration: SFSafariViewController.Configuration()
-        )
-    }
 }

@@ -106,7 +106,7 @@ open class ScrollScreen:
 
     /// <mark>
     /// UIScrollViewDelegate
-    public func scrollViewDidScroll(
+    open func scrollViewDidScroll(
         _ scrollView: UIScrollView
     ) {
         updateLayoutOnScroll()

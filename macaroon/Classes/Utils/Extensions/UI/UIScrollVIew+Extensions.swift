@@ -113,6 +113,32 @@ extension UIScrollView {
 }
 
 extension UIScrollView {
+    public func setContentOffset(
+        x: LayoutMetric
+    ) {
+        if x.isNoMetric {
+            return
+        }
+
+        var mContentOffset = contentOffset
+        mContentOffset.x = x
+        contentOffset = mContentOffset
+    }
+
+    public func setContentOffset(
+        y: LayoutMetric
+    ) {
+        if y.isNoMetric {
+            return
+        }
+
+        var mContentOffset = contentOffset
+        mContentOffset.y = y
+        contentOffset = mContentOffset
+    }
+}
+
+extension UIScrollView {
     public func scrollToTop(
         animated: Bool = true
     ) {
