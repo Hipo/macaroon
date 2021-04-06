@@ -4,4 +4,5 @@ import Foundation
 
 public protocol AppDependencies: AnyObject {
     func invalidate()
+    func reset()
 }

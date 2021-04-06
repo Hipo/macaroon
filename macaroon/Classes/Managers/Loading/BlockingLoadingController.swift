@@ -49,6 +49,10 @@ open class BlockingLoadingController {
     }
 
     open func stopLoading() {
+        if !isLoading {
+            return
+        }
+
         self.loadingIndicator.stopAnimating()
 
         animateLayoutWhenLoadingStatusDidChange(

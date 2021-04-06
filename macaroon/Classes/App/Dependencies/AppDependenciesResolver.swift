@@ -10,6 +10,7 @@ public protocol AppDependenciesResolver: AnyObject {
     static var shared: Self { get }
 
     func invalidate()
+    func reset()
 }
 
 extension AppDependenciesResolver {
