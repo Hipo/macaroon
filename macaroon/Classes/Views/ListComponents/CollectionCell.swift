@@ -15,8 +15,11 @@ open class CollectionCell<
     public private(set) lazy var contextView = getContextView()
     public private(set) var separatorView: UIView?
 
-    open var separatorStyle: ListSeparatorStyle {
-        return .none
+    open var separatorStyle: ListSeparatorStyle = .none {
+        didSet {
+            removeSeparator()
+            addSeparator()
+        }
     }
 
     public override init(
@@ -41,7 +44,6 @@ open class CollectionCell<
 
     open func prepareLayout() {
         addContext()
-        addSeparator()
     }
 
     open func addContext() {
@@ -84,5 +86,10 @@ extension CollectionCell {
                     separator
                 )
         }
+    }
+
+    private func removeSeparator() {
+        separatorView?.removeFromSuperview()
+        separatorView = nil
     }
 }

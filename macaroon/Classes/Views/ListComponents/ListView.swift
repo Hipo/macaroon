@@ -76,6 +76,7 @@ extension ListView {
             }
 
             if !isAppeared {
+                applyUpdates?()
                 reloadData()
                 execute?()
                 return

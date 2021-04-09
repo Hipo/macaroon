@@ -9,20 +9,14 @@ open class BottomSheetPresentationController:
     public private(set) lazy var overlayView = BottomSheetOverlayView()
 
     public var presentedContentViewController: UIViewController {
-        guard
-            let presentedNavigationController = presentedViewController as? UINavigationController
-        else {
-            return presentedViewController
-        }
-
-        return presentedNavigationController.viewControllers.last ?? presentedViewController
+        let navigationController = presentedViewController as? UINavigationController
+        return navigationController?.viewControllers.last ?? presentedViewController
     }
-    public var configurablePresentedContentViewController: BottomSheetPresentable? {
-        return presentedContentViewController as? BottomSheetPresentable
-    }
-
     public var presentedScrollView: UIScrollView? {
-        return configurablePresentedContentViewController?.presentedScrollView
+        return (presentedContentViewController as? BottomSheetPresentable)?.presentedScrollView
+    }
+    public var modalHeight: ModalHeight {
+        return (presentedContentViewController as? ModalCustomPresentable)?.modalHeight ?? .compressed
     }
 
     public let interactor: BottomSheetInteractor
@@ -52,24 +46,24 @@ open class BottomSheetPresentationController:
     open override func calculateSizeOfPresentedView(
         inParentWithSize parentSize: LayoutSize
     ) -> LayoutSize {
-        let presentedHeight =
-            configurablePresentedContentViewController?.presentedHeight ?? .compressed
         let targetWidth = parentSize.w
         let targetHeight: LayoutMetric
 
-        switch presentedHeight {
+        switch modalHeight {
         case .compressed,
              .expanded:
             /// <note>
-            /// Use `presentedContentViewController` to calculate the height becuase navigation
-            /// controller gives us 0. A preferred height should be set explicitly in order to
-            /// add its height into the calculations.
+            /// Use `presentedContentViewController` to calculate the height because
+            /// navigation controller gives us 0. A preferred height should be set explicitly in order
+            /// to add its height into the calculations.
             if let presentedView = presentedContentViewController.view {
-                let fittingHeight =
-                    presentedHeight == .compressed
-                        ? UIView.layoutFittingCompressedSize.height
-                        : UIView.layoutFittingExpandedSize.height
-                let fittingSize = CGSize((targetWidth, fittingHeight))
+                let fittingSize: CGSize
+
+                if modalHeight == .compressed {
+                    fittingSize = CGSize((targetWidth, UIView.layoutFittingCompressedSize.height))
+                } else {
+                    fittingSize = CGSize((targetWidth, UIView.layoutFittingExpandedSize.height))
+                }
 
                 targetHeight =
                     presentedView.systemLayoutSizeFitting(
@@ -83,12 +77,19 @@ open class BottomSheetPresentationController:
         case .proportional(let proportion):
             targetHeight = parentSize.h * proportion
         case .preferred(let preferredHeight):
-            targetHeight = preferredHeight
+            /// <note>
+            /// Return a height without the safe area inset.
+            targetHeight = preferredHeight + (containerView?.compactSafeAreaInsets.bottom ?? 0)
         }
 
         let maxHeight = parentSize.h * 0.9
 
         return (targetWidth, (max(0, min(targetHeight, maxHeight))).ceil())
+    }
+
+    open override func containerViewWillLayoutSubviews() {
+        super.containerViewWillLayoutSubviews()
+        overlayView.frame = calculateFinalFrameOfOverlayView()
     }
 
     open override func presentationTransitionWillBegin() {
@@ -108,11 +109,10 @@ open class BottomSheetPresentationController:
     open func gestureRecognizerShouldBegin(
         _ gestureRecognizer: UIGestureRecognizer
     ) -> Bool {
-        guard let presentedScrollView = presentedScrollView else {
-            return true
-        }
-
-        return presentedScrollView.isScrollAtTop
+        return presentedScrollView.unwrap(
+            \.isScrollAtTop,
+            or: true
+        )
     }
 }
 
@@ -182,16 +182,7 @@ extension BottomSheetPresentationController {
                 height: containerView.bounds.height
             )
 
-        let presentedHeight = calculateSizeOfPresentedView(
-            inParentWithSize: (containerView.bounds.width, containerView.bounds.height)
-        ).h
-        let presentedOverlayHeight =
-            presentedHeight +
-            containerView.compactSafeAreaInsets.bottom +
-            configuration.overlayOffset
-
-        var finalFrame = overlayView.frame
-        finalFrame.origin.y = containerView.bounds.height - presentedOverlayHeight
+        let finalFrame = calculateFinalFrameOfOverlayView()
 
         guard let transitionCoordinator = presentedViewController.transitionCoordinator else {
             overlayView.frame = finalFrame
@@ -250,5 +241,33 @@ extension BottomSheetPresentationController {
             },
             completion: nil
         )
+    }
+}
+
+extension BottomSheetPresentationController {
+    private func calculateFinalFrameOfOverlayView() -> CGRect {
+        guard let containerView = containerView else {
+            return overlayView.frame
+        }
+
+        let presentedHeight = calculateSizeOfPresentedView(
+            inParentWithSize: (containerView.bounds.width, containerView.bounds.height)
+        ).h
+        var presentedOverlayHeight =
+            presentedHeight +
+            configuration.overlayOffset
+
+        /// <note>
+        /// Expect that `calculateSizeOfPresentedView(inParentWithSize:)` returns
+        /// a height with the safe area inset, so it isn't needed to be considered here. For autosizing,
+        /// the height will be calculated properly including the safe area inset itself but not at the
+        /// moment that the overlay size is calculated.
+        if !modalHeight.isExplicit {
+            presentedOverlayHeight += containerView.compactSafeAreaInsets.bottom
+        }
+
+        var finalFrame = overlayView.frame
+        finalFrame.origin.y = containerView.bounds.height - presentedOverlayHeight
+        return finalFrame
     }
 }

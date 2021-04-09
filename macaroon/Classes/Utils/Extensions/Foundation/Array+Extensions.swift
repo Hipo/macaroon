@@ -125,6 +125,14 @@ extension Array {
 }
 
 extension Array where Element: Hashable {
+    public func elementsEqualWithoutOrder(
+        _ other: Self
+    ) -> Bool {
+        return Set(self) == Set(other)
+    }
+}
+
+extension Array where Element: Hashable {
     public func element(before nextElement: Element) -> Element? {
         guard let index = firstIndex(where: { $0 == nextElement }) else {
             return nil

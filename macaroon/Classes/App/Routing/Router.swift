@@ -216,14 +216,14 @@ extension Router {
             completion()
         }
 
-        if isPresenting {
-            existingScreen.dismiss(
-                animated: animated
-            )
-        }
-
         if let navigationContainer = existingScreen.navigationController,
            navigationContainer.viewControllers.last != existingScreen {
+            if isPresenting {
+                existingScreen.dismiss(
+                    animated: animated
+                )
+            }
+
             navigationContainer.popToViewController(
                 existingScreen,
                 animated: !isPresenting && animated,
@@ -234,8 +234,23 @@ extension Router {
         }
 
         if let tabbedContainer = existingScreen.parent as? TabbedContainer {
+            if isPresenting {
+                existingScreen.dismiss(
+                    animated: animated
+                )
+            }
+
             tabbedContainer.selectedScreen = existingScreen
             transitionCompletion()
+
+            return
+        }
+
+        if isPresenting {
+            existingScreen.dismiss(
+                animated: animated,
+                completion: transitionCompletion
+            )
 
             return
         }
@@ -360,7 +375,7 @@ extension Router {
                 source: existingScreen,
                 destination: destination,
                 overridesFullStack: false,
-                completion: completion
+                completion: transitionCompletion
             )
 
         transition.perform(

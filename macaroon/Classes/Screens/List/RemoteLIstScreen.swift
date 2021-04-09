@@ -7,7 +7,9 @@ import UIKit
 open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
     public var reloadListWhenViewDidAppear = true
     public var reloadListWhenViewWillEnterForeground = true
-    public var invalidatesLayoutForReloadingItems = false
+    public var invalidatesLayoutForReloadingItems = false {
+        didSet { listView.invalidatesLayoutForReloadingItems = invalidatesLayoutForReloadingItems }
+    }
 
     public let listDataLoader: ListDataLoader
 

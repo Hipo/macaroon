@@ -135,7 +135,7 @@ extension BottomScrollOverlayContainer {
         completion: @escaping (Bool) -> Void
     ) {
         let springTimingParameters =
-            UISpringTimingParameters(dampingRatio: 0.65, initialVelocity: velocity)
+            UISpringTimingParameters(dampingRatio: 0.8, initialVelocity: velocity)
         let animator =
             UIViewPropertyAnimator(duration: 0.5, timingParameters: springTimingParameters)
         animator.addAnimations {
