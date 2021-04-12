@@ -18,9 +18,18 @@ open class NavigationBarLargeTitleController<SomeScreen: NavigationBarLargeTitle
     private var runningTitleVisibilityAnimator: UIViewPropertyAnimator?
 
     private var minContentOffsetYForVisibleLargeTitle: CGFloat {
+        let scrollView = screen.navigationBarScrollView
         let largeTitleView = screen.navigationBarLargeTitleView
-        return -largeTitleView.scrollEdgeOffset
 
+        if !largeTitleView.isDescendant(
+               of: scrollView
+            ) {
+            return -largeTitleView.scrollEdgeOffset
+        }
+
+        return
+            largeTitleView.frame.maxY -
+            largeTitleView.scrollEdgeOffset
     }
 
     private var isTitleVisible: Bool {
@@ -119,8 +128,8 @@ extension NavigationBarLargeTitleController {
         let largeTitleView = screen.navigationBarLargeTitleView
 
         if largeTitleView.isDescendant(
-            of: scrollView
-        ) {
+               of: scrollView
+           ) {
             return
         }
 
