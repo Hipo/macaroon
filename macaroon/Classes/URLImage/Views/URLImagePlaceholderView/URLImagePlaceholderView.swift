@@ -86,6 +86,8 @@ open class URLImagePlaceholderView:
         addSubview(
             textView
         )
+        textView.fitToHorizontalIntrinsicSize()
+        textView.fitToVerticalIntrinsicSize()
         textView.snp.makeConstraints {
             $0.setPaddings(
                 (8, 8, 8, 8)
@@ -98,6 +100,7 @@ open class URLImagePlaceholderView:
             from: placeholder?.image
         )
         textView.editText = placeholder?.text
+        textView.invalidateIntrinsicContentSize()
     }
 
     open func prepareForReuse() {

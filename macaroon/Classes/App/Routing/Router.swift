@@ -423,14 +423,16 @@ extension Router {
                     in: navigationContainer
                 )
 
-            if let vs = self.visibleScreen as? ScreenRoutable {
-                self.visibleFlow = .instance(vs.flowIdentifier)
+            if let aVisibleScreen = self.visibleScreen as? ScreenRoutable,
+               !aVisibleScreen.flowIdentifier.isEmpty {
+                self.visibleFlow = .instance(aVisibleScreen.flowIdentifier)
             }
         }
     }
 
     public func dismissVisibleScreen(
-        animated: Bool = true
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
     ) {
         guard let presentingScreen = visibleScreen.presentingViewController else {
             return
@@ -440,17 +442,14 @@ extension Router {
             animated: animated
         ) { [unowned self] in
 
-            if let presentingNavigationContainer = presentingScreen as? UINavigationController {
-                self.visibleScreen =
-                    self.findVisibleScreen(
-                        in: presentingNavigationContainer
-                    )
-            } else {
-                self.visibleScreen = presentingScreen
-            }
+            self.visibleScreen =
+                self.findVisibleScreen(
+                    in: presentingScreen
+                )
 
-            if let vs = self.visibleScreen as? ScreenRoutable {
-                self.visibleFlow = .instance(vs.flowIdentifier)
+            if let aVisibleScreen = self.visibleScreen as? ScreenRoutable,
+               !aVisibleScreen.flowIdentifier.isEmpty {
+                self.visibleFlow = .instance(aVisibleScreen.flowIdentifier)
             }
         }
     }
@@ -504,18 +503,9 @@ extension Router {
                 presentedBy: screen ?? rootContainer
             )
 
-        switch topmostPresentedScreen {
-        case let navigationContainer as UINavigationController:
-            return findVisibleScreen(
-                in: navigationContainer
-            )
-        case let tabbedContainer as TabbedContainer:
-            return findVisibleScreen(
-                in: tabbedContainer
-            )
-        default:
-            return topmostPresentedScreen
-        }
+        return findVisibleScreen(
+            in: topmostPresentedScreen
+        )
     }
 
     public func findVisibleScreen(
@@ -527,6 +517,23 @@ extension Router {
             topmostPresentedScreen = nextPresentedScreen
         }
         return topmostPresentedScreen
+    }
+
+    public func findVisibleScreen(
+        in screen: UIViewController
+    ) -> UIViewController {
+        switch screen {
+        case let navigationContainer as UINavigationController:
+            return findVisibleScreen(
+                in: navigationContainer
+            )
+        case let tabbedContainer as TabbedContainer:
+            return findVisibleScreen(
+                in: tabbedContainer
+            )
+        default:
+            return screen
+        }
     }
 
     public func findVisibleScreen(

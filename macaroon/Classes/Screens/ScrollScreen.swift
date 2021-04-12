@@ -14,8 +14,19 @@ open class ScrollScreen:
     public private(set) lazy var footerView = UIView()
 
     private lazy var footerBackgroundView = UIView()
-    private lazy var footerBlurBackgroundView =
-        UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+    private lazy var footerBlurBackgroundView: UIVisualEffectView = {
+        let view = UIVisualEffectView()
+
+        if #available(iOS 13, *) {
+            view.effect = UIBlurEffect(style: .systemUltraThinMaterial)
+        } else {
+            view.effect = UIBlurEffect(style: .regular)
+        }
+
+        return view
+    }()
+
+    private var isScrollLayoutFinalized = false
 
     open func customizeScrollAppearance() {
         scrollView.alwaysBounceVertical = true
@@ -90,13 +101,20 @@ open class ScrollScreen:
 
     open override func prepareLayout() {
         super.prepareLayout()
+
         addScroll()
         addFooter()
     }
 
     open override func updateLayoutWhenViewDidLayoutSubviews() {
         super.updateLayoutWhenViewDidLayoutSubviews()
+
+        if contentView.bounds.isEmpty {
+            return
+        }
+
         updateScrollLayoutWhenViewDidLayoutSubviews()
+        updateLayoutOnScroll()
     }
 
     open override func setListeners() {
@@ -118,6 +136,22 @@ extension ScrollScreen {
         updateFooterBackgroundLayoutOnScroll()
     }
 
+    private func addFooterBlurBackground() {
+        if footerBlurBackgroundView.isDescendant(
+            of: footerBackgroundView
+        ) {
+            return
+        }
+
+        footerBackgroundView.insertSubview(
+            footerBlurBackgroundView,
+            at: 0
+        )
+        footerBlurBackgroundView.snp.makeConstraints {
+            $0.setPaddings()
+        }
+    }
+
     private func updateFooterBackgroundLayoutOnScroll() {
         if !blursFooterBackgroundOnUnderScrolling {
             return
@@ -129,26 +163,7 @@ extension ScrollScreen {
 
         addFooterBlurBackground()
 
-        let scrollHeight = scrollView.bounds.height
-        let scrollableHeight = contentView.bounds.height + scrollView.adjustedContentInset.y
-        let contentOffsetYAtBottom = scrollableHeight - scrollHeight
-
-        footerBlurBackgroundView.isHidden =
-            contentOffsetYAtBottom > 0 && scrollView.contentOffset.y >= contentOffsetYAtBottom
-    }
-
-    private func addFooterBlurBackground() {
-        if footerBlurBackgroundView.isDescendant(
-            of: footerBackgroundView
-        ) {
-            return
-        }
-
-        footerBackgroundView.addSubview(
-            footerBlurBackgroundView
-        )
-        footerBlurBackgroundView.snp.makeConstraints {
-            $0.setPaddings()
-        }
+        let endOfContent = contentView.frame.maxY - scrollView.contentOffset.y
+        footerBlurBackgroundView.isHidden = endOfContent <= footerBackgroundView.frame.minY
     }
 }
