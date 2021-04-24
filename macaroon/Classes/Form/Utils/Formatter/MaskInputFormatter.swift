@@ -3,7 +3,7 @@
 import AnyFormatKit
 import Foundation
 
-public struct MaskInputFormatter: TextInputFormatter {
+public struct MaskInputFormatter: TextPatternInputFormatter {
     public let pattern: String
     public let symbol: Character
     public let placeholder: String?
@@ -44,7 +44,7 @@ public struct MaskInputFormatter: TextInputFormatter {
         _ input: String,
         changingCharactersIn range: NSRange,
         replacementString string: String
-    ) -> Output {
+    ) -> TextInputFormattedOutput {
         var value =
             base.formatInput(
                 currentText: input,
@@ -61,7 +61,7 @@ public struct MaskInputFormatter: TextInputFormatter {
                         replacementString: placeholder
                     )
             } else {
-                value = FormattedTextValue(formattedText: "", caretBeginOffset: 0)
+                value = .zero
             }
         }
 

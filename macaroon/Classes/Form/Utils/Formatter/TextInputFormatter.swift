@@ -3,12 +3,14 @@
 import AnyFormatKit
 import Foundation
 
-public protocol TextInputFormatter {
-    typealias Output = (text: String, caretOffset: Int)
+public typealias TextInputFormattedOutput = (text: String, caretOffset: Int)
 
+public protocol TextPatternInputFormatter: TextInputFormatter {
     var pattern: String { get }
     var symbol: Character { get }
+}
 
+public protocol TextInputFormatter {
     /// <note>
     /// The value can be used to format a placeholder instead of an empty string. It should be
     /// an unformatted text.
@@ -25,7 +27,7 @@ public protocol TextInputFormatter {
     /// Formatted => Unformatted
     func unformat(_ string: String?) -> String?
 
-    func format(_ input: String, changingCharactersIn range: NSRange, replacementString string: String) -> Output
+    func format(_ input: String, changingCharactersIn range: NSRange, replacementString string: String) -> TextInputFormattedOutput
 }
 
 extension TextInputFormatter {
@@ -42,7 +44,7 @@ extension TextInputFormatter {
         _ inputFieldView: FormTextInputFieldView,
         changingCharactersIn range: NSRange,
         replacementString string: String
-    ) -> Output {
+    ) -> TextInputFormattedOutput {
         return format(
             inputFieldView.text.nonNil,
             changingCharactersIn: range,

@@ -97,7 +97,6 @@ open class BottomSheetInteractor:
         initialVelocity: CGVector
     ) {
         guard
-            let transitionContext = interactiveTransitionContext,
             let presentedViewController = presentedViewController,
             let presentedFrame = presentedFrame
         else {
@@ -118,7 +117,14 @@ open class BottomSheetInteractor:
 
         }
         cancelAnimator.addCompletion {
-            [unowned self] _ in
+            [weak self, weak interactiveTransitionContext] _ in
+
+            guard
+                let self = self,
+                let transitionContext = interactiveTransitionContext
+            else {
+                return
+            }
 
             transitionContext.cancelInteractiveTransition()
             transitionContext.completeTransition(
@@ -169,7 +175,14 @@ open class BottomSheetInteractor:
             self.additionalAnimationsAlongsideTransition?(1)
         }
         finishAnimator.addCompletion {
-            [unowned self] _ in
+            [weak self, weak interactiveTransitionContext] _ in
+
+            guard
+                let self = self,
+                let transitionContext = interactiveTransitionContext
+            else {
+                return
+            }
 
             transitionContext.finishInteractiveTransition()
             transitionContext.completeTransition(

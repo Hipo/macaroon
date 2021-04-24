@@ -3,21 +3,17 @@
 import AnyFormatKit
 import Foundation
 
-public struct CommonTextInputFormatter: TextPatternInputFormatter {
-    public let pattern: String
-    public let symbol: Character
+public struct MoneyInputFormatter: TextInputFormatter {
     public let placeholder: String?
 
-    private let base: DefaultTextInputFormatter
+    private let base: SumTextInputFormatter
 
     public init(
-        pattern: String,
+        numberFormatter: NumberFormatter = .currency,
         placeholder: String? = nil
     ) {
-        self.pattern = pattern
-        self.symbol = "#"
         self.placeholder = placeholder
-        self.base = DefaultTextInputFormatter(textPattern: pattern, patternSymbol: symbol)
+        self.base = SumTextInputFormatter(numberFormatter: numberFormatter)
     }
 
     public func format(
@@ -48,13 +44,17 @@ public struct CommonTextInputFormatter: TextPatternInputFormatter {
                 replacementString: string
             )
 
-        if value.formattedText.isEmpty,
-           let placeholder = placeholder {
-            value = base.formatInput(
-                currentText: "",
-                range: NSRange(location: 0, length: 0),
-                replacementString: placeholder
-            )
+        if value.formattedText.isEmpty ||
+           value.formattedText == base.suffix {
+            if let placeholder = placeholder {
+                value = base.formatInput(
+                    currentText: "",
+                    range: NSRange(location: 0, length: 0),
+                    replacementString: placeholder
+                )
+            } else {
+                value = .zero
+            }
         }
 
         return (value.formattedText, value.caretBeginOffset)

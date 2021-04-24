@@ -266,6 +266,10 @@ Pod::Spec.new do |s|
     ss.subspec 'Utils' do |sss|
       sss.source_files = 'macaroon/Classes/Form/Utils/*.swift'
 
+      sss.subspec 'Detector' do |ssss|
+          ssss.source_files = 'macaroon/Classes/Form/Utils/Detector/*.swift'
+      end
+
       sss.subspec 'Formatter' do |ssss|
           ssss.source_files = 'macaroon/Classes/Form/Utils/Formatter/*.swift'
       end

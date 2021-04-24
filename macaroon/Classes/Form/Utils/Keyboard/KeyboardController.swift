@@ -4,9 +4,11 @@ import Foundation
 import UIKit
 
 public class KeyboardController: NotificationObserver {
-    private typealias KeyboardExecutable = ((Keyboard) -> Void, animated: Bool)
+    private typealias KeyboardExecutable = (execute: (Keyboard) -> Void, animated: Bool)
 
     public var observations: [NSObjectProtocol] = []
+
+    public private(set) var keyboard: Keyboard?
 
     public var isKeyboardVisible: Bool {
         return keyboard != nil
@@ -17,8 +19,6 @@ public class KeyboardController: NotificationObserver {
 
     private var executableToPerformAlongsideWhenKeyboardIsShowing: KeyboardExecutable?
     private var executableToPerformAlongsideWhenKeyboardIsHiding: KeyboardExecutable?
-
-    private var keyboard: Keyboard?
 
     public init(
         scrollView: UIScrollView,
@@ -144,25 +144,26 @@ extension KeyboardController {
                 return
             }
 
-            let keyboard = Keyboard(notification: notification)
+            let lastKeyboard = self.keyboard
+            let newKeyboard = Keyboard(notification: notification)
 
-            if !keyboard.isLocal {
+            if !newKeyboard.isLocal {
                 return
             }
 
+            self.keyboard = newKeyboard
+
             self.adjustContentInsetWhenKeyboardWillShow(
-                keyboard
+                newKeyboard
             )
 
-            if self.keyboard?.height == keyboard.height {
+            if lastKeyboard?.height == newKeyboard.height {
                 return
             }
 
             self.scrollToEditingRect(
-                alongsideKeyboardTransition: keyboard
+                alongsideKeyboardTransition: newKeyboard
             )
-
-            self.keyboard = keyboard
         }
     }
 
@@ -285,9 +286,10 @@ extension KeyboardController {
         }
 
         performIfNeeded(
-            executable: self.executableToPerformAlongsideWhenKeyboardIsShowing,
+            executable: executableToPerformAlongsideWhenKeyboardIsShowing,
             alongsideKeyboardAction: {
                 [unowned self] in
+
                 self.scrollView.contentOffset = newContentOffset
             },
             for: keyboard
@@ -393,7 +395,7 @@ extension KeyboardController {
                 keyboard
             ) {
                 action?()
-                executable.0(keyboard)
+                executable.execute(keyboard)
             }
 
             return
@@ -404,7 +406,7 @@ extension KeyboardController {
         /// animatated during the keyboard is being shown (KeyboardWillShowNotification) even when
         /// it is called outside of the animation block. It doesn't have an issue during the
         /// keyboard is being hidden (KeyboardDidHideNotification).
-        executable.0(keyboard)
+        executable.execute(keyboard)
 
         if let action = action {
             animateAlongsideKeyboardTransition(

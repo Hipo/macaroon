@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-public protocol ListIdentifiable: UICollectionReusableView {
+public protocol ListIdentifiable: UIView {
     static var reuseIdentifier: String { get }
 }
 

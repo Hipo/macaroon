@@ -48,10 +48,14 @@ open class TextField:
         guard let accessory = leftAccessory else {
             return super.leftViewRect(forBounds: bounds)
         }
+
         let size = accessory.size ?? accessory.content.bounds.size
+        let originYOffset = accessory.ignoresContentEdgeInsets ? 0 : contentEdgeInsets.top
+        let originY = ((bounds.height - size.height) / 2.0).ceil() + originYOffset
+
         return CGRect(
             x: contentEdgeInsets.leading,
-            y: contentEdgeInsets.top + ((bounds.height - size.height) / 2.0).ceil(),
+            y: originY,
             width: size.width,
             height: size.height
         )
@@ -59,12 +63,16 @@ open class TextField:
 
     open override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
         guard let accessory = rightAccessory else {
-            return super.leftViewRect(forBounds: bounds)
+            return super.rightViewRect(forBounds: bounds)
         }
+
         let size = accessory.size ?? accessory.content.bounds.size
+        let originYOffset = accessory.ignoresContentEdgeInsets ? 0 : contentEdgeInsets.top
+        let originY = ((bounds.height - size.height) / 2.0).ceil() + originYOffset
+
         return CGRect(
             x: bounds.width - size.width - contentEdgeInsets.trailing,
-            y: contentEdgeInsets.top + ((bounds.height - size.height) / 2.0).ceil(),
+            y: originY,
             width: size.width,
             height: size.height
         )
@@ -133,14 +141,17 @@ public struct TextFieldAccessory {
     let content: UIView
     let mode: UITextField.ViewMode
     let size: CGSize?
+    let ignoresContentEdgeInsets: Bool
 
     public init(
         content: UIView,
         mode: UITextField.ViewMode = .always,
-        size: CGSize? = nil
+        size: CGSize? = nil,
+        ignoresContentEdgeInsets: Bool = false
     ) {
         self.content = content
         self.mode = mode
         self.size = size
+        self.ignoresContentEdgeInsets = ignoresContentEdgeInsets
     }
 }

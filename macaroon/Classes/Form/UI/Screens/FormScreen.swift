@@ -228,7 +228,9 @@ extension FormScreen {
         /// <warning>
         /// Layout updates should be finalized immediately, not cause them to animate alongside
         /// the keyboard transitions.
-        view.layoutIfNeeded()
+        if isViewAppearing {
+            view.layoutIfNeeded()
+        }
 
         formView.beginEditing()
     }

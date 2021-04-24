@@ -14,6 +14,12 @@ public protocol ListDataSource {
     func indexPath(of item: Any) -> IndexPath?
 }
 
+extension ListDataSource {
+    public func contains(item: Any) -> Bool {
+        return indexPath(of: item) != nil
+    }
+}
+
 public protocol SingleListDataSource: ListDataSource {
     associatedtype SomeList: Collection
 

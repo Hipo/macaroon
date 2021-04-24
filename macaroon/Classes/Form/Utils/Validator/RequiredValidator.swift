@@ -4,11 +4,14 @@ import Foundation
 
 public struct RequiredValidator: Validator {
     public let failureReason: String
+    public let allowedCharacters: CharacterSet?
 
     public init(
-        _ failureReason: String
+        _ failureReason: String,
+        _ allowedCharacters: CharacterSet? = nil
     ) {
         self.failureReason = failureReason
+        self.allowedCharacters = allowedCharacters
     }
 
     public func validate(
@@ -29,11 +32,24 @@ extension RequiredValidator {
     private func validate(
         _ textInputFieldView: FormTextInputFieldView
     ) -> Validation {
-        if let text = textInputFieldView.text,
-           !text.isEmpty {
-            return .success
+        guard
+            let text = textInputFieldView.text,
+            !text.isEmpty
+        else {
+            return .failure(failureReason)
         }
 
-        return .failure(failureReason)
+        if let allowedCharacters = allowedCharacters {
+            let isAllowed =
+                text.hasOnlyCharacters(
+                    in: allowedCharacters
+                )
+
+            if !isAllowed {
+                return .failure(failureReason)
+            }
+        }
+
+        return .success
     }
 }

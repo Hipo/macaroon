@@ -18,6 +18,9 @@ open class BottomSheetPresentationController:
     public var modalHeight: ModalHeight {
         return (presentedContentViewController as? ModalCustomPresentable)?.modalHeight ?? .compressed
     }
+    public var modalBottomPadding: LayoutMetric {
+        return (presentedContentViewController as? BottomSheetPresentable)?.modalBottomPadding ?? 0
+    }
 
     public let interactor: BottomSheetInteractor
 
@@ -40,7 +43,7 @@ open class BottomSheetPresentationController:
         withSize size: LayoutSize,
         inParentWithSize parentSize: LayoutSize
     ) -> LayoutOffset {
-        return (0, parentSize.h - size.h)
+        return (0, parentSize.h - size.h - modalBottomPadding)
     }
 
     open override func calculateSizeOfPresentedView(
@@ -79,10 +82,16 @@ open class BottomSheetPresentationController:
         case .preferred(let preferredHeight):
             /// <note>
             /// Return a height without the safe area inset.
-            targetHeight = preferredHeight + (containerView?.compactSafeAreaInsets.bottom ?? 0)
+            if modalBottomPadding == 0 {
+                targetHeight = preferredHeight + (containerView?.compactSafeAreaInsets.bottom ?? 0)
+            } else {
+                /// <note>
+                /// Return safe area inset with `modalBottomPadding`.
+                targetHeight = preferredHeight
+            }
         }
 
-        let maxHeight = parentSize.h * 0.9
+        let maxHeight = (parentSize.h * 0.9) - modalBottomPadding
 
         return (targetWidth, (max(0, min(targetHeight, maxHeight))).ceil())
     }
@@ -253,21 +262,16 @@ extension BottomSheetPresentationController {
         let presentedHeight = calculateSizeOfPresentedView(
             inParentWithSize: (containerView.bounds.width, containerView.bounds.height)
         ).h
-        var presentedOverlayHeight =
+        let presentedOverlayHeight =
             presentedHeight +
             configuration.overlayOffset
 
-        /// <note>
-        /// Expect that `calculateSizeOfPresentedView(inParentWithSize:)` returns
-        /// a height with the safe area inset, so it isn't needed to be considered here. For autosizing,
-        /// the height will be calculated properly including the safe area inset itself but not at the
-        /// moment that the overlay size is calculated.
-        if !modalHeight.isExplicit {
-            presentedOverlayHeight += containerView.compactSafeAreaInsets.bottom
-        }
-
         var finalFrame = overlayView.frame
-        finalFrame.origin.y = containerView.bounds.height - presentedOverlayHeight
+        finalFrame.origin.y =
+            containerView.bounds.height -
+            presentedOverlayHeight -
+            modalBottomPadding
+
         return finalFrame
     }
 }

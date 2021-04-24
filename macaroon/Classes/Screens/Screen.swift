@@ -163,6 +163,18 @@ open class Screen:
         configurator?.viewDidAppearAfterInteractiveDismiss()
     }
 
+    /// <note>
+    /// It is expected to be called when the screen is dismissed programmatically since the
+    /// custom-presented screens doesn't call `viewWillAppear(_:)` or `viewDidAppear(_:)`. Router
+    /// mechanism will handle it automatically but for other case it should be triggerred manually.
+    open func viewDidAppearAfterDismiss() {
+        if let parentScreen = parent as? Screen {
+            parentScreen.viewDidAppearAfterDismiss()
+        }
+
+        configurator?.viewDidAppearAfterDismiss()
+    }
+
     open func viewDidChangePreferredUserInterfaceStyle() {
         configurator?.viewDidChangePreferredUserInterfaceStyle()
     }

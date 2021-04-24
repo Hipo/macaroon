@@ -14,6 +14,7 @@ public protocol ScreenConfigurable: AnyObject {
     func viewWillDisappear()
     func viewDidDisappear()
     func viewDidAttemptInteractiveDismiss()
+    func viewDidAppearAfterDismiss()
     func viewDidAppearAfterInteractiveDismiss()
     func viewDidChangePreferredUserInterfaceStyle()
     func viewDidChangePreferredContentSizeCategory()
@@ -37,6 +38,7 @@ extension ScreenConfigurable {
     public func viewDidDisappear() {}
     public func viewDidAttemptInteractiveDismiss() {}
     public func viewDidAppearAfterInteractiveDismiss() {}
+    public func viewDidAppearAfterDismiss() {}
     public func viewDidChangePreferredUserInterfaceStyle() {}
     public func viewDidChangePreferredContentSizeCategory() {}
 

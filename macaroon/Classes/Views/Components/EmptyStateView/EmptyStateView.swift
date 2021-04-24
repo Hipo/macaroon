@@ -10,7 +10,13 @@ public class EmptyStateView: UIView {
     public var showsLoadingOnRefreshing = false
 
     public internal(set) var state: State = .none {
-        didSet { stateDidChange() }
+        didSet {
+            switch (oldValue, state) {
+            case (.none, .none): break
+            case (.loading, .loading): break
+            default: stateDidChange()
+            }
+        }
     }
 
     public private(set) var currentContentView: UIView?
@@ -218,6 +224,13 @@ extension EmptyStateView {
         case noContent(userInfo: Any? = nil)
         case noNetwork(userInfo: Any? = nil)
         case fault(userInfo: Any? = nil)
+
+        public var isLoading: Bool {
+            switch self {
+            case .loading, .refreshing: return true
+            default: return false
+            }
+        }
     }
 
     public enum ContentAlignment {

@@ -213,6 +213,12 @@ extension Router {
             [unowned self] in
 
             self.visibleScreen = existingScreen
+
+            if isPresenting,
+               let anExistingScreen = existingScreen as? Screen {
+                anExistingScreen.viewDidAppearAfterDismiss()
+            }
+
             completion()
         }
 
@@ -450,6 +456,10 @@ extension Router {
             if let aVisibleScreen = self.visibleScreen as? ScreenRoutable,
                !aVisibleScreen.flowIdentifier.isEmpty {
                 self.visibleFlow = .instance(aVisibleScreen.flowIdentifier)
+            }
+
+            if let aVisibleScreen = self.visibleScreen as? Screen {
+                aVisibleScreen.viewDidAppearAfterDismiss()
             }
         }
     }
