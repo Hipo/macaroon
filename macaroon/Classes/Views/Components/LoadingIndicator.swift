@@ -13,6 +13,13 @@ public protocol LoadingIndicator: UIView {
 }
 
 extension LoadingIndicator {
+    public func restartAnimating() {
+        stopAnimating()
+        startAnimating()
+    }
+}
+
+extension LoadingIndicator {
     public static var identifier: String {
         return String(describing: Self.self)
     }

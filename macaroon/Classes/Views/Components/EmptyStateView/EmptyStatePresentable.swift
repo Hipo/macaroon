@@ -16,6 +16,14 @@ extension EmptyStatePresentable {
     }
 }
 
+extension EmptyStatePresentable {
+    public func restartLoadingAnimatingOnReappeared() {
+        if let loadingIndicator = emptyStateView.currentContentView as? LoadingIndicator {
+            loadingIndicator.restartAnimating()
+        }
+    }
+}
+
 extension EmptyStatePresentable where Self: UIView {
     public var emptyState: EmptyStateView.State {
         get { emptyStateView.state }
