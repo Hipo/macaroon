@@ -168,6 +168,8 @@ open class Screen:
     /// custom-presented screens doesn't call `viewWillAppear(_:)` or `viewDidAppear(_:)`. Router
     /// mechanism will handle it automatically but for other case it should be triggerred manually.
     open func viewDidAppearAfterDismiss() {
+        isViewFirstAppeared = false
+
         if let parentScreen = parent as? Screen {
             parentScreen.viewDidAppearAfterDismiss()
         }
