@@ -17,6 +17,11 @@ extension CGFloat {
     public func float() -> CGFloat {
         return rounded(.down)
     }
+
+    public func round(fraction n: Int) -> CGFloat {
+        let p = pow(10, CGFloat(n))
+        return (self * p) / p
+    }
 }
 
 extension CGFloat {

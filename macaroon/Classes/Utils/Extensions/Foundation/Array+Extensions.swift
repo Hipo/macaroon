@@ -3,6 +3,10 @@
 import Foundation
 
 extension Array {
+    public var firstIndex: Index? {
+        return isEmpty ? nil : startIndex
+    }
+
     public var lastIndex: Index {
         if startIndex == endIndex {
             return endIndex
