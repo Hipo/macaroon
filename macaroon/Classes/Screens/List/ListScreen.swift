@@ -93,6 +93,16 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
         listLayout.prepareForUse()
     }
 
+    open override func viewWillAppear(
+        _ animated: Bool
+    ) {
+        super.viewWillAppear(animated)
+
+        if !isViewFirstAppeared {
+            listView.restartLoadingAnimatingOnReappeared()
+        }
+    }
+
     /// <mark> UICollectionViewDataSource
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         return listDataSource.numberOfSections()

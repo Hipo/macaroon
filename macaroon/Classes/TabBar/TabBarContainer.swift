@@ -23,7 +23,7 @@ open class TabBarContainer:
                 return
             }
 
-            hideSelectedTab()
+            updateLayoutBeforeSelectedTabWillChange()
         }
         didSet {
             if selectedIndex == oldValue {
@@ -32,8 +32,7 @@ open class TabBarContainer:
 
             tabBar.selectedIndex = selectedIndex
 
-            showSelectedTab()
-
+            updateLayoutAfterSelectedTabDidChange()
             selectedIndexDidChange()
         }
     }
@@ -58,6 +57,7 @@ open class TabBarContainer:
     }
 
     public private(set) lazy var tabBar = TabBar()
+    public private(set) var isTabBarHidden = false
 
     public init() {
         super.init(
@@ -99,6 +99,15 @@ open class TabBarContainer:
         selectedIndex = items.startIndex
     }
 
+    open func updateLayoutBeforeSelectedTabWillChange() {
+        hideSelectedTab()
+    }
+
+    open func updateLayoutAfterSelectedTabDidChange() {
+        showSelectedTab()
+        adjustSelectedTabSafeAreaOnAppeared()
+    }
+
     open func selectedIndexDidChange() {}
 
     open override func prepareLayout() {
@@ -115,6 +124,16 @@ open class TabBarContainer:
             self.selectedIndex = index
         }
     }
+
+    open override func viewDidAppear(
+        _ animated: Bool
+    ) {
+        super.viewDidAppear(
+            animated
+        )
+
+        adjustSelectedTabSafeAreaOnAppeared()
+    }
 }
 
 extension TabBarContainer {
@@ -122,22 +141,28 @@ extension TabBarContainer {
         _ isHidden: Bool,
         animated: Bool
     ) {
-        let bottomPadding = isHidden ? -tabBar.bounds.height : 0.0
-
-        if isViewAppeared {
-            let currentBottomPadding = view.bounds.height - tabBar.frame.maxY
-
-            if currentBottomPadding == bottomPadding {
-                return
-            }
+        if isHidden == isTabBarHidden {
+            return
         }
 
         tabBar.snp.updateConstraints {
-            $0.bottom == bottomPadding
+            $0.bottom == (isHidden ? -tabBar.bounds.height : 0.0)
+        }
+
+        let completion = {
+            [weak self] in
+
+            guard let self = self else {
+                return
+            }
+
+            self.isTabBarHidden = isHidden
+            self.adjustSelectedTabSafeAreaOnAppeared()
         }
 
         if !animated ||
            !isViewAppeared {
+            completion()
             return
         }
 
@@ -150,7 +175,11 @@ extension TabBarContainer {
 
                 self.view.layoutIfNeeded()
             },
-            completion: nil
+            completion: {
+                _ in
+
+                completion()
+            }
         )
     }
 
@@ -169,7 +198,7 @@ extension TabBarContainer {
 
 extension TabBarContainer {
     public func showSelectedTab() {
-        guard let selectedScreen = items[safe: selectedIndex]?.screen else {
+        guard let selectedScreen = selectedScreen else {
             return
         }
 
@@ -181,11 +210,7 @@ extension TabBarContainer {
                 belowSubview: tabBar
             )
             screenView.snp.makeConstraints {
-                $0.bottom == tabBar.snp.top
-
-                $0.setPaddings(
-                    (0, 0, .noMetric, 0)
-                )
+                $0.setPaddings()
             }
         }
     }
@@ -198,5 +223,22 @@ extension TabBarContainer {
         removeFragment(
             selectedScreen
         )
+    }
+}
+
+extension TabBarContainer {
+    public func adjustSelectedTabSafeAreaOnAppeared() {
+        if !isViewAppeared {
+            return
+        }
+
+        guard let selectedScreen = selectedScreen else {
+            return
+        }
+
+        var newAdditionalSafeAreaInsets = selectedScreen.additionalSafeAreaInsets
+        newAdditionalSafeAreaInsets.bottom =
+            isTabBarHidden ? 0 : tabBar.bounds.height - view.compactSafeAreaInsets.bottom 
+        selectedScreen.additionalSafeAreaInsets = newAdditionalSafeAreaInsets
     }
 }

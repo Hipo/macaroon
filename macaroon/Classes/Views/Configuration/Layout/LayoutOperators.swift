@@ -56,12 +56,6 @@ extension LayoutConstraint {
         lhs: LayoutConstraint,
         rhs: UILayoutPriority
     ) -> LayoutConstraint {
-        if lhs.priority == nil {
-            mc_crash(
-                .layoutConstraintCorrupted(reason: "Priority must be set as the last parameter")
-            )
-        }
-
         return LayoutConstraint(
             target: lhs.target,
             multiplier: lhs.multiplier,

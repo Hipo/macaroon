@@ -13,6 +13,20 @@ extension String {
 }
 
 extension String {
+    public subscript(safe index: Index?) -> Character? {
+        return index
+            .unwrapConditionally(where: { indices.contains($0) })
+            .unwrap({ self[$0] })
+    }
+
+    public func substring(at range: NSRange) -> String {
+        let start = index(startIndex, offsetBy: range.location)
+        let end = index(start, offsetBy: range.length)
+        return String(self[start..<end])
+    }
+}
+
+extension String {
     public func hasOnlyLetters() -> Bool {
         return
             hasOnlyCharacters(
@@ -62,6 +76,12 @@ extension String {
 }
 
 extension String {
+    public func containsCaseInsensitive(_ string: String) -> Bool {
+        return range(of: string, options: .caseInsensitive) != nil
+    }
+}
+
+extension String {
     public func replacingCharacters(in range: NSRange, with replacement: String) -> String {
         return (self as NSString).replacingCharacters(in: range, with: replacement)
     }
@@ -78,20 +98,6 @@ extension String {
         }
         let fittingBoundingRect = NSString(string: self).boundingRect(with: fittingSize, options: options, attributes: attributes.asSystemAttributes(), context: nil)
         return CGSize(width: min(fittingBoundingRect.width.ceil(), fittingSize.width), height: min(fittingBoundingRect.height.ceil(), fittingSize.height))
-    }
-}
-
-extension String {
-    public subscript(safe index: Index?) -> Character? {
-        return index
-            .unwrapConditionally(where: { indices.contains($0) })
-            .unwrap({ self[$0] })
-    }
-
-    public func substring(at range: NSRange) -> String {
-        let start = index(startIndex, offsetBy: range.location)
-        let end = index(start, offsetBy: range.length)
-        return String(self[start..<end])
     }
 }
 

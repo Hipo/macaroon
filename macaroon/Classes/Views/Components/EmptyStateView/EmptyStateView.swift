@@ -93,6 +93,10 @@ extension EmptyStateView {
             let horizontalPaddings: LayoutHorizontalPaddings
 
             switch contentAlignment {
+            case .top(let padding, let someHorizontalPaddings):
+                horizontalPaddings = someHorizontalPaddings
+
+                $0.top == padding
             case .center(let offsetY, let someHorizontalPaddings):
                 horizontalPaddings = someHorizontalPaddings
 
@@ -180,27 +184,32 @@ extension EmptyStateView {
             contentView
         )
         contentView.snp.makeConstraints {
+            let horizontalPaddings: LayoutHorizontalPaddings
+
             switch contentAlignment {
-            case .center(let offsetY, let horizontalPaddings):
-                $0.width <=
-                    snp.width -
-                    horizontalPaddings.leading.layoutMetric -
-                    horizontalPaddings.trailing.layoutMetric
+            case .top(let padding, let someHorizontalPaddings):
+                horizontalPaddings = someHorizontalPaddings
+
+                $0.height <= snp.height - padding
+                $0.top == padding
+
+                $0.centerHorizontally()
+            case .center(let offsetY, let someHorizontalPaddings):
+                horizontalPaddings = someHorizontalPaddings
+
                 $0.height <= snp.height
                 $0.top >= 16
 
                 $0.centerVertically(
                     offset: (offsetY, .defaultHigh),
                     horizontalPaddings: (
-                        (horizontalPaddings.leading, .required),
-                        (horizontalPaddings.trailing, .required)
+                        (someHorizontalPaddings.leading, .required),
+                        (someHorizontalPaddings.trailing, .required)
                     )
                 )
             case .scaleToFit(let paddings):
-                $0.width <=
-                    snp.width -
-                    paddings.leading.layoutMetric -
-                    paddings.trailing.layoutMetric
+                horizontalPaddings = (paddings.leading, paddings.trailing)
+
                 $0.height <=
                     snp.height -
                     paddings.top.layoutMetric -
@@ -210,6 +219,11 @@ extension EmptyStateView {
                     paddings
                 )
             }
+
+            $0.width <=
+                snp.width -
+                horizontalPaddings.leading.layoutMetric -
+                horizontalPaddings.trailing.layoutMetric
         }
 
         currentContentView = contentView
@@ -234,6 +248,7 @@ extension EmptyStateView {
     }
 
     public enum ContentAlignment {
+        case top(padding: LayoutMetric, horizontalPaddings: LayoutHorizontalPaddings)
         case center(offset: LayoutMetric, horizontalPaddings: LayoutHorizontalPaddings)
         case scaleToFit(LayoutPaddings)
     }

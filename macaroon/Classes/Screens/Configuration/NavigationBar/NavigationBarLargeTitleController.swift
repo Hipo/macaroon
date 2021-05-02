@@ -9,6 +9,8 @@ open class NavigationBarLargeTitleController<SomeScreen: NavigationBarLargeTitle
         didSet { setNeedsTitleAppearanceUpdate() }
     }
 
+    public var additionalScrollEdgeOffset: LayoutMetric = 0
+
     public var titleAttributes: [AttributedTextBuilder.Attribute] = []
     public var largeTitleAttributes: [AttributedTextBuilder.Attribute] = []
 
@@ -20,16 +22,17 @@ open class NavigationBarLargeTitleController<SomeScreen: NavigationBarLargeTitle
     private var minContentOffsetYForVisibleLargeTitle: CGFloat {
         let scrollView = screen.navigationBarScrollView
         let largeTitleView = screen.navigationBarLargeTitleView
+        let finalScrollEdgeOffset = largeTitleView.scrollEdgeOffset + additionalScrollEdgeOffset
 
         if !largeTitleView.isDescendant(
                of: scrollView
             ) {
-            return -largeTitleView.scrollEdgeOffset
+            return -finalScrollEdgeOffset
         }
 
         return
             largeTitleView.frame.maxY -
-            largeTitleView.scrollEdgeOffset
+            finalScrollEdgeOffset
     }
 
     private var isTitleVisible: Bool {
