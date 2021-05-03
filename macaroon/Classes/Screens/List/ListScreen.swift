@@ -5,10 +5,26 @@ import SnapKit
 import UIKit
 
 open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, EmptyStateViewDataSource {
-    public lazy var listView = ListView(listLayout: listLayout)
+    public var blursFooterBackgroundOnUnderScrolling = false
+
+    public private(set) lazy var listView = ListView(listLayout: listLayout)
+    public private(set) lazy var footerView = UIView()
 
     public let listDataSource: ListDataSource
     public let listLayout: ListLayout
+
+    private lazy var footerBackgroundView = UIView()
+    private lazy var footerBlurBackgroundView: UIVisualEffectView = {
+        let view = UIVisualEffectView()
+
+        if #available(iOS 13, *) {
+            view.effect = UIBlurEffect(style: .systemUltraThinMaterial)
+        } else {
+            view.effect = UIBlurEffect(style: .regular)
+        }
+
+        return view
+    }()
 
     private var isListLayoutFinalized = false
 
@@ -39,19 +55,20 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
     open override func prepareLayout() {
         super.prepareLayout()
         addList()
+        addFooter()
         updateListEmptyStateLayout()
     }
 
     open override func updateLayoutWhenViewDidLayoutSubviews() {
         super.updateLayoutWhenViewDidLayoutSubviews()
 
-        if isListLayoutFinalized {
-            return
+        if !isListLayoutFinalized {
+            updateListLayoutWhenViewDidFirstLayoutSubviews()
+            isListLayoutFinalized = true
         }
 
-        updateListLayoutWhenViewDidFirstLayoutSubviews()
-
-        isListLayoutFinalized = true
+        updateListLayoutWhenViewDidLayoutSubviews()
+        updateLayoutWhenScrollViewDidScroll()
     }
 
     open func addList() {
@@ -68,6 +85,38 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
         listView.setContentInset(
             listLayout.contentInset
         )
+    }
+
+    private func updateListLayoutWhenViewDidLayoutSubviews() {
+        if footerView.bounds.isEmpty {
+            return
+        }
+
+        listView.setContentInset(
+            bottom: footerView.bounds.height + listLayout.contentInset.bottom
+        )
+    }
+
+    open func addFooter() {
+        view.addSubview(footerBackgroundView)
+        footerBackgroundView.snp.makeConstraints {
+            $0.setPaddings(
+                (.noMetric, 0, 0, 0)
+            )
+        }
+
+        footerBackgroundView.addSubview(
+            footerView
+        )
+        footerView.snp.makeConstraints {
+            $0.setPaddings(
+                (0, 0, .noMetric, 0)
+            )
+            $0.setBottomPadding(
+                0,
+                inSafeAreaOf: footerBackgroundView
+            )
+        }
     }
 
     open override func setListeners() {
@@ -177,6 +226,11 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
         }
     }
 
+    /// <mark> UIScrollViewDelegate
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateLayoutWhenScrollViewDidScroll()
+    }
+
     /// <mark> EmptyStateViewDataSource
     open func loadingIndicator(in view: EmptyStateView) -> LoadingIndicator? {
         let loadingIndicator: UIActivityIndicatorView
@@ -233,5 +287,42 @@ extension ListScreen {
 extension ListScreen {
     private func updateListEmptyStateLayout() {
         listView.emptyStateView.frame = view.bounds
+    }
+}
+
+extension ListScreen {
+    private func updateLayoutWhenScrollViewDidScroll() {
+        updateFooterBackgroundLayoutWhenScrollViewDidScroll()
+    }
+
+    private func addFooterBlurBackground() {
+        if footerBlurBackgroundView.isDescendant(
+            of: footerBackgroundView
+        ) {
+            return
+        }
+
+        footerBackgroundView.insertSubview(
+            footerBlurBackgroundView,
+            at: 0
+        )
+        footerBlurBackgroundView.snp.makeConstraints {
+            $0.setPaddings()
+        }
+    }
+
+    private func updateFooterBackgroundLayoutWhenScrollViewDidScroll() {
+        if !blursFooterBackgroundOnUnderScrolling {
+            return
+        }
+
+        if footerView.bounds.isEmpty {
+            return
+        }
+
+        addFooterBlurBackground()
+
+        let endOfContent = listView.contentSize.height - listView.contentOffset.y
+        footerBlurBackgroundView.isHidden = endOfContent <= footerBackgroundView.frame.minY
     }
 }

@@ -184,9 +184,13 @@ open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
     }
 
     /// <mark> UIScrollViewDelegate
-    open func scrollViewDidScroll(
+    open override func scrollViewDidScroll(
         _ scrollView: UIScrollView
     ) {
+        super.scrollViewDidScroll(
+            scrollView
+        )
+
         let contentHeight = scrollView.contentSize.height
         let scrollHeight = scrollView.bounds.height
 

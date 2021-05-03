@@ -153,3 +153,18 @@ extension Array where Element: Hashable {
         return nextElement(afterElementAt: index)
     }
 }
+
+extension Optional where Wrapped: Collection, Wrapped: ExpressibleByArrayLiteral {
+    public var nonNil: [Wrapped.Element] {
+        return (self as? [Wrapped.Element]) ?? []
+    }
+}
+
+extension Optional where Wrapped: Collection {
+    public var isNilOrEmpty: Bool {
+        return unwrap(
+            \.isEmpty,
+            or: true
+        )
+    }
+}
