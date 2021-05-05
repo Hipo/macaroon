@@ -47,14 +47,15 @@ extension ListComposable where Self: ViewModelBindable, Self.ContextView: ViewMo
         for layoutSheet: ContextView.ViewLayoutSheet,
         fittingIn size: CGSize
     ) -> CGSize {
+        let contextHorizontalPaddings = contextPaddings.leading + contextPaddings.trailing
         let preferredSize =
             ContextView.calculatePreferredSize(
                 viewModel,
                 for: layoutSheet,
-                fittingIn: size
+                fittingIn: CGSize((size.width - contextHorizontalPaddings, size.height))
             )
         return CGSize(
-            width: (preferredSize.width + contextPaddings.leading + contextPaddings.trailing).ceil(),
+            width: (preferredSize.width + contextHorizontalPaddings).ceil(),
             height: (preferredSize.height + contextPaddings.top + contextPaddings.bottom).ceil()
         )
     }

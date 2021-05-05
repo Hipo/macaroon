@@ -269,7 +269,17 @@ extension ListScreen {
             modifier,
             for: listLayout,
             onAppeared: isViewAppeared,
-            onCompleted: execute
+            onCompleted: {
+                [weak self] in
+
+                guard let self = self else {
+                    return
+                }
+
+                self.updateLayoutWhenScrollViewDidScroll()
+
+                execute?()
+            }
         )
     }
 }
@@ -321,6 +331,10 @@ extension ListScreen {
         }
 
         addFooterBlurBackground()
+
+        if isListLayoutFinalized {
+            listView.layoutIfNeeded()
+        }
 
         let endOfContent = listView.contentSize.height - listView.contentOffset.y
         footerBlurBackgroundView.isHidden = endOfContent <= footerBackgroundView.frame.minY

@@ -124,7 +124,11 @@ open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
     ) {
         reloadData(
             modifier
-        ) { [unowned self] in
+        ) { [weak self] in
+
+            guard let self = self else {
+                return
+            }
 
             self.listView.emptyState =
                 self.listDataSource.isEmpty()
