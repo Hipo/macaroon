@@ -222,6 +222,19 @@ extension Router {
             completion()
         }
 
+        if let tabbedContainer = existingScreen.parent as? TabbedContainer {
+            if isPresenting {
+                existingScreen.dismiss(
+                    animated: animated
+                )
+            }
+
+            tabbedContainer.selectedScreen = existingScreen
+            transitionCompletion()
+
+            return
+        }
+
         if let navigationContainer = existingScreen.navigationController,
            navigationContainer.viewControllers.last != existingScreen {
             if isPresenting {
@@ -235,19 +248,6 @@ extension Router {
                 animated: !isPresenting && animated,
                 completion: transitionCompletion
             )
-
-            return
-        }
-
-        if let tabbedContainer = existingScreen.parent as? TabbedContainer {
-            if isPresenting {
-                existingScreen.dismiss(
-                    animated: animated
-                )
-            }
-
-            tabbedContainer.selectedScreen = existingScreen
-            transitionCompletion()
 
             return
         }

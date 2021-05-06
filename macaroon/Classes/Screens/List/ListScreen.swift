@@ -81,19 +81,21 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
         }
     }
 
-    private func updateListLayoutWhenViewDidFirstLayoutSubviews() {
+    open func updateListLayoutWhenViewDidFirstLayoutSubviews() {
         listView.setContentInset(
             listLayout.contentInset
         )
     }
 
-    private func updateListLayoutWhenViewDidLayoutSubviews() {
+    open func updateListLayoutWhenViewDidLayoutSubviews() {
         if footerView.bounds.isEmpty {
             return
         }
 
+        let bottomInset = listLayout.contentInset.bottom
+
         listView.setContentInset(
-            bottom: footerView.bounds.height + listLayout.contentInset.bottom
+            bottom: footerView.bounds.height + (bottomInset.isNoMetric ? 0 : bottomInset)
         )
     }
 

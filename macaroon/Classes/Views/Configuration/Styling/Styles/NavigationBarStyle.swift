@@ -14,6 +14,7 @@ public enum NavigationBarStyleAttribute: BaseStyleAttribute {
     /// <mark>
     /// NavigationBar
     case opaque
+    case backgroundImage(Image?)
     case shadowImage(Image?)
     case shadowColor(Color?)
     case titleAttributes([NSAttributedString.Key: Any])
@@ -28,6 +29,7 @@ extension NavigationBarStyleAttribute {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
         case .opaque: return "navigationBar.opaque"
+        case .backgroundImage: return "navigationBar.backgroundImage"
         case .shadowImage: return "navigationBar.shadowImage"
         case .shadowColor: return "navigationBar.shadowColor"
         case .titleAttributes: return "navigationBar.titleAttributes"

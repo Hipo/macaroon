@@ -32,6 +32,10 @@ extension Customizable where Self: UINavigationBar {
                 customizeBarAppearance(
                     opaque: true
                 )
+            case .backgroundImage(let backgroundImage):
+                customizeBarAppearance(
+                    backgroundImage: backgroundImage
+                )
             case .shadowImage(let shadowImage):
                 customizeBarAppearance(
                     shadowImage: shadowImage
@@ -72,6 +76,9 @@ extension Customizable where Self: UINavigationBar {
         )
         customizeBarAppearance(
             opaque: false
+        )
+        customizeBarAppearance(
+            backgroundImage: nil
         )
         customizeBarAppearance(
             shadowImage: nil
@@ -120,6 +127,22 @@ extension Customizable where Self: UINavigationBar {
             standardAppearance = appearance
             compactAppearance = appearance
             scrollEdgeAppearance = appearance
+        }
+    }
+
+    public func customizeBarAppearance(
+        backgroundImage: Image?
+    ) {
+        if #available(iOS 13, *) {
+            customizeBarAppearance(
+                backgroundImage?.image,
+                \.backgroundImage
+            )
+        } else {
+            self.setBackgroundImage(
+                backgroundImage?.image,
+                for: .default
+            )
         }
     }
 
