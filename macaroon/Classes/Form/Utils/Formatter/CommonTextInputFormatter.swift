@@ -28,6 +28,27 @@ public struct CommonTextInputFormatter: TextPatternInputFormatter {
         )
     }
 
+//    public func format(_ unformattedText: String?) -> String? {
+//        guard let unformattedText = unformattedText else { return nil }
+//        var formatted = ""
+//        var unformattedIndex = 0
+//        var patternIndex = 0
+//
+//        while patternIndex < pattern.count && unformattedIndex < unformattedText.count {
+//            guard let patternCharacter = pattern.characterAt(patternIndex) else { break }
+//            if patternCharacter == symbol {
+//                if let unformattedCharacter = unformattedText.characterAt(unformattedIndex) {
+//                    formatted.append(unformattedCharacter)
+//                }
+//                unformattedIndex += 1
+//            } else {
+//                formatted.append(patternCharacter)
+//            }
+//            patternIndex += 1
+//        }
+//        return formatted
+//    }
+
     public func unformat(
         _ string: String?
     ) -> String? {

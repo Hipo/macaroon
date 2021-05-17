@@ -229,8 +229,19 @@ extension Router {
                 )
             }
 
-            tabbedContainer.selectedScreen = existingScreen
-            transitionCompletion()
+            if let navigationContainer = existingScreen.navigationController,
+               navigationContainer.viewControllers.last != tabbedContainer {
+                navigationContainer.popToViewController(
+                    tabbedContainer,
+                    animated: !isPresenting && animated
+                ) {
+                    tabbedContainer.selectedScreen = existingScreen
+                    transitionCompletion()
+                }
+            } else {
+                tabbedContainer.selectedScreen = existingScreen
+                transitionCompletion()
+            }
 
             return
         }
