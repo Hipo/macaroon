@@ -17,6 +17,10 @@ extension Customizable where Self: UIButton {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
+                )
             case .backgroundImage(let backgroundImage):
                 customizeBaseAppearance(
                     backgroundImage: backgroundImage
@@ -36,10 +40,6 @@ extension Customizable where Self: UIButton {
             case .title(let title):
                 customizeBaseAppearance(
                     title: title
-                )
-            case .isInteractable(let isInteractable):
-                customizeBaseAppearance(
-                    isInteractable: isInteractable
                 )
             }
         }
@@ -71,9 +71,6 @@ extension Customizable where Self: UIButton {
         )
         customizeBaseAppearance(
             title: nil
-        )
-        customizeBaseAppearance(
-            isInteractable: true
         )
     }
 }
@@ -183,11 +180,5 @@ extension Customizable where Self: UIButton {
             title?.disabled,
             for: .disabled
         )
-    }
-
-    public func customizeBaseAppearance(
-        isInteractable: Bool
-    ) {
-        isUserInteractionEnabled = isInteractable
     }
 }

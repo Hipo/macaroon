@@ -3,8 +3,10 @@
 import AnyFormatKit
 import Foundation
 
-public struct MoneyInputFormatter: TextInputFormatter {
+public struct MoneyInputFormatter: NumberInputFormatter {
     public let placeholder: String?
+
+    private lazy var decimalSeparator = Locale.current.decimalSeparator ?? ","
 
     private let base: SumTextInputFormatter
 
@@ -17,19 +19,39 @@ public struct MoneyInputFormatter: TextInputFormatter {
     }
 
     public func format(
-        _ string: String?
+        _ unformattedString: String?
     ) -> String? {
-        return base.format(
-            string
-        )
+        return
+            base.format(
+                unformattedString
+            )
+    }
+
+    public func format(
+        _ number: NSNumber?
+    ) -> String? {
+        return
+            format(
+                number?.stringValue
+            )
+    }
+
+    public func unformat(
+        _ formattedString: String?
+    ) -> String? {
+        return
+            base.unformat(
+                formattedString
+            )
     }
 
     public func unformat(
         _ string: String?
-    ) -> String? {
-        return base.unformat(
-            string
-        )
+    ) -> NSNumber? {
+        return
+            base.unformatNumber(
+                string
+            )
     }
 
     public func format(

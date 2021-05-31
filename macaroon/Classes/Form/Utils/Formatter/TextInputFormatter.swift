@@ -67,3 +67,12 @@ extension TextInputFormatter {
         )
     }
 }
+
+public protocol NumberInputFormatter: TextInputFormatter {
+    /// <note>
+    /// Unformatted => Formatted
+    func format(_ number: NSNumber?) -> String?
+    /// <note>
+    /// Formatted => Unformatted
+    func unformat(_ string: String?) -> NSNumber?
+}

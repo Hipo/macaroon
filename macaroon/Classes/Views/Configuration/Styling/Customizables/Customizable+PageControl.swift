@@ -17,6 +17,10 @@ extension Customizable where Self: UIPageControl {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
+                )
             case .indicatorColor(let indicatorColor):
                 customizeBaseAppearance(
                     indicatorColor: indicatorColor

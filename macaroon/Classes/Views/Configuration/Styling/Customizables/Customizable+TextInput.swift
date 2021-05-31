@@ -17,6 +17,10 @@ extension Customizable where Self: UITextField {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
+                )
             case .backgroundImage(let backgroundImage):
                 customizeBaseAppearance(
                     backgroundImage: backgroundImage
@@ -243,6 +247,10 @@ extension Customizable where Self: UITextView {
             case .tintColor(let tintColor):
                 customizeBaseAppearance(
                     tintColor: tintColor
+                )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
                 )
             case .backgroundImage:
                 break

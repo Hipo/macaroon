@@ -29,6 +29,7 @@ public protocol BaseStyleAttribute: Hashable {
 
     static func backgroundColor(_ color: Color) -> Self
     static func tintColor(_ color: Color) -> Self
+    static func isInteractable(_ interacted: Bool) -> Self
 }
 
 extension BaseStyleAttribute {
@@ -53,5 +54,9 @@ extension BaseStyleAttribute {
 
     static func getTintColorAttributeId() -> String {
         return "tintColor"
+    }
+
+    static func getIsInteractableAttributeId() -> String {
+        return "isInteractable"
     }
 }

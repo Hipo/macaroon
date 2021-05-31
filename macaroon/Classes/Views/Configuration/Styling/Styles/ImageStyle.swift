@@ -41,6 +41,8 @@ extension ImageStyle {
                 derivedImageStyle.append(.backgroundColor(backgroundColor))
             case .tintColor(let tintColor):
                 derivedImageStyle.append(.tintColor(tintColor))
+            case .isInteractable(let isInteractable):
+                derivedImageStyle.append(.isInteractable(isInteractable))
             }
         }
 
@@ -94,6 +96,7 @@ public enum ImageStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
+    case isInteractable(Bool)
 
     /// <mark>
     /// Image
@@ -106,6 +109,7 @@ extension ImageStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
+        case .isInteractable: return Self.getIsInteractableAttributeId()
         case .contentMode: return "image.contentMode"
         case .content: return "image.content"
         }

@@ -184,8 +184,6 @@ open class FormView:
             validate(
                 view
             )
-        } else {
-            view.inputState = .none
         }
 
         if editingInputFieldView === view {
@@ -228,7 +226,6 @@ extension FormView {
         _ inputFieldView: FormInputFieldView
     ) -> Bool {
         guard let validator = inputFieldView.validator else {
-            inputFieldView.inputState = .none
             return true
         }
 

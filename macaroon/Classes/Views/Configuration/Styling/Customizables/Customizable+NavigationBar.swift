@@ -28,6 +28,10 @@ extension Customizable where Self: UINavigationBar {
                 customizeBarAppearance(
                     tintColor: tintColor
                 )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
+                )
             case .opaque:
                 customizeBarAppearance(
                     opaque: true

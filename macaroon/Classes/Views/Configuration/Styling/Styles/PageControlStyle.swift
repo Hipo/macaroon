@@ -10,6 +10,7 @@ public enum PageControlStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
+    case isInteractable(Bool)
 
     /// <mark>
     /// PageControl
@@ -25,6 +26,7 @@ extension PageControlStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
+        case .isInteractable: return Self.getIsInteractableAttributeId()
         case .indicatorColor: return "pageControl.indicatorColor"
         case .indicatorImage: return "pageControl.indicatorImage"
         }

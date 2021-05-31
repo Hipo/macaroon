@@ -25,6 +25,12 @@ extension Customizable {
     ) {
         self.tintColor = tintColor?.color
     }
+
+    public func customizeBaseAppearance(
+        isInteractable: Bool
+    ) {
+        isUserInteractionEnabled = isInteractable
+    }
 }
 
 extension Customizable {
@@ -34,6 +40,9 @@ extension Customizable {
         )
         customizeBaseAppearance(
             tintColor: nil
+        )
+        customizeBaseAppearance(
+            isInteractable: true
         )
     }
 }

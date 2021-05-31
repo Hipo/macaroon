@@ -41,6 +41,8 @@ extension ButtonStyle {
                 derivedButtonStyle.append(.backgroundColor(backgroundColor))
             case .tintColor(let tintColor):
                 derivedButtonStyle.append(.tintColor(tintColor))
+            case .isInteractable(let isInteractable):
+                derivedButtonStyle.append(.isInteractable(isInteractable))
             }
         }
 
@@ -53,6 +55,7 @@ public enum ButtonStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
+    case isInteractable(Bool)
 
     /// <mark>
     /// Button
@@ -61,9 +64,6 @@ public enum ButtonStyleAttribute: BaseStyleAttribute {
     case font(Font)
     case titleColor(Color)
     case title(Text)
-    /// <note>
-    /// isUserInteractionEnabled
-    case isInteractable(Bool)
 }
 
 extension ButtonStyleAttribute {
@@ -71,12 +71,12 @@ extension ButtonStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
+        case .isInteractable: return Self.getIsInteractableAttributeId()
         case .backgroundImage: return "button.backgroundImage"
         case .icon: return "button.icon"
         case .font: return "button.font"
         case .titleColor: return "button.titleColor"
         case .title: return "button.title"
-        case .isInteractable: return "button.isInteractable"
         }
     }
 }

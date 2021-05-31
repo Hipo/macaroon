@@ -26,6 +26,7 @@ extension Separator {
         case left(LayoutVerticalPaddings)
         case bottom(LayoutHorizontalPaddings)
         case right(LayoutVerticalPaddings)
+        case centerY(LayoutHorizontalPaddings)
     }
 }
 
@@ -54,6 +55,8 @@ extension UIView {
                 $0.bottom == padding
             case .right:
                 $0.trailing == padding
+            case .centerY:
+                $0.centerY == padding
             }
 
             makePositionConstraints(
@@ -90,6 +93,8 @@ extension UIView {
                 $0.top == aView.snp.bottom + margin
             case .right:
                 $0.leading == aView.snp.trailing + margin
+            case .centerY:
+                $0.centerY == aView.snp.centerY + margin
             }
 
             makePositionConstraints(
@@ -117,7 +122,8 @@ extension UIView {
     ) {
         switch separator.position {
         case .top(let hPaddings),
-             .bottom(let hPaddings):
+             .bottom(let hPaddings),
+             .centerY(let hPaddings):
             maker.leading == hPaddings.leading
             maker.trailing == hPaddings.trailing
 

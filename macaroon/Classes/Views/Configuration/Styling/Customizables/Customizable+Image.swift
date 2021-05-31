@@ -17,6 +17,10 @@ extension Customizable where Self: UIImageView {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
+                )
             case .contentMode(let contentMode):
                 customizeBaseAppearance(
                     contentMode: contentMode

@@ -10,6 +10,7 @@ public enum NavigationBarStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
+    case isInteractable(Bool)
 
     /// <mark>
     /// NavigationBar
@@ -28,6 +29,7 @@ extension NavigationBarStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
+        case .isInteractable: return Self.getIsInteractableAttributeId()
         case .opaque: return "navigationBar.opaque"
         case .backgroundImage: return "navigationBar.backgroundImage"
         case .shadowImage: return "navigationBar.shadowImage"

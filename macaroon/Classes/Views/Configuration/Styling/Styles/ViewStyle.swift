@@ -23,6 +23,7 @@ public enum ViewStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
+    case isInteractable(Bool)
 }
 
 extension ViewStyleAttribute {
@@ -30,6 +31,7 @@ extension ViewStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
+        case .isInteractable: return Self.getIsInteractableAttributeId()
         }
     }
 }

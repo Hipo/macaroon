@@ -30,6 +30,8 @@ extension TextStyle {
                 derivedTextStyle.append(.backgroundColor(backgroundColor))
             case .tintColor(let tintColor):
                 derivedTextStyle.append(.tintColor(tintColor))
+            case .isInteractable(let isInteractable):
+                derivedTextStyle.append(.isInteractable(isInteractable))
             }
         }
 
@@ -42,6 +44,7 @@ public enum TextStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
+    case isInteractable(Bool)
 
     /// <mark>
     /// Text
@@ -57,6 +60,7 @@ extension TextStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
+        case .isInteractable: return Self.getIsInteractableAttributeId()
         case .font: return "text.font"
         case .textAlignment: return "text.textAlignment"
         case .textOverflow: return "text.textOverflow"

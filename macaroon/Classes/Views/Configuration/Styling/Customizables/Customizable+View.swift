@@ -17,6 +17,10 @@ extension Customizable where Self: UIView {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
+                )
             }
         }
     }

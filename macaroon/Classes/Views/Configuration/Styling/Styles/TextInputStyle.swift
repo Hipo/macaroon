@@ -17,6 +17,8 @@ extension TextInputStyle {
                 derivedTextInputStyle.append(.backgroundColor(backgroundColor))
             case .tintColor(let tintColor):
                 derivedTextInputStyle.append(.tintColor(tintColor))
+            case .isInteractable(let isInteractable):
+                derivedTextInputStyle.append(.isInteractable(isInteractable))
             }
         }
 
@@ -29,6 +31,7 @@ public enum TextInputStyleAttribute: BaseStyleAttribute {
     /// Base
     case backgroundColor(Color)
     case tintColor(Color)
+    case isInteractable(Bool)
 
     /// <mark>
     /// TextInput
@@ -51,6 +54,7 @@ extension TextInputStyleAttribute {
         switch self {
         case .backgroundColor: return Self.getBackgroundColorAttributeId()
         case .tintColor: return Self.getTintColorAttributeId()
+        case .isInteractable: return Self.getIsInteractableAttributeId()
         case .backgroundImage: return "textInput.backgroundImage"
         case .font: return "textInput.font"
         case .textAlignment: return "textInput.textAlignment"

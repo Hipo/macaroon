@@ -17,6 +17,10 @@ extension Customizable where Self: UILabel {
                 customizeBaseAppearance(
                     tintColor: tintColor
                 )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
+                )
             case .font(let font):
                 customizeBaseAppearance(
                     font: font
@@ -139,6 +143,10 @@ extension Customizable where Self: UITextField {
             case .tintColor(let tintColor):
                 customizeBaseAppearance(
                     tintColor: tintColor
+                )
+            case .isInteractable(let isInteractable):
+                customizeBaseAppearance(
+                    isInteractable: isInteractable
                 )
             case .font(let font):
                 customizeBaseAppearance(

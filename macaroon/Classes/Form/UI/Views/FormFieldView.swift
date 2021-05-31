@@ -49,6 +49,12 @@ public protocol FormTextInputFieldView: FormInputFieldView {
     var formatter: TextInputFormatter? { get set }
 }
 
+public protocol FormNumberInputFieldView: FormInputFieldView {
+    var text: String? { get set }
+    var number: NSNumber? { get set }
+    var formatter: NumberInputFormatter? { get set }
+}
+
 public protocol FormInputFieldViewEditingDelegate: AnyObject {
     func formInputFieldViewDidBeginEditing(_ view: FormInputFieldView)
     func formInputFieldViewDidEdit(_ view: FormInputFieldView)
