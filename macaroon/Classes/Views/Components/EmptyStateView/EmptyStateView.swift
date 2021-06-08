@@ -106,9 +106,8 @@ extension EmptyStateView {
             case .scaleToFit(let paddings):
                 horizontalPaddings = (paddings.leading, paddings.trailing)
 
-                $0.centerHorizontally(
-                    offset: 0,
-                    verticalPaddings: (paddings.top, .noMetric)
+                $0.setPaddings(
+                    paddings
                 )
             }
 

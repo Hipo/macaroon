@@ -5,6 +5,7 @@ import SnapKit
 import UIKit
 
 open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
+    public var reloadListWhenViewFirstDidLoad = true
     public var reloadListWhenViewDidAppear = true
     public var reloadListWhenViewWillEnterForeground = true
     public var invalidatesLayoutForReloadingItems = false {
@@ -52,7 +53,10 @@ open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
         /// Some screens need the layout to be stabilized so that they can calculate the layout of
         /// the data-driven views correctly, i.e. the layouts of the contents of the empty state view.
         if !isViewFirstLoaded {
-            listDataLoader.loadList()
+            if reloadListWhenViewFirstDidLoad {
+                listDataLoader.loadList()
+            }
+
             isViewFirstLoaded = true
         }
     }

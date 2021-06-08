@@ -17,6 +17,13 @@ extension TabScrollScreen {
         }
 
         /// <note>
+        /// Tab bar is hidden initially.
+        if !tabBarContainer.isViewAppeared,
+           tabBarContainer.isTabBarHidden {
+            return
+        }
+
+        /// <note>
         /// The `additionalSafeAreaInsets` is being used to display the content at the bottom over
         /// the tab bar. After a push transition, it is updated so that it doesn't put an additional
         /// bottom inset if the tab bar is hidden in the inner screen. When coming back, it is
