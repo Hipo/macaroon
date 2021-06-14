@@ -1,0 +1,70 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AnyFormatKit",
+        "repositoryURL": "https://github.com/luximetr/AnyFormatKit.git",
+        "state": {
+          "branch": null,
+          "revision": "27b35c984c1c81e74c8be5273f7b2dc5250cb5cc",
+          "version": "2.5.1"
+        }
+      },
+      {
+        "package": "Kingfisher",
+        "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
+        "state": {
+          "branch": null,
+          "revision": "44450a8f564d7c0165f736ba2250649ff8d3e556",
+          "version": "6.3.0"
+        }
+      },
+      {
+        "package": "Macaw",
+        "repositoryURL": "https://github.com/exyte/macaw.git",
+        "state": {
+          "branch": null,
+          "revision": "7cb4f5876423435e1a41628417230accc37284c6",
+          "version": "0.9.7"
+        }
+      },
+      {
+        "package": "Mixpanel",
+        "repositoryURL": "https://github.com/mixpanel/mixpanel-swift.git",
+        "state": {
+          "branch": null,
+          "revision": "54a42112e601146b82e064909fb3e442ea5e3662",
+          "version": "2.10.1"
+        }
+      },
+      {
+        "package": "SnapKit",
+        "repositoryURL": "https://github.com/SnapKit/SnapKit.git",
+        "state": {
+          "branch": null,
+          "revision": "d458564516e5676af9c70b4f4b2a9178294f1bc6",
+          "version": "5.0.1"
+        }
+      },
+      {
+        "package": "SWXMLHash",
+        "repositoryURL": "https://github.com/drmohundro/SWXMLHash",
+        "state": {
+          "branch": null,
+          "revision": "9183170d20857753d4f331b0ca63f73c60764bf3",
+          "version": "5.0.2"
+        }
+      },
+      {
+        "package": "Valet",
+        "repositoryURL": "https://github.com/Square/Valet.git",
+        "state": {
+          "branch": null,
+          "revision": "2bf3329055f5d71d42a12801dd69d1d770fafa5e",
+          "version": "4.1.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
