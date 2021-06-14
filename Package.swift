@@ -25,16 +25,15 @@ let package = Package(
         .library(name: "MacaroonUIKit", targets: ["MacaroonUIKit"]),
         .library(name: "MacaroonURLImage", targets: ["MacaroonURLImage"]),
         .library(name: "MacaroonUserNotifications", targets: ["MacaroonUserNotifications"]),
-        .library(name: "MacaroonUtils", targets: ["MacaroonUtils"]),
         .library(name: "MacaroonVendors", targets: ["MacaroonVendors"])
     ],
     dependencies: [
         .package(url: "https://github.com/luximetr/AnyFormatKit.git", .upToNextMajor(from: "2.5.1")),
         .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "6.0.0")),
+        .package(name: "MacaroonUtils", url: "https://github.com/Hipo/macaroon-utils.git", .upToNextMajor(from: "1.0.0")),
         .package(name: "Macaw", url: "https://github.com/exyte/macaw.git", .upToNextMajor(from: "0.9.7")),
         .package(name: "Mixpanel", url: "https://github.com/mixpanel/mixpanel-swift.git", .upToNextMajor(from: "2.10.1")),
-        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1")),
-        .package(url: "https://github.com/Square/Valet.git", .upToNextMajor(from: "4.0.0"))
+        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1"))
     ],
     targets: [
         .target(name: "MacaroonApplication", dependencies: ["MacaroonUtils"], path: "Sources/MacaroonApplication"),
@@ -56,7 +55,6 @@ let package = Package(
         .target(name: "MacaroonUIKit", dependencies: ["MacaroonResources", "MacaroonUtils", "SnapKit"], path: "Sources/MacaroonUIKit"),
         .target(name: "MacaroonURLImage", dependencies: ["Kingfisher", "MacaroonUIKit"], path: "Sources/MacaroonURLImage"),
         .target(name: "MacaroonUserNotifications", dependencies: ["MacaroonUtils"], path: "Sources/MacaroonUserNotifications"),
-        .target(name: "MacaroonUtils", dependencies: ["Valet"], path: "Sources/MacaroonUtils"),
         .target(name: "MacaroonVendors", dependencies: [], path: "Sources/MacaroonVendors"),
         .testTarget(name: "MacaroonTests", dependencies: ["MacaroonApplication"]),
     ],

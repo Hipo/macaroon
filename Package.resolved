@@ -20,6 +20,15 @@
         }
       },
       {
+        "package": "MacaroonUtils",
+        "repositoryURL": "https://github.com/Hipo/macaroon-utils.git",
+        "state": {
+          "branch": null,
+          "revision": "1bca4c1ed30110201c7f4f85c4ef80b6c5efa178",
+          "version": "1.0.1"
+        }
+      },
+      {
         "package": "Macaw",
         "repositoryURL": "https://github.com/exyte/macaw.git",
         "state": {
@@ -33,8 +42,8 @@
         "repositoryURL": "https://github.com/mixpanel/mixpanel-swift.git",
         "state": {
           "branch": null,
-          "revision": "54a42112e601146b82e064909fb3e442ea5e3662",
-          "version": "2.10.1"
+          "revision": "9b0043b0ec467257d94b185aa177f2b7836b846d",
+          "version": "2.10.2"
         }
       },
       {

@@ -10,7 +10,7 @@ import MacaroonUtils
 public final class Atomic<Value> {
     public var wrappedValue: Value {
         get { queue.sync { value } }
-        set { mc_crash(.unavailable) }
+        set { crash("Unavailable") }
     }
     public var projectedValue: Atomic<Value> {
         return self

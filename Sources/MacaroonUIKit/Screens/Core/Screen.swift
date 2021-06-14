@@ -110,9 +110,7 @@ open class Screen:
 
     open func makePopNavigationBarButtonItem() -> NavigationBarButtonItem {
         guard let item = configurator?.makePopNavigationBarButtonItem() else {
-            mc_crash(
-                .popNavigationBarButtonItemNotFound
-            )
+            crash("Pop item not found")
         }
 
         return item
@@ -120,9 +118,7 @@ open class Screen:
 
     open func makeDismissNavigationBarButtonItem() -> NavigationBarButtonItem {
         guard let item = configurator?.makeDismissNavigationBarButtonItem() else {
-            mc_crash(
-                .dismissNavigationBarButtonItemNotFound
-            )
+            crash("Dismiss item not found")
         }
 
         return item

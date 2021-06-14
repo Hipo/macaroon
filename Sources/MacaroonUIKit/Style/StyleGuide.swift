@@ -19,9 +19,7 @@ extension StyleGroup {
         _ style: T
     ) -> U {
         guard let expectedStyle = style.create() as? U else {
-            mc_crash(
-                .styleNotFound(style)
-            )
+            crash("Style not found of \(type(of: T.self))")
         }
         return expectedStyle
     }
@@ -44,9 +42,7 @@ extension StyleElementGroup {
         _ styleElement: T
     ) -> U {
         guard let expectedStyleElement = styleElement.create() as? U else {
-            mc_crash(
-                .styleElementNotFound(styleElement)
-            )
+            crash("Style element not found of \(type(of: T.self))")
         }
         return expectedStyleElement
     }

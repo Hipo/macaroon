@@ -48,14 +48,10 @@ extension ScreenConfigurable {
     public func viewDidEnterBackground() {}
 
     public func makePopNavigationBarButtonItem() -> NavigationBarButtonItem {
-        mc_crash(
-            .popNavigationBarButtonItemNotFound
-        )
+        crash("Pop item not found")
     }
 
     public func makeDismissNavigationBarButtonItem() -> NavigationBarButtonItem {
-        mc_crash(
-            .dismissNavigationBarButtonItemNotFound
-        )
+        crash("Dismiss item not found")
     }
 }

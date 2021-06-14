@@ -81,17 +81,13 @@ open class ModalAnimator:
     open func calculatePresentedInitalFrameOnPresenting(
         using transitionContext: UIViewControllerContextTransitioning
     ) -> CGRect {
-        mc_crash(
-            .shouldBeImplementedBySubclass(functionName: #function)
-        )
+        crash("\(#function) should be implemented by subclass")
     }
 
     open func calculatePresentedFinalFrameOnDismissing(
         using transitionContext: UIViewControllerContextTransitioning
     ) -> CGRect {
-        mc_crash(
-            .shouldBeImplementedBySubclass(functionName: #function)
-        )
+        crash("\(#function) should be implemented by subclass")
     }
 
     /// <mark>

@@ -7,9 +7,7 @@ import UIKit
 extension UICollectionView {
     public var flowLayout: UICollectionViewFlowLayout {
         guard let someFlowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
-            mc_crash(
-                .unsupportedListLayout
-            )
+            crash("Flow layout not found")
         }
 
         return someFlowLayout
@@ -37,7 +35,7 @@ extension UICollectionView {
 extension UICollectionView {
     public func dequeue<T: UICollectionViewCell>(_ someClass: T.Type, at indexPath: IndexPath) -> T {
         guard let cell = dequeueReusableCell(withReuseIdentifier: someClass.reuseIdentifier, for: indexPath) as? T else {
-            mc_crash(.unsupportedListCell(T.self))
+            crash("Cell not supported of \(type(of: T.self))")
         }
 
         return cell

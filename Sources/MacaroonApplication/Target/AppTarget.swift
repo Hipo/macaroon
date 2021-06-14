@@ -33,7 +33,7 @@ extension AppTarget {
     /// - It is highly recommended for each app target to have its own config file.
     public static func load(fromResource name: String = "AppTargetConfig", withExtension ext: String = "json") -> Self {
         guard let resourceUrl = Bundle.main.url(forResource: name, withExtension: ext) else {
-            mc_crash(.appTargetNotFound)
+            crash("App target not found")
         }
         do {
             let data = try Data(contentsOf: resourceUrl, options: Data.ReadingOptions.uncached)
@@ -42,7 +42,7 @@ extension AppTarget {
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             return try decoder.decode(Self.self, from: data)
         } catch let err {
-            mc_crash(.appTargetCorrupted(reason: err))
+            crash("App target corrupted for \(err.localizedDescription)")
         }
     }
 }

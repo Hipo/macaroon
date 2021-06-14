@@ -859,7 +859,7 @@ extension ConstraintMaker {
         verticalPaddings: PrioritizedLayoutVerticalPaddings
     ) -> (offset: Constraint, verticalPaddings: VerticalPaddingConstraints) {
         if offset.metric.isNoMetric {
-            mc_crash(.layoutConstraintCorrupted(reason: "This method expect an offset"))
+            crash("Constraint expects an offset")
         }
 
         let offsetConstraint =
@@ -913,7 +913,7 @@ extension ConstraintMaker {
         horizontalPaddings: PrioritizedLayoutHorizontalPaddings
     ) -> (offset: Constraint, horizontalPaddings: HorizontalPaddingConstraints) {
         if offset.metric.isNoMetric {
-            mc_crash(.layoutConstraintCorrupted(reason: "This method expect an offset"))
+            crash("Constraint expects an offset")
         }
 
         let offsetConstraint =

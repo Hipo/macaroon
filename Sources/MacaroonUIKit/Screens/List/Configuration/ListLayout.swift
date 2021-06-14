@@ -65,7 +65,7 @@ extension ListLayout {
 
     // swiftlint:disable unavailable_function
     public func dequeueHeader(for item: Any?, in section: Int) -> UICollectionReusableView {
-        mc_crash(.unsupportedListHeader(UICollectionReusableView.self))
+        crash("Header not supported")
     }
     // swiftlint:enable unavailable_function
 
@@ -77,7 +77,7 @@ extension ListLayout {
 
     // swiftlint:disable unavailable_function
     public func dequeueFooter(for item: Any?, in section: Int) -> UICollectionReusableView {
-        mc_crash(.unsupportedListFooter(UICollectionReusableView.self))
+        crash("Footer not supported")
     }
     // swiftlint:enable unavailable_function
 
@@ -244,7 +244,7 @@ extension ListLayout {
             return formFlowLayout()
         }
         guard let flowLayout = listView.collectionViewLayout as? UICollectionViewFlowLayout else {
-            mc_crash(.unsupportedListLayout)
+            crash("Flow layout not found")
         }
         return flowLayout
     }

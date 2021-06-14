@@ -46,17 +46,13 @@ open class ModalPresentationController<
         withSize size: LayoutSize,
         inParentWithSize parentSize: LayoutSize
     ) -> LayoutOffset {
-        mc_crash(
-            .shouldBeImplementedBySubclass(functionName: #function)
-        )
+        crash("\(#function) should be implemented by subclass")
     }
 
     open func calculateSizeOfPresentedView(
         inParentWithSize parentSize: LayoutSize
     ) -> LayoutSize {
-        mc_crash(
-            .shouldBeImplementedBySubclass(functionName: #function)
-        )
+        crash("\(#function) should be implemented by subclass")
     }
 
     open override func containerViewWillLayoutSubviews() {

@@ -46,8 +46,6 @@ extension Flow where Self: RawRepresentable, Self.RawValue == String {
             return flow
         }
 
-        mc_crash(
-            .flowNotFound
-        )
+        crash("Flow not found with \(identifier)")
     }
 }

@@ -175,7 +175,7 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
         case UICollectionView.elementKindSectionFooter:
             return listLayout.footer(for: listDataSource[indexPath.section], in: indexPath.section)
         default:
-            mc_crash(.unsupportedListSupplementaryView(UICollectionReusableView.self, kind))
+            crash("Supplementary element of \(kind) not supported")
         }
     }
 

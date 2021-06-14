@@ -33,9 +33,7 @@ public protocol Router: AnyObject {
 extension Router {
     public var rootContainer: UIViewController {
         guard let currentRootContainer = window?.rootViewController else {
-            mc_crash(
-                .rootContainerNotFound
-            )
+            crash("Root container not found")
         }
 
         return currentRootContainer
@@ -47,9 +45,7 @@ extension Router {
         _ path: SomePath
     ) -> T {
         guard let screen = path.build() as? T else {
-            mc_crash(
-                .screenNotFound
-            )
+            crash("Screen not found with \(path.identifier)")
         }
 
         screen.pathIdentifier = path.identifier
@@ -512,9 +508,7 @@ extension Router {
         over screen: UIViewController? = nil
     ) -> UIViewController {
         if screen == nil {
-            mc_crash(
-                .screenNotFound
-            )
+            crash("Screen not found of \(type(of: screen))")
         }
 
         let topmostPresentedScreen =
