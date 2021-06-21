@@ -507,10 +507,6 @@ extension Router {
     public func findVisibleScreen(
         over screen: UIViewController? = nil
     ) -> UIViewController {
-        if screen == nil {
-            crash("Screen not found of \(type(of: screen))")
-        }
-
         let topmostPresentedScreen =
             findVisibleScreen(
                 presentedBy: screen ?? rootContainer
