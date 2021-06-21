@@ -12,5 +12,11 @@ public struct BottomSheetPresentationConfiguration: ModalPresentationConfigurati
     /// The offset to show the handle bar over the presented content.
     public var overlayOffset: LayoutMetric = 16
 
-    public init() {}
+    public var isInteractable: Bool
+
+    public init(
+        interactable: Bool = true
+    ) {
+        self.isInteractable = interactable
+    }
 }

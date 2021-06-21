@@ -11,7 +11,7 @@ open class BottomSheetTransitionController:
     UIViewControllerTransitioningDelegate {
     public var presentationConfiguration: BottomSheetPresentationConfiguration
 
-    public let interactor: BottomSheetInteractor
+    public private(set) var interactor: BottomSheetInteractor?
 
     public init(
         presentingViewController: UIViewController,
@@ -20,10 +20,13 @@ open class BottomSheetTransitionController:
         completion: (() -> Void)? = nil
     ) {
         self.presentationConfiguration = presentationConfiguration
-        self.interactor = BottomSheetInteractor(
-            presentingViewController: presentingViewController,
-            completion: completion
-        )
+
+        if presentationConfiguration.isInteractable {
+            self.interactor = BottomSheetInteractor(
+                presentingViewController: presentingViewController,
+                completion: completion
+            )
+        }
 
         super.init()
     }
@@ -60,6 +63,7 @@ open class BottomSheetTransitionController:
     public func interactionControllerForDismissal(
         using animator: UIViewControllerAnimatedTransitioning
     ) -> UIViewControllerInteractiveTransitioning? {
-        return interactor.inProgress ? interactor : nil
+        let isInteracting = interactor?.inProgress ?? false
+        return isInteracting ? interactor : nil
     }
 }
