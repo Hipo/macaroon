@@ -234,10 +234,8 @@ extension BottomSheetPresentationController {
     }
 
     private func removeOverlay() {
-        guard
-            let interactor = interactor,
-            !interactor.inProgress
-        else {
+        if let interactor = interactor,
+           interactor.inProgress {
             return
         }
 
