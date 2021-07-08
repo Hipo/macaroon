@@ -13,8 +13,14 @@ open class BottomSheetPresentationController:
         let navigationController = presentedViewController as? UINavigationController
         return navigationController?.viewControllers.last ?? presentedViewController
     }
+    public var presentedContentView: UIView {
+        return presentedContentViewController.view
+    }
     public var presentedScrollView: UIScrollView? {
         return (presentedContentViewController as? BottomSheetPresentable)?.presentedScrollView
+    }
+    public var presentedScrollContentView: UIView? {
+        return (presentedContentViewController as? BottomSheetPresentable)?.presentedScrollContentView
     }
     public var modalHeight: ModalHeight {
         return (presentedContentViewController as? ModalCustomPresentable)?.modalHeight ?? .compressed
@@ -60,23 +66,35 @@ open class BottomSheetPresentationController:
             /// Use `presentedContentViewController` to calculate the height because
             /// navigation controller gives us 0. A preferred height should be set explicitly in order
             /// to add its height into the calculations.
-            if let presentedView = presentedContentViewController.view {
-                let fittingSize: CGSize
+            let fittingSize: CGSize
 
-                if modalHeight == .compressed {
-                    fittingSize = CGSize((targetWidth, UIView.layoutFittingCompressedSize.height))
-                } else {
-                    fittingSize = CGSize((targetWidth, UIView.layoutFittingExpandedSize.height))
-                }
+            if modalHeight == .compressed {
+                fittingSize = CGSize((targetWidth, UIView.layoutFittingCompressedSize.height))
+            } else {
+                fittingSize = CGSize((targetWidth, UIView.layoutFittingExpandedSize.height))
+            }
 
-                targetHeight =
-                    presentedView.systemLayoutSizeFitting(
+            if let presentedScrollView = presentedScrollView,
+               let presentedScrollContentView = presentedScrollContentView {
+                let contentHeight =
+                    presentedScrollContentView.systemLayoutSizeFitting(
                         fittingSize,
                         withHorizontalFittingPriority: .required,
                         verticalFittingPriority: .defaultLow
                     ).height
+
+                if modalBottomPadding > 0 {
+                    targetHeight = contentHeight + presentedScrollView.contentInset.y
+                } else {
+                    targetHeight = contentHeight + presentedScrollView.contentInset.y + presentedScrollView.compactSafeAreaInsets.bottom
+                }
             } else {
-                targetHeight = parentSize.h
+                targetHeight =
+                    presentedContentView.systemLayoutSizeFitting(
+                        fittingSize,
+                        withHorizontalFittingPriority: .required,
+                        verticalFittingPriority: .defaultLow
+                    ).height
             }
         case .proportional(let proportion):
             targetHeight = parentSize.h * proportion
@@ -92,7 +110,7 @@ open class BottomSheetPresentationController:
             }
         }
 
-        let maxHeight = (parentSize.h * 0.9) - modalBottomPadding
+        let maxHeight = (parentSize.h * 0.93) - modalBottomPadding
 
         return (targetWidth, (max(0, min(targetHeight, maxHeight))).ceil())
     }
@@ -119,10 +137,11 @@ open class BottomSheetPresentationController:
     open func gestureRecognizerShouldBegin(
         _ gestureRecognizer: UIGestureRecognizer
     ) -> Bool {
-        return presentedScrollView.unwrap(
+        let bool = presentedScrollView.unwrap(
             \.isScrollAtTop,
             or: true
         )
+        return bool
     }
 }
 

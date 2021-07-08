@@ -101,6 +101,7 @@ public enum ImageStyleAttribute: BaseStyleAttribute {
     /// <mark>
     /// Image
     case contentMode(UIView.ContentMode)
+    case adjustsImageForContentSizeCategory(Bool)
     case content(Image)
 }
 
@@ -111,7 +112,8 @@ extension ImageStyleAttribute {
         case .tintColor: return Self.getTintColorAttributeId()
         case .isInteractable: return Self.getIsInteractableAttributeId()
         case .contentMode: return "image.contentMode"
-        case .content: return "image.content"
+        case .adjustsImageForContentSizeCategory: return "image.adjustsImageForContentSizeCategory"
+        case .content: return "image.image"
         }
     }
 }

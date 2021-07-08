@@ -93,3 +93,97 @@ extension CollectionCell {
         separatorView = nil
     }
 }
+
+open class TableCell<
+    ContextView: ViewComposable & ListReusable
+>: UITableViewCell,
+   ListComposable,
+   ListSeparatorAdaptable {
+    open class var contextPaddings: LayoutPaddings {
+        return (0, 0, 0, 0)
+    }
+
+    public private(set) lazy var contextView = getContextView()
+    public private(set) var separatorView: UIView?
+
+    open var separatorStyle: ListSeparatorStyle = .none {
+        didSet {
+            removeSeparator()
+            addSeparator()
+        }
+    }
+
+    public override init(
+        style: UITableViewCell.CellStyle,
+        reuseIdentifier: String?
+    ) {
+        super.init(
+            style: style,
+            reuseIdentifier: reuseIdentifier
+        )
+
+        prepareLayout()
+        setListeners()
+    }
+
+    @available(*, unavailable)
+    public required init?(
+        coder: NSCoder
+    ) {
+        fatalError(
+            "init(coder:) has not been implemented"
+        )
+    }
+
+    open func prepareLayout() {
+        addContext()
+    }
+
+    open func addContext() {
+        contentView.addSubview(
+            contextView
+        )
+        contextView.snp.makeConstraints {
+            $0.setPaddings(
+                Self.contextPaddings
+            )
+        }
+    }
+
+    open func setListeners() { }
+
+    open func getContextView() -> ContextView {
+        return ContextView()
+    }
+
+    open override func prepareForReuse() {
+        contextView.prepareForReuse()
+    }
+}
+
+extension TableCell {
+    private func addSeparator() {
+        switch separatorStyle {
+        case .none:
+            return
+        case .single(let separator):
+            if let separatorView = separatorView,
+               separatorView.isDescendant(
+                of: contentView
+               ) {
+                return
+            }
+
+            separatorView =
+                contentView.addSeparator(
+                    separator
+                )
+        }
+    }
+
+    private func removeSeparator() {
+        separatorView?.removeFromSuperview()
+        separatorView = nil
+    }
+}
+

@@ -25,6 +25,10 @@ extension Customizable where Self: UIImageView {
                 customizeBaseAppearance(
                     contentMode: contentMode
                 )
+            case .adjustsImageForContentSizeCategory(let adjustsImageForContentSizeCategory):
+                customizeBaseAppearance(
+                    adjustsImageForContentSizeCategory: adjustsImageForContentSizeCategory
+                )
             case .content(let content):
                 customizeBaseAppearance(
                     content: content
@@ -49,6 +53,9 @@ extension Customizable where Self: UIImageView {
             contentMode: nil
         )
         customizeBaseAppearance(
+            adjustsImageForContentSizeCategory: false
+        )
+        customizeBaseAppearance(
             content: nil
         )
     }
@@ -59,6 +66,12 @@ extension Customizable where Self: UIImageView {
         contentMode: UIView.ContentMode?
     ) {
         self.contentMode = contentMode ?? .scaleToFill
+    }
+
+    public func customizeBaseAppearance(
+        adjustsImageForContentSizeCategory: Bool
+    ) {
+        self.adjustsImageSizeForAccessibilityContentSizeCategory = adjustsImageForContentSizeCategory
     }
 
     public func customizeBaseAppearance(

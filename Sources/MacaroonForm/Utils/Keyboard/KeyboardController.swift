@@ -183,6 +183,8 @@ extension KeyboardController {
                 return
             }
 
+            self.keyboard = nil
+
             self.adjustContentInsetWhenKeyboardDidHide(
                 keyboard
             )
@@ -192,8 +194,6 @@ extension KeyboardController {
                 alongsideKeyboardAction: nil,
                 for: keyboard
             )
-
-            self.keyboard = nil
         }
     }
 }

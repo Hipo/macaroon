@@ -52,6 +52,15 @@ extension Router {
 
         return screen
     }
+
+    public func makeScreen<T: ScreenRoutable>(
+        _ path: SomePath,
+        containedIn parent: ScreenRoutable
+    ) -> T {
+        let screen: T = makeScreen(path)
+        screen.flowIdentifier = parent.flowIdentifier
+        return screen
+    }
 }
 
 extension Router {

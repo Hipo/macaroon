@@ -3,7 +3,7 @@
 import Foundation
 import UIKit
 
-public protocol ListSeparatorAdaptable: UICollectionViewCell {
+public protocol ListSeparatorAdaptable: ListComposable {
     var separatorStyle: ListSeparatorStyle { get }
 }
 

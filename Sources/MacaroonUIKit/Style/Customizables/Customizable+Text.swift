@@ -25,6 +25,10 @@ extension Customizable where Self: UILabel {
                 customizeBaseAppearance(
                     font: font
                 )
+            case .adjustsFontForContentSizeCategory(let adjustsFontForContentSizeCategory):
+                customizeBaseAppearance(
+                    adjustsFontForContentSizeCategory: adjustsFontForContentSizeCategory
+                )
             case .textAlignment(let textAlignment):
                 customizeBaseAppearance(
                     textAlignment: textAlignment
@@ -61,6 +65,9 @@ extension Customizable where Self: UILabel {
             font: nil
         )
         customizeBaseAppearance(
+            adjustsFontForContentSizeCategory: false
+        )
+        customizeBaseAppearance(
             textAlignment: nil
         )
         customizeBaseAppearance(
@@ -80,7 +87,13 @@ extension Customizable where Self: UILabel {
         font: Font?
     ) {
         self.font = font?.font
-        self.adjustsFontForContentSizeCategory = font?.adjustsFontForContentSizeCategory ?? true
+        self.adjustsFontForContentSizeCategory = font?.adjustsFontForContentSizeCategory ?? false
+    }
+
+    public func customizeBaseAppearance(
+        adjustsFontForContentSizeCategory: Bool
+    ) {
+        self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory
     }
 
     public func customizeBaseAppearance(
@@ -152,6 +165,10 @@ extension Customizable where Self: UITextField {
                 customizeBaseAppearance(
                     font: font
                 )
+            case .adjustsFontForContentSizeCategory(let adjustsFontForContentSizeCategory):
+                customizeBaseAppearance(
+                    adjustsFontForContentSizeCategory: adjustsFontForContentSizeCategory
+                )
             case .textAlignment(let textAlignment):
                 customizeBaseAppearance(
                     textAlignment: textAlignment
@@ -177,5 +194,13 @@ extension Customizable where Self: UITextField {
         customizeAppearance(
             style
         )
+    }
+}
+
+extension Customizable where Self: UITextField {
+    public func customizeBaseAppearance(
+        adjustsFontForContentSizeCategory: Bool
+    ) {
+        self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory
     }
 }

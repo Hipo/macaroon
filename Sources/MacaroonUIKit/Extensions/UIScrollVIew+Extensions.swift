@@ -5,7 +5,7 @@ import UIKit
 
 extension UIScrollView {
     public var isScrollAtTop: Bool {
-        return contentOffset.y <= adjustedContentInset.top
+        return contentOffset.y <= -adjustedContentInset.top
     }
 
     public var contentOffsetAtTop: CGPoint {
@@ -58,9 +58,9 @@ extension UIScrollView {
         mContentInset.top = top
         contentInset = mContentInset
 
-        var mScrollIndicatoInset = scrollIndicatorInsets
-        mScrollIndicatoInset.top = top
-        scrollIndicatorInsets = mScrollIndicatoInset
+//        var mScrollIndicatoInset = scrollIndicatorInsets
+//        mScrollIndicatoInset.top = top
+//        scrollIndicatorInsets = mScrollIndicatoInset
     }
 
     public func setContentInset(
@@ -74,9 +74,9 @@ extension UIScrollView {
         mContentInset.left = left
         contentInset = mContentInset
 
-        var mScrollIndicatoInset = scrollIndicatorInsets
-        mScrollIndicatoInset.left = left
-        scrollIndicatorInsets = mScrollIndicatoInset
+//        var mScrollIndicatoInset = scrollIndicatorInsets
+//        mScrollIndicatoInset.left = left
+//        scrollIndicatorInsets = mScrollIndicatoInset
     }
 
     public func setContentInset(
@@ -90,9 +90,9 @@ extension UIScrollView {
         mContentInset.bottom = bottom
         contentInset = mContentInset
 
-        var mScrollIndicatoInset = scrollIndicatorInsets
-        mScrollIndicatoInset.bottom = bottom
-        scrollIndicatorInsets = mScrollIndicatoInset
+//        var mScrollIndicatoInset = scrollIndicatorInsets
+//        mScrollIndicatoInset.bottom = bottom
+//        scrollIndicatorInsets = mScrollIndicatoInset
     }
 
     public func setContentInset(
@@ -106,9 +106,9 @@ extension UIScrollView {
         mContentInset.right = right
         contentInset = mContentInset
 
-        var mScrollIndicatoInset = scrollIndicatorInsets
-        mScrollIndicatoInset.right = right
-        scrollIndicatorInsets = mScrollIndicatoInset
+//        var mScrollIndicatoInset = scrollIndicatorInsets
+//        mScrollIndicatoInset.right = right
+//        scrollIndicatorInsets = mScrollIndicatoInset
     }
 }
 

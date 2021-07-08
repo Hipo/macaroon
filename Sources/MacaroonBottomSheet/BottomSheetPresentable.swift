@@ -11,6 +11,7 @@ public protocol BottomSheetPresentable: ModalCustomPresentable {
     /// If the presented screen has a scroll view, return it via this property, so that the
     /// interactive dismissal can be handled properly without messing with the scrolling behaviour.
     var presentedScrollView: UIScrollView? { get }
+    var presentedScrollContentView: UIView? { get }
 }
 
 extension BottomSheetPresentable {
@@ -19,6 +20,9 @@ extension BottomSheetPresentable {
     }
 
     public var presentedScrollView: UIScrollView? {
+        return nil
+    }
+    public var presentedScrollContentView: UIView? {
         return nil
     }
 }

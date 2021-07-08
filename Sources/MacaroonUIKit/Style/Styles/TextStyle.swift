@@ -49,6 +49,7 @@ public enum TextStyleAttribute: BaseStyleAttribute {
     /// <mark>
     /// Text
     case font(Font)
+    case adjustsFontForContentSizeCategory(Bool)
     case textAlignment(NSTextAlignment)
     case textOverflow(TextOverflow)
     case textColor(Color)
@@ -62,6 +63,7 @@ extension TextStyleAttribute {
         case .tintColor: return Self.getTintColorAttributeId()
         case .isInteractable: return Self.getIsInteractableAttributeId()
         case .font: return "text.font"
+        case .adjustsFontForContentSizeCategory: return "adjustsFontForContentSizeCategory"
         case .textAlignment: return "text.textAlignment"
         case .textOverflow: return "text.textOverflow"
         case .textColor: return "text.textColor"
