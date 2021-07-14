@@ -7,34 +7,12 @@ extension Customizable where Self: UIImageView {
     public func customizeAppearance(
         _ style: ImageStyle
     ) {
-        style.forEach {
-            switch $0 {
-            case .backgroundColor(let backgroundColor):
-                customizeBaseAppearance(
-                    backgroundColor: backgroundColor
-                )
-            case .tintColor(let tintColor):
-                customizeBaseAppearance(
-                    tintColor: tintColor
-                )
-            case .isInteractable(let isInteractable):
-                customizeBaseAppearance(
-                    isInteractable: isInteractable
-                )
-            case .contentMode(let contentMode):
-                customizeBaseAppearance(
-                    contentMode: contentMode
-                )
-            case .adjustsImageForContentSizeCategory(let adjustsImageForContentSizeCategory):
-                customizeBaseAppearance(
-                    adjustsImageForContentSizeCategory: adjustsImageForContentSizeCategory
-                )
-            case .content(let content):
-                customizeBaseAppearance(
-                    content: content
-                )
-            }
-        }
+        customizeBaseAppearance(image: style.image)
+        customizeBaseAppearance(contentMode: style.contentMode)
+        customizeBaseAppearance(adjustsImageForContentSizeCategory: style.adjustsImageForContentSizeCategory)
+        customizeBaseAppearance(backgroundColor: style.backgroundColor)
+        customizeBaseAppearance(tintColor: style.tintColor)
+        customizeBaseAppearance(isInteractable: style.isInteractable)
     }
 
     public func recustomizeAppearance(
@@ -56,7 +34,7 @@ extension Customizable where Self: UIImageView {
             adjustsImageForContentSizeCategory: false
         )
         customizeBaseAppearance(
-            content: nil
+            image: nil
         )
     }
 }
@@ -69,14 +47,14 @@ extension Customizable where Self: UIImageView {
     }
 
     public func customizeBaseAppearance(
-        adjustsImageForContentSizeCategory: Bool
+        adjustsImageForContentSizeCategory: Bool?
     ) {
-        self.adjustsImageSizeForAccessibilityContentSizeCategory = adjustsImageForContentSizeCategory
+        self.adjustsImageSizeForAccessibilityContentSizeCategory = adjustsImageForContentSizeCategory ?? false
     }
 
     public func customizeBaseAppearance(
-        content: Image?
+        image: Image?
     ) {
-        image = content?.image
+        self.image = image?.image
     }
 }

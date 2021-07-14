@@ -7,71 +7,24 @@ extension Customizable where Self: UITextField {
     public func customizeAppearance(
         _ style: TextInputStyle
     ) {
-        style.forEach {
-            switch $0 {
-            case .backgroundColor(let backgroundColor):
-                customizeBaseAppearance(
-                    backgroundColor: backgroundColor
-                )
-            case .tintColor(let tintColor):
-                customizeBaseAppearance(
-                    tintColor: tintColor
-                )
-            case .isInteractable(let isInteractable):
-                customizeBaseAppearance(
-                    isInteractable: isInteractable
-                )
-            case .backgroundImage(let backgroundImage):
-                customizeBaseAppearance(
-                    backgroundImage: backgroundImage
-                )
-            case .font(let font):
-                customizeBaseAppearance(
-                    font: font
-                )
-            case .textAlignment(let textAlignment):
-                customizeBaseAppearance(
-                    textAlignment: textAlignment
-                )
-            case .textColor(let textColor):
-                customizeBaseAppearance(
-                    textColor: textColor
-                )
-            case .content(let content):
-                customizeBaseAppearance(
-                    content: content
-                )
-            case .placeholder(let placeholder, let placeholderColor):
-                customizeBaseAppearance(
-                    placeholder: placeholder,
-                    placeholderColor: placeholderColor
-                )
-            case .clearButtonMode(let clearButtonMode):
-                customizeBaseAppearance(
-                    clearButtonMode: clearButtonMode
-                )
-            case .keyboardType(let keyboardType):
-                customizeBaseAppearance(
-                    keyboardType: keyboardType
-                )
-            case .returnKeyType(let returnKeyType):
-                customizeBaseAppearance(
-                    returnKeyType: returnKeyType
-                )
-            case .autocapitalizationType(let autocapitalizationType):
-                customizeBaseAppearance(
-                    autocapitalizationType: autocapitalizationType
-                )
-            case .autocorrectionType(let autocorrectionType):
-                customizeBaseAppearance(
-                    autocorrectionType: autocorrectionType
-                )
-            case .textContentType(let textContentType):
-                customizeBaseAppearance(
-                    textContentType: textContentType
-                )
-            }
-        }
+        customizeBaseAppearance(font: style.font)
+        customizeBaseAppearance(textColor: style.textColor)
+        customizeBaseAppearance(textAlignment: style.textAlignment)
+        customizeBaseAppearance(textContentType: style.textContentType)
+        customizeBaseAppearance(text: style.text)
+        customizeBaseAppearance(
+            placeholder: style.placeholder,
+            placeholderColor: style.placeholderColor
+        )
+        customizeBaseAppearance(clearButtonMode: style.clearButtonMode)
+        customizeBaseAppearance(keyboardType: style.keyboardType)
+        customizeBaseAppearance(returnKeyType: style.returnKeyType)
+        customizeBaseAppearance(autocapitalizationType: style.autocapitalizationType)
+        customizeBaseAppearance(autocorrectionType: style.autocorrectionType)
+        customizeBaseAppearance(backgroundImage: style.backgroundImage)
+        customizeBaseAppearance(backgroundColor: style.backgroundColor)
+        customizeBaseAppearance(tintColor: style.tintColor)
+        customizeBaseAppearance(isInteractable: style.isInteractable)
     }
 
     public func recustomizeAppearance(
@@ -99,7 +52,7 @@ extension Customizable where Self: UITextField {
             textColor: nil
         )
         customizeBaseAppearance(
-            content: nil
+            text: nil
         )
         customizeBaseAppearance(
             placeholder: nil,
@@ -154,9 +107,9 @@ extension Customizable where Self: UITextField {
     }
 
     public func customizeBaseAppearance(
-        content: Text?
+        text: Text?
     ) {
-        self.editText = content?.text
+        self.editText = text?.text
     }
 
     public func customizeBaseAppearance(
@@ -238,64 +191,18 @@ extension Customizable where Self: UITextView {
     public func customizeAppearance(
         _ style: TextInputStyle
     ) {
-        style.forEach {
-            switch $0 {
-            case .backgroundColor(let backgroundColor):
-                customizeBaseAppearance(
-                    backgroundColor: backgroundColor
-                )
-            case .tintColor(let tintColor):
-                customizeBaseAppearance(
-                    tintColor: tintColor
-                )
-            case .isInteractable(let isInteractable):
-                customizeBaseAppearance(
-                    isInteractable: isInteractable
-                )
-            case .backgroundImage:
-                break
-            case .font(let font):
-                customizeBaseAppearance(
-                    font: font
-                )
-            case .textAlignment(let textAlignment):
-                customizeBaseAppearance(
-                    textAlignment: textAlignment
-                )
-            case .textColor(let textColor):
-                customizeBaseAppearance(
-                    textColor: textColor
-                )
-            case .content(let content):
-                customizeBaseAppearance(
-                    content: content
-                )
-            case .placeholder:
-                break
-            case .clearButtonMode:
-                break
-            case .keyboardType(let keyboardType):
-                customizeBaseAppearance(
-                    keyboardType: keyboardType
-                )
-            case .returnKeyType(let returnKeyType):
-                customizeBaseAppearance(
-                    returnKeyType: returnKeyType
-                )
-            case .autocapitalizationType(let autocapitalizationType):
-                customizeBaseAppearance(
-                    autocapitalizationType: autocapitalizationType
-                )
-            case .autocorrectionType(let autocorrectionType):
-                customizeBaseAppearance(
-                    autocorrectionType: autocorrectionType
-                )
-            case .textContentType(let textContentType):
-                customizeBaseAppearance(
-                    textContentType: textContentType
-                )
-            }
-        }
+        customizeBaseAppearance(font: style.font)
+        customizeBaseAppearance(textColor: style.textColor)
+        customizeBaseAppearance(textAlignment: style.textAlignment)
+        customizeBaseAppearance(textContentType: style.textContentType)
+        customizeBaseAppearance(text: style.text)
+        customizeBaseAppearance(keyboardType: style.keyboardType)
+        customizeBaseAppearance(returnKeyType: style.returnKeyType)
+        customizeBaseAppearance(autocapitalizationType: style.autocapitalizationType)
+        customizeBaseAppearance(autocorrectionType: style.autocorrectionType)
+        customizeBaseAppearance(backgroundColor: style.backgroundColor)
+        customizeBaseAppearance(tintColor: style.tintColor)
+        customizeBaseAppearance(isInteractable: style.isInteractable)
     }
 
     public func recustomizeAppearance(
@@ -320,7 +227,7 @@ extension Customizable where Self: UITextView {
             textColor: nil
         )
         customizeBaseAppearance(
-            content: nil
+            text: nil
         )
         customizeBaseAppearance(
             keyboardType: nil
@@ -361,9 +268,9 @@ extension Customizable where Self: UITextView {
     }
 
     public func customizeBaseAppearance(
-        content: Text?
+        text: Text?
     ) {
-        self.editText = content?.text
+        self.editText = text?.text
     }
 
     public func customizeBaseAppearance(

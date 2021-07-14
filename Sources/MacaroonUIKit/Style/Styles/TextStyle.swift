@@ -3,71 +3,64 @@
 import Foundation
 import UIKit
 
-public typealias TextStyle = BaseStyle<TextStyleAttribute>
+public struct TextStyle: BaseStyle {
+    public var font: Font?
+    public var adjustsFontForContentSizeCategory: Bool?
+    public var textColor: Color?
+    public var textAlignment: NSTextAlignment?
+    public var textOverflow: TextOverflow?
+    public var text: Text?
+    public var backgroundColor: Color?
+    public var tintColor: Color?
+    public var isInteractable: Bool?
 
-extension TextStyle {
-    public var font: Font? {
-        for attribute in self {
-            switch attribute {
-            case .font(let font): return font
-            default: break
-            }
-        }
-
-        return nil
-    }
-}
-
-extension TextStyle {
-    public func mutate(
-        by viewStyle: ViewStyle
-    ) -> Self {
-        var derivedTextStyle: TextStyle = []
-
-        viewStyle.forEach {
+    public init(
+        attributes: [Attribute]
+    ) {
+        attributes.forEach {
             switch $0 {
-            case .backgroundColor(let backgroundColor):
-                derivedTextStyle.append(.backgroundColor(backgroundColor))
-            case .tintColor(let tintColor):
-                derivedTextStyle.append(.tintColor(tintColor))
-            case .isInteractable(let isInteractable):
-                derivedTextStyle.append(.isInteractable(isInteractable))
+            case .font(let font): self.font = font
+            case .adjustsFontForContentSizeCategory(let boolean): self.adjustsFontForContentSizeCategory = boolean
+            case .textColor(let textColor): self.textColor = textColor
+            case .textAlignment(let textAlignment): self.textAlignment = textAlignment
+            case .textOverflow(let textOverflow): self.textOverflow = textOverflow
+            case .text(let text): self.text = text
+            case .backgroundColor(let backgroundColor): self.backgroundColor = backgroundColor
+            case .tintColor(let tintColor): self.tintColor = tintColor
+            case .isInteractable(let interactable): self.isInteractable = interactable
             }
         }
-
-        return mutate(by: derivedTextStyle)
     }
 }
 
-public enum TextStyleAttribute: BaseStyleAttribute {
-    /// <mark>
-    /// Base
-    case backgroundColor(Color)
-    case tintColor(Color)
-    case isInteractable(Bool)
-
-    /// <mark>
-    /// Text
-    case font(Font)
-    case adjustsFontForContentSizeCategory(Bool)
-    case textAlignment(NSTextAlignment)
-    case textOverflow(TextOverflow)
-    case textColor(Color)
-    case content(Text)
+extension TextStyle {
+    public func modify(
+        _ modifiers: TextStyle...
+    ) -> TextStyle {
+        var modifiedStyle = TextStyle()
+        modifiedStyle.font = modifiers.last(existing: \.font) ?? font
+        modifiedStyle.adjustsFontForContentSizeCategory = modifiers.last(existing: \.adjustsFontForContentSizeCategory) ?? adjustsFontForContentSizeCategory
+        modifiedStyle.textColor = modifiers.last(existing: \.textColor) ?? textColor
+        modifiedStyle.textAlignment = modifiers.last(existing: \.textAlignment) ?? textAlignment
+        modifiedStyle.textOverflow = modifiers.last(existing: \.textOverflow) ?? textOverflow
+        modifiedStyle.text = modifiers.last(existing: \.text) ?? text
+        modifiedStyle.backgroundColor = modifiers.last(existing: \.backgroundColor) ?? backgroundColor
+        modifiedStyle.tintColor = modifiers.last(existing: \.tintColor) ?? tintColor
+        modifiedStyle.isInteractable = modifiers.last(existing: \.isInteractable) ?? isInteractable
+        return modifiedStyle
+    }
 }
 
-extension TextStyleAttribute {
-    public var id: String {
-        switch self {
-        case .backgroundColor: return Self.getBackgroundColorAttributeId()
-        case .tintColor: return Self.getTintColorAttributeId()
-        case .isInteractable: return Self.getIsInteractableAttributeId()
-        case .font: return "text.font"
-        case .adjustsFontForContentSizeCategory: return "adjustsFontForContentSizeCategory"
-        case .textAlignment: return "text.textAlignment"
-        case .textOverflow: return "text.textOverflow"
-        case .textColor: return "text.textColor"
-        case .content: return "text.content"
-        }
+extension TextStyle {
+    public enum Attribute: BaseStyleAttribute {
+        case font(Font)
+        case adjustsFontForContentSizeCategory(Bool)
+        case textColor(Color)
+        case textAlignment(NSTextAlignment)
+        case textOverflow(TextOverflow)
+        case text(Text)
+        case backgroundColor(Color)
+        case tintColor(Color)
+        case isInteractable(Bool)
     }
 }

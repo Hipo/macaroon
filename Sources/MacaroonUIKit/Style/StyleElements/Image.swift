@@ -5,6 +5,9 @@ import MacaroonResources
 import MacaroonUtils
 import UIKit
 
+public protocol ImageProvider {
+}
+
 public protocol Image {
     var image: UIImage { get }
     var highlighted: UIImage? { get }

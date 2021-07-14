@@ -3,80 +3,60 @@
 import Foundation
 import UIKit
 
-public typealias ButtonStyle = BaseStyle<ButtonStyleAttribute>
+public struct ButtonStyle: BaseStyle {
+    public var font: Font?
+    public var titleColor: Color?
+    public var title: Text?
+    public var icon: Image?
+    public var backgroundImage: Image?
+    public var backgroundColor: Color?
+    public var tintColor: Color?
+    public var isInteractable: Bool?
 
-extension ButtonStyle {
-    public var font: Font? {
-        for attribute in self {
-            switch attribute {
-            case .font(let font): return font
-            default: break
-            }
-        }
-
-        return nil
-    }
-
-    public var titleColor: Color? {
-        for attribute in self {
-            switch attribute {
-            case .titleColor(let titleColor): return titleColor
-            default: break
-            }
-        }
-
-        return nil
-    }
-}
-
-extension ButtonStyle {
-    public func mutate(
-        by viewStyle: ViewStyle
-    ) -> Self {
-        var derivedButtonStyle: ButtonStyle = []
-
-        viewStyle.forEach {
+    public init(
+        attributes: [Attribute]
+    ) {
+        attributes.forEach {
             switch $0 {
-            case .backgroundColor(let backgroundColor):
-                derivedButtonStyle.append(.backgroundColor(backgroundColor))
-            case .tintColor(let tintColor):
-                derivedButtonStyle.append(.tintColor(tintColor))
-            case .isInteractable(let isInteractable):
-                derivedButtonStyle.append(.isInteractable(isInteractable))
+            case .font(let font): self.font = font
+            case .titleColor(let titleColor): self .titleColor = titleColor
+            case .title(let title): self.title = title
+            case .icon(let icon): self.icon = icon
+            case .backgroundImage(let backgroundImage): self.backgroundImage = backgroundImage
+            case .backgroundColor(let backgroundColor): self.backgroundColor = backgroundColor
+            case .tintColor(let tintColor): self.tintColor = tintColor
+            case .isInteractable(let interactable): self.isInteractable = interactable
             }
         }
-
-        return mutate(by: derivedButtonStyle)
     }
 }
 
-public enum ButtonStyleAttribute: BaseStyleAttribute {
-    /// <mark>
-    /// Base
-    case backgroundColor(Color)
-    case tintColor(Color)
-    case isInteractable(Bool)
-
-    /// <mark>
-    /// Button
-    case backgroundImage(Image)
-    case icon(Image)
-    case font(Font)
-    case titleColor(Color)
-    case title(Text)
+extension ButtonStyle {
+    public func modify(
+        _ modifiers: ButtonStyle...
+    ) -> ButtonStyle {
+        var modifiedStyle = ButtonStyle()
+        modifiedStyle.font = modifiers.last(existing: \.font) ?? font
+        modifiedStyle.titleColor = modifiers.last(existing: \.titleColor) ?? titleColor
+        modifiedStyle.title = modifiers.last(existing: \.title) ?? title
+        modifiedStyle.icon = modifiers.last(existing: \.icon) ?? icon
+        modifiedStyle.backgroundImage = modifiers.last(existing: \.backgroundImage) ?? backgroundImage
+        modifiedStyle.backgroundColor = modifiers.last(existing: \.backgroundColor) ?? backgroundColor
+        modifiedStyle.tintColor = modifiers.last(existing: \.tintColor) ?? tintColor
+        modifiedStyle.isInteractable = modifiers.last(existing: \.isInteractable) ?? isInteractable
+        return modifiedStyle
+    }
 }
 
-extension ButtonStyleAttribute {
-    public var id: String {
-        switch self {
-        case .backgroundColor: return Self.getBackgroundColorAttributeId()
-        case .tintColor: return Self.getTintColorAttributeId()
-        case .isInteractable: return Self.getIsInteractableAttributeId()
-        case .backgroundImage: return "button.backgroundImage"
-        case .icon: return "button.icon"
-        case .font: return "button.font"
-        case .titleColor: return "button.titleColor"
-        case .title: return "button.title"
-        }
+extension ButtonStyle {
+    public enum Attribute: BaseStyleAttribute {
+        case font(Font)
+        case titleColor(Color)
+        case title(Text)
+        case icon(Image)
+        case backgroundImage(Image)
+        case backgroundColor(Color)
+        case tintColor(Color)
+        case isInteractable(Bool)
     }
 }

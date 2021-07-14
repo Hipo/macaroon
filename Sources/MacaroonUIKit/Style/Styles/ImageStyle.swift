@@ -3,117 +3,81 @@
 import Foundation
 import UIKit
 
-public typealias ImageStyle = BaseStyle<ImageStyleAttribute>
+public struct ImageStyle: BaseStyle {
+    public var image: Image?
+    public var contentMode: UIView.ContentMode?
+    public var adjustsImageForContentSizeCategory: Bool?
+    public var backgroundColor: Color?
+    public var tintColor: Color?
+    public var isInteractable: Bool?
 
-extension ImageStyle {
-    public var tintColor: Color? {
-        for attribute in self {
-            switch attribute {
-            case .tintColor(let tintColor): return tintColor
-            default: break
+    public init(
+        attributes: [Attribute]
+    ) {
+        attributes.forEach {
+            switch $0 {
+            case .image(let image): self.image = image
+            case .contentMode(let contentMode): self.contentMode = contentMode
+            case .adjustsImageForContentSizeCategory(let boolean): self.adjustsImageForContentSizeCategory = boolean
+            case .backgroundColor(let backgroundColor): self.backgroundColor = backgroundColor
+            case .tintColor(let tintColor): self.tintColor = tintColor
+            case .isInteractable(let interactable): self.isInteractable = interactable
             }
         }
-
-        return nil
-    }
-
-    public var content: Image? {
-        for attribute in self {
-            switch attribute {
-            case .content(let content): return content
-            default: break
-            }
-        }
-
-        return nil
     }
 }
 
 extension ImageStyle {
-    public func mutate(
-        by viewStyle: ViewStyle
-    ) -> Self {
-        var derivedImageStyle: ImageStyle = []
-
-        viewStyle.forEach {
-            switch $0 {
-            case .backgroundColor(let backgroundColor):
-                derivedImageStyle.append(.backgroundColor(backgroundColor))
-            case .tintColor(let tintColor):
-                derivedImageStyle.append(.tintColor(tintColor))
-            case .isInteractable(let isInteractable):
-                derivedImageStyle.append(.isInteractable(isInteractable))
-            }
-        }
-
-        return mutate(by: derivedImageStyle)
+    public func modify(
+        _ modifiers: ImageStyle...
+    ) -> ImageStyle {
+        var modifiedStyle = ImageStyle()
+        modifiedStyle.image = modifiers.last(existing: \.image) ?? image
+        modifiedStyle.contentMode = modifiers.last(existing: \.contentMode) ?? contentMode
+        modifiedStyle.adjustsImageForContentSizeCategory = modifiers.last(existing: \.adjustsImageForContentSizeCategory) ?? adjustsImageForContentSizeCategory
+        modifiedStyle.backgroundColor = modifiers.last(existing: \.backgroundColor) ?? backgroundColor
+        modifiedStyle.tintColor = modifiers.last(existing: \.tintColor) ?? tintColor
+        modifiedStyle.isInteractable = modifiers.last(existing: \.isInteractable) ?? isInteractable
+        return modifiedStyle
     }
 }
 
 extension ImageStyle {
     public static func scaleToFill(
-        content: Image? = nil
+        _ image: Image? = nil
     ) -> ImageStyle {
         var style = ImageStyle()
-        style.append(.contentMode(.scaleToFill))
-
-        if let content = content {
-            style.append(.content(content))
-        }
-
+        style.contentMode = .scaleToFill
+        style.image = image
         return style
     }
 
     public static func aspectFit(
-        _ content: Image? = nil
+        _ image: Image? = nil
     ) -> ImageStyle {
         var style = ImageStyle()
-        style.append(.contentMode(.scaleAspectFit))
-
-        if let content = content {
-            style.append(.content(content))
-        }
-
+        style.contentMode = .scaleAspectFit
+        style.image = image
         return style
     }
 
     public static func aspectFill(
-        _ content: Image? = nil
+        _ image: Image? = nil
     ) -> ImageStyle {
         var style = ImageStyle()
-        style.append(.contentMode(.scaleAspectFill))
-
-        if let content = content {
-            style.append(.content(content))
-        }
-
+        style.contentMode = .scaleAspectFill
+        style.image = image
         return style
     }
 }
 
-public enum ImageStyleAttribute: BaseStyleAttribute {
-    /// <mark>
-    /// Base
-    case backgroundColor(Color)
-    case tintColor(Color)
-    case isInteractable(Bool)
-
-    /// <mark>
-    /// Image
-    case contentMode(UIView.ContentMode)
-    case adjustsImageForContentSizeCategory(Bool)
-    case content(Image)
-}
-
-extension ImageStyleAttribute {
-    public var id: String {
-        switch self {
-        case .backgroundColor: return Self.getBackgroundColorAttributeId()
-        case .tintColor: return Self.getTintColorAttributeId()
-        case .isInteractable: return Self.getIsInteractableAttributeId()
-        case .contentMode: return "image.contentMode"
-        case .adjustsImageForContentSizeCategory: return "image.adjustsImageForContentSizeCategory"
-        case .content: return "image.image"
-        }
+extension ImageStyle {
+    public enum Attribute: BaseStyleAttribute {
+        case image(Image)
+        case contentMode(UIView.ContentMode)
+        case adjustsImageForContentSizeCategory(Bool)
+        case backgroundColor(Color)
+        case tintColor(Color)
+        case isInteractable(Bool)
     }
 }

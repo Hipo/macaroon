@@ -7,30 +7,11 @@ extension Customizable where Self: UIPageControl {
     public func customizeAppearance(
         _ style: PageControlStyle
     ) {
-        style.forEach {
-            switch $0 {
-            case .backgroundColor(let backgroundColor):
-                customizeBaseAppearance(
-                    backgroundColor: backgroundColor
-                )
-            case .tintColor(let tintColor):
-                customizeBaseAppearance(
-                    tintColor: tintColor
-                )
-            case .isInteractable(let isInteractable):
-                customizeBaseAppearance(
-                    isInteractable: isInteractable
-                )
-            case .indicatorColor(let indicatorColor):
-                customizeBaseAppearance(
-                    indicatorColor: indicatorColor
-                )
-            case .indicatorImage(let indicatorImage):
-                customizeBaseAppearance(
-                    indicatorImage: indicatorImage
-                )
-            }
-        }
+        customizeBaseAppearance(indicatorColor: style.indicatorColor)
+        customizeBaseAppearance(indicatorImage: style.indicatorImage)
+        customizeBaseAppearance(backgroundColor: style.backgroundColor)
+        customizeBaseAppearance(tintColor: style.tintColor)
+        customizeBaseAppearance(isInteractable: style.isInteractable)
 
         hidesForSinglePage = true
         isUserInteractionEnabled = false

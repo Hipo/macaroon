@@ -1,62 +1,37 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MacaroonUtils
 import UIKit
 
-public typealias BaseStyle<T: BaseStyleAttribute> = [T]
+public protocol BaseStyle: ExpressibleByArrayLiteral {
+    associatedtype Attribute: BaseStyleAttribute
+
+    var backgroundColor: Color? { get }
+    var tintColor: Color? { get }
+
+    init(
+        attributes: [Attribute]
+    )
+
+    func modify(
+        _ modifiers: Self...
+    ) -> Self
+}
 
 extension BaseStyle {
-    public func mutate(
-        by modifiers: BaseStyle<Element>...
-    ) -> Self {
-        /// <note>
-        /// The modifier style overrides the attributes of the self style.
-        let union = modifiers
-            .reduce([]) {
-                Set($1).union(
-                    Set($0)
-                )
-            }
-            .union(
-                Set(self)
-            )
-        return Array(union)
+    public init() {
+        self.init(attributes: [])
     }
-}
 
-public protocol BaseStyleAttribute: Hashable {
-    var id: String { get }
-
-    static func backgroundColor(_ color: Color) -> Self
-    static func tintColor(_ color: Color) -> Self
-    static func isInteractable(_ interacted: Bool) -> Self
-}
-
-extension BaseStyleAttribute {
-    public func hash(
-        into hasher: inout Hasher
+    public init(
+        arrayLiteral elements: Attribute...
     ) {
-        hasher.combine(id)
-    }
-
-    public static func == (
-        lhs: Self,
-        rhs: Self
-    ) -> Bool {
-        return lhs.id == rhs.id
+        self.init(attributes: elements)
     }
 }
 
-extension BaseStyleAttribute {
-    static func getBackgroundColorAttributeId() -> String {
-        return "backgroundColor"
-    }
-
-    static func getTintColorAttributeId() -> String {
-        return "tintColor"
-    }
-
-    static func getIsInteractableAttributeId() -> String {
-        return "isInteractable"
-    }
+public protocol BaseStyleAttribute {
+    static func backgroundColor(_ backgroundColor: Color) -> Self
+    static func tintColor(_ tintColor: Color) -> Self
 }

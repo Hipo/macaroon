@@ -3,35 +3,40 @@
 import Foundation
 import UIKit
 
-public typealias ViewStyle = BaseStyle<ViewStyleAttribute>
+public struct ViewStyle: BaseStyle {
+    public var backgroundColor: Color?
+    public var tintColor: Color?
+    public var isInteractable: Bool?
 
-extension ViewStyle {
-    public var backgroundColor: Color? {
-        for attribute in self {
-            switch attribute {
-            case .backgroundColor(let backgroundColor): return backgroundColor
-            default: break
+    public init(
+        attributes: [Attribute]
+    ) {
+        attributes.forEach {
+            switch $0 {
+            case .backgroundColor(let backgroundColor): self.backgroundColor = backgroundColor
+            case .tintColor(let tintColor): self.tintColor = tintColor
+            case .isInteractable(let interactable): self.isInteractable = interactable
             }
         }
-
-        return nil
     }
 }
 
-public enum ViewStyleAttribute: BaseStyleAttribute {
-    /// <mark>
-    /// Base
-    case backgroundColor(Color)
-    case tintColor(Color)
-    case isInteractable(Bool)
+extension ViewStyle {
+    public func modify(
+        _ modifiers: ViewStyle...
+    ) -> ViewStyle {
+        var modifiedStyle = ViewStyle()
+        modifiedStyle.backgroundColor = modifiers.last(existing: \.backgroundColor) ?? backgroundColor
+        modifiedStyle.tintColor = modifiers.last(existing: \.tintColor) ?? tintColor
+        modifiedStyle.isInteractable = modifiers.last(existing: \.isInteractable) ?? isInteractable
+        return modifiedStyle
+    }
 }
 
-extension ViewStyleAttribute {
-    public var id: String {
-        switch self {
-        case .backgroundColor: return Self.getBackgroundColorAttributeId()
-        case .tintColor: return Self.getTintColorAttributeId()
-        case .isInteractable: return Self.getIsInteractableAttributeId()
-        }
+extension ViewStyle {
+    public enum Attribute: BaseStyleAttribute {
+        case backgroundColor(Color)
+        case tintColor(Color)
+        case isInteractable(Bool)
     }
 }

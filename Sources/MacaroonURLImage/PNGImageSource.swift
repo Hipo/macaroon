@@ -41,15 +41,21 @@ public struct PNGImageSource: URLImageSource {
 
 extension PNGImageSource {
     private func formSizeImageProcessor() -> ImageProcessor? {
-        switch size {
-        case .original:
+        switch shape {
+        case .circle,
+             .rounded:
             return nil
-        case .resize(let referenceSize, let mode):
-            return ResizingImageProcessor(referenceSize: referenceSize.scaled(scale), mode: mode)
-        case .cropping(let targetSize):
-            return CroppingImageProcessor(size: targetSize)
-        case .downsampling(let targetSize):
-            return DownsamplingImageProcessor(size: targetSize)
+        default:
+            switch size {
+            case .original:
+                return nil
+            case .resize(let referenceSize, let mode):
+                return ResizingImageProcessor(referenceSize: referenceSize.scaled(scale), mode: mode)
+            case .cropping(let targetSize):
+                return CroppingImageProcessor(size: targetSize)
+            case .downsampling(let targetSize):
+                return DownsamplingImageProcessor(size: targetSize)
+            }
         }
     }
 
@@ -58,12 +64,17 @@ extension PNGImageSource {
         case .original:
             return nil
         case .circle:
-            return
-                size.reduce().unwrap {
-                    RoundCornerImageProcessor(cornerRadius: ($0.scaled(scale).minDimension / 2.0).float())
-                }
+            return RoundCornerImageProcessor(
+                radius: .widthFraction(0.5),
+                targetSize: size.reduce()?.scaled(scale),
+                backgroundColor: .clear
+            )
         case .rounded(let cornerRadius):
-            return RoundCornerImageProcessor(cornerRadius: cornerRadius.scaled(scale))
+            return RoundCornerImageProcessor(
+                radius: .point(cornerRadius.scaled(scale)),
+                targetSize: size.reduce()?.scaled(scale),
+                backgroundColor: .clear
+            )
         }
     }
 }

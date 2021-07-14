@@ -7,46 +7,15 @@ extension Customizable where Self: UILabel {
     public func customizeAppearance(
         _ style: TextStyle
     ) {
-        style.forEach {
-            switch $0 {
-            case .backgroundColor(let backgroundColor):
-                customizeBaseAppearance(
-                    backgroundColor: backgroundColor
-                )
-            case .tintColor(let tintColor):
-                customizeBaseAppearance(
-                    tintColor: tintColor
-                )
-            case .isInteractable(let isInteractable):
-                customizeBaseAppearance(
-                    isInteractable: isInteractable
-                )
-            case .font(let font):
-                customizeBaseAppearance(
-                    font: font
-                )
-            case .adjustsFontForContentSizeCategory(let adjustsFontForContentSizeCategory):
-                customizeBaseAppearance(
-                    adjustsFontForContentSizeCategory: adjustsFontForContentSizeCategory
-                )
-            case .textAlignment(let textAlignment):
-                customizeBaseAppearance(
-                    textAlignment: textAlignment
-                )
-            case .textOverflow(let textOverflow):
-                customizeBaseAppearance(
-                    textOverflow: textOverflow
-                )
-            case .textColor(let textColor):
-                customizeBaseAppearance(
-                    textColor: textColor
-                )
-            case .content(let content):
-                customizeBaseAppearance(
-                    content: content
-                )
-            }
-        }
+        customizeBaseAppearance(font: style.font)
+        customizeBaseAppearance(adjustsFontForContentSizeCategory: style.adjustsFontForContentSizeCategory)
+        customizeBaseAppearance(textColor: style.textColor)
+        customizeBaseAppearance(textAlignment: style.textAlignment)
+        customizeBaseAppearance(textOverflow: style.textOverflow)
+        customizeBaseAppearance(text: style.text)
+        customizeBaseAppearance(backgroundColor: style.backgroundColor)
+        customizeBaseAppearance(tintColor: style.tintColor)
+        customizeBaseAppearance(isInteractable: style.isInteractable)
     }
 
     public func recustomizeAppearance(
@@ -65,7 +34,7 @@ extension Customizable where Self: UILabel {
             font: nil
         )
         customizeBaseAppearance(
-            adjustsFontForContentSizeCategory: false
+            adjustsFontForContentSizeCategory: nil
         )
         customizeBaseAppearance(
             textAlignment: nil
@@ -77,7 +46,7 @@ extension Customizable where Self: UILabel {
             textColor: nil
         )
         customizeBaseAppearance(
-            content: nil
+            text: nil
         )
     }
 }
@@ -91,9 +60,9 @@ extension Customizable where Self: UILabel {
     }
 
     public func customizeBaseAppearance(
-        adjustsFontForContentSizeCategory: Bool
+        adjustsFontForContentSizeCategory: Bool?
     ) {
-        self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory
+        self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory ?? false
     }
 
     public func customizeBaseAppearance(
@@ -137,9 +106,9 @@ extension Customizable where Self: UILabel {
     }
 
     public func customizeBaseAppearance(
-        content: Text?
+        text: Text?
     ) {
-        self.editText = content?.text
+        self.editText = text?.text
     }
 }
 
@@ -147,44 +116,14 @@ extension Customizable where Self: UITextField {
     public func customizeAppearance(
         _ style: TextStyle
     ) {
-        style.forEach {
-            switch $0 {
-            case .backgroundColor(let backgroundColor):
-                customizeBaseAppearance(
-                    backgroundColor: backgroundColor
-                )
-            case .tintColor(let tintColor):
-                customizeBaseAppearance(
-                    tintColor: tintColor
-                )
-            case .isInteractable(let isInteractable):
-                customizeBaseAppearance(
-                    isInteractable: isInteractable
-                )
-            case .font(let font):
-                customizeBaseAppearance(
-                    font: font
-                )
-            case .adjustsFontForContentSizeCategory(let adjustsFontForContentSizeCategory):
-                customizeBaseAppearance(
-                    adjustsFontForContentSizeCategory: adjustsFontForContentSizeCategory
-                )
-            case .textAlignment(let textAlignment):
-                customizeBaseAppearance(
-                    textAlignment: textAlignment
-                )
-            case .textOverflow:
-                break
-            case .textColor(let textColor):
-                customizeBaseAppearance(
-                    textColor: textColor
-                )
-            case .content(let content):
-                customizeBaseAppearance(
-                    content: content
-                )
-            }
-        }
+        customizeBaseAppearance(font: style.font)
+        customizeBaseAppearance(adjustsFontForContentSizeCategory: style.adjustsFontForContentSizeCategory)
+        customizeBaseAppearance(textColor: style.textColor)
+        customizeBaseAppearance(textAlignment: style.textAlignment)
+        customizeBaseAppearance(text: style.text)
+        customizeBaseAppearance(backgroundColor: style.backgroundColor)
+        customizeBaseAppearance(tintColor: style.tintColor)
+        customizeBaseAppearance(isInteractable: style.isInteractable)
     }
 
     public func recustomizeAppearance(
@@ -199,8 +138,8 @@ extension Customizable where Self: UITextField {
 
 extension Customizable where Self: UITextField {
     public func customizeBaseAppearance(
-        adjustsFontForContentSizeCategory: Bool
+        adjustsFontForContentSizeCategory: Bool?
     ) {
-        self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory
+        self.adjustsFontForContentSizeCategory = adjustsFontForContentSizeCategory ?? false
     }
 }

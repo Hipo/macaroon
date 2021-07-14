@@ -7,57 +7,14 @@ extension Customizable where Self: UINavigationBar {
     public func customizeAppearance(
         _ style: NavigationBarStyle
     ) {
-        /// <note>
-        /// Set `opaque` first so that it can't override the previous attributes for iOS 13 and
-        /// later.
-        let orderedStyle = style.sorted {
-            switch ($0, $1) {
-            case (.opaque, _): return true
-            case (_, .opaque): return true
-            default: return false
-            }
-        }
-
-        orderedStyle.forEach {
-            switch $0 {
-            case .backgroundColor(let backgroundColor):
-                customizeBarAppearance(
-                    backgroundColor: backgroundColor
-                )
-            case .tintColor(let tintColor):
-                customizeBarAppearance(
-                    tintColor: tintColor
-                )
-            case .isInteractable(let isInteractable):
-                customizeBaseAppearance(
-                    isInteractable: isInteractable
-                )
-            case .opaque:
-                customizeBarAppearance(
-                    opaque: true
-                )
-            case .backgroundImage(let backgroundImage):
-                customizeBarAppearance(
-                    backgroundImage: backgroundImage
-                )
-            case .shadowImage(let shadowImage):
-                customizeBarAppearance(
-                    shadowImage: shadowImage
-                )
-            case .shadowColor(let shadowColor):
-                customizeBarAppearance(
-                    shadowColor: shadowColor
-                )
-            case .titleAttributes(let titleAttributes):
-                customizeBarAppearance(
-                    titleAttributes: titleAttributes
-                )
-            case .largeTitleAttributes(let largeTitleAttributes):
-                customizeBarAppearance(
-                    largeTitleAttributes: largeTitleAttributes
-                )
-            }
-        }
+        customizeBarAppearance(opaque: style.isOpaque)
+        customizeBarAppearance(titleAttributes: style.titleAttributes)
+        customizeBarAppearance(largeTitleAttributes: style.largeTitleAttributes)
+        customizeBarAppearance(shadowImage: style.shadowImage)
+        customizeBarAppearance(shadowColor: style.shadowColor)
+        customizeBarAppearance(backgroundImage: style.backgroundImage)
+        customizeBaseAppearance(backgroundColor: style.backgroundColor)
+        customizeBarAppearance(tintColor: style.tintColor)
     }
 
     public func recustomizeAppearance(
@@ -120,9 +77,11 @@ extension Customizable where Self: UINavigationBar {
     }
 
     public func customizeBarAppearance(
-        opaque: Bool
+        opaque: Bool?
     ) {
-        self.isTranslucent = !opaque
+        let isOpaque = opaque ?? false
+
+        self.isTranslucent = !isOpaque
 
         if #available(iOS 13, *) {
             let appearance = UINavigationBarAppearance()

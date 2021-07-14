@@ -7,42 +7,14 @@ extension Customizable where Self: UIButton {
     public func customizeAppearance(
         _ style: ButtonStyle
     ) {
-        style.forEach {
-            switch $0 {
-            case .backgroundColor(let backgroundColor):
-                customizeBaseAppearance(
-                    backgroundColor: backgroundColor
-                )
-            case .tintColor(let tintColor):
-                customizeBaseAppearance(
-                    tintColor: tintColor
-                )
-            case .isInteractable(let isInteractable):
-                customizeBaseAppearance(
-                    isInteractable: isInteractable
-                )
-            case .backgroundImage(let backgroundImage):
-                customizeBaseAppearance(
-                    backgroundImage: backgroundImage
-                )
-            case .icon(let icon):
-                customizeBaseAppearance(
-                    icon: icon
-                )
-            case .font(let font):
-                customizeBaseAppearance(
-                    font: font
-                )
-            case .titleColor(let titleColor):
-                customizeBaseAppearance(
-                    titleColor: titleColor
-                )
-            case .title(let title):
-                customizeBaseAppearance(
-                    title: title
-                )
-            }
-        }
+        customizeBaseAppearance(font: style.font)
+        customizeBaseAppearance(titleColor: style.titleColor)
+        customizeBaseAppearance(title: style.title)
+        customizeBaseAppearance(icon: style.icon)
+        customizeBaseAppearance(backgroundImage: style.icon)
+        customizeBaseAppearance(backgroundColor: style.backgroundColor)
+        customizeBaseAppearance(tintColor: style.tintColor)
+        customizeBaseAppearance(isInteractable: style.isInteractable)
     }
 
     public func recustomizeAppearance(
