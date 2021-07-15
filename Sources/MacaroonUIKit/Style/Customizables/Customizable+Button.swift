@@ -11,7 +11,7 @@ extension Customizable where Self: UIButton {
         customizeBaseAppearance(titleColor: style.titleColor)
         customizeBaseAppearance(title: style.title)
         customizeBaseAppearance(icon: style.icon)
-        customizeBaseAppearance(backgroundImage: style.icon)
+        customizeBaseAppearance(backgroundImage: style.backgroundImage)
         customizeBaseAppearance(backgroundColor: style.backgroundColor)
         customizeBaseAppearance(tintColor: style.tintColor)
         customizeBaseAppearance(isInteractable: style.isInteractable)
