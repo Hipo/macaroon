@@ -16,7 +16,7 @@ open class LoadingButton: Button {
     }
 
     private var cachedTitle: TextSet?
-    private var cachedIcon: ImageSet?
+    private var cachedIcon: ImageGroup = []
 
     private let loadingIndicator: LoadingIndicator
 
@@ -130,22 +130,24 @@ extension LoadingButton {
     }
 
     private func saveIcons() {
-        let someNormalImage =
-            image(
-                for: .normal
-            )
+        var cachedIcon: ImageGroup = []
 
-        guard let normalImage = someNormalImage else {
-            cachedIcon = nil
-            return
+        if let normalImage = image(for: .normal) {
+            cachedIcon.insert(.normal(normalImage))
         }
 
-        cachedIcon =
-            ImageSet(
-                normalImage,
-                highlighted: image(for: .highlighted),
-                selected: image(for: .selected),
-                disabled: image(for: .disabled)
-            )
+        if let highlightedImage = image(for: .highlighted) {
+            cachedIcon.insert(.highlighted(highlightedImage))
+        }
+
+        if let selectedImage = image(for: .selected) {
+            cachedIcon.insert(.highlighted(selectedImage))
+        }
+
+        if let disabledImage = image(for: .disabled) {
+            cachedIcon.insert(.disabled(disabledImage))
+        }
+
+        self.cachedIcon = cachedIcon
     }
 }

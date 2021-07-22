@@ -4,143 +4,113 @@ import Foundation
 import UIKit
 
 public protocol Font {
-    var font: UIFont { get }
-    var highlighted: UIFont? { get }
-    var selected: UIFont? { get }
-    var disabled: UIFont? { get }
-
-    var adjustsFontForContentSizeCategory: Bool { get }
-}
-
-extension Font {
-    public var highlighted: UIFont? {
-        return nil
-    }
-    public var selected: UIFont? {
-        return nil
-    }
-    public var disabled: UIFont? {
-        return nil
-    }
-
-    public var adjustsFontForContentSizeCategory: Bool {
-        return true
-    }
+    var uiFont: UIFont { get }
 }
 
 extension UIFont: Font {
-    public var font: UIFont {
+    public var uiFont: UIFont {
         return self
-    }
-}
-
-public struct CustomFont: Font {
-    public var font: UIFont {
-        return preferred
-    }
-
-    public let preferred: UIFont
-    public let adjustsFontForContentSizeCategory: Bool
-
-    public init(
-        name: String,
-        size: Size,
-        textStyle: UIFont.TextStyle? = nil,
-        adjustsFontForContentSizeCategory: Bool? = nil
-    ) {
-        let font =
-            UIFont(name: name, size: size.preferred) ??
-            UIFont.systemFont(ofSize: size.preferred)
-
-        if let textStyle = textStyle {
-            let metrics = UIFontMetrics(forTextStyle: textStyle)
-
-            switch size {
-            case .constant:
-                self.preferred =
-                    metrics.scaledFont(
-                        for: font
-                    )
-            case .scaled(_, let maxSize):
-                self.preferred =
-                    metrics.scaledFont(
-                        for: font,
-                        maximumPointSize: maxSize
-                    )
-            }
-        } else {
-            self.preferred = font
-        }
-
-        self.adjustsFontForContentSizeCategory =
-            adjustsFontForContentSizeCategory ?? (textStyle != nil)
-    }
-}
-
-extension CustomFont {
-    public enum Size: ExpressibleByFloatLiteral, ExpressibleByIntegerLiteral {
-        case constant(CGFloat)
-        case scaled(actual: CGFloat, max: CGFloat)
-
-        public var preferred: CGFloat {
-            switch self {
-            case .constant(let preferredSize): return preferredSize
-            case .scaled(let actualSize, _): return actualSize
-            }
-        }
-
-        public init(floatLiteral value: FloatLiteralType) {
-            self = .constant(CGFloat(value))
-        }
-
-        public init(integerLiteral value: Int) {
-            self = .constant(CGFloat(value))
-        }
-    }
-}
-
-public struct FontSet: Font {
-    public let font: UIFont
-    public let highlighted: UIFont?
-    public let selected: UIFont?
-    public let disabled: UIFont?
-    public let adjustsFontForContentSizeCategory: Bool
-
-    public init(
-        _ font: UIFont,
-        highlighted: UIFont? = nil,
-        selected: UIFont? = nil,
-        disabled: UIFont? = nil
-    ) {
-        self.font = font
-        self.highlighted = highlighted
-        self.selected = selected
-        self.disabled = disabled
-        self.adjustsFontForContentSizeCategory = true
-    }
-
-    public init(
-        _ font: CustomFont,
-        highlighted: CustomFont? = nil,
-        selected: CustomFont? = nil,
-        disabled: CustomFont? = nil
-    ) {
-        self.font = font.preferred
-        self.highlighted = highlighted?.preferred
-        self.selected = selected?.preferred
-        self.disabled = disabled?.preferred
-        self.adjustsFontForContentSizeCategory = font.adjustsFontForContentSizeCategory
     }
 }
 
 extension UIFont {
     public static func logAll() {
-        UIFont.familyNames.forEach { family in
-            UIFont.fontNames(
-                forFamilyName: family
-            ).forEach {
-                print($0)
+        UIFont.familyNames.forEach {
+            family in
+
+            UIFont.fontNames(forFamilyName: family).forEach {
+                font in
+
+                print(font)
             }
         }
+    }
+}
+
+public protocol FontSize {
+    var preferredFontSize: CGFloat { get }
+    var maxFontSize: CGFloat? { get }
+}
+
+extension FontSize {
+    public static func clamped(
+        preferred: CGFloat,
+        max: CGFloat
+    ) -> ClampedFontSize {
+        return ClampedFontSize(preferred: preferred, max: max)
+    }
+}
+
+extension CGFloat: FontSize {
+    public var preferredFontSize: CGFloat {
+        return self
+    }
+    public var maxFontSize: CGFloat? {
+        return nil
+    }
+}
+
+extension Double: FontSize {
+    public var preferredFontSize: CGFloat {
+        return cgFloat
+    }
+    public var maxFontSize: CGFloat? {
+        return nil
+    }
+}
+
+extension Int: FontSize {
+    public var preferredFontSize: CGFloat {
+        return cgFloat
+    }
+    public var maxFontSize: CGFloat? {
+        return nil
+    }
+}
+
+public struct ClampedFontSize: FontSize {
+    public let preferredFontSize: CGFloat
+    public let maxFontSize: CGFloat?
+
+    public init(
+        preferred: CGFloat,
+        max: CGFloat
+    ) {
+        self.preferredFontSize = preferred
+        self.maxFontSize = max
+    }
+}
+
+public struct CustomFont: Font {
+    public typealias Style = UIFont.TextStyle
+
+    public let uiFont: UIFont
+
+    public init(
+        name: String,
+        size: FontSize,
+        style: Style? = nil
+    ) {
+        let font =
+            UIFont(name: name, size: size.preferredFontSize) ??
+            UIFont.systemFont(ofSize: size.preferredFontSize)
+
+        guard let style = style else {
+            self.uiFont = font
+            return
+        }
+
+        let metrics = UIFontMetrics(forTextStyle: style)
+
+        guard let maxFontSize = size.maxFontSize else {
+            self.uiFont = font
+            return
+        }
+
+        self.uiFont =
+            metrics.scaledFont(
+                for: font,
+                maximumPointSize: maxFontSize
+            )
     }
 }

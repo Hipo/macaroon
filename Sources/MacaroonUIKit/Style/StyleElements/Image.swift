@@ -5,70 +5,149 @@ import MacaroonResources
 import MacaroonUtils
 import UIKit
 
-public protocol ImageProvider {
-}
-
 public protocol Image {
-    var image: UIImage { get }
-    var highlighted: UIImage? { get }
-    var selected: UIImage? { get }
-    var disabled: UIImage? { get }
+    var uiImage: UIImage { get }
 }
 
 extension Image {
-    public var highlighted: UIImage? {
-        return nil
-    }
-    public var selected: UIImage? {
-        return nil
-    }
-    public var disabled: UIImage? {
-        return nil
+    public var templateImage: UIImage {
+        return uiImage.template
     }
 }
 
-extension Image {
-    public var original: UIImage {
-        return image.original
-    }
-    public var template: UIImage {
-        return image.template
+extension Image
+where
+    Self: RawRepresentable,
+    Self.RawValue == String {
+    public var uiImage: UIImage {
+        return rawValue.uiImage
     }
 }
 
 extension UIImage: Image {
-    public var image: UIImage {
+    public var uiImage: UIImage {
         return self
     }
 }
 
 extension String: Image {
-    public var image: UIImage {
+    public var uiImage: UIImage {
         return img(self)
     }
 }
 
-extension RawRepresentable where RawValue == String {
-    public var image: UIImage {
-        return rawValue.image
+public protocol StateImage:
+    Image,
+    Hashable {
+    typealias State = UIControl.State
+
+    var state: State { get }
+}
+
+extension StateImage {
+    public func hash(
+        into hasher: inout Hasher
+    ) {
+        hasher.combine(state.rawValue)
     }
 }
 
-public struct ImageSet: Image {
-    public let image: UIImage
-    public let highlighted: UIImage?
-    public let selected: UIImage?
-    public let disabled: UIImage?
+public struct AnyStateImage: StateImage {
+    public let uiImage: UIImage
+    public let state: State
+
+    public init<T: StateImage>(
+        _ base: T
+    ) {
+        self.uiImage = base.uiImage
+        self.state = base.state
+    }
+}
+
+extension AnyStateImage {
+    public static func normal(
+        _ image: Image
+    ) -> AnyStateImage {
+        return AnyStateImage(
+            NormalImage(image: image)
+        )
+    }
+
+    public static func highlighted(
+        _ image: Image
+    ) -> AnyStateImage {
+        return AnyStateImage(
+            HighlightedImage(image: image)
+        )
+    }
+
+    public static func selected(
+        _ image: Image
+    ) -> AnyStateImage {
+        return AnyStateImage(
+            SelectedImage(image: image)
+        )
+    }
+
+    public static func disabled(
+        _ image: Image
+    ) -> AnyStateImage {
+        return AnyStateImage(
+            DisabledImage(image: image)
+        )
+    }
+}
+
+public struct NormalImage: StateImage {
+    public let uiImage: UIImage
+    public var state: State = .normal
 
     public init(
-        _ image: Image,
-        highlighted: Image? = nil,
-        selected: Image? = nil,
-        disabled: Image? = nil
+        image: Image
     ) {
-        self.image = image.image
-        self.highlighted = highlighted?.image
-        self.selected = selected?.image
-        self.disabled = disabled?.image
+        self.uiImage = image.uiImage
+    }
+}
+
+public struct HighlightedImage: StateImage {
+    public let uiImage: UIImage
+    public var state: State = .highlighted
+
+    public init(
+        image: Image
+    ) {
+        self.uiImage = image.uiImage
+    }
+}
+
+public struct SelectedImage: StateImage {
+    public let uiImage: UIImage
+    public var state: State = .selected
+
+    public init(
+        image: Image
+    ) {
+        self.uiImage = image.uiImage
+    }
+}
+
+public struct DisabledImage: StateImage {
+    public let uiImage: UIImage
+    public var state: State = .disabled
+
+    public init(
+        image: Image
+    ) {
+        self.uiImage = image.uiImage
+    }
+}
+
+public typealias ImageGroup = Set<AnyStateImage>
+
+extension ImageGroup {
+    public subscript (
+        state: AnyStateImage.State
+    ) -> UIImage? {
+        return first { $0.state == state }?.uiImage
     }
 }

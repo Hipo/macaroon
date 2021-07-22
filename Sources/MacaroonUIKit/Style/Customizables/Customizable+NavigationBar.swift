@@ -62,18 +62,18 @@ extension Customizable where Self: UINavigationBar {
     ) {
         if #available(iOS 13, *) {
             customizeBarAppearance(
-                backgroundColor?.color,
+                backgroundColor?.uiColor,
                 \.backgroundColor
             )
         } else {
-            self.barTintColor = backgroundColor?.color
+            self.barTintColor = backgroundColor?.uiColor
         }
     }
 
     public func customizeBarAppearance(
         tintColor: Color?
     ) {
-        self.tintColor = tintColor?.color
+        self.tintColor = tintColor?.uiColor
     }
 
     public func customizeBarAppearance(
@@ -98,12 +98,12 @@ extension Customizable where Self: UINavigationBar {
     ) {
         if #available(iOS 13, *) {
             customizeBarAppearance(
-                backgroundImage?.image,
+                backgroundImage?.uiImage,
                 \.backgroundImage
             )
         } else {
             self.setBackgroundImage(
-                backgroundImage?.image,
+                backgroundImage?.uiImage,
                 for: .default
             )
         }
@@ -114,11 +114,11 @@ extension Customizable where Self: UINavigationBar {
     ) {
         if #available(iOS 13, *) {
             customizeBarAppearance(
-                shadowImage?.image,
+                shadowImage?.uiImage,
                 \.shadowImage
             )
         } else {
-            self.shadowImage = shadowImage?.image
+            self.shadowImage = shadowImage?.uiImage
         }
     }
 
@@ -127,7 +127,7 @@ extension Customizable where Self: UINavigationBar {
     ) {
         if #available(iOS 13, *) {
             customizeBarAppearance(
-                shadowColor?.color,
+                shadowColor?.uiColor,
                 \.shadowColor
             )
         }

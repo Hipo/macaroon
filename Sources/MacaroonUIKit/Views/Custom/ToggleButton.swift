@@ -5,7 +5,7 @@ import SnapKit
 import UIKit
 
 open class ToggleButton: BaseControl {
-    open var indicator: ImageSet? {
+    open var indicator: ImageGroup? {
         didSet { recustomizeAppearanceWhenStateDidChange() }
     }
 
@@ -24,9 +24,9 @@ open class ToggleButton: BaseControl {
         for state: UIControl.State
     ) {
         switch state {
-        case .selected: imageView.image = indicator?.selected
-        case .disabled: imageView.image = indicator?.disabled ?? indicator?.image
-        default: imageView.image = indicator?.image
+        case .selected: imageView.image = indicator?[.selected]
+        case .disabled: imageView.image = indicator?[.disabled] ?? indicator?[.normal]
+        default: imageView.image = indicator?[.normal]
         }
     }
 }

@@ -64,10 +64,3 @@ public struct TextSet: Text {
         self.disabled = disabled?.text
     }
 }
-
-public enum TextOverflow {
-    case singleLine(NSLineBreakMode = .byTruncatingTail) /// <note> Single line.
-    case singleLineFitting /// <note> Single line by adjusting font size to fit.
-    case multiline(Int, NSLineBreakMode = .byTruncatingTail) /// <note> Certain number of lines.
-    case fitting /// <note> Bounding text.
-}

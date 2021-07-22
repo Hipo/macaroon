@@ -49,84 +49,63 @@ extension Customizable where Self: UIButton {
 
 extension Customizable where Self: UIButton {
     public func customizeBaseAppearance(
-        backgroundImage: Image?
+        backgroundImage: ImageGroup?
     ) {
-        setBackgroundImage(
-            backgroundImage?.image,
-            for: .normal
-        )
-        setBackgroundImage(
-            backgroundImage?.highlighted,
-            for: .highlighted
-        )
-        setBackgroundImage(
-            backgroundImage?.selected,
-            for: .selected
-        )
-        setBackgroundImage(
-            backgroundImage?.selected,
-            for: [.selected, .highlighted]
-        )
-        setBackgroundImage(
-            backgroundImage?.disabled,
-            for: .disabled
-        )
+        backgroundImage?.forEach {
+            setBackgroundImage(
+                $0.uiImage,
+                for: $0.state
+            )
+
+            if $0.state == .selected {
+                setBackgroundImage(
+                    $0.uiImage,
+                    for: [.selected, .highlighted]
+                )
+            }
+        }
     }
 
     public func customizeBaseAppearance(
-        icon: Image?
+        icon: ImageGroup?
     ) {
-        setImage(
-            icon?.image,
-            for: .normal
-        )
-        setImage(
-            icon?.highlighted,
-            for: .highlighted
-        )
-        setImage(
-            icon?.selected,
-            for: .selected
-        )
-        setImage(
-            icon?.selected,
-            for: [.selected, .highlighted]
-        )
-        setImage(
-            icon?.disabled,
-            for: .disabled
-        )
+        icon?.forEach {
+            setImage(
+                $0.uiImage,
+                for: $0.state
+            )
+
+            if $0.state == .selected {
+                setImage(
+                    $0.uiImage,
+                    for: [.selected, .highlighted]
+                )
+            }
+        }
     }
 
     public func customizeBaseAppearance(
         font: Font?
     ) {
-        titleLabel?.font = font?.font
+        titleLabel?.font = font?.uiFont
     }
 
     public func customizeBaseAppearance(
-        titleColor: Color?
+        titleColor: ColorGroup?
     ) {
-        setTitleColor(
-            titleColor?.color,
-            for: .normal
-        )
-        setTitleColor(
-            titleColor?.highlighted,
-            for: .highlighted
-        )
-        setTitleColor(
-            titleColor?.selected,
-            for: .selected
-        )
-        setTitleColor(
-            titleColor?.selected,
-            for: [.selected, .highlighted]
-        )
-        setTitleColor(
-            titleColor?.disabled,
-            for: .disabled
-        )
+        titleColor?.forEach {
+            setTitleColor(
+                $0.uiColor,
+                for: $0.state
+            )
+
+            if $0.state == .selected {
+                setTitleColor(
+                    $0.uiColor,
+                    for: [.selected, .highlighted]
+                )
+            }
+        }
     }
 
     public func customizeBaseAppearance(

@@ -17,6 +17,7 @@ public struct TextInputStyle: BaseStyle {
     public var autocapitalizationType: UITextAutocapitalizationType?
     public var autocorrectionType: UITextAutocorrectionType?
     public var backgroundImage: Image?
+    public var disabledBackgroundImage: Image?
     public var backgroundColor: Color?
     public var tintColor: Color?
     public var isInteractable: Bool?
@@ -39,6 +40,7 @@ public struct TextInputStyle: BaseStyle {
             case .autocapitalizationType(let autocapitalizationType): self.autocapitalizationType = autocapitalizationType
             case .autocorrectionType(let autocorrectionType): self.autocorrectionType = autocorrectionType
             case .backgroundImage(let backgroundImage): self.backgroundImage = backgroundImage
+            case .disabledBackgroundImage(let disabledBackgroundImage): self.disabledBackgroundImage = disabledBackgroundImage
             case .backgroundColor(let backgroundColor): self.backgroundColor = backgroundColor
             case .tintColor(let tintColor): self.tintColor = tintColor
             case .isInteractable(let interactable): self.isInteractable = interactable
@@ -65,6 +67,7 @@ extension TextInputStyle {
         modifiedStyle.autocapitalizationType = modifiers.last(existing: \.autocapitalizationType) ?? autocapitalizationType
         modifiedStyle.autocorrectionType = modifiers.last(existing: \.autocorrectionType) ?? autocorrectionType
         modifiedStyle.backgroundImage = modifiers.last(existing: \.backgroundImage) ?? backgroundImage
+        modifiedStyle.disabledBackgroundImage = modifiers.last(existing: \.disabledBackgroundImage) ?? disabledBackgroundImage
         modifiedStyle.backgroundColor = modifiers.last(existing: \.backgroundColor) ?? backgroundColor
         modifiedStyle.tintColor = modifiers.last(existing: \.tintColor) ?? tintColor
         modifiedStyle.isInteractable = modifiers.last(existing: \.isInteractable) ?? isInteractable
@@ -87,6 +90,7 @@ extension TextInputStyle {
         case autocapitalizationType(UITextAutocapitalizationType)
         case autocorrectionType(UITextAutocorrectionType)
         case backgroundImage(Image)
+        case disabledBackgroundImage(Image)
         case backgroundColor(Color)
         case tintColor(Color)
         case isInteractable(Bool)

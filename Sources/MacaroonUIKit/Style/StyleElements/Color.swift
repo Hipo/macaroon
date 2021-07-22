@@ -5,57 +5,142 @@ import MacaroonResources
 import UIKit
 
 public protocol Color {
-    var color: UIColor { get }
-    var highlighted: UIColor? { get }
-    var selected: UIColor? { get }
-    var disabled: UIColor? { get }
+    var uiColor: UIColor { get }
 }
 
-extension Color {
-    public var highlighted: UIColor? {
-        return nil
-    }
-    public var selected: UIColor? {
-        return nil
-    }
-    public var disabled: UIColor? {
-        return nil
+extension Color
+where
+    Self: RawRepresentable,
+    Self.RawValue == String {
+    public var uiColor: UIColor {
+        return rawValue.uiColor
     }
 }
 
 extension UIColor: Color {
-    public var color: UIColor {
+    public var uiColor: UIColor {
         return self
     }
 }
 
 extension String: Color {
-    public var color: UIColor {
+    public var uiColor: UIColor {
         return col(self)
     }
 }
 
-extension RawRepresentable where RawValue == String {
-    public var color: UIColor {
-        return rawValue.color
+public protocol StateColor:
+    Color,
+    Hashable {
+    typealias State = UIControl.State
+
+    var state: State { get }
+}
+
+extension StateColor {
+    public func hash(
+        into hasher: inout Hasher
+    ) {
+        hasher.combine(state.rawValue)
     }
 }
 
-public struct ColorSet: Color {
-    public let color: UIColor
-    public let highlighted: UIColor?
-    public let selected: UIColor?
-    public let disabled: UIColor?
+public struct AnyStateColor: StateColor {
+    public let uiColor: UIColor
+    public let state: State
+
+    public init<T: StateColor>(
+        _ base: T
+    ) {
+        self.uiColor = base.uiColor
+        self.state = base.state
+    }
+}
+
+extension AnyStateColor {
+    public static func normal(
+        _ color: Color
+    ) -> AnyStateColor {
+        return AnyStateColor(
+            NormalColor(color: color)
+        )
+    }
+
+    public static func highlighted(
+        _ color: Color
+    ) -> AnyStateColor {
+        return AnyStateColor(
+            HighlightedColor(color: color)
+        )
+    }
+
+    public static func selected(
+        _ color: Color
+    ) -> AnyStateColor {
+        return AnyStateColor(
+            SelectedColor(color: color)
+        )
+    }
+
+    public static func disabled(
+        _ color: Color
+    ) -> AnyStateColor {
+        return AnyStateColor(
+            DisabledColor(color: color)
+        )
+    }
+}
+
+public struct NormalColor: StateColor {
+    public let uiColor: UIColor
+    public var state: State = .normal
 
     public init(
-        _ color: Color,
-        highlighted: Color? = nil,
-        selected: Color? = nil,
-        disabled: Color? = nil
+        color: Color
     ) {
-        self.color = color.color
-        self.highlighted = highlighted?.color
-        self.selected = selected?.color
-        self.disabled = disabled?.color
+        self.uiColor = color.uiColor
+    }
+}
+
+public struct HighlightedColor: StateColor {
+    public let uiColor: UIColor
+    public var state: State = .highlighted
+
+    public init(
+        color: Color
+    ) {
+        self.uiColor = color.uiColor
+    }
+}
+
+public struct SelectedColor: StateColor {
+    public let uiColor: UIColor
+    public var state: State = .selected
+
+    public init(
+        color: Color
+    ) {
+        self.uiColor = color.uiColor
+    }
+}
+
+public struct DisabledColor: StateColor {
+    public let uiColor: UIColor
+    public var state: State = .disabled
+
+    public init(
+        color: Color
+    ) {
+        self.uiColor = color.uiColor
+    }
+}
+
+public typealias ColorGroup = Set<AnyStateColor>
+
+extension ColorGroup {
+    public subscript (
+        state: AnyStateImage.State
+    ) -> UIColor? {
+        return first { $0.state == state }?.uiColor
     }
 }

@@ -83,15 +83,19 @@ extension Customizable where Self: UITextField {
     public func customizeBaseAppearance(
         backgroundImage: Image?
     ) {
-        background = backgroundImage?.image
-        disabledBackground = backgroundImage?.disabled
+        background = backgroundImage?.uiImage
+    }
+
+    public func customizeBaseAppearance(
+        disabledBackgroundImage: Image?
+    ) {
+        disabledBackground = disabledBackgroundImage?.uiImage
     }
 
     public func customizeBaseAppearance(
         font: Font?
     ) {
-        self.font = font?.font
-        self.adjustsFontForContentSizeCategory = font?.adjustsFontForContentSizeCategory ?? true
+        self.font = font?.uiFont
     }
 
     public func customizeBaseAppearance(
@@ -103,7 +107,7 @@ extension Customizable where Self: UITextField {
     public func customizeBaseAppearance(
         textColor: Color?
     ) {
-        self.textColor = textColor?.color ?? .black
+        self.textColor = textColor?.uiColor ?? .black
     }
 
     public func customizeBaseAppearance(
@@ -128,7 +132,7 @@ extension Customizable where Self: UITextField {
             if let placeholderColor = placeholderColor {
                 self.attributedPlaceholder =
                     string?.attributed(
-                        .textColor(placeholderColor.color)
+                        .textColor(placeholderColor.uiColor)
                     )
             } else {
                 self.placeholder = string
@@ -139,7 +143,7 @@ extension Customizable where Self: UITextField {
                     NSMutableAttributedString(attributedString: attributedString)
                 mAttributedString.addAttribute(
                     .foregroundColor,
-                    value: placeholderColor.color,
+                    value: placeholderColor.uiColor,
                     range: NSRange(location: 0, length: attributedString.length)
                 )
 
@@ -251,8 +255,7 @@ extension Customizable where Self: UITextView {
     public func customizeBaseAppearance(
         font: Font?
     ) {
-        self.font = font?.font
-        self.adjustsFontForContentSizeCategory = font?.adjustsFontForContentSizeCategory ?? true
+        self.font = font?.uiFont
     }
 
     public func customizeBaseAppearance(
@@ -264,7 +267,7 @@ extension Customizable where Self: UITextView {
     public func customizeBaseAppearance(
         textColor: Color?
     ) {
-        self.textColor = textColor?.color ?? .black
+        self.textColor = textColor?.uiColor ?? .black
     }
 
     public func customizeBaseAppearance(

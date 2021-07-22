@@ -55,6 +55,6 @@ extension Customizable where Self: UIImageView {
     public func customizeBaseAppearance(
         image: Image?
     ) {
-        self.image = image?.image
+        self.image = image?.uiImage
     }
 }

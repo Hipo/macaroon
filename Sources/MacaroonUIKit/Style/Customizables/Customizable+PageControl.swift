@@ -8,6 +8,7 @@ extension Customizable where Self: UIPageControl {
         _ style: PageControlStyle
     ) {
         customizeBaseAppearance(indicatorColor: style.indicatorColor)
+        customizeBaseAppearance(selectedIndicatorColor: style.selectedIndicatorColor)
         customizeBaseAppearance(indicatorImage: style.indicatorImage)
         customizeBaseAppearance(backgroundColor: style.backgroundColor)
         customizeBaseAppearance(tintColor: style.tintColor)
@@ -33,6 +34,9 @@ extension Customizable where Self: UIPageControl {
             indicatorColor: nil
         )
         customizeBaseAppearance(
+            selectedIndicatorColor: nil
+        )
+        customizeBaseAppearance(
             indicatorImage: nil
         )
 
@@ -45,15 +49,20 @@ extension Customizable where Self: UIPageControl {
     public func customizeBaseAppearance(
         indicatorColor: Color?
     ) {
-        pageIndicatorTintColor = indicatorColor?.color
-        currentPageIndicatorTintColor = indicatorColor?.selected ?? indicatorColor?.highlighted
+        pageIndicatorTintColor = indicatorColor?.uiColor
+    }
+
+    public func customizeBaseAppearance(
+        selectedIndicatorColor: Color?
+    ) {
+        currentPageIndicatorTintColor = selectedIndicatorColor?.uiColor
     }
 
     public func customizeBaseAppearance(
         indicatorImage: Image?
     ) {
         if #available(iOS 14, *) {
-            preferredIndicatorImage = indicatorImage?.image
+            preferredIndicatorImage = indicatorImage?.uiImage
         }
     }
 }

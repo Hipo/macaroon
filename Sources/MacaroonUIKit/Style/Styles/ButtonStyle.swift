@@ -5,10 +5,10 @@ import UIKit
 
 public struct ButtonStyle: BaseStyle {
     public var font: Font?
-    public var titleColor: Color?
+    public var titleColor: ColorGroup?
     public var title: Text?
-    public var icon: Image?
-    public var backgroundImage: Image?
+    public var icon: ImageGroup?
+    public var backgroundImage: ImageGroup?
     public var backgroundColor: Color?
     public var tintColor: Color?
     public var isInteractable: Bool?
@@ -51,10 +51,10 @@ extension ButtonStyle {
 extension ButtonStyle {
     public enum Attribute: BaseStyleAttribute {
         case font(Font)
-        case titleColor(Color)
+        case titleColor(ColorGroup)
         case title(Text)
-        case icon(Image)
-        case backgroundImage(Image)
+        case icon(ImageGroup)
+        case backgroundImage(ImageGroup)
         case backgroundColor(Color)
         case tintColor(Color)
         case isInteractable(Bool)

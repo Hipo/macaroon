@@ -14,7 +14,7 @@ public struct Separator {
         size: CGFloat = 1,
         position: Position = .bottom((0, 0))
     ) {
-        self.color = color.color
+        self.color = color.uiColor
         self.size = size
         self.position = position
     }

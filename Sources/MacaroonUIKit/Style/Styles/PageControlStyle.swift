@@ -5,6 +5,7 @@ import UIKit
 
 public struct PageControlStyle: BaseStyle {
     public var indicatorColor: Color?
+    public var selectedIndicatorColor: Color?
     public var indicatorImage: Image?
     public var backgroundColor: Color?
     public var tintColor: Color?
@@ -16,6 +17,7 @@ public struct PageControlStyle: BaseStyle {
         attributes.forEach {
             switch $0 {
             case .indicatorColor(let indicatorColor): self.indicatorColor = indicatorColor
+            case .selectedIndicatorColor(let selectedIndicatorColor): self.selectedIndicatorColor = selectedIndicatorColor
             case .indicatorImage(let indicatorImage): self.indicatorImage = indicatorImage
             case .backgroundColor(let backgroundColor): self.backgroundColor = backgroundColor
             case .tintColor(let tintColor): self.tintColor = tintColor
@@ -31,6 +33,7 @@ extension PageControlStyle {
     ) -> PageControlStyle {
         var modifiedStyle = PageControlStyle()
         modifiedStyle.indicatorColor = modifiers.last(existing: \.indicatorColor) ?? indicatorColor
+        modifiedStyle.selectedIndicatorColor = modifiers.last(existing: \.selectedIndicatorColor) ?? selectedIndicatorColor
         modifiedStyle.indicatorImage = modifiers.last(existing: \.indicatorImage) ?? indicatorImage
         modifiedStyle.backgroundColor = modifiers.last(existing: \.backgroundColor) ?? backgroundColor
         modifiedStyle.tintColor = modifiers.last(existing: \.tintColor) ?? tintColor
@@ -42,6 +45,7 @@ extension PageControlStyle {
 extension PageControlStyle {
     public enum Attribute: BaseStyleAttribute {
         case indicatorColor(Color)
+        case selectedIndicatorColor(Color)
 
         /// <warning>
         /// It has no effect below iOS 14.

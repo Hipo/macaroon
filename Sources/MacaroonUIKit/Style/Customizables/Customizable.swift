@@ -17,13 +17,13 @@ extension Customizable {
     public func customizeBaseAppearance(
         backgroundColor: Color?
     ) {
-        self.backgroundColor = backgroundColor?.color ?? .clear
+        self.backgroundColor = backgroundColor?.uiColor ?? .clear
     }
 
     public func customizeBaseAppearance(
         tintColor: Color?
     ) {
-        self.tintColor = tintColor?.color
+        self.tintColor = tintColor?.uiColor
     }
 
     public func customizeBaseAppearance(

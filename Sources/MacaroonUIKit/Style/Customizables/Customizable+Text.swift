@@ -55,8 +55,7 @@ extension Customizable where Self: UILabel {
     public func customizeBaseAppearance(
         font: Font?
     ) {
-        self.font = font?.font
-        self.adjustsFontForContentSizeCategory = font?.adjustsFontForContentSizeCategory ?? false
+        self.font = font?.uiFont
     }
 
     public func customizeBaseAppearance(
@@ -74,35 +73,16 @@ extension Customizable where Self: UILabel {
     public func customizeBaseAppearance(
         textOverflow: TextOverflow?
     ) {
-        guard let textOverflow = textOverflow else {
-            customizeBaseAppearance(
-                textOverflow: .singleLine()
-            )
-            return
-        }
-
-        switch textOverflow {
-        case .singleLine(let lineBreakMode):
-            self.numberOfLines = 1
-            self.lineBreakMode = lineBreakMode
-        case .singleLineFitting:
-            self.numberOfLines = 1
-            self.lineBreakMode = .byTruncatingTail
-            self.adjustsFontSizeToFitWidth = true
-            self.minimumScaleFactor = 0.5
-        case .multiline(let maxNumberOfLines, let lineBreakMode):
-            self.numberOfLines = maxNumberOfLines
-            self.lineBreakMode = lineBreakMode
-        case .fitting:
-            self.numberOfLines = 0
-            self.lineBreakMode = .byWordWrapping
-        }
+        self.numberOfLines = textOverflow?.numberOfLines ?? 1
+        self.lineBreakMode = textOverflow?.lineBreakMode ?? .byTruncatingTail
+        self.adjustsFontSizeToFitWidth = textOverflow?.adjustFontSizeToFitWidth ?? false
+        self.minimumScaleFactor = textOverflow?.minimumScaleFactor ?? 0
     }
 
     public func customizeBaseAppearance(
         textColor: Color?
     ) {
-        self.textColor = textColor?.color
+        self.textColor = textColor?.uiColor
     }
 
     public func customizeBaseAppearance(
