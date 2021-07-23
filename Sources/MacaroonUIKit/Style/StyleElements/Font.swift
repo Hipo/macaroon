@@ -103,7 +103,7 @@ public struct CustomFont: Font {
         let metrics = UIFontMetrics(forTextStyle: style)
 
         guard let maxFontSize = size.maxFontSize else {
-            self.uiFont = font
+            self.uiFont = metrics.scaledFont(for: font)
             return
         }
 
