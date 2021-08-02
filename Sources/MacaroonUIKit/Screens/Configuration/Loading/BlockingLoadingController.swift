@@ -53,7 +53,7 @@ open class BlockingLoadingController {
             return
         }
 
-        self.loadingIndicator.stopAnimating()
+        loadingIndicator.stopAnimating()
 
         animateLayoutWhenLoadingStatusDidChange(
             isLoading: false

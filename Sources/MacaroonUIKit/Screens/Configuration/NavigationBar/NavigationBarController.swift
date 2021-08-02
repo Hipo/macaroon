@@ -3,6 +3,34 @@
 import Foundation
 import UIKit
 
+open class NavigationBarController<SomeScreen: Screen> {
+    public private(set) var leftBarButtonItems: [NavigationBarButtonItem] = []
+    public private(set) var rightBarButtonItems: [NavigationBarButtonItem] = []
+
+    public unowned let screen: SomeScreen
+
+    public init(
+        screen: SomeScreen
+    ) {
+        self.screen = screen
+    }
+}
+
+extension NavigationBarController {
+    public func add(
+        left item: NavigationBarButtonItem
+    ) {
+        leftBarButtonItems.append(item)
+    }
+
+    public func add(
+        right item: NavigationBarButtonItem
+    ) {
+        rightBarButtonItems.append(item)
+    }
+}
+
+
 public protocol NavigationBarConfigurable: UIViewController {
     var navigationBarHidden: Bool { get set }
 

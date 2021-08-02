@@ -1,27 +1,30 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MacaroonUIKit
 
 public struct FixedCharacterCountValidator: Validator {
+    public typealias FailMessage = (Error) -> EditText?
+
     public let count: Int
-    public let failureReason: String
     public let allowedCharacters: CharacterSet?
+    public let failMessage: FailMessage?
 
     public init(
         _ count: Int,
-        _ failureReason: String = "",
-        _ allowedCharacters: CharacterSet? = nil
+        _ allowedCharacters: CharacterSet? = nil,
+        _ failMessage: FailMessage? = nil
     ) {
         self.count = count
-        self.failureReason = failureReason
         self.allowedCharacters = allowedCharacters
+        self.failMessage = failMessage
     }
 
     public func validate(
         _ inputFieldView: FormInputFieldView
     ) -> Validation {
         guard let textInputFieldView = inputFieldView as? FormTextInputFieldView else {
-            return .failure(failureReason)
+            return .failure(Error.required)
         }
 
         return validate(
@@ -34,9 +37,9 @@ public struct FixedCharacterCountValidator: Validator {
     ) -> Validation {
         guard
             let text = text?.withoutWhitespaces(),
-            text.count == count
+            !text.isEmpty
         else {
-            return .failure(failureReason)
+            return .failure(Error.required)
         }
 
         if let allowedCharacters = allowedCharacters {
@@ -46,10 +49,33 @@ public struct FixedCharacterCountValidator: Validator {
                 )
 
             if !isAllowed {
-                return .failure(failureReason)
+                return .failure(Error.nonAllowedCharacter)
             }
         }
 
+        if text.count < count {
+            return .failure(Error.lesser)
+        }
+
+        if text.count > count {
+            return .failure(Error.greater)
+        }
+
         return .success
+    }
+
+    public func getMessage(
+        for error: ValidationError
+    ) -> EditText? {
+        return failMessage?(error as! Error)
+    }
+}
+
+extension FixedCharacterCountValidator {
+    public enum Error: ValidationError {
+        case required
+        case nonAllowedCharacter
+        case lesser
+        case greater
     }
 }

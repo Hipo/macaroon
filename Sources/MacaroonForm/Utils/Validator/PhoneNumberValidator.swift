@@ -1,21 +1,24 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MacaroonUIKit
 
 public struct PhoneNumberValidator: Validator {
-    public let failureReason: String
+    public typealias FailMessage = (Error) -> EditText?
+
+    public let failMessage: FailMessage?
 
     public init(
-        _ failureReason: String = ""
+        _ failMessage: FailMessage?
     ) {
-        self.failureReason = failureReason
+        self.failMessage = failMessage
     }
 
     public func validate(
         _ inputFieldView: FormInputFieldView
     ) -> Validation {
         guard let textInputFieldView = inputFieldView as? FormTextInputFieldView else {
-            return .failure(failureReason)
+            return .failure(Error.required)
         }
 
         return validate(
@@ -28,9 +31,13 @@ public struct PhoneNumberValidator: Validator {
     ) -> Validation {
         guard
             let text = text,
-            text.count > 9
+            !text.isEmpty
         else {
-            return .failure(failureReason)
+            return .failure(Error.required)
+        }
+
+        if text.count > 9 {
+            return .failure(Error.invalid)
         }
 
         let detector =
@@ -47,13 +54,26 @@ public struct PhoneNumberValidator: Validator {
             let match = matches.first,
             matches.count == 1
         else {
-            return .failure(failureReason)
+            return .failure(Error.invalid)
         }
 
         if match.resultType != .phoneNumber {
-            return .failure(failureReason)
+            return .failure(Error.invalid)
         }
 
         return .success
+    }
+
+    public func getMessage(
+        for error: ValidationError
+    ) -> EditText? {
+        return failMessage?(error as! Error)
+    }
+}
+
+extension PhoneNumberValidator {
+    public enum Error: ValidationError {
+        case required
+        case invalid
     }
 }

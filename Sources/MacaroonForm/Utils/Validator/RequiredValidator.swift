@@ -1,18 +1,21 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MacaroonUIKit
 import MacaroonUtils
 
 public struct RequiredValidator: Validator {
-    public let failureReason: String
+    public typealias FailMessage = (Error) -> EditText?
+
     public let allowedCharacters: CharacterSet?
+    public let failMessage: FailMessage?
 
     public init(
-        _ failureReason: String,
-        _ allowedCharacters: CharacterSet? = nil
+        _ allowedCharacters: CharacterSet? = nil,
+        _ failMessage: FailMessage? = nil
     ) {
-        self.failureReason = failureReason
         self.allowedCharacters = allowedCharacters
+        self.failMessage = failMessage
     }
 
     public func validate(
@@ -21,23 +24,23 @@ public struct RequiredValidator: Validator {
         switch inputFieldView {
         case let textInputFieldView as FormTextInputFieldView:
             return validate(
-                textInputFieldView
+                textInputFieldView.text
             )
+        case let toggleInputFieldView as FormToggleInputFieldView:
+            return validate(toggleInputFieldView.isSelected)
         default:
-            return .failure(failureReason)
+            return .failure(Error.required)
         }
     }
-}
 
-extension RequiredValidator {
-    private func validate(
-        _ textInputFieldView: FormTextInputFieldView
+    public func validate(
+        _ text: String?
     ) -> Validation {
         guard
-            let text = textInputFieldView.text,
+            let text = text,
             !text.isEmpty
         else {
-            return .failure(failureReason)
+            return .failure(Error.required)
         }
 
         if let allowedCharacters = allowedCharacters {
@@ -47,10 +50,29 @@ extension RequiredValidator {
                 )
 
             if !isAllowed {
-                return .failure(failureReason)
+                return .failure(Error.nonAllowedCharacter)
             }
         }
 
         return .success
+    }
+
+    public func validate(
+        _ flag: Bool
+    ) -> Validation {
+        return flag ? .success : .failure(Error.required)
+    }
+
+    public func getMessage(
+        for error: ValidationError
+    ) -> EditText? {
+        return failMessage?(error as! Error)
+    }
+}
+
+extension RequiredValidator {
+    public enum Error: ValidationError {
+        case required
+        case nonAllowedCharacter
     }
 }

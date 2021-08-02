@@ -134,6 +134,22 @@ public struct ReturnKeyTypeTextInputStyleAttribute<
     }
 }
 
+public struct SecureTextInputStyleAttribute: TextFieldStyleAttribute {
+    public let isSecure: Bool
+
+    public init(
+        _ secure: Bool
+    ) {
+        self.isSecure = secure
+    }
+
+    public func apply(
+        to view: UITextField
+    ) {
+        view.isSecureTextEntry = isSecure
+    }
+}
+
 extension AnyStyleAttribute where AnyView == UITextField {
     public static func backgroundImage(
         _ image: Image,
@@ -149,6 +165,14 @@ extension AnyStyleAttribute where AnyView == UITextField {
     ) -> Self {
         return AnyStyleAttribute(
             ClearButtonModeTextInputStyleAttribute(mode)
+        )
+    }
+
+    public static func secure(
+        _ secure: Bool
+    ) -> Self {
+        return AnyStyleAttribute(
+            SecureTextInputStyleAttribute(secure)
         )
     }
 }

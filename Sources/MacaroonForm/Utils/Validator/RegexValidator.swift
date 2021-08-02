@@ -1,24 +1,27 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MacaroonUIKit
 
 public struct RegexValidator: Validator {
+    public typealias FailMessage = (Error) -> EditText?
+
     public let regex: String
-    public let failureReason: String
+    public let failMessage: FailMessage?
 
     public init(
         _ regex: String,
-        _ failureReason: String = ""
+        _ failMessage: FailMessage? = nil
     ) {
         self.regex = regex
-        self.failureReason = failureReason
+        self.failMessage = failMessage
     }
 
     public func validate(
         _ inputFieldView: FormInputFieldView
     ) -> Validation {
         guard let textInputFieldView = inputFieldView as? FormTextInputFieldView else {
-            return .failure(failureReason)
+            return .failure(Error.required)
         }
 
         return validate(
@@ -33,7 +36,7 @@ public struct RegexValidator: Validator {
             let text = text,
             !text.isEmpty
         else {
-            return .failure(failureReason)
+            return .failure(Error.required)
         }
 
         guard let regexExpr = try? NSRegularExpression(pattern: regex) else {
@@ -45,7 +48,20 @@ public struct RegexValidator: Validator {
 
         switch matches.count {
         case 1: return .success
-        default: return .failure(failureReason)
+        default: return .failure(Error.invalid)
         }
+    }
+
+    public func getMessage(
+        for error: ValidationError
+    ) -> EditText? {
+        return failMessage?(error as! Error)
+    }
+}
+
+extension RegexValidator {
+    public enum Error: ValidationError {
+        case required
+        case invalid
     }
 }

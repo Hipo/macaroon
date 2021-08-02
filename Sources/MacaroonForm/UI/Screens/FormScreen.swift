@@ -235,6 +235,10 @@ extension FormScreen {
         formView.beginEditing()
     }
 
+    public func beginLastEditing() {
+        formView.beginLastEditing()
+    }
+
     public func endEditing() {
         formView.endEditing()
     }

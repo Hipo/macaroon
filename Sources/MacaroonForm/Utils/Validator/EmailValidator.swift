@@ -1,24 +1,27 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MacaroonUIKit
 
 public struct EmailValidator: Validator {
+    public typealias FailMessage = (Error) -> EditText?
+
     public let optional: Bool
-    public let failureReason: String
+    public let failMessage: FailMessage?
 
     public init(
         optional: Bool = false,
-        failureReason: String = ""
+        failMessage: FailMessage?
     ) {
         self.optional = optional
-        self.failureReason = failureReason
+        self.failMessage = failMessage
     }
 
     public func validate(
         _ inputFieldView: FormInputFieldView
     ) -> Validation {
         guard let textInputFieldView = inputFieldView as? FormTextInputFieldView else {
-            return .failure(failureReason)
+            return .failure(Error.required)
         }
 
         return validate(
@@ -33,7 +36,9 @@ public struct EmailValidator: Validator {
             let text = text,
             !text.isEmpty
         else {
-            return optional ? .success : .failure(failureReason)
+            return optional
+                ? .success
+                : .failure(Error.required)
         }
 
         let detector =
@@ -50,13 +55,26 @@ public struct EmailValidator: Validator {
             let match = matches.first,
             matches.count == 1
         else {
-            return .failure(failureReason)
+            return .failure(Error.invalid)
         }
 
         if match.url?.scheme != "mailto" {
-            return .failure(failureReason)
+            return .failure(Error.invalid)
         }
 
         return .success
+    }
+
+    public func getMessage(
+        for error: ValidationError
+    ) -> EditText? {
+        return failMessage?(error as! Error)
+    }
+}
+
+extension EmailValidator {
+    public enum Error: ValidationError {
+        case required
+        case invalid
     }
 }

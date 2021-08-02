@@ -24,6 +24,7 @@ extension Customizable where Self: UITextField {
         customizeBaseAppearance(backgroundImage: style.backgroundImage)
         customizeBaseAppearance(backgroundColor: style.backgroundColor)
         customizeBaseAppearance(tintColor: style.tintColor)
+        customizeBaseAppearance(secure: style.isSecure)
         customizeBaseAppearance(isInteractable: style.isInteractable)
     }
 
@@ -75,6 +76,9 @@ extension Customizable where Self: UITextField {
         )
         customizeBaseAppearance(
             textContentType: nil
+        )
+        customizeBaseAppearance(
+            secure: nil
         )
     }
 }
@@ -188,6 +192,12 @@ extension Customizable where Self: UITextField {
         textContentType: UITextContentType?
     ) {
         self.textContentType = textContentType
+    }
+
+    public func customizeBaseAppearance(
+        secure: Bool?
+    ) {
+        self.isSecureTextEntry = secure ?? false
     }
 }
 

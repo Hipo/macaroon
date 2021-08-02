@@ -1,6 +1,7 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MacaroonUIKit
 import UIKit
 
 public protocol FormFieldView: UIView {}
@@ -55,6 +56,10 @@ public protocol FormNumberInputFieldView: FormInputFieldView {
     var formatter: NumberInputFormatter? { get set }
 }
 
+public protocol FormToggleInputFieldView: FormInputFieldView {
+    var isSelected: Bool { get set }
+}
+
 public protocol FormInputFieldViewEditingDelegate: AnyObject {
     func formInputFieldViewDidBeginEditing(_ view: FormInputFieldView)
     func formInputFieldViewDidEdit(_ view: FormInputFieldView)
@@ -65,7 +70,7 @@ public enum FormInputFieldState {
     case none
     case focus
     case invalid(ValidationError)
-    case incorrect(Swift.Error)
+    case incorrect(EditText?)
 }
 
 public enum FormInputType {

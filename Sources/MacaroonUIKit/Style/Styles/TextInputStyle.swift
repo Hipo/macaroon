@@ -20,6 +20,7 @@ public struct TextInputStyle: BaseStyle {
     public var disabledBackgroundImage: Image?
     public var backgroundColor: Color?
     public var tintColor: Color?
+    public var isSecure: Bool?
     public var isInteractable: Bool?
 
     public init(
@@ -43,6 +44,7 @@ public struct TextInputStyle: BaseStyle {
             case .disabledBackgroundImage(let disabledBackgroundImage): self.disabledBackgroundImage = disabledBackgroundImage
             case .backgroundColor(let backgroundColor): self.backgroundColor = backgroundColor
             case .tintColor(let tintColor): self.tintColor = tintColor
+            case .isSecure(let isSecure): self.isSecure = isSecure
             case .isInteractable(let interactable): self.isInteractable = interactable
             }
         }
@@ -70,6 +72,7 @@ extension TextInputStyle {
         modifiedStyle.disabledBackgroundImage = modifiers.last(existing: \.disabledBackgroundImage) ?? disabledBackgroundImage
         modifiedStyle.backgroundColor = modifiers.last(existing: \.backgroundColor) ?? backgroundColor
         modifiedStyle.tintColor = modifiers.last(existing: \.tintColor) ?? tintColor
+        modifiedStyle.isSecure = modifiers.last(existing: \.isSecure) ?? isSecure ?? isSecure
         modifiedStyle.isInteractable = modifiers.last(existing: \.isInteractable) ?? isInteractable
         return modifiedStyle
     }
@@ -93,6 +96,7 @@ extension TextInputStyle {
         case disabledBackgroundImage(Image)
         case backgroundColor(Color)
         case tintColor(Color)
+        case isSecure(Bool)
         case isInteractable(Bool)
     }
 }

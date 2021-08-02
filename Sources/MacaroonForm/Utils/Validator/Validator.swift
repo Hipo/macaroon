@@ -1,20 +1,14 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MacaroonUIKit
 
 public protocol Validator {
     func validate(_ inputFieldView: FormInputFieldView) -> Validation
+    func getMessage(for error: ValidationError) -> EditText?
 }
 
-public protocol ValidationError {
-    var reason: String { get }
-}
-
-extension String: ValidationError {
-    public var reason: String {
-        return self
-    }
-}
+public protocol ValidationError {}
 
 public enum Validation {
     case success

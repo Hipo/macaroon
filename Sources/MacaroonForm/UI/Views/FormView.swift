@@ -207,6 +207,10 @@ extension FormView {
         nextEditingInputFieldView?.beginEditing()
     }
 
+    public func beginLastEditing() {
+        lastEditingInputFieldView?.beginEditing()
+    }
+
     public func endEditing() {
         editingInputFieldView?.endEditing()
     }
@@ -215,7 +219,9 @@ extension FormView {
 extension FormView {
     @discardableResult
     public func validateAll() -> Bool {
-        return inputFieldViews.allSatisfy(validate)
+        return inputFieldViews.reduce(true) {
+            return validate($1) && $0
+        }
     }
 
     @discardableResult

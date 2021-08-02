@@ -23,8 +23,6 @@ public protocol TextAttribute: Identifiable {
     func apply(
         to systemAttributes: inout SystemAttributes
     )
-
-    func convertToSystemAttributes() -> SystemAttributes
 }
 
 extension TextAttribute {
@@ -36,7 +34,6 @@ extension TextAttribute {
 public struct AnyTextAttribute: TextAttribute {
     public let id: String
 
-    private let _convertToSystemAttributes: () -> SystemAttributes
     private let _apply: (inout SystemAttributes) -> Void
 
     public init<T: TextAttribute>(
@@ -44,17 +41,12 @@ public struct AnyTextAttribute: TextAttribute {
     ) {
         self.id = textAttribute.id
         self._apply = textAttribute.apply
-        self._convertToSystemAttributes = textAttribute.convertToSystemAttributes
     }
 
     public func apply(
         to systemAttributes: inout SystemAttributes
     ) {
         _apply(&systemAttributes)
-    }
-
-    public func convertToSystemAttributes() -> SystemAttributes {
-        return _convertToSystemAttributes()
     }
 }
 
@@ -115,12 +107,6 @@ public struct FontTextAttribute: TextAttribute {
     ) {
         systemAttributes[.font] = value
     }
-
-    public func convertToSystemAttributes() -> SystemAttributes {
-        return [
-            .font: value
-        ]
-    }
 }
 
 public struct LetterSpacingTextAttribute: TextAttribute {
@@ -137,12 +123,6 @@ public struct LetterSpacingTextAttribute: TextAttribute {
     ) {
         systemAttributes[.kern] = value
     }
-
-    public func convertToSystemAttributes() -> SystemAttributes {
-        return [
-            .kern: value
-        ]
-    }
 }
 
 public struct ParagraphTextAttribute: TextAttribute {
@@ -157,13 +137,7 @@ public struct ParagraphTextAttribute: TextAttribute {
     public func apply(
         to systemAttributes: inout SystemAttributes
     ) {
-        systemAttributes[.paragraphStyle] = paragraph.convertToSystemAttributes()
-    }
-
-    public func convertToSystemAttributes() -> SystemAttributes {
-        return [
-            :
-        ]
+        systemAttributes[.paragraphStyle] = paragraph.asSystemAttributes()
     }
 }
 
@@ -180,12 +154,6 @@ public struct TextColorTextAttribute: TextAttribute {
         to systemAttributes: inout SystemAttributes
     ) {
         systemAttributes[.foregroundColor] = value
-    }
-
-    public func convertToSystemAttributes() -> SystemAttributes {
-        return [
-            .foregroundColor: value
-        ]
     }
 }
 
@@ -207,19 +175,12 @@ public struct UnderlineStyleTextAttribute: TextAttribute {
         systemAttributes[.underlineColor] = color
         systemAttributes[.underlineStyle] = style.rawValue
     }
-
-    public func convertToSystemAttributes() -> SystemAttributes {
-        return [
-            .underlineColor: color,
-            .underlineStyle: style.rawValue
-        ]
-    }
 }
 
 public typealias TextAttributes = Set<AnyTextAttribute>
 
 extension TextAttributes {
-    public func convertToSystemAttributes() -> Element.SystemAttributes {
+    public func asSystemAttributes() -> Element.SystemAttributes {
         var systemAttributes: Element.SystemAttributes = [:]
         forEach { $0.apply(to: &systemAttributes) }
         return systemAttributes
@@ -432,7 +393,7 @@ public struct TextAlignmentParagraphAttribute: ParagraphAttribute {
 public typealias ParagraphAttributes = Set<AnyParagraphAttribute>
 
 extension ParagraphAttributes {
-    public func convertToSystemAttributes() -> NSParagraphStyle {
+    public func asSystemAttributes() -> NSParagraphStyle {
         let systemAttributes = Element.SystemAttributes()
         forEach { $0.apply(to: systemAttributes) }
         return systemAttributes
