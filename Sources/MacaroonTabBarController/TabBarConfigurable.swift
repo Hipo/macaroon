@@ -66,7 +66,7 @@ extension TabBarConfigurable {
                     .firstIndex(
                         of: self
                     )
-                    .unwrapConditionally(
+                    .unwrap(
                         where: {
                             $0 > stack.startIndex &&
                             $0 == stack.lastIndex
@@ -108,7 +108,7 @@ extension TabBarConfigurable {
                         $0 + 1
                     }
                 )
-                .unwrapConditionally(
+                .unwrap(
                     where: {
                         $0 < stack.endIndex
                     }
@@ -128,7 +128,7 @@ extension TabBarConfigurable {
     }
 
     private func addTabBarSnaphot() {
-        if tabBarSnapshot.unwrapConditionally(
+        if tabBarSnapshot.unwrap(
             where: {
                 $0.isDescendant(
                     of: view

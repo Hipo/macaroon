@@ -53,6 +53,40 @@ public struct BackgroundImageNavigationBarStyleAttribute: NavigationBarStyleAttr
     }
 }
 
+public struct BackImageNavigationBarStyleAttribute: NavigationBarStyleAttribute {
+    public let image: Image
+
+    public init(
+        _ image: Image
+    ) {
+        self.image = image
+    }
+
+    public func apply(
+        to view: UINavigationBar
+    ) {
+        let someImage = image.uiImage
+
+        if #available(iOS 13, *) {
+            view.standardAppearance.setBackIndicatorImage(
+                someImage,
+                transitionMaskImage: someImage
+            )
+            view.compactAppearance?.setBackIndicatorImage(
+                someImage,
+                transitionMaskImage: someImage
+            )
+            view.scrollEdgeAppearance?.setBackIndicatorImage(
+                someImage,
+                transitionMaskImage: someImage
+            )
+        } else {
+            view.backIndicatorImage = someImage
+            view.backIndicatorTransitionMaskImage = someImage
+        }
+    }
+}
+
 public struct LargeTitleNavigationBarStyleAttribute: NavigationBarStyleAttribute {
     public typealias Attribute = AttributedTextBuilder.Attribute
 

@@ -59,10 +59,8 @@ open class TabBarContainer:
     public private(set) lazy var tabBar = TabBar()
     public private(set) var isTabBarHidden = false
 
-    public init() {
-        super.init(
-            configurator: nil
-        )
+    public override init() {
+        super.init()
 
         self.flowIdentifier = "main"
         self.pathIdentifier = "mainContainer"

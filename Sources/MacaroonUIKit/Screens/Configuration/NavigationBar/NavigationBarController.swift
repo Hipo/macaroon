@@ -1,141 +1,192 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
+import MacaroonUtils
 import UIKit
 
-open class NavigationBarController<SomeScreen: Screen> {
-    public private(set) var leftBarButtonItems: [NavigationBarButtonItem] = []
-    public private(set) var rightBarButtonItems: [NavigationBarButtonItem] = []
-
-    public unowned let screen: SomeScreen
-
-    public init(
-        screen: SomeScreen
-    ) {
-        self.screen = screen
+open class NavigationBarController: ScreenLifeCycleObserver {
+    public var isNavigationBarHidden = false {
+        didSet { navigationBarDidChangeVisibility() }
     }
+    public var isBackButtonHidden = false {
+        didSet { backButtonDidChangeVisibility() }
+    }
+    public var isBackButtonTitleHidden = true {
+        didSet { backButtonDidChangeVisibility() }
+    }
+    public var isInteractivePopGestureEnabled: Bool {
+        return !isNavigationBarHidden && !isBackButtonHidden
+    }
+
+    public var leftBarButtonItems: [NavigationBarButtonItem] = [] {
+        didSet { leftBarButtonItemsDidChange() }
+    }
+    public var rightBarButtonItems: [NavigationBarButtonItem] = [] {
+        didSet { rightBarButtonItemsDidChange() }
+    }
+
+    public var navigationController: UINavigationController? {
+        let parentController = screen.parent
+
+        return screen.navigationController.unwrap {
+            $0 == parentController
+        }
+    }
+
+    public weak var screen: Screen! {
+        didSet { screen.add(lifeCycleObserver: self) }
+    }
+
+    public init() {}
 }
 
 extension NavigationBarController {
-    public func add(
-        left item: NavigationBarButtonItem
-    ) {
-        leftBarButtonItems.append(item)
-    }
-
-    public func add(
-        right item: NavigationBarButtonItem
-    ) {
-        rightBarButtonItems.append(item)
-    }
-}
-
-
-public protocol NavigationBarConfigurable: UIViewController {
-    var navigationBarHidden: Bool { get set }
-
-    /// <note>
-    /// `Pop` or `Dismiss` left bar button will be inserted automatically when
-    /// `setNeedsNavigationBarAppearanceUpdate()` is called.
-    var leftNavigationBarButtonItems: [NavigationBarButtonItem] { get set }
-
-    var rightNavigationBarButtonItems: [NavigationBarButtonItem] { get set }
-
-    /// <note>
-    /// Return `true` if `Pop` or `Dismiss` left bar button should be hidden.
-    var hidesCloseBarButton: Bool { get set }
-    var hidesDismissBarButtonIniOS13AndLater: Bool { get set }
-
-    var disablesInteractivePop: Bool { get set }
-
-    func makePopNavigationBarButtonItem() -> NavigationBarButtonItem
-    func makeDismissNavigationBarButtonItem() -> NavigationBarButtonItem
-}
-
-extension NavigationBarConfigurable {
     public func setNeedsNavigationBarAppearanceUpdate() {
-        setNeedsNavigationBarLeftBarButtonsUpdate()
-        setNeedsNavigationBarRightBarButtonsUpdate()
-    }
-
-    public func setNeedsNavigationBarLeftBarButtonsUpdate() {
-        func insertPopBarButtonItem() {
-            leftNavigationBarButtonItems.insert(
-                makePopNavigationBarButtonItem(),
-                at: 0
-            )
-        }
-
-        func insertDismissBarButtonItem() {
-            leftNavigationBarButtonItems.insert(
-                makeDismissNavigationBarButtonItem(),
-                at: 0
-            )
-        }
-
-        guard let navigationController = navigationController,
-              navigationController == parent
+        guard
+            let navigationController = screen.navigationController,
+            navigationController.isNavigationBarHidden != isNavigationBarHidden
         else {
             return
         }
 
-        if hidesCloseBarButton {
-            navigationItem.hidesBackButton = true
-        } else {
-            navigationItem.hidesBackButton = false
-
-            if navigationController.viewControllers.first == self {
-                if presentingViewController != nil {
-                    if #available(iOS 13, *) {
-                        if !hidesDismissBarButtonIniOS13AndLater {
-                            insertDismissBarButtonItem()
-                        }
-                    } else {
-                        insertDismissBarButtonItem()
-                    }
-                }
-            } else {
-                insertPopBarButtonItem()
-            }
-        }
-
-        navigationItem.leftBarButtonItems =
-            leftNavigationBarButtonItems.map {
-                $0.asSystemBarButtonItem()
-            }
-
-        if isViewLoaded {
-            navigationController.navigationBar.layoutIfNeeded()
-        }
-    }
-
-    public func setNeedsNavigationBarRightBarButtonsUpdate() {
-        navigationItem.rightBarButtonItems =
-            rightNavigationBarButtonItems.map {
-                $0.asSystemBarButtonItem()
-            }
-
-        if isViewLoaded {
-            navigationController?.navigationBar.layoutIfNeeded()
-        }
-    }
-
-    public func setNeedsNavigationBarAppearanceUpdateOnBeingAppeared() {
-        guard let navigationController = navigationController else {
-            return
-        }
-
-        if navigationController.isNavigationBarHidden == navigationBarHidden {
-            return
-        }
+        let isAnimated =
+            !(
+                navigationController.isBeingPresented &&
+                navigationController.isRoot(screen)
+            )
 
         navigationController.setNavigationBarHidden(
-            navigationBarHidden,
-            animated:
-                !(
-                    navigationController.isBeingPresented &&
-                    navigationController.viewControllers.first == self
-                )
+            isNavigationBarHidden,
+            animated: isAnimated
         )
+    }
+
+    public func setNeedsNavigationBarButtonItemsUpdate() {
+        setNeedsNavigationBarBackButtonItemUpdate()
+        setNeedsNavigationBarLeftBarButtonItemsUpdate()
+        setNeedsNavigationBarRightBarButtonItemsUpdate()
+    }
+
+    public func setNeedsNavigationBarBackButtonItemUpdate() {
+        screen.navigationItem.hidesBackButton = isBackButtonHidden
+
+        if #available(iOS 14, *) {
+            screen.navigationItem.backButtonDisplayMode =
+                isBackButtonTitleHidden ? .minimal : .default
+        } else {
+            screen.navigationItem.backButtonTitle = isBackButtonTitleHidden ? "" : nil
+        }
+    }
+
+    public func setNeedsNavigationBarLeftBarButtonItemsUpdate() {
+        screen.navigationItem.leftItemsSupplementBackButton = true
+        screen.navigationItem.leftBarButtonItems = mapBarButtonItems(from: leftBarButtonItems)
+        finishBarButtonItemsUpdate()
+    }
+
+    public func setNeedsNavigationBarRightBarButtonItemsUpdate() {
+        screen.navigationItem.rightBarButtonItems = mapBarButtonItems(from: rightBarButtonItems)
+        finishBarButtonItemsUpdate()
+    }
+}
+
+extension NavigationBarController {
+    private func navigationBarDidChangeVisibility() {
+        if !screen.isViewAppeared {
+            return
+        }
+
+        setNeedsNavigationBarAppearanceUpdate()
+    }
+
+    private func backButtonDidChangeVisibility() {
+        if !screen.isViewLoaded {
+            return
+        }
+
+        setNeedsNavigationBarBackButtonItemUpdate()
+    }
+
+    private func leftBarButtonItemsDidChange() {
+        if !screen.isViewLoaded {
+            return
+        }
+
+        setNeedsNavigationBarLeftBarButtonItemsUpdate()
+    }
+
+    private func rightBarButtonItemsDidChange() {
+        if !screen.isViewLoaded {
+            return
+        }
+
+        setNeedsNavigationBarRightBarButtonItemsUpdate()
+    }
+
+    private func finishBarButtonItemsUpdate() {
+        screen.navigationController?.navigationBar.layoutIfNeeded()
+    }
+}
+
+extension NavigationBarController {
+    private func mapBarButtonItems(
+        from navigationBarButtonItems: [NavigationBarButtonItem]
+    ) -> [UIBarButtonItem] {
+        guard let navigationController = navigationController else {
+            return []
+        }
+
+        return navigationBarButtonItems.compactMap {
+            item in
+
+            switch item {
+            case let dismissItem as DismissNavigationBarButtonItem:
+                if screen.presentingViewController == nil {
+                    return nil
+                }
+
+                if dismissItem.isOnlyVisibleAtRoot &&
+                   !navigationController.isRoot(screen) {
+                    return nil
+                }
+
+                return dismissItem.asSystemBarButtonItem()
+            default:
+                return item.asSystemBarButtonItem()
+            }
+        }
+    }
+}
+
+/// <mark>
+/// ScreenLifeCycleListener
+extension NavigationBarController {
+    public func viewDidLoad(
+        _ screen: Screen
+    ) {
+        setNeedsNavigationBarButtonItemsUpdate()
+    }
+
+    public func viewWillAppear(
+        _ screen: Screen
+    ) {
+        setNeedsNavigationBarAppearanceUpdate()
+    }
+}
+
+/// <mark>
+/// Hashable
+extension NavigationBarController {
+    public func hash(
+        into hasher: inout Hasher
+    ) {
+        hasher.combine(ObjectIdentifier(self))
+    }
+
+    public static func == (
+        lhs: NavigationBarController,
+        rhs: NavigationBarController
+    ) -> Bool {
+        return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
     }
 }

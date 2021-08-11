@@ -81,8 +81,8 @@ open class NavigationContainer:
             return true
         }
 
-        if let visibleViewController = visibleViewController as? NavigationBarConfigurable,
-           visibleViewController.disablesInteractivePop {
+        if let visibleScreen = visibleViewController as? Screen,
+           !visibleScreen.navigationBarController.isInteractivePopGestureEnabled {
             return false
         }
 

@@ -7,31 +7,15 @@ import UIKit
 open class Screen:
     UIViewController,
     StatusBarConfigurable,
-    NavigationBarConfigurable,
     ScreenComposable,
     ScreenRoutable,
-    UIAdaptivePresentationControllerDelegate,
-    NotificationObserver {
+    NotificationObserver,
+    UIAdaptivePresentationControllerDelegate {
     public var statusBarHidden = false
     public var hidesStatusBarOnAppeared = false
     public var hidesStatusBarOnPresented = false
 
-    public var navigationBarHidden = false
-    public var hidesCloseBarButton = false
-    public var hidesDismissBarButtonIniOS13AndLater = false
-    public var disablesInteractivePop = false
-    public var disablesInteractiveDismiss = false {
-        didSet {
-            if #available(iOS 13.0, *) {
-                isModalInPresentation = disablesInteractiveDismiss
-            }
-        }
-    }
-
-    public var leftNavigationBarButtonItems: [NavigationBarButtonItem] = []
-    public var rightNavigationBarButtonItems: [NavigationBarButtonItem] = []
-
-    public var observations: [NSObjectProtocol] = []
+    public var notificationObservations: [NSObjectProtocol] = []
 
     public var flowIdentifier: String = ""
     public var pathIdentifier: String = ""
@@ -44,6 +28,8 @@ open class Screen:
     public private(set) var isViewDismissed = false
     public private(set) var isViewPopped = false
 
+    public let navigationBarController = NavigationBarController()
+
     open override var prefersStatusBarHidden: Bool {
         return statusBarHidden
     }
@@ -54,17 +40,15 @@ open class Screen:
         return statusBarHidden ? .fade : .none
     }
 
-    public let configurator: ScreenConfigurable?
+    private var lifeCycleObservers: Set<AnyScreenLifeCycleObserver> = []
 
-    public init(
-        configurator: ScreenConfigurable?
-    ) {
-        self.configurator = configurator
-
+    public init() {
         super.init(
             nibName: nil,
             bundle: nil
         )
+
+        navigationBarController.screen = self
 
         configureNavigationBar()
         observeNotifications()
@@ -78,6 +62,8 @@ open class Screen:
     deinit {
         unobserveNotifications()
     }
+
+    open func configureNavigationBar() {}
 
     open func observeNotifications() {}
 
@@ -94,39 +80,7 @@ open class Screen:
         }
     }
 
-    open func configureNavigationBar() {
-        customizeNavigationBarTitle()
-        customizeNavigationBarLeftBarButtons()
-        customizeNavigationBarRightBarButtons()
-
-        if isViewLoaded {
-            setNeedsNavigationBarAppearanceUpdate()
-        }
-    }
-
-    open func customizeNavigationBarTitle() {}
-    open func customizeNavigationBarLeftBarButtons() {}
-    open func customizeNavigationBarRightBarButtons() {}
-
-    open func makePopNavigationBarButtonItem() -> NavigationBarButtonItem {
-        guard let item = configurator?.makePopNavigationBarButtonItem() else {
-            crash("Pop item not found")
-        }
-
-        return item
-    }
-
-    open func makeDismissNavigationBarButtonItem() -> NavigationBarButtonItem {
-        guard let item = configurator?.makeDismissNavigationBarButtonItem() else {
-            crash("Dismiss item not found")
-        }
-
-        return item
-    }
-
-    open func customizeAppearance() {
-        configurator?.viewCustomizeAppearance()
-    }
+    open func customizeAppearance() {}
 
     open func customizeViewAppearance(
         _ style: ViewStyle
@@ -148,7 +102,9 @@ open class Screen:
     open func bindData() {}
 
     open func viewDidAttemptInteractiveDismiss() {
-        configurator?.viewDidAttemptInteractiveDismiss()
+        notifyObservers {
+            $0.viewDidAttempInteractiveDismiss(self)
+        }
     }
 
     open func viewDidAppearAfterInteractiveDismiss() {
@@ -158,7 +114,9 @@ open class Screen:
             parentScreen.viewDidAppearAfterInteractiveDismiss()
         }
 
-        configurator?.viewDidAppearAfterInteractiveDismiss()
+        notifyObservers {
+            $0.viewDidAppearAfterInteractiveDismiss(self)
+        }
     }
 
     /// <note>
@@ -172,19 +130,27 @@ open class Screen:
             parentScreen.viewDidAppearAfterDismiss()
         }
 
-        configurator?.viewDidAppearAfterDismiss()
+        notifyObservers {
+            $0.viewDidAppearAfterDismiss(self)
+        }
     }
 
     open func viewDidChangePreferredUserInterfaceStyle() {
-        configurator?.viewDidChangePreferredUserInterfaceStyle()
+        notifyObservers {
+            $0.viewDidChangePreferredUserInterfaceStyle(self)
+        }
     }
 
     open func viewDidChangePreferredContentSizeCategory() {
-        configurator?.viewDidChangePreferredContentSizeCategory()
+        notifyObservers {
+            $0.viewDidChangePreferredContentSizeCategory(self)
+        }
     }
 
     open func viewWillEnterForeground() {
-        configurator?.viewWillEnterForeground()
+        notifyObservers {
+            $0.viewWillEnterForeground(self)
+        }
     }
 
     open func viewDidEnterBackground() {
@@ -192,23 +158,28 @@ open class Screen:
             isViewFirstAppeared = false
         }
 
-        configurator?.viewDidEnterBackground()
+        notifyObservers {
+            $0.viewDidEnterBackground(self)
+        }
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        setNeedsNavigationBarAppearanceUpdate()
         compose()
 
-        configurator?.viewDidLoad()
+        notifyObservers {
+            $0.viewDidLoad(self)
+        }
     }
 
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updateLayoutWhenViewDidLayoutSubviews()
 
-        configurator?.viewDidLayoutSubviews()
+        notifyObservers {
+            $0.viewDidLayoutSubviews(self)
+        }
     }
 
     open override func viewWillAppear(
@@ -219,15 +190,20 @@ open class Screen:
         )
 
         setNeedsStatusBarAppearanceUpdateOnBeingAppeared()
-        setNeedsNavigationBarAppearanceUpdateOnBeingAppeared()
 
-        disablesInteractivePop = navigationBarHidden || hidesCloseBarButton
+        if isViewFirstAppeared {
+            notifyObservers {
+                $0.viewDidFirstAppear(self)
+            }
+        }
 
         isViewDisappearing = false
         isViewDisappeared = false
         isViewAppearing = true
 
-        configurator?.viewWillAppear()
+        notifyObservers {
+            $0.viewWillAppear(self)
+        }
     }
 
     open override func viewDidAppear(
@@ -240,7 +216,9 @@ open class Screen:
         isViewAppearing = false
         isViewAppeared = true
 
-        configurator?.viewDidAppear()
+        notifyObservers {
+            $0.viewDidAppear(self)
+        }
     }
 
     open override func viewWillDisappear(
@@ -256,7 +234,9 @@ open class Screen:
         isViewDismissed = isBeingDismissed
         isViewPopped = isMovingFromParent
 
-        configurator?.viewWillDisappear()
+        notifyObservers {
+            $0.viewWillDisappear(self)
+        }
     }
 
     open override func viewDidDisappear(
@@ -269,7 +249,9 @@ open class Screen:
         isViewDisappearing = false
         isViewDisappeared = true
 
-        configurator?.viewDidDisappear()
+        notifyObservers {
+            $0.viewDidDisappear(self)
+        }
     }
 
     open override func traitCollectionDidChange(
@@ -315,5 +297,35 @@ open class Screen:
         }
 
         configurablePresentingScreen.viewDidAttemptInteractiveDismiss()
+    }
+}
+
+/// <mark>
+/// ScreenLifeCyclePublisher
+extension Screen {
+    public func add<T: ScreenLifeCycleObserver>(
+        lifeCycleObserver: T
+    ) {
+        let observer = AnyScreenLifeCycleObserver(lifeCycleObserver)
+        lifeCycleObservers.insert(observer)
+    }
+
+    public func remove<T: ScreenLifeCycleObserver>(
+        lifeCycleObserver: T
+    ) {
+        let observer = AnyScreenLifeCycleObserver(lifeCycleObserver)
+        lifeCycleObservers.remove(observer)
+    }
+
+    public func invalidateLifeCycleObservers() {
+        lifeCycleObservers.removeAll()
+    }
+
+    private func notifyObservers(
+        _ block: (AnyScreenLifeCycleObserver) -> Void
+    ) {
+        lifeCycleObservers.forEach {
+            block($0)
+        }
     }
 }

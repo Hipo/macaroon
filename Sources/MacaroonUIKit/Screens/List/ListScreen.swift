@@ -31,15 +31,12 @@ open class ListScreen: Screen, UICollectionViewDataSource, UICollectionViewDeleg
 
     public init(
         listDataSource: ListDataSource,
-        listLayout: ListLayout,
-        configurator: ScreenConfigurable?
+        listLayout: ListLayout
     ) {
         self.listDataSource = listDataSource
         self.listLayout = listLayout
 
-        super.init(
-            configurator: configurator
-        )
+        super.init()
     }
 
     open override func customizeAppearance() {

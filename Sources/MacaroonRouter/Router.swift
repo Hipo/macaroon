@@ -427,7 +427,8 @@ extension Router {
 
 extension Router {
     public func popVisibleScreen(
-        animated: Bool = true
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
     ) {
         guard let navigationContainer = visibleScreen.navigationController else {
             return
@@ -450,6 +451,8 @@ extension Router {
                !aVisibleScreen.flowIdentifier.isEmpty {
                 self.visibleFlow = .instance(aVisibleScreen.flowIdentifier)
             }
+
+            completion?()
         }
     }
 
@@ -478,6 +481,8 @@ extension Router {
             if let aVisibleScreen = self.visibleScreen as? Screen {
                 aVisibleScreen.viewDidAppearAfterDismiss()
             }
+
+            completion?()
         }
     }
 }

@@ -7,6 +7,7 @@ public struct NavigationBarStyle: BaseStyle {
     public var isOpaque: Bool?
     public var titleAttributes: [NSAttributedString.Key: Any]?
     public var largeTitleAttributes: [NSAttributedString.Key: Any]?
+    public var backImage: Image?
     public var shadowImage: Image?
     public var shadowColor: Color?
     public var backgroundImage: Image?
@@ -19,11 +20,12 @@ public struct NavigationBarStyle: BaseStyle {
         attributes.forEach {
             switch $0 {
             case .isOpaque(let opaque): self.isOpaque = opaque
-            case .backgroundImage(let backgroundImage): self.backgroundImage = backgroundImage
-            case .shadowImage(let shadowImage): self.shadowImage = shadowImage
-            case .shadowColor(let shadowColor): self.shadowColor = shadowColor
             case .titleAttributes(let titleAttributes): self.titleAttributes = titleAttributes
             case .largeTitleAttributes(let largeTitleAttributes): self.largeTitleAttributes = largeTitleAttributes
+            case .backImage(let backImage): self.backImage = backImage
+            case .shadowImage(let shadowImage): self.shadowImage = shadowImage
+            case .shadowColor(let shadowColor): self.shadowColor = shadowColor
+            case .backgroundImage(let backgroundImage): self.backgroundImage = backgroundImage
             case .backgroundColor(let backgroundColor): self.backgroundColor = backgroundColor
             case .tintColor(let tintColor): self.tintColor = tintColor
             }
@@ -39,6 +41,7 @@ extension NavigationBarStyle {
         modifiedStyle.isOpaque = modifiers.last(existing: \.isOpaque) ?? isOpaque
         modifiedStyle.titleAttributes = modifiers.last(existing: \.titleAttributes) ?? titleAttributes
         modifiedStyle.largeTitleAttributes = modifiers.last(existing: \.largeTitleAttributes) ?? largeTitleAttributes
+        modifiedStyle.backImage = modifiers.last(existing: \.backImage) ?? backImage
         modifiedStyle.shadowImage = modifiers.last(existing: \.shadowImage) ?? shadowImage
         modifiedStyle.shadowColor = modifiers.last(existing: \.shadowColor) ?? shadowColor
         modifiedStyle.backgroundImage = modifiers.last(existing: \.backgroundImage) ?? backgroundImage
@@ -54,6 +57,7 @@ extension NavigationBarStyle {
         case isOpaque(Bool)
         case titleAttributes([NSAttributedString.Key: Any])
         case largeTitleAttributes([NSAttributedString.Key: Any])
+        case backImage(Image?)
         case shadowImage(Image?)
         case shadowColor(Color?)
         case backgroundImage(Image?)

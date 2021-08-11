@@ -20,15 +20,13 @@ open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
 
     public init(
         listDataLoader: ListDataLoader & ListDataSource,
-        listLayout: ListLayout,
-        configurator: ScreenConfigurable?
+        listLayout: ListLayout
     ) {
         self.listDataLoader = listDataLoader
 
         super.init(
             listDataSource: listDataLoader,
-            listLayout: listLayout,
-            configurator: configurator
+            listLayout: listLayout
         )
     }
 

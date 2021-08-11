@@ -10,6 +10,7 @@ extension Customizable where Self: UINavigationBar {
         customizeBarAppearance(opaque: style.isOpaque)
         customizeBarAppearance(titleAttributes: style.titleAttributes)
         customizeBarAppearance(largeTitleAttributes: style.largeTitleAttributes)
+        customizeBarAppearance(backImage: style.backImage)
         customizeBarAppearance(shadowImage: style.shadowImage)
         customizeBarAppearance(shadowColor: style.shadowColor)
         customizeBarAppearance(backgroundImage: style.backgroundImage)
@@ -90,6 +91,32 @@ extension Customizable where Self: UINavigationBar {
             standardAppearance = appearance
             compactAppearance = appearance
             scrollEdgeAppearance = appearance
+        }
+    }
+
+    public func customizeBarAppearance(
+        backImage: Image?
+    ) {
+        if #available(iOS 13, *) {
+            let standardAppearance = standardAppearance.copy()
+            let compactAppearance = compactAppearance?.copy()
+            let scrollEdgeAppearance = scrollEdgeAppearance?.copy()
+
+            [standardAppearance, compactAppearance, scrollEdgeAppearance]
+                .compactMap { $0 }
+                .forEach {
+                    $0.setBackIndicatorImage(
+                        backImage?.uiImage,
+                        transitionMaskImage: backImage?.uiImage
+                    )
+                }
+
+            self.standardAppearance = standardAppearance
+            self.compactAppearance = compactAppearance
+            self.scrollEdgeAppearance = scrollEdgeAppearance
+        } else {
+            self.backIndicatorImage = backImage?.uiImage
+            self.backIndicatorTransitionMaskImage = backImage?.uiImage
         }
     }
 

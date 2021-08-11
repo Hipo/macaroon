@@ -34,14 +34,11 @@ open class FormScreen:
     public let fieldViewGenerator: FormFieldViewGenerator
 
     public init(
-        fieldViewGenerator: FormFieldViewGenerator,
-        configurator: ScreenConfigurable?
+        fieldViewGenerator: FormFieldViewGenerator
     ) {
         self.fieldViewGenerator = fieldViewGenerator
 
-        super.init(
-            configurator: configurator
-        )
+        super.init()
 
         keyboardController.activate()
     }
