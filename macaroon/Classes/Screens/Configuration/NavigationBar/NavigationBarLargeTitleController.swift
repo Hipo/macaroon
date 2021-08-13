@@ -187,13 +187,17 @@ extension NavigationBarLargeTitleController {
                     )
                 },
                 completion: {
-                    [weak self] _ in
+                    [weak self] position in
 
                     guard let self = self else {
                         return
                     }
 
-                    self.runningTitleVisibilityAnimator = nil
+                    if position == .end {
+                        self.runningTitleVisibilityAnimator = nil
+                    } else {
+                        self.discardRunningAnimationToToggleTitleVisibility()
+                    }
                 }
             )
     }
