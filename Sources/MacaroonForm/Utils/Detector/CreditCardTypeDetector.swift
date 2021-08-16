@@ -18,7 +18,7 @@ public struct CreditCardTypeDetector {
     ) -> CreditCardType {
         return
             availableTypes.first {
-                RegexValidator($0.regex)
+                RegexValidator(regex: $0.regex)
                     .validate(
                         text
                     ).isSuccess

@@ -7,13 +7,16 @@ public struct RegexValidator: Validator {
     public typealias FailMessage = (Error) -> EditText?
 
     public let regex: String
+    public let optional: Bool
     public let failMessage: FailMessage?
 
     public init(
-        _ regex: String,
-        _ failMessage: FailMessage? = nil
+        regex: String,
+        optional: Bool = false,
+        failMessage: FailMessage? = nil
     ) {
         self.regex = regex
+        self.optional = optional
         self.failMessage = failMessage
     }
 
@@ -36,7 +39,9 @@ public struct RegexValidator: Validator {
             let text = text,
             !text.isEmpty
         else {
-            return .failure(Error.required)
+            return optional
+                ? .success
+                : .failure(Error.required)
         }
 
         guard let regexExpr = try? NSRegularExpression(pattern: regex) else {
