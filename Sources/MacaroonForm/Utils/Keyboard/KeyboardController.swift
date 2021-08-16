@@ -22,6 +22,8 @@ public class KeyboardController: NotificationObserver {
     private var executableToPerformAlongsideWhenKeyboardIsShowing: KeyboardExecutable?
     private var executableToPerformAlongsideWhenKeyboardIsHiding: KeyboardExecutable?
 
+    private var keyboardAnimator: UIViewPropertyAnimator?
+
     public init(
         scrollView: UIScrollView,
         screen: UIViewController & KeyboardControllerDataSource
@@ -362,6 +364,8 @@ extension KeyboardController {
         _ keyboard: Keyboard,
         animations: @escaping () -> Void
     ) {
+        discardAnimationsAlongsideKeyboardTransition()
+
         let animator = UIViewPropertyAnimator(
             duration: keyboard.animationDuration,
             curve: keyboard.animationCurve
@@ -369,6 +373,14 @@ extension KeyboardController {
             animations()
         }
         animator.startAnimation()
+
+        keyboardAnimator = animator
+    }
+
+    private func discardAnimationsAlongsideKeyboardTransition() {
+        keyboardAnimator?.stopAnimation(false)
+        keyboardAnimator?.finishAnimation(at: .current)
+        keyboardAnimator = nil
     }
 }
 

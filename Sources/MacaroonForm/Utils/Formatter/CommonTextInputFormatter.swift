@@ -7,47 +7,39 @@ public struct CommonTextInputFormatter: TextPatternInputFormatter {
     public let pattern: String
     public let symbol: Character
     public let placeholder: String?
+    public let preformatter: ((String?) -> String?)?
 
     private let base: DefaultTextInputFormatter
 
     public init(
         pattern: String,
-        placeholder: String? = nil
+        placeholder: String? = nil,
+        preformatter: ((String?) -> String?)? = nil
     ) {
         self.pattern = pattern
         self.symbol = "#"
         self.placeholder = placeholder
+        self.preformatter = preformatter
         self.base = DefaultTextInputFormatter(textPattern: pattern, patternSymbol: symbol)
+    }
+
+    public func preformat(
+        _ string: String?
+    ) -> String? {
+        guard let preformatter = preformatter else {
+            return string
+        }
+
+        return preformatter(string)
     }
 
     public func format(
         _ string: String?
     ) -> String? {
         return base.format(
-            string
+            preformat(string)
         )
     }
-
-//    public func format(_ unformattedText: String?) -> String? {
-//        guard let unformattedText = unformattedText else { return nil }
-//        var formatted = ""
-//        var unformattedIndex = 0
-//        var patternIndex = 0
-//
-//        while patternIndex < pattern.count && unformattedIndex < unformattedText.count {
-//            guard let patternCharacter = pattern.characterAt(patternIndex) else { break }
-//            if patternCharacter == symbol {
-//                if let unformattedCharacter = unformattedText.characterAt(unformattedIndex) {
-//                    formatted.append(unformattedCharacter)
-//                }
-//                unformattedIndex += 1
-//            } else {
-//                formatted.append(patternCharacter)
-//            }
-//            patternIndex += 1
-//        }
-//        return formatted
-//    }
 
     public func unformat(
         _ string: String?
@@ -66,7 +58,7 @@ public struct CommonTextInputFormatter: TextPatternInputFormatter {
             base.formatInput(
                 currentText: input,
                 range: range,
-                replacementString: string
+                replacementString: preformat(string).someString
             )
 
         if value.formattedText.isEmpty,

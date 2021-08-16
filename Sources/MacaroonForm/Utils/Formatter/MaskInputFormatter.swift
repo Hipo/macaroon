@@ -8,6 +8,7 @@ public struct MaskInputFormatter: TextPatternInputFormatter {
     public let symbol: Character
     public let placeholder: String?
     public let initialCaretOffset: Int?
+    public let preformatter: ((String?) -> String?)?
 
     private let base: PlaceholderTextInputFormatter
 
@@ -15,20 +16,32 @@ public struct MaskInputFormatter: TextPatternInputFormatter {
         pattern: String,
         symbol: Character = "#",
         placeholder: String? = nil,
-        initialCaretOffset: Int? = nil
+        initialCaretOffset: Int? = nil,
+        preformatter: ((String?) -> String?)? = nil
     ) {
         self.pattern = pattern
         self.symbol = symbol
         self.placeholder = placeholder
         self.initialCaretOffset = initialCaretOffset
+        self.preformatter = preformatter
         self.base = PlaceholderTextInputFormatter(textPattern: pattern, patternSymbol: symbol)
+    }
+
+    public func preformat(
+        _ string: String?
+    ) -> String? {
+        guard let preformatter = preformatter else {
+            return string
+        }
+
+        return preformatter(string)
     }
 
     public func format(
         _ string: String?
     ) -> String? {
         return base.format(
-            string
+            preformat(string)
         )
     }
 
@@ -49,7 +62,7 @@ public struct MaskInputFormatter: TextPatternInputFormatter {
             base.formatInput(
                 currentText: input,
                 range: range,
-                replacementString: string
+                replacementString: preformat(string).someString
             )
 
         if value.formattedText == pattern {

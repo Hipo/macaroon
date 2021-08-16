@@ -50,6 +50,8 @@ extension ToggleButton {
         addSubview(
             imageView
         )
+        imageView.fitToHorizontalIntrinsicSize()
+        imageView.fitToVerticalIntrinsicSize()
         imageView.snp.makeConstraints {
             $0.setPaddings()
         }
