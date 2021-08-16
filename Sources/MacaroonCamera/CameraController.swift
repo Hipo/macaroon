@@ -12,7 +12,7 @@ open class CameraController:
     NotificationObserver {
     open weak var delegate: CameraControllerDelegate?
 
-    public var observations: [NSObjectProtocol] = []
+    public var notificationObservations: [NSObjectProtocol] = []
 
     public private(set) var permission: Permission
 
