@@ -186,23 +186,18 @@ extension NavigationBarLargeTitleController {
                         visible
                     )
                 },
-                completion: {
-                    [weak self] position in
-
-                    guard let self = self else {
-                        return
-                    }
-
-                    if position == .end {
-                        self.runningTitleVisibilityAnimator = nil
-                    } else {
-                        self.discardRunningAnimationToToggleTitleVisibility()
-                    }
-                }
+                completion: nil
             )
     }
 
     private func discardRunningAnimationToToggleTitleVisibility() {
+        let isRunning = runningTitleVisibilityAnimator?.isRunning ?? false
+
+        if !isRunning {
+            runningTitleVisibilityAnimator = nil
+            return
+        }
+
         runningTitleVisibilityAnimator?.stopAnimation(
             false
         )
