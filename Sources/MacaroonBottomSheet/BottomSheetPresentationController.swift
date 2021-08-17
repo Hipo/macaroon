@@ -66,6 +66,8 @@ open class BottomSheetPresentationController:
             /// Use `presentedContentViewController` to calculate the height because
             /// navigation controller gives us 0. A preferred height should be set explicitly in order
             /// to add its height into the calculations.
+            var preferredHeight: CGFloat = 0
+
             let fittingSize: CGSize
 
             if modalHeight == .compressed {
@@ -84,18 +86,25 @@ open class BottomSheetPresentationController:
                     ).height
 
                 if modalBottomPadding > 0 {
-                    targetHeight = contentHeight + presentedScrollView.contentInset.y
+                    preferredHeight += contentHeight + presentedScrollView.contentInset.y
                 } else {
-                    targetHeight = contentHeight + presentedScrollView.contentInset.y + presentedScrollView.compactSafeAreaInsets.bottom
+                    preferredHeight += contentHeight + presentedScrollView.contentInset.y + presentedScrollView.compactSafeAreaInsets.bottom
                 }
             } else {
-                targetHeight =
+                preferredHeight +=
                     presentedContentView.systemLayoutSizeFitting(
                         fittingSize,
                         withHorizontalFittingPriority: .required,
                         verticalFittingPriority: .defaultLow
                     ).height
             }
+
+            if let navigationController = presentedViewController as? UINavigationController {
+                preferredHeight +=
+                    navigationController.navigationBar.bounds.height
+            }
+
+            targetHeight = preferredHeight
         case .proportional(let proportion):
             targetHeight = parentSize.h * proportion
         case .preferred(let preferredHeight):
