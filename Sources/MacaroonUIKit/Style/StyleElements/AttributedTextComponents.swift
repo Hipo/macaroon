@@ -4,16 +4,47 @@ import Foundation
 import MacaroonUtils
 import UIKit
 
-public struct AttributedText {
-    public let string: String
-    public let attributes: TextAttributes
+public struct AttributedTextComponents {
+    public var text: String? {
+        didSet { textDidEdit(from: oldValue) }
+    }
+    public var attributes: TextAttributes? {
+        didSet { attributesDidEdit() }
+    }
+
+    public private(set) var attributedText: NSAttributedString?
 
     public init(
-        string: String,
-        attributes: TextAttributes
+        text: String? = nil,
+        attributes: TextAttributes? = nil
     ) {
-        self.string = string
+        self.text = text
         self.attributes = attributes
+
+        updateAttributedText()
+    }
+}
+
+extension AttributedTextComponents {
+    private mutating func textDidEdit(
+        from oldText: String?
+    ) {
+        if text != oldText {
+            updateAttributedText()
+        }
+    }
+
+    private mutating func attributesDidEdit() {
+        updateAttributedText()
+    }
+
+    private mutating func updateAttributedText() {
+        if let text = text {
+            attributedText =
+                NSAttributedString(string: text, attributes: attributes?.asSystemAttributes())
+        } else {
+            attributedText = nil
+        }
     }
 }
 
@@ -397,5 +428,14 @@ extension ParagraphAttributes {
         let systemAttributes = Element.SystemAttributes()
         forEach { $0.apply(to: systemAttributes) }
         return systemAttributes
+    }
+}
+
+extension String {
+    public func attributed(
+        _ attributes: TextAttributes
+    ) -> NSAttributedString {
+        let components = AttributedTextComponents(text: self, attributes: attributes)
+        return components.attributedText ?? NSAttributedString()
     }
 }

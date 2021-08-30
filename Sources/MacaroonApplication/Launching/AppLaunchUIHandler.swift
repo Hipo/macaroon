@@ -11,12 +11,3 @@ public protocol AppLaunchUIHandler: AnyObject {
 public protocol AppLaunchUIState {
     static var main: Self { get }
 }
-
-/// <mark>
-/// Auth
-public protocol AppAuthLaunchUIHandler: AppLaunchUIHandler
-where SomeAppLaunchUIState: AppAuthLaunchUIState { }
-
-public protocol AppAuthLaunchUIState: AppLaunchUIState {
-    static var onboarding: Self { get }
-}

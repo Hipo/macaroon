@@ -54,7 +54,7 @@ public struct FontStyleAttribute<
     public func apply(
         to view: AnyView
     ) {
-        view.someFont = font
+        view.mc_font = font
     }
 }
 
@@ -90,7 +90,7 @@ public struct TextColorStyleAttribute<
     public func apply(
         to view: AnyView
     ) {
-        view.someTextColor = color
+        view.mc_textColor = color
     }
 }
 

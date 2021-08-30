@@ -190,7 +190,7 @@ open class FormScreen:
             return nil
         }
 
-        if !editingInputFieldView.inputType.isExternal {
+        if !editingInputFieldView.inputType.requiresToBeVisible {
             return nil
         }
 

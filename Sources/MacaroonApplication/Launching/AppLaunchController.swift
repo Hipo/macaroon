@@ -16,13 +16,3 @@ extension AppLaunchController {
     public func resignActive() { }
     public func enterBackground() { }
 }
-
-/// <mark>
-/// Auth
-public protocol AppAuthLaunchController: AppLaunchController {
-    typealias AuthCompletionHandler = (Swift.Error?) -> Void
-
-    func launchAfterSignIn(onCompleted execute: AuthCompletionHandler?)
-    func launchAfterSignUp(onCompleted execute: AuthCompletionHandler?)
-    func launchAfterSignOut(onCompleted execute: AuthCompletionHandler?)
-}

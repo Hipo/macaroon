@@ -4,7 +4,7 @@ import Foundation
 import MacaroonUIKit
 import UIKit
 
-protocol NavigationTransition: Transition {
+public protocol NavigationTransition: Transition {
     var source: UIViewController? { get set }
 }
 
@@ -27,12 +27,12 @@ extension NavigationTransition {
     }
 }
 
-struct PushTransition: NavigationTransition {
-    var source: UIViewController?
-    var destination: [UIViewController]
-    var completion: Completion?
+public struct PushTransition: NavigationTransition {
+    public var source: UIViewController?
+    public var destination: [UIViewController]
+    public var completion: Completion?
 
-    func perform(
+    public func perform(
         animated: Bool
     ) {
         if destination.isEmpty {
@@ -74,15 +74,15 @@ struct PushTransition: NavigationTransition {
     }
 }
 
-struct StackTransition: NavigationTransition {
-    var source: UIViewController?
-    var destination: [UIViewController]
+public struct StackTransition: NavigationTransition {
+    public var source: UIViewController?
+    public var destination: [UIViewController]
     /// <note>
     /// newStack == ...sourceLink + destination
-    var overridesFullStack: Bool
-    var completion: Completion?
+    public var overridesFullStack: Bool
+    public var completion: Completion?
 
-    func perform(
+    public func perform(
         animated: Bool
     ) {
         guard
@@ -110,7 +110,7 @@ struct StackTransition: NavigationTransition {
 
             navigationContainer.setViewControllers(
                 newStack,
-                animated: true,
+                animated: animated,
                 completion: completion
             )
 
@@ -119,7 +119,7 @@ struct StackTransition: NavigationTransition {
 
         navigationContainer.setViewControllers(
             destination,
-            animated: !currentStack.isEmpty,
+            animated: !currentStack.isEmpty && animated,
             completion: completion
         )
 

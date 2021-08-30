@@ -140,8 +140,8 @@ open class FormView:
         /// the event will be triggered automatically, and the result action will be taken in
         /// `formInputFieldViewDidEndEditing(_:)`.
         if let currentEditingInputFieldView = editingInputFieldView {
-            if !currentEditingInputFieldView.inputType.isExternal ||
-               !view.inputType.isExternal {
+            if !currentEditingInputFieldView.inputType.requiresToBeVisible ||
+               !view.inputType.requiresToBeVisible {
                 currentEditingInputFieldView.endEditing()
             }
         }

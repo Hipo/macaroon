@@ -56,6 +56,10 @@ public protocol FormNumberInputFieldView: FormInputFieldView {
     var formatter: NumberInputFormatter? { get set }
 }
 
+public protocol FormSingleSelectionInputFieldView: FormInputFieldView {
+    var selectedIndex: Int? { get set }
+}
+
 public protocol FormToggleInputFieldView: FormInputFieldView {
     var isSelected: Bool { get set }
 }
@@ -76,20 +80,23 @@ public enum FormInputFieldState {
 public enum FormInputType {
     case none
     case keyboard
+    case picker
     /// <note>
     /// The selection input types displayed inside the form, i.e. checkbox.
     case inSelection
     /// <note>
-    /// The selection input types displayed outside the form, i.e. picker.
+    /// The selection input types displayed outside the form, i.e. list
     case outSelection
 }
 
 extension FormInputType {
-    public var isExternal: Bool {
+    public var requiresToBeVisible: Bool {
         switch self {
         case .keyboard,
-             .outSelection: return true
-        default: return false
+             .picker:
+            return true
+        default:
+            return false
         }
     }
 }

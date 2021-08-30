@@ -4,7 +4,7 @@ import Foundation
 import MacaroonUIKit
 import UIKit
 
-protocol PresentationTransition: Transition {
+public protocol PresentationTransition: Transition {
     var source: UIViewController? { get set }
     var navigationContainer: UINavigationController? { get set }
 }
@@ -48,13 +48,25 @@ extension PresentationTransition {
     }
 }
 
-struct ModalTransition: PresentationTransition {
-    var source: UIViewController?
-    var destination: [UIViewController]
-    var navigationContainer: UINavigationController?
-    var completion: Completion?
+public struct ModalTransition: PresentationTransition {
+    public var source: UIViewController?
+    public var destination: [UIViewController]
+    public var navigationContainer: UINavigationController?
+    public var completion: Completion?
 
-    func perform(
+    public init(
+        source: UIViewController?,
+        destination: [UIViewController],
+        navigationContainer: UINavigationController?,
+        completion: Completion?
+    ) {
+        self.source = source
+        self.destination = destination
+        self.navigationContainer = navigationContainer
+        self.completion = completion
+    }
+
+    public func perform(
         animated: Bool
     ) {
         if destination.isEmpty {
@@ -88,15 +100,31 @@ struct ModalTransition: PresentationTransition {
     }
 }
 
-struct BuiltInModalTransition: PresentationTransition {
-    var source: UIViewController?
-    var destination: [UIViewController]
-    var navigationContainer: UINavigationController?
-    var modalPresentationStyle: UIModalPresentationStyle
-    var modalTransitionStyle: UIModalTransitionStyle?
-    var completion: Completion?
+public struct BuiltInModalTransition: PresentationTransition {
+    public var source: UIViewController?
+    public var destination: [UIViewController]
+    public var navigationContainer: UINavigationController?
+    public var modalPresentationStyle: UIModalPresentationStyle
+    public var modalTransitionStyle: UIModalTransitionStyle?
+    public var completion: Completion?
 
-    func perform(
+    public init(
+        source: UIViewController?,
+        destination: [UIViewController],
+        navigationContainer: UINavigationController?,
+        modalPresentationStyle: UIModalPresentationStyle,
+        modalTransitionStyle: UIModalTransitionStyle?,
+        completion: Completion?
+    ) {
+        self.source = source
+        self.destination = destination
+        self.navigationContainer = navigationContainer
+        self.modalPresentationStyle = modalPresentationStyle
+        self.modalTransitionStyle = modalTransitionStyle
+        self.completion = completion
+    }
+
+    public func perform(
         animated: Bool
     ) {
         if destination.isEmpty {
@@ -135,14 +163,28 @@ struct BuiltInModalTransition: PresentationTransition {
     }
 }
 
-struct CustomModalTransition: PresentationTransition {
-    var source: UIViewController?
-    var destination: [UIViewController]
-    var navigationContainer: UINavigationController?
-    unowned var transitioningDelegate: UIViewControllerTransitioningDelegate
-    var completion: Completion?
+public struct CustomModalTransition: PresentationTransition {
+    public var source: UIViewController?
+    public var destination: [UIViewController]
+    public var navigationContainer: UINavigationController?
+    public unowned var transitioningDelegate: UIViewControllerTransitioningDelegate
+    public var completion: Completion?
 
-    func perform(
+    public init(
+        source: UIViewController?,
+        destination: [UIViewController],
+        navigationContainer: UINavigationController?,
+        transitioningDelegate: UIViewControllerTransitioningDelegate,
+        completion: Completion?
+    ) {
+        self.source = source
+        self.destination = destination
+        self.navigationContainer = navigationContainer
+        self.transitioningDelegate = transitioningDelegate
+        self.completion = completion
+    }
+
+    public func perform(
         animated: Bool
     ) {
         if destination.isEmpty {

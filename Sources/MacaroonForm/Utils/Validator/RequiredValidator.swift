@@ -26,8 +26,10 @@ public struct RequiredValidator: Validator {
             return validate(
                 textInputFieldView.text
             )
+        case let singleSelectionInputFieldView as FormSingleSelectionInputFieldView:
+            return validate(singleSelection: singleSelectionInputFieldView.selectedIndex)
         case let toggleInputFieldView as FormToggleInputFieldView:
-            return validate(toggleInputFieldView.isSelected)
+            return validate(toggle: toggleInputFieldView.isSelected)
         default:
             return .failure(Error.required)
         }
@@ -58,9 +60,15 @@ public struct RequiredValidator: Validator {
     }
 
     public func validate(
-        _ flag: Bool
+        singleSelection selection: Any?
     ) -> Validation {
-        return flag ? .success : .failure(Error.required)
+        return selection != nil ? .success : .failure(Error.required)
+    }
+
+    public func validate(
+        toggle: Bool
+    ) -> Validation {
+        return toggle ? .success : .failure(Error.required)
     }
 
     public func getMessage(

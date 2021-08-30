@@ -4,25 +4,25 @@ import Foundation
 import UIKit
 
 public protocol TextColorCustomizable: UIView {
-    var someTextColor: Color? { get set } 
+    var mc_textColor: Color? { get set }
 }
 
 extension UILabel: TextColorCustomizable {
-    public var someTextColor: Color? {
+    public var mc_textColor: Color? {
         get { textColor }
         set { textColor = newValue?.uiColor }
     }
 }
 
 extension UITextField: TextColorCustomizable {
-    public var someTextColor: Color? {
+    public var mc_textColor: Color? {
         get { textColor }
         set { textColor = newValue?.uiColor }
     }
 }
 
 extension UITextView: TextColorCustomizable {
-    public var someTextColor: Color? {
+    public var mc_textColor: Color? {
         get { textColor }
         set { textColor = newValue?.uiColor }
     }

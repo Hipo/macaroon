@@ -7,8 +7,3 @@ public protocol AppLaunchUIController: AppLaunchController {
 
     var uiHandler: SomeAppLaunchUIHandler { get }
 }
-
-/// <mark>
-/// Auth
-public protocol AppAuthLaunchUIController: AppAuthLaunchController, AppLaunchUIController
-where SomeAppLaunchUIHandler: AppAuthLaunchUIHandler { }
