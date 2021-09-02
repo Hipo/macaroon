@@ -8,7 +8,7 @@ public struct AttributedTextComponents {
     public var text: String? {
         didSet { textDidEdit(from: oldValue) }
     }
-    public var attributes: TextAttributes? {
+    public var attributes: TextAttributeGroup? {
         didSet { attributesDidEdit() }
     }
 
@@ -16,7 +16,7 @@ public struct AttributedTextComponents {
 
     public init(
         text: String? = nil,
-        attributes: TextAttributes? = nil
+        attributes: TextAttributeGroup? = nil
     ) {
         self.text = text
         self.attributes = attributes
@@ -49,10 +49,10 @@ extension AttributedTextComponents {
 }
 
 public protocol TextAttribute: Identifiable {
-    typealias SystemAttributes = Dictionary<NSAttributedString.Key, Any>
+    typealias SystemAttributeGroup = Dictionary<NSAttributedString.Key, Any>
 
     func apply(
-        to systemAttributes: inout SystemAttributes
+        to systemAttributes: inout SystemAttributeGroup
     )
 }
 
@@ -65,7 +65,7 @@ extension TextAttribute {
 public struct AnyTextAttribute: TextAttribute {
     public let id: String
 
-    private let _apply: (inout SystemAttributes) -> Void
+    private let _apply: (inout SystemAttributeGroup) -> Void
 
     public init<T: TextAttribute>(
         _ textAttribute: T
@@ -75,7 +75,7 @@ public struct AnyTextAttribute: TextAttribute {
     }
 
     public func apply(
-        to systemAttributes: inout SystemAttributes
+        to systemAttributes: inout SystemAttributeGroup
     ) {
         _apply(&systemAttributes)
     }
@@ -99,7 +99,7 @@ extension AnyTextAttribute {
     }
 
     public static func paragraph(
-        _ paragraph: ParagraphAttributes
+        _ paragraph: ParagraphAttributeGroup
     ) -> Self {
         return AnyTextAttribute(
             ParagraphTextAttribute(paragraph)
@@ -134,7 +134,7 @@ public struct FontTextAttribute: TextAttribute {
     }
 
     public func apply(
-        to systemAttributes: inout SystemAttributes
+        to systemAttributes: inout SystemAttributeGroup
     ) {
         systemAttributes[.font] = value
     }
@@ -150,23 +150,23 @@ public struct LetterSpacingTextAttribute: TextAttribute {
     }
 
     public func apply(
-        to systemAttributes: inout SystemAttributes
+        to systemAttributes: inout SystemAttributeGroup
     ) {
         systemAttributes[.kern] = value
     }
 }
 
 public struct ParagraphTextAttribute: TextAttribute {
-    public let paragraph: ParagraphAttributes
+    public let paragraph: ParagraphAttributeGroup
 
     public init(
-        _ paragraph: ParagraphAttributes
+        _ paragraph: ParagraphAttributeGroup
     ) {
         self.paragraph = paragraph
     }
 
     public func apply(
-        to systemAttributes: inout SystemAttributes
+        to systemAttributes: inout SystemAttributeGroup
     ) {
         systemAttributes[.paragraphStyle] = paragraph.asSystemAttributes()
     }
@@ -182,7 +182,7 @@ public struct TextColorTextAttribute: TextAttribute {
     }
 
     public func apply(
-        to systemAttributes: inout SystemAttributes
+        to systemAttributes: inout SystemAttributeGroup
     ) {
         systemAttributes[.foregroundColor] = value
     }
@@ -201,28 +201,28 @@ public struct UnderlineStyleTextAttribute: TextAttribute {
     }
 
     public func apply(
-        to systemAttributes: inout SystemAttributes
+        to systemAttributes: inout SystemAttributeGroup
     ) {
         systemAttributes[.underlineColor] = color
         systemAttributes[.underlineStyle] = style.rawValue
     }
 }
 
-public typealias TextAttributes = Set<AnyTextAttribute>
+public typealias TextAttributeGroup = Set<AnyTextAttribute>
 
-extension TextAttributes {
-    public func asSystemAttributes() -> Element.SystemAttributes {
-        var systemAttributes: Element.SystemAttributes = [:]
+extension TextAttributeGroup {
+    public func asSystemAttributes() -> Element.SystemAttributeGroup {
+        var systemAttributes: Element.SystemAttributeGroup = [:]
         forEach { $0.apply(to: &systemAttributes) }
         return systemAttributes
     }
 }
 
 public protocol ParagraphAttribute: Identifiable {
-    typealias SystemAttributes = NSMutableParagraphStyle
+    typealias SystemAttributeGroup = NSMutableParagraphStyle
 
     func apply(
-        to systemAttributes: SystemAttributes
+        to systemAttributes: SystemAttributeGroup
     )
 }
 
@@ -245,7 +245,7 @@ public struct AnyParagraphAttribute: ParagraphAttribute {
     }
 
     public func apply(
-        to systemAttributes: SystemAttributes
+        to systemAttributes: SystemAttributeGroup
     ) {
         _apply(systemAttributes)
     }
@@ -318,7 +318,7 @@ public struct LineBreakModeParagraphAttribute: ParagraphAttribute {
     }
 
     public func apply(
-        to systemAttributes: SystemAttributes
+        to systemAttributes: SystemAttributeGroup
     ) {
         systemAttributes.lineBreakMode = lineBreakMode
     }
@@ -334,7 +334,7 @@ public struct LineHeightParagraphAttribute: ParagraphAttribute {
     }
 
     public func apply(
-        to systemAttributes: SystemAttributes
+        to systemAttributes: SystemAttributeGroup
     ) {
         systemAttributes.minimumLineHeight = height
         systemAttributes.maximumLineHeight = height
@@ -351,7 +351,7 @@ public struct LineHeightMultipleParagraphAttribute: ParagraphAttribute {
     }
 
     public func apply(
-        to systemAttributes: SystemAttributes
+        to systemAttributes: SystemAttributeGroup
     ) {
         systemAttributes.lineHeightMultiple = multiplier
     }
@@ -367,7 +367,7 @@ public struct LineSpacingParagraphAttribute: ParagraphAttribute {
     }
 
     public func apply(
-        to systemAttributes: SystemAttributes
+        to systemAttributes: SystemAttributeGroup
     ) {
         systemAttributes.lineSpacing = spacing
     }
@@ -383,7 +383,7 @@ public struct MaxLineHeightParagraphAttribute: ParagraphAttribute {
     }
 
     public func apply(
-        to systemAttributes: SystemAttributes
+        to systemAttributes: SystemAttributeGroup
     ) {
         systemAttributes.maximumLineHeight = height
     }
@@ -399,7 +399,7 @@ public struct MinLineHeightParagraphAttribute: ParagraphAttribute {
     }
 
     public func apply(
-        to systemAttributes: SystemAttributes
+        to systemAttributes: SystemAttributeGroup
     ) {
         systemAttributes.minimumLineHeight = height
     }
@@ -415,17 +415,17 @@ public struct TextAlignmentParagraphAttribute: ParagraphAttribute {
     }
 
     public func apply(
-        to systemAttributes: SystemAttributes
+        to systemAttributes: SystemAttributeGroup
     ) {
         systemAttributes.alignment = alignment
     }
 }
 
-public typealias ParagraphAttributes = Set<AnyParagraphAttribute>
+public typealias ParagraphAttributeGroup = Set<AnyParagraphAttribute>
 
-extension ParagraphAttributes {
+extension ParagraphAttributeGroup {
     public func asSystemAttributes() -> NSParagraphStyle {
-        let systemAttributes = Element.SystemAttributes()
+        let systemAttributes = Element.SystemAttributeGroup()
         forEach { $0.apply(to: systemAttributes) }
         return systemAttributes
     }
@@ -433,7 +433,7 @@ extension ParagraphAttributes {
 
 extension String {
     public func attributed(
-        _ attributes: TextAttributes
+        _ attributes: TextAttributeGroup
     ) -> NSAttributedString {
         let components = AttributedTextComponents(text: self, attributes: attributes)
         return components.attributedText ?? NSAttributedString()

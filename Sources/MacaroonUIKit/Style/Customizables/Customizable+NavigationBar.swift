@@ -98,9 +98,9 @@ extension Customizable where Self: UINavigationBar {
         backImage: Image?
     ) {
         if #available(iOS 13, *) {
-            let standardAppearance = standardAppearance.copy()
-            let compactAppearance = compactAppearance?.copy()
-            let scrollEdgeAppearance = scrollEdgeAppearance?.copy()
+            let standardAppearance = self.standardAppearance.copy()
+            let compactAppearance = self.compactAppearance?.copy()
+            let scrollEdgeAppearance = self.scrollEdgeAppearance?.copy()
 
             [standardAppearance, compactAppearance, scrollEdgeAppearance]
                 .compactMap { $0 }
