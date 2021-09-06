@@ -8,7 +8,7 @@ import UIKit
 public class KeyboardController: NotificationObserver {
     private typealias KeyboardExecutable = (execute: (Keyboard) -> Void, animated: Bool)
 
-    public var observations: [NSObjectProtocol] = []
+    public var notificationObservations: [NSObjectProtocol] = []
 
     public private(set) var keyboard: Keyboard?
 

@@ -57,7 +57,7 @@ extension UIImage {
                 scale
             )
         let someSize =
-            scaledSize.unwrapConditionally(
+            scaledSize.unwrap(
                 where: { !$0.isEmpty && $0 < self.size }
             )
 
@@ -82,7 +82,7 @@ extension UIImage {
                 scale
             )
         let someSize =
-            scaledSize.unwrapConditionally(
+            scaledSize.unwrap(
                 where: { !$0.isEmpty && $0 < self.size }
             )
 
@@ -108,7 +108,7 @@ extension UIImage {
                 scale
             )
         let someSize =
-            scaledSize.unwrapConditionally(
+            scaledSize.unwrap(
                 where: { !$0.isEmpty }
             )
 

@@ -65,7 +65,7 @@ open class MediaPicker: NSObject {
     }
 
     open func close() {
-        if let presentingScreen = presentingScreen.unwrapConditionally(where: { $0.presentedViewController is UIImagePickerController }) {
+        if let presentingScreen = presentingScreen.unwrap(where: { $0.presentedViewController is UIImagePickerController }) {
             presentingScreen.dismiss(animated: true)
         }
     }

@@ -31,7 +31,7 @@ open class Screen:
     public var leftNavigationBarButtonItems: [NavigationBarButtonItem] = []
     public var rightNavigationBarButtonItems: [NavigationBarButtonItem] = []
 
-    public var observations: [NSObjectProtocol] = []
+    public var notificationObservations: [NSObjectProtocol] = []
 
     public var flowIdentifier: String = ""
     public var pathIdentifier: String = ""

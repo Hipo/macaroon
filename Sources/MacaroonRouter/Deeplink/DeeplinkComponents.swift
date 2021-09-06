@@ -15,7 +15,7 @@ public struct DeeplinkComponents {
     ) {
         self.url = url
         
-        guard let host = url.host.unwrapConditionally(where: { $0.hasSuffix(deeplinkHost) }) else {
+        guard let host = url.host.unwrap(where: { $0.hasSuffix(deeplinkHost) }) else {
             subdomain = ""
             path = ""
             queryItems = []
