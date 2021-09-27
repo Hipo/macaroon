@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "Macaroon",
-    platforms: [.iOS(.v11)],
+    platforms: [.iOS(.v12)],
     products: [
         .library(name: "MacaroonApplication", targets: ["MacaroonApplication"]),
         .library(name: "MacaroonBanner", targets: ["MacaroonBanner"]),
@@ -28,7 +28,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/luximetr/AnyFormatKit.git", .upToNextMajor(from: "2.5.1")),
-        .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "6.0.0")),
+        .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "7.0.0")),
         .package(name: "MacaroonUtils", url: "https://github.com/Hipo/macaroon-utils.git", .upToNextMajor(from: "1.0.0")),
         .package(name: "Macaw", url: "https://github.com/exyte/macaw.git", .upToNextMajor(from: "0.9.7")),
         .package(name: "Mixpanel", url: "https://github.com/mixpanel/mixpanel-swift.git", .upToNextMajor(from: "2.10.1")),
