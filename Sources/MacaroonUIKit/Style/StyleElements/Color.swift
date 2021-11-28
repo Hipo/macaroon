@@ -29,20 +29,10 @@ extension String: Color {
     }
 }
 
-public protocol StateColor:
-    Color,
-    Hashable {
+public protocol StateColor: Color {
     typealias State = UIControl.State
 
     var state: State { get }
-}
-
-extension StateColor {
-    public func hash(
-        into hasher: inout Hasher
-    ) {
-        hasher.combine(state.rawValue)
-    }
 }
 
 public struct AnyStateColor: StateColor {
@@ -55,91 +45,47 @@ public struct AnyStateColor: StateColor {
         self.uiColor = base.uiColor
         self.state = base.state
     }
+
+    public init(
+        color: Color,
+        state: State
+    ) {
+        self.uiColor = color.uiColor
+        self.state = state
+    }
 }
 
 extension AnyStateColor {
     public static func normal(
         _ color: Color
     ) -> AnyStateColor {
-        return AnyStateColor(
-            NormalColor(color: color)
-        )
+        return AnyStateColor(color: color, state: .normal)
     }
 
     public static func highlighted(
         _ color: Color
     ) -> AnyStateColor {
-        return AnyStateColor(
-            HighlightedColor(color: color)
-        )
+        return AnyStateColor(color: color, state: .highlighted)
     }
 
     public static func selected(
         _ color: Color
     ) -> AnyStateColor {
-        return AnyStateColor(
-            SelectedColor(color: color)
-        )
+        return AnyStateColor(color: color, state: .selected)
     }
 
     public static func disabled(
         _ color: Color
     ) -> AnyStateColor {
-        return AnyStateColor(
-            DisabledColor(color: color)
-        )
+        return AnyStateColor(color: color, state: .disabled)
     }
 }
 
-public struct NormalColor: StateColor {
-    public let uiColor: UIColor
-    public var state: State = .normal
+public typealias StateColorGroup = [AnyStateColor]
 
-    public init(
-        color: Color
-    ) {
-        self.uiColor = color.uiColor
-    }
-}
-
-public struct HighlightedColor: StateColor {
-    public let uiColor: UIColor
-    public var state: State = .highlighted
-
-    public init(
-        color: Color
-    ) {
-        self.uiColor = color.uiColor
-    }
-}
-
-public struct SelectedColor: StateColor {
-    public let uiColor: UIColor
-    public var state: State = .selected
-
-    public init(
-        color: Color
-    ) {
-        self.uiColor = color.uiColor
-    }
-}
-
-public struct DisabledColor: StateColor {
-    public let uiColor: UIColor
-    public var state: State = .disabled
-
-    public init(
-        color: Color
-    ) {
-        self.uiColor = color.uiColor
-    }
-}
-
-public typealias ColorGroup = Set<AnyStateColor>
-
-extension ColorGroup {
+extension StateColorGroup {
     public subscript (
-        state: AnyStateImage.State
+        state: StateColor.State
     ) -> UIColor? {
         return first { $0.state == state }?.uiColor
     }

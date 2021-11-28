@@ -10,6 +10,10 @@ public protocol Image {
 }
 
 extension Image {
+    public var originalImage: UIImage {
+        return uiImage.original
+    }
+
     public var templateImage: UIImage {
         return uiImage.template
     }
@@ -36,20 +40,10 @@ extension String: Image {
     }
 }
 
-public protocol StateImage:
-    Image,
-    Hashable {
+public protocol StateImage: Image {
     typealias State = UIControl.State
 
     var state: State { get }
-}
-
-extension StateImage {
-    public func hash(
-        into hasher: inout Hasher
-    ) {
-        hasher.combine(state.rawValue)
-    }
 }
 
 public struct AnyStateImage: StateImage {
@@ -62,91 +56,47 @@ public struct AnyStateImage: StateImage {
         self.uiImage = base.uiImage
         self.state = base.state
     }
+
+    public init(
+        image: Image,
+        state: State
+    ) {
+        self.uiImage = image.uiImage
+        self.state = state
+    }
 }
 
 extension AnyStateImage {
     public static func normal(
         _ image: Image
     ) -> AnyStateImage {
-        return AnyStateImage(
-            NormalImage(image: image)
-        )
+        return AnyStateImage(image: image, state: .normal)
     }
 
     public static func highlighted(
         _ image: Image
     ) -> AnyStateImage {
-        return AnyStateImage(
-            HighlightedImage(image: image)
-        )
+        return AnyStateImage(image: image, state: .highlighted)
     }
 
     public static func selected(
         _ image: Image
     ) -> AnyStateImage {
-        return AnyStateImage(
-            SelectedImage(image: image)
-        )
+        return AnyStateImage(image: image, state: .selected)
     }
 
     public static func disabled(
         _ image: Image
     ) -> AnyStateImage {
-        return AnyStateImage(
-            DisabledImage(image: image)
-        )
+        return AnyStateImage(image: image, state: .disabled)
     }
 }
 
-public struct NormalImage: StateImage {
-    public let uiImage: UIImage
-    public var state: State = .normal
+public typealias StateImageGroup = [AnyStateImage]
 
-    public init(
-        image: Image
-    ) {
-        self.uiImage = image.uiImage
-    }
-}
-
-public struct HighlightedImage: StateImage {
-    public let uiImage: UIImage
-    public var state: State = .highlighted
-
-    public init(
-        image: Image
-    ) {
-        self.uiImage = image.uiImage
-    }
-}
-
-public struct SelectedImage: StateImage {
-    public let uiImage: UIImage
-    public var state: State = .selected
-
-    public init(
-        image: Image
-    ) {
-        self.uiImage = image.uiImage
-    }
-}
-
-public struct DisabledImage: StateImage {
-    public let uiImage: UIImage
-    public var state: State = .disabled
-
-    public init(
-        image: Image
-    ) {
-        self.uiImage = image.uiImage
-    }
-}
-
-public typealias ImageGroup = Set<AnyStateImage>
-
-extension ImageGroup {
+extension StateImageGroup {
     public subscript (
-        state: AnyStateImage.State
+        state: StateImage.State
     ) -> UIImage? {
         return first { $0.state == state }?.uiImage
     }

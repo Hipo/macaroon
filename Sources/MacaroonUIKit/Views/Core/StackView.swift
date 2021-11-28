@@ -4,6 +4,26 @@ import Foundation
 import UIKit
 
 open class HStackView: UIStackView {
+    open override var backgroundColor: UIColor? {
+        didSet {
+            if #available(iOS 13, *) {
+                if backgroundView == nil {
+                    let aBackgroundView = UIView()
+                    addSubview(aBackgroundView)
+                    aBackgroundView.snp.makeConstraints {
+                        $0.setPaddings()
+                    }
+
+                    backgroundView = aBackgroundView
+                }
+
+                backgroundView?.backgroundColor = backgroundColor
+            }
+        }
+    }
+
+    private var backgroundView: UIView?
+
     public override init(
         frame: CGRect
     ) {
@@ -26,6 +46,26 @@ open class HStackView: UIStackView {
 }
 
 open class VStackView: UIStackView {
+    open override var backgroundColor: UIColor? {
+        didSet {
+            if #available(iOS 13, *) {
+                if backgroundView == nil {
+                    let aBackgroundView = UIView()
+                    addSubview(aBackgroundView)
+                    aBackgroundView.snp.makeConstraints {
+                        $0.setPaddings()
+                    }
+
+                    backgroundView = aBackgroundView
+                }
+
+                backgroundView?.backgroundColor = backgroundColor
+            }
+        }
+    }
+
+    private var backgroundView: UIView?
+
     public override init(
         frame: CGRect
     ) {

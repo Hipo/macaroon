@@ -49,7 +49,7 @@ extension Customizable where Self: UIButton {
 
 extension Customizable where Self: UIButton {
     public func customizeBaseAppearance(
-        backgroundImage: ImageGroup?
+        backgroundImage: StateImageGroup?
     ) {
         backgroundImage?.forEach {
             setBackgroundImage(
@@ -67,7 +67,7 @@ extension Customizable where Self: UIButton {
     }
 
     public func customizeBaseAppearance(
-        icon: ImageGroup?
+        icon: StateImageGroup?
     ) {
         icon?.forEach {
             setImage(
@@ -91,7 +91,7 @@ extension Customizable where Self: UIButton {
     }
 
     public func customizeBaseAppearance(
-        titleColor: ColorGroup?
+        titleColor: StateColorGroup?
     ) {
         titleColor?.forEach {
             setTitleColor(

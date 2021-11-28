@@ -6,22 +6,6 @@ import UIKit
 
 public protocol ImageStyleAttribute: StyleAttribute where AnyView == UIImageView {}
 
-public struct ContentImageStyleAttribute: ImageStyleAttribute {
-    public let image: Image
-
-    public init(
-        _ image: Image
-    ) {
-        self.image = image
-    }
-
-    public func apply(
-        to view: UIImageView
-    ) {
-        view.image = image.uiImage
-    }
-}
-
 public struct ContentModeImageStyleAttribute: ImageStyleAttribute {
     public let contentMode: UIView.ContentMode
 
@@ -55,14 +39,6 @@ public struct DynamicTypeImageStyleAttribute: ImageStyleAttribute {
 }
 
 extension AnyStyleAttribute where AnyView == UIImageView {
-    public static func content(
-        _ image: Image
-    ) -> Self {
-        return AnyStyleAttribute(
-            ContentImageStyleAttribute(image)
-        )
-    }
-
     public static func contentMode(
         _ contentMode: UIView.ContentMode
     ) -> Self {

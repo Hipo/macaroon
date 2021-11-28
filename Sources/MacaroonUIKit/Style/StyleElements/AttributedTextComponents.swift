@@ -15,13 +15,18 @@ public struct AttributedTextComponents {
     public private(set) var attributedText: NSAttributedString?
 
     public init(
-        text: String? = nil,
+        text: String?,
         attributes: TextAttributeGroup? = nil
     ) {
         self.text = text
         self.attributes = attributes
-
-        updateAttributedText()
+        self.attributedText =
+            text.unwrap {
+                AttributedTextComponents.generateAttributedText(
+                    $0,
+                    attributes: attributes
+                )
+            }
     }
 }
 
@@ -39,12 +44,22 @@ extension AttributedTextComponents {
     }
 
     private mutating func updateAttributedText() {
-        if let text = text {
-            attributedText =
-                NSAttributedString(string: text, attributes: attributes?.asSystemAttributes())
-        } else {
-            attributedText = nil
-        }
+        attributedText =
+            text.unwrap {
+                AttributedTextComponents.generateAttributedText(
+                    $0,
+                    attributes: attributes
+                )
+            }
+    }
+}
+
+extension AttributedTextComponents {
+    private static func generateAttributedText(
+        _ text: String,
+        attributes: TextAttributeGroup?
+    ) -> NSAttributedString {
+        return NSAttributedString(string: text, attributes: attributes?.asSystemAttributes())
     }
 }
 

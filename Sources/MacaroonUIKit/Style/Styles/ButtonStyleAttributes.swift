@@ -7,10 +7,10 @@ import UIKit
 public protocol ButtonStyleAttribute: StyleAttribute where AnyView == UIButton {}
 
 public struct BackgroundImageButtonStyleAttribute: ButtonStyleAttribute {
-    public let imageGroup: ImageGroup
+    public let imageGroup: StateImageGroup
 
     public init(
-        _ imageGroup: ImageGroup
+        _ imageGroup: StateImageGroup
     ) {
         self.imageGroup = imageGroup
     }
@@ -35,10 +35,10 @@ public struct BackgroundImageButtonStyleAttribute: ButtonStyleAttribute {
 }
 
 public struct IconButtonStyleAttribute: ButtonStyleAttribute {
-    public let imageGroup: ImageGroup
+    public let imageGroup: StateImageGroup
 
     public init(
-        _ imageGroup: ImageGroup
+        _ imageGroup: StateImageGroup
     ) {
         self.imageGroup = imageGroup
     }
@@ -63,10 +63,10 @@ public struct IconButtonStyleAttribute: ButtonStyleAttribute {
 }
 
 public struct TitleColorButtonStyleAttribute: ButtonStyleAttribute {
-    public let colorGroup: ColorGroup
+    public let colorGroup: StateColorGroup
 
     public init(
-        _ colorGroup: ColorGroup
+        _ colorGroup: StateColorGroup
     ) {
         self.colorGroup = colorGroup
     }
@@ -92,7 +92,7 @@ public struct TitleColorButtonStyleAttribute: ButtonStyleAttribute {
 
 extension AnyStyleAttribute where AnyView == UIButton {
     public static func backgroundImage(
-        _ imageGroup: ImageGroup
+        _ imageGroup: StateImageGroup
     ) -> Self {
         return AnyStyleAttribute(
             BackgroundImageButtonStyleAttribute(imageGroup)
@@ -100,7 +100,7 @@ extension AnyStyleAttribute where AnyView == UIButton {
     }
 
     public static func icon(
-        _ imageGroup: ImageGroup
+        _ imageGroup: StateImageGroup
     ) -> Self {
         return AnyStyleAttribute(
             IconButtonStyleAttribute(imageGroup)
@@ -108,7 +108,7 @@ extension AnyStyleAttribute where AnyView == UIButton {
     }
 
     public static func titleColor(
-        _ colorGroup: ColorGroup
+        _ colorGroup: StateColorGroup
     ) -> Self {
         return AnyStyleAttribute(
             TitleColorButtonStyleAttribute(colorGroup)

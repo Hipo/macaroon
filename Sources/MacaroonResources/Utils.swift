@@ -52,27 +52,29 @@ public func img(_ named: String) -> UIImage {
 /// <mark>
 /// Localization
 extension String {
-    public func localized(_ args: CVarArg...) -> String {
-        return localized(
-            args: args
-        )
+    public func localized(
+        _ args: CVarArg...
+    ) -> String {
+        return localized(args: args)
     }
 
-    public func localized(args: [CVarArg]) -> String {
+    public func localized(
+        args: [CVarArg]
+    ) -> String {
         return String(format: NSLocalizedString(self, comment: ""), arguments: args)
     }
 }
 
 extension RawRepresentable where RawValue == String {
-    public func localized(_ args: CVarArg...) -> String {
-        return localized(
-            args: args
-        )
+    public func localized(
+        _ args: CVarArg...
+    ) -> String {
+        return localized(args: args)
     }
 
-    public func localized(args: [CVarArg]) -> String {
-        return rawValue.localized(
-            args: args
-        )
+    public func localized(
+        args: [CVarArg]
+    ) -> String {
+        return rawValue.localized(args: args)
     }
 }
