@@ -78,14 +78,14 @@ open class Button:
             rect.origin.y = contentRect.minY + padding + contentEdgeInsets.top
             return rect
         case .imageAtLeft(let spacing):
-            rect.origin.x = rect.origin.x - (spacing / 2.0).rounded()
+            rect.origin.x = rect.minX - (spacing / 2.0).rounded()
             return rect
         case .imageAtLeftmost(let padding, _):
             rect.origin.x = contentRect.width - (padding + contentEdgeInsets.left)
             return rect
         case .imageAtRight(let spacing):
             let titleWidth = super.titleRect(forContentRect: contentRect).width
-            rect.origin.x = rect.minX + titleWidth + (spacing / 2.0).rounded() + contentEdgeInsets.left
+            rect.origin.x = rect.minX + titleWidth + (spacing / 2.0).rounded()
             return rect
         case .imageAtRightmost(let padding, _):
             rect.origin.x = contentRect.width - (rect.width + padding + contentEdgeInsets.right)
@@ -120,14 +120,14 @@ open class Button:
             rect.size.width = contentRect.width - contentEdgeInsets.x
             return rect
         case .imageAtLeft(let spacing):
-            rect.origin.x = rect.origin.x + (spacing / 2.0).rounded()
+            rect.origin.x = rect.minX + (spacing / 2.0).rounded()
             return rect
         case .imageAtLeftmost(_, let titleAdjustmentX):
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + titleAdjustmentX + contentEdgeInsets.left
             return rect
         case .imageAtRight(let spacing):
             let imageWidth = super.imageRect(forContentRect: contentRect).width
-            rect.origin.x = ((contentRect.width - (rect.width + spacing + imageWidth)) / 2.0).rounded() + contentEdgeInsets.left
+            rect.origin.x = rect.minX - imageWidth - ((spacing / 2.0).rounded())
             return rect
         case .imageAtRightmost(_, let titleAdjustmentX):
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + titleAdjustmentX + contentEdgeInsets.left
@@ -194,14 +194,35 @@ extension Button {
             return nil
         }
 
-        if layout.isHorizontal {
-            return nil
-        }
-
         if let cachedIntrinsicContentSize = cachedIntrinsicContentSize {
             return cachedIntrinsicContentSize
         }
 
+        if layout.isHorizontal {
+            cachedIntrinsicContentSize = calculateIntrinsicContentSizeForHorizontalLayouts()
+        } else {
+            cachedIntrinsicContentSize = calculateIntrinsicContentSizeForVerticalLayouts()
+        }
+        
+        return cachedIntrinsicContentSize
+    }
+    
+    private func calculateIntrinsicContentSizeForHorizontalLayouts() -> CGSize? {
+        switch layout {
+        case .imageAtLeft(let spacing),
+             .imageAtRight(let spacing):
+            let implicitContentSize = super.intrinsicContentSize
+            return CGSize((implicitContentSize.width + spacing, implicitContentSize.height))
+        case .imageAtLeftmost(let padding, let titleAdjustmentX),
+             .imageAtRightmost(let padding, let titleAdjustmentX):
+            let implicitContentSize = super.intrinsicContentSize
+            return CGSize((implicitContentSize.width + padding + titleAdjustmentX, implicitContentSize.height))
+        default:
+            return nil
+        }
+    }
+    
+    private func calculateIntrinsicContentSizeForVerticalLayouts() -> CGSize? {
         let imageSize = currentImage?.size ?? .zero
         let titleSize: CGSize
 
@@ -227,7 +248,11 @@ extension Button {
 
         switch layout {
         case .imageAtTop(let spacing):
-            height = imageSize.height + titleSize.height + spacing + contentEdgeInsets.y
+            height =
+                imageSize.height +
+                titleSize.height +
+                spacing +
+                contentEdgeInsets.y
         case .imageAtTopmost(let padding, let titleAdjustmentY):
             height =
                 imageSize.height +
@@ -246,9 +271,7 @@ extension Button {
             height = 0
         }
 
-        cachedIntrinsicContentSize = CGSize((width, height))
-
-        return cachedIntrinsicContentSize
+        return CGSize((width, height))
     }
 }
 
