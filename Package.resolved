@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/Hipo/macaroon-utils.git",
         "state": {
           "branch": null,
-          "revision": "63052dedd3e762633c6f035d6e079f18cc6cb999",
-          "version": "2.0.5"
+          "revision": "a650e95dd944818cdfa97c46c707d2f45bd5e472",
+          "version": "3.0.0"
         }
       },
       {
@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/mixpanel/mixpanel-swift.git",
         "state": {
           "branch": null,
-          "revision": "15dbfbabb2821e70c098412bdadbcc15aaf61d69",
-          "version": "2.10.3"
+          "revision": "cf569f790c0ec9e9f94f25e56b7ba5762198d34a",
+          "version": "2.10.4"
         }
       },
       {
