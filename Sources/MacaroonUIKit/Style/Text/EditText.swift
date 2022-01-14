@@ -4,7 +4,7 @@ import Foundation
 import MacaroonUtils
 import UIKit
 
-public enum EditText {
+public enum EditText: Hashable {
     case string(String?, UIFont? = nil)
     case attributedString(NSAttributedString)
 }
