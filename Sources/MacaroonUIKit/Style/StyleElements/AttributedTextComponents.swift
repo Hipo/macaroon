@@ -112,6 +112,15 @@ extension AnyTextAttribute {
             LetterSpacingTextAttribute(spacing)
         )
     }
+    
+    public static func lineHeightMultiplier(
+        _ multiplier: CGFloat,
+        _ font: Font
+    ) -> Self {
+        return AnyTextAttribute(
+            LineHeightMultipleTextAttribute(multiplier, font)
+        )
+    }
 
     public static func paragraph(
         _ paragraph: ParagraphAttributeGroup
@@ -168,6 +177,37 @@ public struct LetterSpacingTextAttribute: TextAttribute {
         to systemAttributes: inout SystemAttributeGroup
     ) {
         systemAttributes[.kern] = value
+    }
+}
+
+/// <ref>
+/// http://blog.eppz.eu/uilabel-line-height-letter-spacing-and-more-uilabel-typography-extensions/
+///
+/// <warning>
+/// It should be used alongside `LineHeightMultiplierParagraphAttribute`.
+public struct LineHeightMultipleTextAttribute: TextAttribute {
+    public let multiplier: CGFloat
+    public let font: UIFont
+    
+    public init(
+        _ multiplier: CGFloat,
+        _ font: Font
+    ) {
+        self.multiplier = multiplier
+        self.font = font.uiFont
+    }
+    
+    public func apply(
+        to systemAttributes: inout SystemAttributeGroup
+    ) {
+        let lineHeight = font.lineHeight
+        let expectedLineHeight = (lineHeight * multiplier) - lineHeight
+        
+        if expectedLineHeight <= 0 {
+            return
+        }
+
+        systemAttributes[.baselineOffset] = expectedLineHeight / 4
     }
 }
 

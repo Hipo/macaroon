@@ -6,6 +6,11 @@ import SnapKit
 import UIKit
 
 extension UIView {
+    public func fitToIntrinsicSize() {
+        fitToHorizontalIntrinsicSize()
+        fitToVerticalIntrinsicSize()
+    }
+    
     public func fitToHorizontalIntrinsicSize(
         hugging: UILayoutPriority = .required,
         compression: UILayoutPriority = .required

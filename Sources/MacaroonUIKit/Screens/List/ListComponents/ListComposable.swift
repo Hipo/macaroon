@@ -33,7 +33,10 @@ extension ListComposable {
     }
 }
 
-extension ListComposable where Self: ViewModelBindable, Self.ContextView: ViewModelBindable {
+extension ListComposable
+where
+    Self: ViewModelBindable,
+    ContextView: ViewModelBindable {
     public func bindData(
         _ viewModel: ContextView.ViewModel?
     ) {
@@ -58,5 +61,14 @@ extension ListComposable where Self: ViewModelBindable, Self.ContextView: ViewMo
             width: (preferredSize.width + contextHorizontalPaddings).ceil(),
             height: (preferredSize.height + contextPaddings.top + contextPaddings.bottom).ceil()
         )
+    }
+}
+
+extension ListComposable
+where
+    Self: UIInteractionObservable,
+    ContextView: UIInteractionObservable {
+    public var uiInteractions: [ContextView.Event: UIInteraction] {
+        return contextView.uiInteractions
     }
 }

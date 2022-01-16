@@ -14,7 +14,7 @@ extension String {
             options = [.usesFontLeading]
         }
         let fittingBoundingRect = NSString(string: self).boundingRect(with: fittingSize, options: options, attributes: attributes.asSystemAttributes(), context: nil)
-        return CGSize(width: min(fittingBoundingRect.width.ceil(), fittingSize.width), height: min(fittingBoundingRect.height.ceil(), fittingSize.height))
+        return fittingBoundingRect.size
     }
 }
 
@@ -23,11 +23,11 @@ extension NSAttributedString {
         let options: NSStringDrawingOptions
 
         if multiline {
-            options = [.usesFontLeading, .usesLineFragmentOrigin, .truncatesLastVisibleLine]
+            options = [.usesLineFragmentOrigin, .truncatesLastVisibleLine]
         } else {
-            options = [.usesFontLeading]
+            options = []
         }
         let fittingBoundingRect = boundingRect(with: fittingSize, options: options, context: nil)
-        return CGSize(width: min(fittingBoundingRect.width.ceil(), fittingSize.width), height: min(fittingBoundingRect.height.ceil(), fittingSize.height))
+        return fittingBoundingRect.size
     }
 }

@@ -10,9 +10,8 @@ open class Button:
     CornerDrawable,
     ShadowDrawable {
     open override var intrinsicContentSize: CGSize {
-        if currentImage == nil &&
-           currentTitle.isNilOrEmpty &&
-           currentAttributedTitle.isNilOrEmpty {
+        if !hasImage() &&
+           !hasTitle() {
             return .zero
         }
 
@@ -232,13 +231,13 @@ extension Button {
                     attributes: .font(titleLabel?.font),
                     multiline: false,
                     fittingSize: .greatestFiniteMagnitude
-                )
+                ).ceil()
         } else if let currentAttributedTitle = currentAttributedTitle {
             titleSize =
                 currentAttributedTitle.boundingSize(
                     multiline: false,
                     fittingSize: .greatestFiniteMagnitude
-                )
+                ).ceil()
         } else {
             titleSize = .zero
         }
@@ -272,6 +271,18 @@ extension Button {
         }
 
         return CGSize((width, height))
+    }
+}
+
+extension Button {
+    private func hasImage() -> Bool {
+        return currentImage != nil
+    }
+    
+    private func hasTitle() -> Bool {
+        return
+            currentTitle != nil ||
+            currentAttributedTitle != nil
     }
 }
 
