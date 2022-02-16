@@ -13,6 +13,8 @@ open class BlockingLoadingController {
     public unowned let presentingView: UIView
 
     public var configuration: BlockingLoadingControllerConfiguration
+    
+    private var currentLoadingLayoutAnimator: UIViewPropertyAnimator?
 
     private var loadingIndicatorStartConstraints: [Constraint] = []
     private var loadingIndicatorStopConstraints: [Constraint] = []
@@ -27,71 +29,81 @@ open class BlockingLoadingController {
     }
 
     open func startLoading() {
+        if let currentLoadingLayoutAnimator = currentLoadingLayoutAnimator,
+           currentLoadingLayoutAnimator.isRunning {
+            currentLoadingLayoutAnimator.isReversed.toggle()
+            return
+        }
+        
         if isLoading {
             return
         }
 
-        isLoading = true
-
         prepareLayout()
         chromeView.layoutIfNeeded()
-
-        animateLayoutWhenLoadingStatusDidChange(
-            isLoading: true
-        ) { [weak self] in
-
-            guard let self = self else {
-                return
+        
+        currentLoadingLayoutAnimator = makeLoadingLayoutAnimator(loading: true)
+        currentLoadingLayoutAnimator?.addCompletion {
+            [weak self] position in
+            guard let self = self else { return }
+            
+            switch position {
+            case .start:
+                self.updateLoadingIndicatorLayoutWhenLoadingStatusDidChange(loading: false)
+            case .end:
+                self.loadingIndicator.startAnimating()
+                self.isLoading = true
+            default:
+                break
             }
-
-            self.loadingIndicator.startAnimating()
         }
+        currentLoadingLayoutAnimator?.startAnimation()
     }
 
     open func stopLoading() {
+        if let currentLoadingLayoutAnimator = currentLoadingLayoutAnimator,
+           currentLoadingLayoutAnimator.isRunning {
+            currentLoadingLayoutAnimator.isReversed.toggle()
+            return
+        }
+        
         if !isLoading {
             return
         }
-
-        loadingIndicator.stopAnimating()
-
-        animateLayoutWhenLoadingStatusDidChange(
-            isLoading: false
-        ) { [weak self] in
-
-            guard let self = self else {
-                return
+        
+        currentLoadingLayoutAnimator = makeLoadingLayoutAnimator(loading: true)
+        currentLoadingLayoutAnimator?.addCompletion {
+            [weak self] position in
+            guard let self = self else { return }
+            
+            switch position {
+            case .start:
+                self.updateLoadingIndicatorLayoutWhenLoadingStatusDidChange(loading: true)
+            case .end:
+                self.loadingIndicator.stopAnimating()
+                self.removeLayout()
+                self.isLoading = false
+            default:
+                break
             }
-
-            self.removeLayout()
-            self.isLoading = false
         }
+        currentLoadingLayoutAnimator?.startAnimation()
     }
 }
 
 extension BlockingLoadingController {
-    private func animateLayoutWhenLoadingStatusDidChange(
-        isLoading: Bool,
-        completion: @escaping () -> Void
-    ) {
-        UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.1,
-            delay: 0,
-            options: .curveEaseOut,
-            animations: {
-                [unowned self] in
-
-                self.updateLayoutWhenLoadingStatusDidChange(
-                    isLoading: isLoading
-                )
-                self.chromeView.layoutIfNeeded()
-            },
-            completion: {
-                _ in
-
-                completion()
-            }
-        )
+    private func makeLoadingLayoutAnimator(
+        loading: Bool
+    ) -> UIViewPropertyAnimator {
+        return UIViewPropertyAnimator(
+            duration: 0.1,
+            curve: .easeOut
+        ) { [weak self] in
+            guard let self = self else { return }
+            
+            self.updateLayoutWhenLoadingStatusDidChange(loading: loading)
+            self.chromeView.layoutIfNeeded()
+        }
     }
 }
 
@@ -101,18 +113,18 @@ extension BlockingLoadingController {
         addLoadingIndicator()
 
         updateLayoutWhenLoadingStatusDidChange(
-            isLoading: false
+            loading: false
         )
     }
 
     private func updateLayoutWhenLoadingStatusDidChange(
-        isLoading: Bool
+        loading: Bool
     ) {
         updateChromeLayoutWhenLoadingStatusDidChange(
-            isLoading: isLoading
+            loading: loading
         )
         updateLoadingIndicatorLayoutWhenLoadingStatusDidChange(
-            isLoading: isLoading
+            loading: loading
         )
     }
 
@@ -138,9 +150,9 @@ extension BlockingLoadingController {
     }
 
     private func updateChromeLayoutWhenLoadingStatusDidChange(
-        isLoading: Bool
+        loading: Bool
     ) {
-        chromeView.alpha = isLoading ? 1 : 0
+        chromeView.alpha = loading ? 1 : 0
     }
 
     private func removeChrome() {
@@ -175,9 +187,9 @@ extension BlockingLoadingController {
     }
 
     private func updateLoadingIndicatorLayoutWhenLoadingStatusDidChange(
-        isLoading: Bool
+        loading: Bool
     ) {
-        if isLoading {
+        if loading {
             loadingIndicatorStopConstraints.deactivate()
             loadingIndicatorStartConstraints.activate()
         } else {
