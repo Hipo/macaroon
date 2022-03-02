@@ -29,12 +29,12 @@ open class BottomSheetPresentationController:
         return (presentedContentViewController as? BottomSheetPresentable)?.modalBottomPadding ?? 0
     }
 
-    public let interactor: BottomSheetInteractor
+    public let interactor: BottomSheetInteractor?
 
     public init(
         presentedViewController: UIViewController,
         presentingViewController: UIViewController?,
-        interactor: BottomSheetInteractor,
+        interactor: BottomSheetInteractor?,
         configuration: BottomSheetPresentationConfiguration = BottomSheetPresentationConfiguration()
     ) {
         self.interactor = interactor
@@ -156,6 +156,10 @@ open class BottomSheetPresentationController:
 
 extension BottomSheetPresentationController {
     private func prepareForInteractiveUse() {
+        guard let interactor = interactor else {
+            return
+        }
+        
         interactor.animate(
             alongsideTransition: {
                 [unowned self] progress in
@@ -256,7 +260,8 @@ extension BottomSheetPresentationController {
     }
 
     private func removeOverlay() {
-        if interactor.inProgress {
+        if let interactor = interactor,
+           interactor.inProgress {
             return
         }
 
