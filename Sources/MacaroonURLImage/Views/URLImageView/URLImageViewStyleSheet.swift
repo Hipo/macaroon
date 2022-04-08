@@ -7,5 +7,5 @@ import UIKit
 public protocol URLImageViewStyleSheet: StyleSheet {
     var background: ViewStyle { get }
     var content: ImageStyle { get }
-    var placeholder: URLImagePlaceholderViewStyleSheet? { get }
+    var placeholderStyleSheet: URLImagePlaceholderViewStyleSheet? { get }
 }

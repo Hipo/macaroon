@@ -23,15 +23,14 @@ open class URLImageView:
     private(set) lazy var contentView = UIImageView()
     private(set) lazy var placeholderView = URLImagePlaceholderView()
 
-    public override init(
-        frame: CGRect
+    open func build(
+        _ sheet: URLImageViewStyleSheet & URLImageViewLayoutSheet
     ) {
-        super.init(
-            frame: frame
+        customizeAppearance(
+            sheet
         )
-
         prepareLayout(
-            NoLayoutSheet()
+            sheet
         )
     }
 
@@ -60,7 +59,7 @@ open class URLImageView:
     open func customizePlaceholderAppearance(
         _ styleSheet: URLImageViewStyleSheet
     ) {
-        if let placeholder = styleSheet.placeholder {
+        if let placeholder = styleSheet.placeholderStyleSheet {
             placeholderView.customizeAppearance(
                 placeholder
             )
@@ -68,15 +67,21 @@ open class URLImageView:
     }
 
     open func prepareLayout(
-        _ layoutSheet: LayoutSheet
+        _ layoutSheet: URLImageViewLayoutSheet
     ) {
         addContent(
             layoutSheet
         )
+
+        if let placeholder = layoutSheet.placeholderLayoutSheet {
+            placeholderView.prepareLayout(
+                placeholder
+            )
+        }
     }
 
     open func addContent(
-        _ layoutSheet: LayoutSheet
+        _ layoutSheet: URLImageViewLayoutSheet
     ) {
         addSubview(
             contentView
