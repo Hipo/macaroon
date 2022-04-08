@@ -16,19 +16,18 @@ open class URLImagePlaceholderView:
 
     public private(set) lazy var imageView = UIImageView()
     public private(set) lazy var textView = Label()
-
-    public override init(
-        frame: CGRect
+    
+    open func build(
+        _ sheet: URLImagePlaceholderViewStyleSheet & URLImagePlaceholderViewLayoutSheet
     ) {
-        super.init(
-            frame: frame
+        customizeAppearance(
+            sheet
         )
-
         prepareLayout(
-            NoLayoutSheet()
+            sheet
         )
     }
-
+    
     open func customizeAppearance(
         _ styleSheet: URLImagePlaceholderViewStyleSheet
     ) {
@@ -60,7 +59,7 @@ open class URLImagePlaceholderView:
     }
 
     open func prepareLayout(
-        _ layoutSheet: LayoutSheet
+        _ layoutSheet: URLImagePlaceholderViewLayoutSheet
     ) {
         addImage(
             layoutSheet
@@ -71,7 +70,7 @@ open class URLImagePlaceholderView:
     }
 
     open func addImage(
-        _ layoutSheet: LayoutSheet
+        _ layoutSheet: URLImagePlaceholderViewLayoutSheet
     ) {
         addSubview(
             imageView
@@ -82,7 +81,7 @@ open class URLImagePlaceholderView:
     }
 
     open func addText(
-        _ layoutSheet: LayoutSheet
+        _ layoutSheet: URLImagePlaceholderViewLayoutSheet
     ) {
         addSubview(
             textView
@@ -91,7 +90,7 @@ open class URLImagePlaceholderView:
         textView.fitToVerticalIntrinsicSize()
         textView.snp.makeConstraints {
             $0.setPaddings(
-                (8, 8, 8, 8)
+                layoutSheet.textPaddings
             )
         }
     }
