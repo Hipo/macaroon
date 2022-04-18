@@ -55,6 +55,8 @@ open class TabBarContainer:
                 }
         }
     }
+    
+    public var itemDidSelect: ((Int) -> Void)?
 
     public private(set) lazy var tabBar = TabBar()
     public private(set) var isTabBarHidden = false
@@ -118,8 +120,12 @@ open class TabBarContainer:
     open override func setListeners() {
         tabBar.barButtonDidSelect = {
             [unowned self] index in
-
-            self.selectedIndex = index
+            
+            if let itemDidSelect = self.itemDidSelect {
+                itemDidSelect(index)
+            } else {
+                self.selectedIndex = index
+            }
         }
     }
 
@@ -179,6 +185,16 @@ extension TabBarContainer {
                 completion()
             }
         )
+    }
+    
+    public func setTabBarItemsEnabled(
+        _ isEnabled: Bool
+    ) {
+        items.enumerated().forEach {
+            if $1.isSelectable {
+                tabBar.barButtons[$0].isEnabled = isEnabled
+            }
+        }
     }
 
     public func set(

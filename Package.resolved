@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/luximetr/AnyFormatKit.git",
         "state": {
           "branch": null,
-          "revision": "27b35c984c1c81e74c8be5273f7b2dc5250cb5cc",
-          "version": "2.5.1"
+          "revision": "ae3a965164005b07f81d6aa066520d7ad14ea54e",
+          "version": "2.5.2"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
         "state": {
           "branch": null,
-          "revision": "0c02c46cfdc0656ce74fd0963a75e5000a0b7f23",
-          "version": "7.1.2"
+          "revision": "1a7b5480eb750a8e171654b9b1cb0a2cbeb27a55",
+          "version": "7.2.1"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/SnapKit/SnapKit.git",
         "state": {
           "branch": null,
-          "revision": "d458564516e5676af9c70b4f4b2a9178294f1bc6",
-          "version": "5.0.1"
+          "revision": "f222cbdf325885926566172f6f5f06af95473158",
+          "version": "5.6.0"
         }
       },
       {

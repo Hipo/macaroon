@@ -4,17 +4,14 @@ import Foundation
 import MacaroonUIKit
 import UIKit
 
-public struct Route<
-    SomeFlow: Flow,
-    SomePath: Path
->: Equatable {
+public struct Route {
     let identifier: String
-    let flow: SomeFlow
+    let flow: Flow? /// nil = current flow
     let destination: Destination
     let transitionStyle: TransitionStyle
 
     init(
-        flow: SomeFlow,
+        flow: Flow?,
         destination: Destination,
         transitionStyle: TransitionStyle
     ) {
@@ -27,7 +24,7 @@ public struct Route<
 
 extension Route {
     public static func flow(
-        _ flow: SomeFlow,
+        _ flow: Flow,
         at existingPath: ExistingPath = .last
     ) -> Self {
         return .init(flow: flow, destination: .existing(existingPath), transitionStyle: .existing)
@@ -36,58 +33,65 @@ extension Route {
     public static func path(
         _ existingScreen: ScreenRoutable
     ) -> Self {
-        return .flow(.instance(existingScreen.flowIdentifier), at: .interim(existingScreen))
+        return .flow(AnyFlow(existingScreen.flowIdentifier), at: .interim(existingScreen))
     }
 
     public static func next(
-        _ paths: SomePath...
+        _ paths: Path...
     ) -> Self {
-        return .init(flow: .current, destination: .new(paths), transitionStyle: .next)
+        return .init(flow: nil, destination: .new(paths), transitionStyle: .next)
     }
 
     public static func stack(
-        _ paths: SomePath...
+        _ paths: Path...
     ) -> Self {
-        return .init(flow: .current, destination: .new(paths), transitionStyle: .stack)
+        return .init(flow: nil, destination: .new(paths), transitionStyle: .stack)
     }
 
     public static func stack(
-        _ paths: SomePath...,
+        _ paths: Path...,
         attachedTo existingScreen: ScreenRoutable
     ) -> Self {
         return .init(
-            flow: .instance(existingScreen.flowIdentifier),
+            flow: AnyFlow(existingScreen.flowIdentifier),
             destination: .override(existingScreen, paths),
             transitionStyle: .stack
         )
     }
 
     public static func modal(
-        _ paths: SomePath...
+        _ paths: Path...
     ) -> Self {
-        return .init(flow: .current, destination: .new(paths), transitionStyle: .modal)
+        return .init(flow: nil, destination: .new(paths), transitionStyle: .modal)
     }
 
     public static func builtInModal(
-        _ paths: SomePath...,
+        _ paths: Path...,
         modalPresentationStyle: UIModalPresentationStyle = .fullScreen,
         modalTransitionStyle: UIModalTransitionStyle? = nil
     ) -> Self {
         return .init(
-            flow: .current,
+            flow: nil,
             destination: .new(paths),
-            transitionStyle: .builtInModal(modalPresentationStyle, modalTransitionStyle)
+            transitionStyle: .builtInModal(
+                presentation: modalPresentationStyle,
+                transition: modalTransitionStyle
+            )
         )
     }
 
     public static func customModal(
-        _ paths: SomePath...,
-        transitioningDelegate: UIViewControllerTransitioningDelegate
+        _ paths: Path...,
+        transitioningDelegate: UIViewControllerTransitioningDelegate,
+        containedInNavigationContainer isInNavContainer: Bool = true
     ) -> Self {
         return .init(
-            flow: .current,
+            flow: nil,
             destination: .new(paths),
-            transitionStyle: .customModal(transitioningDelegate)
+            transitionStyle: .customModal(
+                transitioningDelegate: transitioningDelegate,
+                containedInNavigationContainer: isInNavContainer
+            )
         )
     }
 }
@@ -104,8 +108,8 @@ extension Route {
 extension Route {
     enum Destination {
         case existing(ExistingPath)
-        case new([SomePath])
-        case override(ScreenRoutable, [SomePath])
+        case new([Path])
+        case override(ScreenRoutable, [Path])
     }
 
     enum TransitionStyle {
@@ -118,7 +122,13 @@ extension Route {
         case next
         case stack
         case modal
-        case builtInModal(UIModalPresentationStyle, UIModalTransitionStyle?)
-        case customModal(UIViewControllerTransitioningDelegate)
+        case builtInModal(
+            presentation: UIModalPresentationStyle,
+            transition: UIModalTransitionStyle?
+        )
+        case customModal(
+            transitioningDelegate: UIViewControllerTransitioningDelegate,
+            containedInNavigationContainer: Bool
+        )
     }
 }

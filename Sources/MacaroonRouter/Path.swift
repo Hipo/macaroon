@@ -5,24 +5,13 @@ import MacaroonUIKit
 
 /// <note>
 /// Identifies a single screen.
-public protocol Path: Equatable {
+public protocol Path {
     typealias ScreenBuilder = () -> ScreenRoutable
 
     /// <note>
     /// It should be unique for every path out there.
     var identifier: String { get }
     var build: ScreenBuilder { get }
-
-    static func instance(_ identifier: String) -> Self
-}
-
-extension Path {
-    public static func == (
-        lhs: Self,
-        rhs: Self
-    ) -> Bool {
-        return lhs.identifier == rhs.identifier
-    }
 }
 
 /// <note>

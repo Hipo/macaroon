@@ -5,7 +5,7 @@ import Foundation
 public protocol AppLaunchUIHandler: AnyObject {
     associatedtype SomeAppLaunchUIState: AppLaunchUIState
 
-    func launchUI(_ state: SomeAppLaunchUIState, firstTime: Bool)
+    func launchUI(_ state: SomeAppLaunchUIState)
 }
 
 public protocol AppLaunchUIState {

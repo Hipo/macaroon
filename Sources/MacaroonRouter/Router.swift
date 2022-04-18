@@ -6,14 +6,9 @@ import MacaroonUtils
 import UIKit
 
 public protocol Router: AnyObject {
-    associatedtype SomeFlow: Flow
-    associatedtype SomePath: Path
-
-    typealias SomeRoute = Route<SomeFlow, SomePath>
-
     /// <note>
     /// Knowing the visible flow helps if the visible screen is a system or a service screen.
-    var visibleFlow: SomeFlow! { get set }
+    var visibleFlow: Flow! { get set }
 
     /// <warning>
     /// The router depends on `visibleScreen` to navigate to the routes.
@@ -23,11 +18,6 @@ public protocol Router: AnyObject {
     var rootContainer: UIViewController { get }
 
     func makeNavigationContainer() -> UINavigationController
-
-    /// <warning>
-    /// Every app determines the transition for its flows. This method just returns the transition,
-    /// not perform it.
-    func makeTransition(to flow: SomeFlow) -> Transition?
 }
 
 extension Router {
@@ -41,23 +31,25 @@ extension Router {
 }
 
 extension Router {
-    public func makeScreen<T: ScreenRoutable>(
-        _ path: SomePath
-    ) -> T {
-        guard let screen = path.build() as? T else {
-            crash("Screen not found with \(path.identifier)")
-        }
-
+    public func makeTransition(
+        _ flow: Flow
+    ) -> Transition? {
+        return flow.build?(self)
+    }
+    
+    public func makeScreen(
+        _ path: Path
+    ) -> ScreenRoutable {
+        let screen = path.build()
         screen.pathIdentifier = path.identifier
-
         return screen
     }
 
-    public func makeScreen<T: ScreenRoutable>(
-        _ path: SomePath,
+    public func makeScreen(
+        _ path: Path,
         containedIn parent: ScreenRoutable
-    ) -> T {
-        let screen: T = makeScreen(path)
+    ) -> ScreenRoutable {
+        let screen = makeScreen(path)
         screen.flowIdentifier = parent.flowIdentifier
         return screen
     }
@@ -65,7 +57,7 @@ extension Router {
 
 extension Router {
     public func navigate(
-        _ route: SomeRoute...,
+        _ route: Route...,
         animated: Bool = true,
         completion: (() -> Void)? = nil
     ) {
@@ -81,7 +73,7 @@ extension Router {
     }
 
     func makeNavigation(
-        _ subroute: [SomeRoute],
+        _ subroute: [Route],
         animated: Bool,
         completion: @escaping () -> Void
     ) -> () -> Void {
@@ -92,10 +84,10 @@ extension Router {
         return makeNavigation(
             subroute.dropLast(),
             animated: animated
-        ) { [unowned self] in
-
-            if nextSubroute.flow == .current ||
-               nextSubroute.flow == self.visibleFlow {
+        ) { [weak self] in
+            guard let self = self else { return }
+            
+            guard let nextFlow = nextSubroute.flow else {
                 self.navigateToDestination(
                     nextSubroute,
                     animated: animated,
@@ -104,12 +96,23 @@ extension Router {
 
                 return
             }
+            
+            if !self.shouldNavigateToFlow(nextFlow) {
+                self.navigateToDestination(
+                    nextSubroute,
+                    animated: animated,
+                    completion: completion
+                )
 
+                return
+            }
+            
             self.navigateToFlow(
-                nextSubroute,
+                nextFlow,
                 animated: animated
-            ) { [unowned self] in
-
+            ) { [weak self] in
+                guard let self = self else { return }
+                    
                 self.navigateToDestination(
                     nextSubroute,
                     animated: animated,
@@ -120,12 +123,13 @@ extension Router {
     }
 
     private func navigateToFlow(
-        _ subroute: SomeRoute,
+        _ flow: Flow,
         animated: Bool,
         completion: @escaping () -> Void
     ) {
-        let flow = subroute.flow
-        let transitionCompletion = {
+        let transitionCompletion = { [weak self] in
+            guard let self = self else { return }
+
             self.visibleFlow = flow
             self.visibleScreen = self.findVisibleScreen()
 
@@ -135,13 +139,13 @@ extension Router {
 
             completion()
         }
-
-        let someFlowTransition =
-            self.makeTransition(
-                to: flow
-            )
-
-        guard var flowTransition = someFlowTransition else {
+        
+        if !shouldNavigateToFlow(flow) {
+            transitionCompletion()
+            return
+        }
+        
+        guard var flowTransition = makeTransition(flow) else {
             transitionCompletion()
             return
         }
@@ -153,7 +157,7 @@ extension Router {
     }
 
     private func navigateToDestination(
-        _ subroute: SomeRoute,
+        _ subroute: Route,
         animated: Bool,
         completion: @escaping () -> Void
     ) {
@@ -216,7 +220,8 @@ extension Router {
     ) {
         let isPresenting = existingScreen.presentedViewController != nil
         let transitionCompletion = {
-            [unowned self] in
+            [weak self] in
+            guard let self = self else { return }
 
             self.visibleScreen = existingScreen
 
@@ -282,8 +287,8 @@ extension Router {
     }
 
     private func navigate(
-        to newPaths: [SomePath],
-        transitionStyle: SomeRoute.TransitionStyle,
+        to newPaths: [Path],
+        transitionStyle: Route.TransitionStyle,
         animated: Bool,
         completion: @escaping () -> Void
     ) {
@@ -291,7 +296,8 @@ extension Router {
             newPaths
         )
         let transitionCompletion = {
-            [unowned self] in
+            [weak self] in
+            guard let self = self else { return }
 
             self.visibleScreen = destination.last
             completion()
@@ -309,7 +315,7 @@ extension Router {
     }
 
     private func makeDestination(
-        _ paths: [SomePath]
+        _ paths: [Path]
     ) -> [ScreenRoutable] {
         return paths.map {
             let screen = $0.build()
@@ -321,7 +327,7 @@ extension Router {
 
     private func makeTransition(
         to destination: [UIViewController],
-        transitionStyle: SomeRoute.TransitionStyle,
+        transitionStyle: Route.TransitionStyle,
         completion: @escaping () -> Void
     ) -> Transition? {
         switch transitionStyle {
@@ -358,11 +364,11 @@ extension Router {
                 modalTransitionStyle: modalTransitionStyle,
                 completion: completion
             )
-        case .customModal(let transitioningDelegate):
+        case .customModal(let transitioningDelegate, let isContainedInNavigationContainer):
             return CustomModalTransition(
                 source: visibleScreen,
                 destination: destination,
-                navigationContainer: makeNavigationContainer(),
+                navigationContainer: isContainedInNavigationContainer ? makeNavigationContainer() : nil,
                 transitioningDelegate: transitioningDelegate,
                 completion: completion
             )
@@ -370,7 +376,7 @@ extension Router {
     }
 
     private func navigate(
-        to newPaths: [SomePath],
+        to newPaths: [Path],
         attachedTo existingScreen: UIViewController,
         animated: Bool,
         completion: @escaping () -> Void
@@ -379,7 +385,8 @@ extension Router {
             newPaths
         )
         let transitionCompletion = {
-            [unowned self] in
+            [weak self] in
+            guard let self = self else { return }
 
             self.visibleScreen = destination.last
             completion()
@@ -408,6 +415,22 @@ extension Router {
 }
 
 extension Router {
+    public func navigateToInAppSafari(
+        _ url: URL
+    ) {
+        let screen = InAppSafariScreen(url: url)
+        screen.flowIdentifier = visibleFlow.identifier
+        screen.pathIdentifier = url.path
+
+        visibleScreen.present(
+            screen,
+            animated: true
+        ) { [unowned self] in
+
+            self.visibleScreen = screen
+        }
+    }
+    
     public func navigateToSafari(
         _ url: URL
     ) {
@@ -430,60 +453,64 @@ extension Router {
         animated: Bool = true,
         completion: (() -> Void)? = nil
     ) {
+        popScreen(
+            visibleScreen,
+            animated: animated,
+            completion: completion
+        )
+    }
+    
+    public func popScreen(
+        _ screen: UIViewController,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) {
         guard let navigationContainer = visibleScreen.navigationController else {
             return
         }
-
-        if navigationContainer.viewControllers.count < 2 {
+        
+        let screensInStack = navigationContainer.viewControllers
+        let previousIndex = screensInStack.lastIndex.unwrap { $0 - 1 }
+        
+        guard let previousScreen = screensInStack[safe: previousIndex] as? ScreenRoutable else {
             return
         }
 
-        navigationContainer.popViewController(
-            animated: animated) {
-            [unowned self] in
-
-            self.visibleScreen =
-                self.findVisibleScreen(
-                    in: navigationContainer
-                )
-
-            if let aVisibleScreen = self.visibleScreen as? ScreenRoutable,
-               !aVisibleScreen.flowIdentifier.isEmpty {
-                self.visibleFlow = .instance(aVisibleScreen.flowIdentifier)
-            }
-
-            completion?()
-        }
+        navigate(
+            .path(previousScreen),
+            animated: animated,
+            completion: completion
+        )
     }
 
     public func dismissVisibleScreen(
         animated: Bool = true,
         completion: (() -> Void)? = nil
     ) {
-        guard let presentingScreen = visibleScreen.presentingViewController else {
+        dismissScreen(
+            visibleScreen,
+            animated: animated,
+            completion: completion
+        )
+    }
+    
+    public func dismissScreen(
+        _ screen: UIViewController,
+        animated: Bool = true,
+        completion: (() -> Void)? = nil
+    ) {
+        guard
+            let presentingScreen = screen.presentingViewController,
+            let presentingVisibleScreen = findVisibleScreen(in: presentingScreen) as? ScreenRoutable
+        else {
             return
         }
 
-        presentingScreen.dismiss(
-            animated: animated
-        ) { [unowned self] in
-
-            self.visibleScreen =
-                self.findVisibleScreen(
-                    in: presentingScreen
-                )
-
-            if let aVisibleScreen = self.visibleScreen as? ScreenRoutable,
-               !aVisibleScreen.flowIdentifier.isEmpty {
-                self.visibleFlow = .instance(aVisibleScreen.flowIdentifier)
-            }
-
-            if let aVisibleScreen = self.visibleScreen as? Screen {
-                aVisibleScreen.viewDidAppearAfterDismiss()
-            }
-
-            completion?()
-        }
+        navigate(
+            .path(presentingVisibleScreen),
+            animated: animated,
+            completion: completion
+        )
     }
 }
 
@@ -493,12 +520,12 @@ extension Router {
 /// prevent this, so it should be set manually after returning the previous screen.
 extension Router {
     public func updateVisibleScreenAfterViewDidAppear(
-        of screen: UIViewController
+        _ screen: UIViewController
     ) {
         defer {
             if let aVisibleScreen = visibleScreen as? ScreenRoutable,
                !aVisibleScreen.flowIdentifier.isEmpty {
-                visibleFlow = SomeFlow.instance(aVisibleScreen.flowIdentifier)
+                visibleFlow = AnyFlow(aVisibleScreen.flowIdentifier)
             }
         }
 
@@ -514,6 +541,18 @@ extension Router {
         }
 
         visibleScreen = parent
+    }
+}
+
+extension Router {
+    public func shouldNavigateToFlow(
+        _ flow: Flow
+    ) -> Bool {
+        if visibleFlow == nil {
+            return true
+        }
+        
+        return !flow.equals(to: visibleFlow)
     }
 }
 

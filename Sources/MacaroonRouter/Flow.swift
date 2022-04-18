@@ -8,44 +8,30 @@ import MacaroonUtils
 /// or before the root container, i.e. splash.
 /// If the deeplink flow is a distinct flow, then each one should has its own unique identifier.
 /// There shouldn't be a second flow with the same unique identifier in the hierarchy.
-public protocol Flow: Equatable {
+public protocol Flow {
+    typealias TransitionBuilder = (Router) -> Transition
     /// <note>
     /// It should be unique for every flow out there.
     var identifier: String { get }
-
-    /// <note>
-    /// A special kind of flow to point the current flow.
-    static var current:  Self { get }
-
-    static func instance(_ identifier: String) -> Self
+    var build: TransitionBuilder? { get }
 }
 
 extension Flow {
-    public static func == (
-        lhs: Self,
-        rhs: Self
+    public func equals(
+        to aFlow: Flow
     ) -> Bool {
-        return lhs.identifier == rhs.identifier
+        return identifier == aFlow.identifier
     }
 }
 
-extension Flow where Self: RawRepresentable, Self.RawValue == String {
-    public var identifier: String {
-        return "flow.\(rawValue)"
-    }
-
-    public static func instance(
+public struct AnyFlow: Flow {
+    public let identifier: String
+    public let build: TransitionBuilder?
+    
+    public init(
         _ identifier: String
-    ) -> Self {
-        let rawValue =
-            identifier.without(
-                prefix: "flow."
-            )
-
-        if let flow = Self(rawValue: rawValue) {
-            return flow
-        }
-
-        crash("Flow not found with \(identifier)")
+    ) {
+        self.identifier = identifier
+        self.build = nil
     }
 }
