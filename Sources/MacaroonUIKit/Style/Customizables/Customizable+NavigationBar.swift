@@ -14,7 +14,7 @@ extension Customizable where Self: UINavigationBar {
         customizeBarAppearance(shadowImage: style.shadowImage)
         customizeBarAppearance(shadowColor: style.shadowColor)
         customizeBarAppearance(backgroundImage: style.backgroundImage)
-        customizeBaseAppearance(backgroundColor: style.backgroundColor)
+        customizeBarAppearance(backgroundColor: style.backgroundColor)
         customizeBarAppearance(tintColor: style.tintColor)
     }
 
@@ -86,7 +86,12 @@ extension Customizable where Self: UINavigationBar {
 
         if #available(iOS 13, *) {
             let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
+            
+            if isOpaque {
+                appearance.configureWithOpaqueBackground()
+            } else {
+                appearance.configureWithTransparentBackground()
+            }
 
             standardAppearance = appearance
             compactAppearance = appearance
