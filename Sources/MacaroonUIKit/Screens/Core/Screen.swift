@@ -29,6 +29,7 @@ open class Screen:
     public private(set) var isViewPopped = false
 
     public let navigationBarController = NavigationBarController()
+    public let tabController = TabBarController()
 
     open override var prefersStatusBarHidden: Bool {
         return statusBarHidden
@@ -49,8 +50,10 @@ open class Screen:
         )
 
         navigationBarController.screen = self
+        tabController.screen = self
 
         configureNavigationBar()
+        configureTabBar()
         observeNotifications()
     }
 
@@ -64,6 +67,8 @@ open class Screen:
     }
 
     open func configureNavigationBar() {}
+    
+    open func configureTabBar() {}
 
     open func observeNotifications() {}
 

@@ -1,7 +1,6 @@
 // Copyright © 2019 hipolabs. All rights reserved.
 
 import Foundation
-import MacaroonUIKit
 import UIKit
 
 open class TabBar: BaseView {
