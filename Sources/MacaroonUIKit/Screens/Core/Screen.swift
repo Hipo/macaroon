@@ -6,14 +6,12 @@ import UIKit
 
 open class Screen:
     UIViewController,
-    StatusBarConfigurable,
     ScreenComposable,
     ScreenRoutable,
     NotificationObserver,
+    TabBarControlling,
+    StatusBarControlling,
     UIAdaptivePresentationControllerDelegate {
-    public var statusBarHidden = false
-    public var hidesStatusBarOnAppeared = false
-    public var hidesStatusBarOnPresented = false
 
     public var notificationObservations: [NSObjectProtocol] = []
 
@@ -27,18 +25,19 @@ open class Screen:
     public private(set) var isViewDisappeared = false
     public private(set) var isViewDismissed = false
     public private(set) var isViewPopped = false
-
+    
+    public let statusBarController = StatusBarController()
     public let navigationBarController = NavigationBarController()
-    public let tabController = TabBarController()
+    public let tabbarController = TabBarController()
 
     open override var prefersStatusBarHidden: Bool {
-        return statusBarHidden
+        return statusBarController.isStatusBarHidden
     }
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
     open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return statusBarHidden ? .fade : .none
+        return statusBarController.isStatusBarHidden ? .fade : .none
     }
 
     private var lifeCycleObservers: Set<AnyScreenLifeCycleObserver> = []
@@ -50,8 +49,9 @@ open class Screen:
         )
 
         navigationBarController.screen = self
-        tabController.screen = self
+        tabbarController.screen = self
 
+        configureStatusBar()
         configureNavigationBar()
         configureTabBar()
         observeNotifications()
@@ -69,6 +69,8 @@ open class Screen:
     open func configureNavigationBar() {}
     
     open func configureTabBar() {}
+    
+    open func configureStatusBar() {}
 
     open func observeNotifications() {}
 
@@ -194,8 +196,6 @@ open class Screen:
             animated
         )
 
-        setNeedsStatusBarAppearanceUpdateOnBeingAppeared()
-
         if isViewFirstAppeared {
             notifyObservers {
                 $0.viewDidFirstAppear(self)
@@ -230,8 +230,6 @@ open class Screen:
         _ animated: Bool
     ) {
         super.viewWillDisappear(animated)
-
-        setNeedsStatusBarAppearanceUpdateOnBeingDisappeared()
 
         isViewFirstAppeared = false
         isViewAppeared = false

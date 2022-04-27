@@ -86,11 +86,11 @@ extension TabBarController {
         else {
             return
         }
-        guard let previousViewControllerInStack = stack[prevStackIndex] as? Screen else {
+        guard let previousViewControllerInStack = stack[prevStackIndex] as? TabBarControlling else {
             return
         }
         
-        if !previousViewControllerInStack.tabController.isTabBarHidden {
+        if !previousViewControllerInStack.tabbarController.isTabBarHidden {
             return
         }
 
@@ -123,11 +123,11 @@ extension TabBarController {
         else {
             return
         }
-        guard let nextViewControllerInStack = stack[nextStackIndex] as? Screen else {
+        guard let nextViewControllerInStack = stack[nextStackIndex] as? TabBarControlling else {
             return
         }
         
-        if !nextViewControllerInStack.tabController.isTabBarHidden {
+        if !nextViewControllerInStack.tabbarController.isTabBarHidden {
             return
         }
 
@@ -201,4 +201,8 @@ extension TabBarController {
     ) -> Bool {
         return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
     }
+}
+
+protocol TabBarControlling: UIViewController {
+    var tabbarController: TabBarController { get }
 }
