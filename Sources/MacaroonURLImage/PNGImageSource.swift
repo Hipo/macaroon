@@ -37,6 +37,30 @@ public struct PNGImageSource: URLImageSource {
             formShapeImageProcessor()
         ]
     }
+
+    public func formOptions() -> KingfisherOptionsInfo {
+        var options = formDefaultOptions()
+
+        if forceRefresh {
+            options.append(
+                .forceRefresh
+            )
+        }
+
+        if let imageProcessor = formImageProcessors().compactJoined() {
+            options.append(
+                .processor(imageProcessor)
+            )
+        }
+
+        options.append(
+            .cacheSerializer(
+                FormatIndicatedCacheSerializer.png
+            )
+        )
+
+        return options
+    }
 }
 
 extension PNGImageSource {
