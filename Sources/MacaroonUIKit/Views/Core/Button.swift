@@ -36,6 +36,7 @@ open class Button:
         /// width, then it will be centered, which is what the caller expects.
         if layout.isVertical {
             titleLabel?.textAlignment = .center
+            titleLabel?.numberOfLines = 0
         }
     }
 
@@ -114,9 +115,12 @@ open class Button:
             rect.size.width = contentRect.width - contentEdgeInsets.x
             return rect
         case .imageAtTopmost(_, let titleAdjustmentY):
-            rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
-            rect.origin.y = ((contentRect.height - rect.height) / 2.0).rounded() + titleAdjustmentY + contentEdgeInsets.top
+            let imageRect = self.imageRect(forContentRect: contentRect)
+            let titleHeight = self.calculateTitleSize(for: contentRect).height
+            rect.origin.x = contentEdgeInsets.left
+            rect.origin.y = imageRect.maxY + titleAdjustmentY
             rect.size.width = contentRect.width - contentEdgeInsets.x
+            rect.size.height = titleHeight
             return rect
         case .imageAtLeft(let spacing):
             rect.origin.x = rect.minX + (spacing / 2.0).rounded()
@@ -223,24 +227,7 @@ extension Button {
     
     private func calculateIntrinsicContentSizeForVerticalLayouts() -> CGSize? {
         let imageSize = currentImage?.size ?? .zero
-        let titleSize: CGSize
-
-        if let currentTitle = currentTitle {
-            titleSize =
-                currentTitle.boundingSize(
-                    attributes: .font(titleLabel?.font),
-                    multiline: false,
-                    fittingSize: .greatestFiniteMagnitude
-                ).ceil()
-        } else if let currentAttributedTitle = currentAttributedTitle {
-            titleSize =
-                currentAttributedTitle.boundingSize(
-                    multiline: false,
-                    fittingSize: .greatestFiniteMagnitude
-                ).ceil()
-        } else {
-            titleSize = .zero
-        }
+        let titleSize: CGSize = calculateTitleSize(for: super.bounds)
 
         let width = max(imageSize.width, titleSize.width) + contentEdgeInsets.x
         let height: CGFloat
@@ -271,6 +258,29 @@ extension Button {
         }
 
         return CGSize((width, height))
+    }
+    
+    private func calculateTitleSize(for rect: CGRect, multiline: Bool = true) -> CGSize {
+        let titleSize: CGSize
+
+        if let currentTitle = currentTitle {
+            titleSize =
+                currentTitle.boundingSize(
+                    attributes: .font(titleLabel?.font),
+                    multiline: multiline,
+                    fittingSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude)
+                ).ceil()
+        } else if let currentAttributedTitle = currentAttributedTitle {
+            titleSize =
+                currentAttributedTitle.boundingSize(
+                    multiline: multiline,
+                    fittingSize: CGSize(width: rect.width, height: .greatestFiniteMagnitude)
+                ).ceil()
+        } else {
+            titleSize = .zero
+        }
+        
+        return titleSize
     }
 }
 
