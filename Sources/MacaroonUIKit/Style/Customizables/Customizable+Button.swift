@@ -63,6 +63,13 @@ extension Customizable where Self: UIButton {
                     for: [.selected, .highlighted]
                 )
             }
+
+            if $0.state == .disabled {
+                setBackgroundImage(
+                    $0.uiImage,
+                    for: [.disabled, .selected]
+                )
+            }
         }
     }
 
@@ -79,6 +86,13 @@ extension Customizable where Self: UIButton {
                 setImage(
                     $0.uiImage,
                     for: [.selected, .highlighted]
+                )
+            }
+
+            if $0.state == .disabled {
+                setImage(
+                    $0.uiImage,
+                    for: [.disabled, .selected]
                 )
             }
         }
@@ -103,6 +117,13 @@ extension Customizable where Self: UIButton {
                 setTitleColor(
                     $0.uiColor,
                     for: [.selected, .highlighted]
+                )
+            }
+
+            if $0.state == .disabled {
+                setTitleColor(
+                    $0.uiColor,
+                    for: [.disabled, .selected]
                 )
             }
         }
@@ -130,6 +151,10 @@ extension Customizable where Self: UIButton {
         setEditTitle(
             title?.disabled,
             for: .disabled
+        )
+        setEditTitle(
+            title?.disabled,
+            for: [.disabled, .selected]
         )
     }
 }
