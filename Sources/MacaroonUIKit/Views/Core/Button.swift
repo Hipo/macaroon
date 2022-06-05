@@ -69,7 +69,7 @@ open class Button:
         case .none:
             return rect
         case .imageAtTop(let spacing):
-            let titleHeight = super.titleRect(forContentRect: contentRect).height
+            let titleHeight = self.calculateTitleSize(for: contentRect).height
             rect.origin.x = ((contentRect.width - rect.width) / 2.0).rounded() + contentEdgeInsets.left
             rect.origin.y = ((contentRect.height - (rect.height + spacing + titleHeight)) / 2.0).rounded() + contentEdgeInsets.top
             return rect
@@ -109,10 +109,13 @@ open class Button:
         case .none:
             return rect
         case .imageAtTop(let spacing):
-            let imageHeight = super.imageRect(forContentRect: contentRect).height
+
+            let imageRect = self.imageRect(forContentRect: contentRect)
+            let titleHeight = self.calculateTitleSize(for: contentRect).height
             rect.origin.x = contentEdgeInsets.left
-            rect.origin.y = contentRect.height - ((contentRect.height - (imageHeight + spacing + rect.height)) / 2.0).rounded() - (rect.height + contentEdgeInsets.bottom)
+            rect.origin.y = imageRect.maxY + spacing
             rect.size.width = contentRect.width - contentEdgeInsets.x
+            rect.size.height = titleHeight
             return rect
         case .imageAtTopmost(_, let titleAdjustmentY):
             let imageRect = self.imageRect(forContentRect: contentRect)
