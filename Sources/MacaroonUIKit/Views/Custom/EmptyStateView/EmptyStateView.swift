@@ -113,8 +113,8 @@ extension EmptyStateView {
 
             $0.width <=
                 snp.width -
-                horizontalPaddings.leading.layoutMetric -
-                horizontalPaddings.trailing.layoutMetric
+                horizontalPaddings.leading.reduce() -
+                horizontalPaddings.trailing.reduce()
         }
 
         loadingIndicator.startAnimating()
@@ -211,8 +211,8 @@ extension EmptyStateView {
 
                 $0.height <=
                     snp.height -
-                    paddings.top.layoutMetric -
-                    paddings.bottom.layoutMetric
+                    paddings.top.reduce() -
+                    paddings.bottom.reduce()
 
                 $0.setPaddings(
                     paddings
@@ -221,8 +221,8 @@ extension EmptyStateView {
 
             $0.width <=
                 snp.width -
-                horizontalPaddings.leading.layoutMetric -
-                horizontalPaddings.trailing.layoutMetric
+                horizontalPaddings.leading.reduce() -
+                horizontalPaddings.trailing.reduce()
         }
 
         currentContentView = contentView

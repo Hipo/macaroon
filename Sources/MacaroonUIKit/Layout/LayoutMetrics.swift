@@ -7,16 +7,16 @@ import UIKit
 public typealias LayoutMetric = CGFloat
 
 extension LayoutMetric {
-    public var layoutMetric: LayoutMetric {
-        return isNoMetric ? 0 : self
-    }
-
     public var isNoMetric: Bool {
         return self == .noMetric
     }
 
     public static var noMetric: CGFloat {
         return -1000000
+    }
+
+    public func reduce() -> LayoutMetric {
+        return isNoMetric ? 0 : self
     }
 }
 
@@ -139,5 +139,30 @@ extension UILayoutPriority {
         _ rawValue: Float
     ) -> UILayoutPriority {
         return UILayoutPriority(rawValue)
+    }
+}
+
+
+/// <mark>
+/// New metrics
+
+public struct NSDirectionalHorizontalEdgeInsets {
+    public var leading: CGFloat = .noMetric
+    public var trailing: CGFloat = .noMetric
+    
+    public init() {}
+    
+    public init(
+        leading: CGFloat,
+        trailing: CGFloat
+    ) {
+        self.leading = leading
+        self.trailing = trailing
+    }
+}
+
+extension NSDirectionalHorizontalEdgeInsets {
+    public func reduce() -> CGFloat {
+        return leading.reduce() + trailing.reduce()
     }
 }

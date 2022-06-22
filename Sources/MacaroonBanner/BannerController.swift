@@ -364,12 +364,12 @@ extension BannerController {
     private func enqueueAndRunNextUiExecution(
         _ uiExecution: DispatchWorkItem
     ) {
-        $uiExecuterQueue.modify { $0.append(uiExecution) }
+        $uiExecuterQueue.mutate { $0.append(uiExecution) }
         runNextUiExecution()
     }
 
     private func dequeueAndRunNextUiExecution() {
-        $uiExecuterQueue.modify {
+        $uiExecuterQueue.mutate {
             $0.remove { $0 === runningUiExecution }
             runningUiExecution = nil
         }
@@ -391,7 +391,7 @@ extension BannerController {
     }
 
     private func cancelPendingUiExecutions() {
-        $uiExecuterQueue.modify {
+        $uiExecuterQueue.mutate {
             let pendingUiExecutions = $0.removeAll { $0 !== runningUiExecution }
             pendingUiExecutions.forEach { $0.cancel() }
         }
