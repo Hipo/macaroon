@@ -4,9 +4,15 @@ import Foundation
 import UIKit
 
 public protocol TextProvider {
+    var string: String { get }
+
     func load(
         in view: TextCustomizable
     )
+    func boundingSize(
+        multiline: Bool,
+        fittingSize: CGSize
+    ) -> CGSize
 }
 
 public protocol StateTextProvider {
@@ -18,6 +24,10 @@ public protocol StateTextProvider {
 extension String:
     TextProvider,
     StateTextProvider {
+    public var string: String {
+        return self
+    }
+
     public func load(
         in view: TextCustomizable
     ) {
@@ -30,6 +40,17 @@ extension String:
         view.mc_setText(
             self,
             for: .normal
+        )
+    }
+
+    public func boundingSize(
+        multiline: Bool,
+        fittingSize: CGSize
+    ) -> CGSize {
+        return boundingSize(
+            attributes: .font(nil),
+            multiline: multiline,
+            fittingSize: fittingSize
         )
     }
 }
