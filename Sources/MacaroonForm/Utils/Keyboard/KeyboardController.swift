@@ -86,7 +86,7 @@ extension KeyboardController {
             return
         }
 
-        let visibleRect = calculateVisibleRectWhenKeyboardIsVisible()
+        let visibleRect = calculateVisibleRectWhenKeyboardIsVisible(keyboard)
 
         if visibleRect.contains(editingRect) {
             return
@@ -95,9 +95,11 @@ extension KeyboardController {
         if let rect = editingRectBeforeUpdates {
             let yDeltaAfterUpdates = editingRect.minY - rect.minY
 
-            scrollView.setContentOffset(
-                y: scrollView.contentOffset.y + yDeltaAfterUpdates
-            )
+            if yDeltaAfterUpdates != 0 {
+                scrollView.setContentOffset(
+                    y: scrollView.contentOffset.y + yDeltaAfterUpdates
+                )
+            }
         }
 
         let someNewContentOffset =
@@ -110,16 +112,10 @@ extension KeyboardController {
             return
         }
 
-        if !animated {
-            scrollView.contentOffset = newContentOffset
-            return
-        }
-
-        let animator = UIViewPropertyAnimator(duration: 0.1, curve: .linear) {
-            [unowned self] in
-            self.scrollView.contentOffset = newContentOffset
-        }
-        animator.startAnimation()
+        scrollView.setContentOffset(
+            newContentOffset,
+            animated: animated
+        )
     }
 }
 
@@ -166,7 +162,7 @@ extension KeyboardController {
             }
 
             self.scrollToEditingRect(
-                alongsideKeyboardTransition: newKeyboard
+                alongsideTransitionOf: newKeyboard
             )
         }
     }
@@ -209,13 +205,16 @@ extension KeyboardController {
             screen.bottomInsetOverKeyboardWhenKeyboardDidShow(
                 self
             )
+        let additionalBottomInsetOverKeyboard =
+            screen.additionalBottomInsetOverKeyboardWhenKeyboardDidShow(self)
         let bottomInsetUnderKeyboard =
             screen.bottomInsetUnderKeyboardWhenKeyboardDidShow(
                 self
             )
         let bottomInset =
             kbHeight +
-            bottomInsetOverKeyboard -
+            bottomInsetOverKeyboard +
+            additionalBottomInsetOverKeyboard -
             bottomInsetUnderKeyboard
         let scrollHeight =
             scrollView.contentSize.height +
@@ -250,7 +249,7 @@ extension KeyboardController {
 
 extension KeyboardController {
     private func scrollToEditingRect(
-        alongsideKeyboardTransition keyboard: Keyboard
+        alongsideTransitionOf keyboard: Keyboard
     ) {
         func performExecutableIfNeeded() {
             performIfNeeded(
@@ -271,7 +270,7 @@ extension KeyboardController {
             return
         }
 
-        let visibleRect = calculateVisibleRectWhenKeyboardIsVisible()
+        let visibleRect = calculateVisibleRectWhenKeyboardIsVisible(keyboard)
 
         if visibleRect.contains(editingRect) {
             performExecutableIfNeeded()
@@ -300,6 +299,34 @@ extension KeyboardController {
         )
     }
 
+    private func calculateVisibleRectWhenKeyboardIsVisible(
+        _ keyboard: Keyboard
+    ) -> CGRect {
+        let bottomInsetUnderKeyboard = screen.bottomInsetUnderKeyboardWhenKeyboardDidShow(self)
+
+        var visibleHeight = calculateVisibleHeightWhenKeyboardIsHidden()
+        visibleHeight -= screen.spacingBetweenEditingRectAndKeyboard(self)
+        visibleHeight -= screen.bottomInsetOverKeyboardWhenKeyboardDidShow(self)
+        visibleHeight -= keyboard.height
+
+        if bottomInsetUnderKeyboard > 0 {
+            visibleHeight += bottomInsetUnderKeyboard
+            visibleHeight -= scrollView.safeAreaInsets.bottom
+        }
+
+        /// <note>
+        /// `bounds` indicates the max visible rect in the scrollable area.
+        var visibleRect = scrollView.bounds
+        visibleRect.origin.y = abs(scrollView.contentOffset.y)
+
+        /// <note>
+        /// `scrollView.adjustedContentInset.bottom` indicates how much area the keyboard covers over the
+        /// view. It was calculated at the moment when the keyboard is shown first.
+        visibleRect.size.height = max(visibleHeight, 0)
+
+        return visibleRect
+    }
+
     private func calculateVisibleHeightWhenKeyboardIsHidden() -> CGFloat {
         /// <note>
         /// Because the scroll view bounds hasn't been finalized yet if the keyboard is shown in
@@ -309,20 +336,6 @@ extension KeyboardController {
             scrollView.bounds.height,
             screen.view.bounds.height
         )
-    }
-
-    private func calculateVisibleRectWhenKeyboardIsVisible() -> CGRect {
-        /// <note>
-        /// `bounds` indicates the visible rect in the scrollable area.
-        var visibleRect = scrollView.bounds
-        /// <note>
-        /// `scrollView.adjustedContentInset.bottom` indicates how much area the keyboard covers over the
-        /// view. It was calculated at the moment when the keyboard is shown first.
-        visibleRect.size.height =
-            calculateVisibleHeightWhenKeyboardIsHidden() -
-            scrollView.adjustedContentInset.bottom
-
-        return visibleRect
     }
 
     private func calculateContentOffset(
@@ -360,8 +373,8 @@ extension KeyboardController {
         return nil
     }
 
-    private func animateAlongsideKeyboardTransition(
-        _ keyboard: Keyboard,
+    private func animateAlongsideTransition(
+        of keyboard: Keyboard,
         animations: @escaping () -> Void
     ) {
         discardAnimationsAlongsideKeyboardTransition()
@@ -395,8 +408,8 @@ extension KeyboardController {
                 return
             }
 
-            animateAlongsideKeyboardTransition(
-                keyboard
+            animateAlongsideTransition(
+                of: keyboard
             ) {
                 action()
             }
@@ -405,8 +418,8 @@ extension KeyboardController {
         }
 
         if executable.animated {
-            animateAlongsideKeyboardTransition(
-                keyboard
+            animateAlongsideTransition(
+                of: keyboard
             ) {
                 action?()
                 executable.execute(keyboard)
@@ -423,8 +436,8 @@ extension KeyboardController {
         executable.execute(keyboard)
 
         if let action = action {
-            animateAlongsideKeyboardTransition(
-                keyboard
+            animateAlongsideTransition(
+                of: keyboard
             ) {
                 action()
             }
@@ -439,10 +452,15 @@ public protocol KeyboardControllerDataSource: AnyObject {
     func keyboardController(_ keyboardController: KeyboardController, editingRectIn view: UIView) -> CGRect?
 
     /// <note>
-    /// Returns
-    /// - The height of the overlay content which should be over the keyboard.
-    /// - The padding over keyboard in order to be free from the keyboard visually.
+    /// Returns the height of the overlay content which should be over the keyboard.
     func bottomInsetOverKeyboardWhenKeyboardDidShow(_ keyboardController: KeyboardController) -> LayoutMetric
+
+    /// <note>
+    /// Returns the additional inset over the overlay content / keyboard. It can be used to increase
+    /// the content area which gives the space to scroll the editing view freely to anywhere in the
+    /// visible view. It should be coordinated with `spacingBetweenEditingRectAndKeyboard(_:)` in
+    /// order to set things up properly.
+    func additionalBottomInsetOverKeyboardWhenKeyboardDidShow(_ keyboardController: KeyboardController) -> LayoutMetric
 
     /// <note>
     /// Returns the inset of the scroll view to the bottom edge of the screen, which also places the
@@ -453,6 +471,11 @@ public protocol KeyboardControllerDataSource: AnyObject {
     /// Returns the content inset on bottom. Do NOT include the safe area and also be sure that the
     /// scroll view has `contentInsetAdjustmentBehavior = .automatic`.
     func bottomInsetWhenKeyboardDidHide(_ keyboardController: KeyboardController) -> LayoutMetric
+
+    /// <note>
+    /// Returns the spacing between editing area and keyboard in order to make the editing area more
+    /// distinguishable.
+    func spacingBetweenEditingRectAndKeyboard(_ keyboardController: KeyboardController) -> LayoutMetric
 }
 
 extension KeyboardControllerDataSource {
@@ -466,7 +489,13 @@ extension KeyboardControllerDataSource {
     public func bottomInsetOverKeyboardWhenKeyboardDidShow(
         _ keyboardController: KeyboardController
     ) -> LayoutMetric {
-        return 10
+        return 0
+    }
+
+    public func additionalBottomInsetOverKeyboardWhenKeyboardDidShow(
+        _ keyboardController: KeyboardController
+    ) -> LayoutMetric {
+        return 0
     }
 
     public func bottomInsetUnderKeyboardWhenKeyboardDidShow(
@@ -479,5 +508,11 @@ extension KeyboardControllerDataSource {
         _ keyboardController: KeyboardController
     ) -> LayoutMetric {
         return 0
+    }
+
+    public func spacingBetweenEditingRectAndKeyboard(
+        _ keyboardController: KeyboardController
+    ) -> LayoutMetric {
+        return 8
     }
 }
