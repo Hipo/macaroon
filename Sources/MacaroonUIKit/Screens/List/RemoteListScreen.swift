@@ -30,8 +30,8 @@ open class RemoteListScreen: ListScreen, ListDataLoaderDelegate {
         )
     }
 
-    open override func observeNotifications() {
-        super.observeNotifications()
+    open override func startObservingNotifications() {
+        super.startObservingNotifications()
         observeApplicationLifeCycleNotifications()
     }
 

@@ -40,6 +40,14 @@ open class ToastUIPresentationController {
     }
 
     open func dismiss() {
+        cancelScheduledDismissing()
+
+        guard let presentedView = presentedView else {
+            return
+        }
+
+        let animator = makeDismissingAnimator(forLastPresented: presentedView)
+        animator.startAnimation()
     }
 }
 
@@ -98,8 +106,13 @@ extension ToastUIPresentationController {
             [weak self] _ in
             guard let self = self else { return }
 
+            let duration = self.config.presentationDuration
+
             self.presentedView = nextView
-            self.scheduleDismissing(forLastPresented: nextView)
+            self.scheduleDismissing(
+                afterDuration: duration,
+                forLastPresented: nextView
+            )
         }
 
         return makeAnimatablePresenter(animator)
@@ -117,8 +130,13 @@ extension ToastUIPresentationController {
             [weak self] _ in
             guard let self = self else { return }
 
+            let duration = self.config.presentationDuration
+
             self.presentedView = nextView
-            self.scheduleDismissing(forLastPresented: nextView)
+            self.scheduleDismissing(
+                afterDuration: duration,
+                forLastPresented: nextView
+            )
         }
 
         return makeAnimatablePresenter(animator)
@@ -127,15 +145,7 @@ extension ToastUIPresentationController {
     public func makeDismisser(
         forLastPresented lastView: UIView
     ) -> AsyncTask {
-        let animator = animationController.makeDismissingAnimator(forLastPresented: lastView)
-        animator.addCompletion {
-            [weak self] _ in
-            guard let self = self else { return }
-
-            if self.presentedView == lastView {
-                self.presentedView = nil
-            }
-        }
+        let animator = makeDismissingAnimator(forLastPresented: lastView)
         animator.pauseAnimation()
 
         return makeAnimatablePresenter(animator)
@@ -172,18 +182,19 @@ extension ToastUIPresentationController {
 
 extension ToastUIPresentationController {
     public func scheduleDismissing(
+        afterDuration duration: TimeInterval,
         forLastPresented lastView: UIView
     ) {
-        let dismisser = makeDismisser(forLastPresented: lastView)
         let lastScheduledDismissing = DispatchWorkItem(qos: .userInteractive) {
             [weak self] in
             guard let self = self else { return }
 
+            let dismisser = self.makeDismisser(forLastPresented: lastView)
             self.transitionQueue.add(dismisser)
         }
 
         asyncMain(
-            afterDuration: config.presentationDuration,
+            afterDuration: duration,
             workItem: lastScheduledDismissing
         )
 
@@ -193,5 +204,22 @@ extension ToastUIPresentationController {
     public func cancelScheduledDismissing() {
         scheduledDismissing?.cancel()
         scheduledDismissing = nil
+    }
+}
+
+extension ToastUIPresentationController {
+    private func makeDismissingAnimator(
+        forLastPresented lastView: UIView
+    ) -> UIViewPropertyAnimator {
+        let animator = animationController.makeDismissingAnimator(forLastPresented: lastView)
+        animator.addCompletion {
+            [weak self] _ in
+            guard let self = self else { return }
+
+            if self.presentedView == lastView {
+                self.presentedView = nil
+            }
+        }
+        return animator
     }
 }

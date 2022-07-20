@@ -40,7 +40,7 @@ extension KeyboardController {
     }
 
     public func deactivate() {
-        unobserveNotifications()
+        stopObservingNotifications()
         reset()
     }
 

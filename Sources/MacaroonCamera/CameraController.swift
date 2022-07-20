@@ -50,7 +50,7 @@ open class CameraController:
             return
         }
 
-        unobserveNotifications()
+        stopObservingNotifications()
 
         session.stopRunning()
     }
@@ -158,12 +158,12 @@ open class CameraController:
                 return
             }
 
-            self.observeNotifications()
+            self.startObservingNotifications()
             self.setSessionRunning(true)
         }
     }
 
-    open func observeNotifications() {
+    open func startObservingNotifications() {
         observe(
             notification: .AVCaptureSessionDidStartRunning,
             using: sessionDidStartRunning
@@ -314,7 +314,7 @@ open class CameraController:
             }
 
             self.setSessionRunning(false)
-            self.unobserveNotifications()
+            self.stopObservingNotifications()
         }
     }
 }

@@ -54,7 +54,7 @@ open class Screen:
         configureStatusBar()
         configureNavigationBar()
         configureTabBar()
-        observeNotifications()
+        startObservingNotifications()
     }
 
     @available(*, unavailable)
@@ -63,7 +63,7 @@ open class Screen:
     }
 
     deinit {
-        unobserveNotifications()
+        stopObservingNotifications()
     }
 
     open func configureNavigationBar() {}
@@ -72,7 +72,7 @@ open class Screen:
     
     open func configureStatusBar() {}
 
-    open func observeNotifications() {}
+    open func startObservingNotifications() {}
 
     public func observeApplicationLifeCycleNotifications() {
         observeWhenApplicationWillEnterForeground {
