@@ -6,32 +6,33 @@
 import Foundation
 import UIKit
 
-open class StorySheetTransitionController:
+open class AlertUITransitionController:
     NSObject,
     UIViewControllerTransitioningDelegate {
-    public var presentationConfiguration: StorySheetPresentationConfiguration
+    public let configuration: AlertUIConfiguration
+
+    private let animator: AlertUIAnimationController
 
     public init(
-        presentingViewController: UIViewController,
-        presentationConfiguration: StorySheetPresentationConfiguration = StorySheetPresentationConfiguration(),
-        completion: (() -> Void)? = nil
+        configuration: AlertUIConfiguration
     ) {
-        self.presentationConfiguration = presentationConfiguration
+        self.configuration = configuration
+        self.animator = AlertUIAnimationController(configuration: configuration)
 
         super.init()
     }
 
     /// <mark>
     /// UIViewControllerTransitioningDelegate
-    public func presentationController(
+    open func presentationController(
         forPresented presented: UIViewController,
         presenting: UIViewController?,
         source: UIViewController
     ) -> UIPresentationController? {
-        return StorySheetPresentationController(
+        return AlertUIPresentationController(
             presentedViewController: presented,
             presentingViewController: presenting,
-            configuration: presentationConfiguration
+            configuration: configuration
         )
     }
 
@@ -40,12 +41,14 @@ open class StorySheetTransitionController:
         presenting: UIViewController,
         source: UIViewController
     ) -> UIViewControllerAnimatedTransitioning? {
-        return StorySheetAnimator(isPresenting: true)
+        animator.isPresenting = true
+        return animator
     }
 
     open func animationController(
         forDismissed dismissed: UIViewController
     ) -> UIViewControllerAnimatedTransitioning? {
-        return StorySheetAnimator(isPresenting: false)
+        animator.isPresenting = false
+        return animator
     }
 }

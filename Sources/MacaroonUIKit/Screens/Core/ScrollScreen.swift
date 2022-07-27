@@ -9,9 +9,9 @@ open class ScrollScreen:
     UIScrollViewDelegate {
     public var blursFooterBackgroundOnUnderScrolling = false
 
-    public private(set) lazy var scrollView = ScrollView()
-    public private(set) lazy var contentView = UIView()
-    public private(set) lazy var footerView = UIView()
+    public private(set) lazy var scrollView: UIScrollView = .init()
+    public private(set) lazy var contentView: UIView = .init()
+    public private(set) lazy var footerView: UIView = .init()
 
     private lazy var footerBackgroundView = UIView()
     private lazy var footerBlurBackgroundView: UIVisualEffectView = {

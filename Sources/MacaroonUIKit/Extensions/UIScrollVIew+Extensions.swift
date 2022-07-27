@@ -4,6 +4,12 @@ import Foundation
 import UIKit
 
 extension UIScrollView {
+    public var isScrollable: Bool {
+        return contentSize.height > bounds.height
+    }
+}
+
+extension UIScrollView {
     public var isScrollAtTop: Bool {
         return contentOffset.y <= -adjustedContentInset.top
     }

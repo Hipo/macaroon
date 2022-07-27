@@ -60,8 +60,6 @@ open class FormScreen:
     open override func addScroll() {
         super.addScroll()
 
-        scrollView.autoScrollsToFirstResponder = false
-
         if #available(iOS 13, *) {}
         else {
             /// <warning>

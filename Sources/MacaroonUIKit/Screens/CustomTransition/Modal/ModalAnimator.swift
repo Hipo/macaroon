@@ -15,7 +15,7 @@ open class ModalAnimator:
 
     public var ongoingInterruptibleAnimator: UIViewImplicitlyAnimating?
 
-    public let isPresenting: Bool
+    public var isPresenting: Bool
 
     public init(
         isPresenting: Bool
