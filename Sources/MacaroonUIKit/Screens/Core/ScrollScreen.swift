@@ -7,26 +7,17 @@ import UIKit
 open class ScrollScreen:
     Screen,
     UIScrollViewDelegate {
-    public var blursFooterBackgroundOnUnderScrolling = false
+    public var footerViewEffectStyle: ScrollScreenFooterView.EffectStyle = .none {
+        willSet {
+            footerBackgroundView.effectStyle = newValue
+        }
+    }
 
     public private(set) lazy var scrollView: UIScrollView = .init()
     public private(set) lazy var contentView: UIView = .init()
     public private(set) lazy var footerView: UIView = .init()
 
-    private lazy var footerBackgroundView = UIView()
-    private lazy var footerBlurBackgroundView: UIVisualEffectView = {
-        let view = UIVisualEffectView()
-
-        if #available(iOS 13, *) {
-            view.effect = UIBlurEffect(style: .systemUltraThinMaterial)
-        } else {
-            view.effect = UIBlurEffect(style: .regular)
-        }
-
-        return view
-    }()
-
-    private var isScrollLayoutFinalized = false
+    private lazy var footerBackgroundView = ScrollScreenFooterView()
 
     open func customizeScrollAppearance() {
         scrollView.alwaysBounceVertical = true
@@ -133,37 +124,13 @@ open class ScrollScreen:
 
 extension ScrollScreen {
     private func updateLayoutOnScroll() {
-        updateFooterBackgroundLayoutOnScroll()
-    }
-
-    private func addFooterBlurBackground() {
-        if footerBlurBackgroundView.isDescendant(
-            of: footerBackgroundView
-        ) {
-            return
-        }
-
-        footerBackgroundView.insertSubview(
-            footerBlurBackgroundView,
-            at: 0
-        )
-        footerBlurBackgroundView.snp.makeConstraints {
-            $0.setPaddings()
-        }
-    }
-
-    private func updateFooterBackgroundLayoutOnScroll() {
-        if !blursFooterBackgroundOnUnderScrolling {
-            return
-        }
-
         if footerView.bounds.isEmpty {
             return
         }
 
-        addFooterBlurBackground()
+        footerBackgroundView.addBlur()
 
         let endOfContent = contentView.frame.maxY - scrollView.contentOffset.y
-        footerBlurBackgroundView.isHidden = endOfContent <= footerBackgroundView.frame.minY
+        footerBackgroundView.blurBackgroundView.isHidden = endOfContent <= footerBackgroundView.frame.minY
     }
 }
