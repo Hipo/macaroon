@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/onevcat/Kingfisher.git",
         "state": {
           "branch": null,
-          "revision": "1a7b5480eb750a8e171654b9b1cb0a2cbeb27a55",
-          "version": "7.2.1"
+          "revision": "2231f92b5af71c78ad2c1450e583bf4a8713b951",
+          "version": "7.3.1"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/Hipo/macaroon-utils.git",
         "state": {
           "branch": null,
-          "revision": "a757800d51403eb8a844ffe5d5ad2e354840bc6e",
-          "version": "3.1.0"
+          "revision": "f7b7aa5dda9be464b9b02b716fca946e347a9537",
+          "version": "3.2.3"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/exyte/macaw.git",
         "state": {
           "branch": null,
-          "revision": "d50834811182a86333da721fd3c6731ebd66ad6c",
-          "version": "0.9.9"
+          "revision": "29ec199cbc9c814f8ceffc1a33b8775b7349dcdd",
+          "version": "0.9.10"
         }
       },
       {
