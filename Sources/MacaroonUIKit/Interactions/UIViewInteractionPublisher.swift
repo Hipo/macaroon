@@ -3,13 +3,13 @@
 import Foundation
 import UIKit
 
-public protocol UIControlInteractionPublisher {
+public protocol UIViewInteractionPublisher {
     associatedtype Event: Hashable
     
     var uiInteractions: [Event: UIInteraction] { get }
 }
 
-extension UIControlInteractionPublisher {
+extension UIViewInteractionPublisher {
     public func startPublishing(
         event: Event,
         for control: UIControl
@@ -24,4 +24,21 @@ extension UIControlInteractionPublisher {
         let interaction = uiInteractions[event] as? UIControlInteraction
         interaction?.unlink()
     }
+}
+
+extension UIViewInteractionPublisher {
+    public func startPublishing(
+        event: Event,
+        for view: UIView
+    ) {
+        let interaction = uiInteractions[event] as? UIViewGestureInteraction
+        interaction?.link(view)
+    }
+
+//    public func stopPublishing(
+//        event: Event
+//    ) {
+//        let interaction = uiInteractions[event] as? UIViewGestureInteraction
+//        interaction?.unlink()
+//    }
 }
