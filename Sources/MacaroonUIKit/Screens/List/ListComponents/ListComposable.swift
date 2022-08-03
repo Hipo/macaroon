@@ -66,8 +66,8 @@ where
 
 extension ListComposable
 where
-    Self: UIInteractionObservable,
-    ContextView: UIInteractionObservable {
+    Self: UIInteractable,
+    ContextView: UIInteractable {
     public var uiInteractions: [ContextView.Event: UIInteraction] {
         return contextView.uiInteractions
     }
