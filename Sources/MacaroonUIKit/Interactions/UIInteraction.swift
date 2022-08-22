@@ -4,14 +4,10 @@ import Foundation
 import UIKit
 
 public protocol UIInteraction {
-    typealias Handler = () -> Void
+    func setSelector(_ selector: (() -> Void)?)
 
-    func setHandler(
-        _ handler: Handler?
-    )
-
-    func attach(
-        to view: UIView
-    )
+    func attach(to view: UIView)
     func detachFromView()
+
+    func publish()
 }

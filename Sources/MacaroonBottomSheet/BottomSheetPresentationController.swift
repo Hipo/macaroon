@@ -17,16 +17,20 @@ open class BottomSheetPresentationController:
         return presentedContentViewController.view
     }
     public var presentedScrollView: UIScrollView? {
-        return (presentedContentViewController as? BottomSheetPresentable)?.presentedScrollView
-    }
-    public var presentedScrollContentView: UIView? {
-        return (presentedContentViewController as? BottomSheetPresentable)?.presentedScrollContentView
+        let contentConfigurableViewController = presentedContentViewController as? BottomSheetScrollPresentable
+        return contentConfigurableViewController?.scrollView
     }
     public var modalHeight: ModalHeight {
         return (presentedContentViewController as? ModalCustomPresentable)?.modalHeight ?? .compressed
     }
     public var modalBottomPadding: LayoutMetric {
         return (presentedContentViewController as? BottomSheetPresentable)?.modalBottomPadding ?? 0
+    }
+
+    private var cachedContentAreaHeight: CGFloat?
+
+    private var safeAreaInsets: UIEdgeInsets {
+        return containerView?.safeAreaInsets ?? .zero
     }
 
     public let interactor: BottomSheetInteractor?
@@ -57,76 +61,65 @@ open class BottomSheetPresentationController:
         inParentWithSize parentSize: LayoutSize
     ) -> LayoutSize {
         let targetWidth = parentSize.w
-        let targetHeight: LayoutMetric
 
+        let preferredHeight: CGFloat
         switch modalHeight {
-        case .compressed,
-             .expanded:
-            /// <note>
-            /// Use `presentedContentViewController` to calculate the height because
-            /// navigation controller gives us 0. A preferred height should be set explicitly in order
-            /// to add its height into the calculations.
-            var preferredHeight: CGFloat = 0
+        case .compressed:
+            let navigationAreaHeight = calculateNavigationAreaHeight()
+            let contentAreaHeight = calculateContentAreaCompressedHeightFitting(targetWidth)
+            let safeAreaHeight = modalBottomPadding > 0 ? 0 : safeAreaInsets.bottom
+            preferredHeight =
+                navigationAreaHeight +
+                contentAreaHeight +
+                safeAreaHeight
 
-            let fittingSize: CGSize
+            cachedContentAreaHeight = contentAreaHeight
+        case .expanded:
+            let navigationAreaHeight = calculateNavigationAreaHeight()
+            let contentAreaHeight = calculateContentAreaExpandedHeightFitting(targetWidth)
+            let safeAreaHeight = modalBottomPadding > 0 ? 0 : safeAreaInsets.bottom
+            preferredHeight =
+                navigationAreaHeight +
+                contentAreaHeight +
+                safeAreaHeight
 
-            if modalHeight == .compressed {
-                fittingSize = CGSize((targetWidth, UIView.layoutFittingCompressedSize.height))
-            } else {
-                fittingSize = CGSize((targetWidth, UIView.layoutFittingExpandedSize.height))
-            }
-
-            if let presentedScrollView = presentedScrollView,
-               let presentedScrollContentView = presentedScrollContentView {
-                let contentHeight =
-                    presentedScrollContentView.systemLayoutSizeFitting(
-                        fittingSize,
-                        withHorizontalFittingPriority: .required,
-                        verticalFittingPriority: .defaultLow
-                    ).height
-
-                if modalBottomPadding > 0 {
-                    preferredHeight += contentHeight + presentedScrollView.contentInset.y
-                } else {
-                    preferredHeight += contentHeight + presentedScrollView.contentInset.y + presentedScrollView.compactSafeAreaInsets.bottom
-                }
-            } else {
-                preferredHeight +=
-                    presentedContentView.systemLayoutSizeFitting(
-                        fittingSize,
-                        withHorizontalFittingPriority: .required,
-                        verticalFittingPriority: .defaultLow
-                    ).height
-            }
-
-            if let navigationController = presentedViewController as? UINavigationController {
-                preferredHeight +=
-                    navigationController.navigationBar.bounds.height
-            }
-
-            targetHeight = preferredHeight
+            cachedContentAreaHeight = contentAreaHeight
         case .proportional(let proportion):
-            targetHeight = parentSize.h * proportion
-        case .preferred(let preferredHeight):
+            let contentAreaHeight = parentSize.h * proportion
+            preferredHeight = contentAreaHeight
+
+            cachedContentAreaHeight = contentAreaHeight
+        case .preferred(let height):
+            let contentAreaHeight = height
             /// <note>
             /// Return a height without the safe area inset.
             if modalBottomPadding == 0 {
-                targetHeight = preferredHeight + (containerView?.compactSafeAreaInsets.bottom ?? 0)
+                let safeAreaHeight = safeAreaInsets.bottom
+                preferredHeight = contentAreaHeight + safeAreaHeight
             } else {
                 /// <note>
                 /// Return safe area inset with `modalBottomPadding`.
-                targetHeight = preferredHeight
+                preferredHeight = contentAreaHeight
             }
+
+            cachedContentAreaHeight = contentAreaHeight
         }
 
-        let maxHeight = (parentSize.h * 0.93) - modalBottomPadding
+        let size = CGSize(width: parentSize.w, height: parentSize.h)
+        let maxHeight = calculateMaxPresentedAreaHeight(inParentWithSize: size)
+        let targetHeight = max(0, min(preferredHeight, maxHeight))
 
-        return (targetWidth, (max(0, min(targetHeight, maxHeight))).ceil())
+        return (targetWidth, targetHeight.ceil())
     }
 
     open override func containerViewWillLayoutSubviews() {
         super.containerViewWillLayoutSubviews()
         overlayView.frame = calculateFinalFrameOfOverlayView()
+    }
+
+    open override func containerViewDidLayoutSubviews() {
+        super.containerViewDidLayoutSubviews()
+        setScrollEnabledIfNeeded()
     }
 
     open override func presentationTransitionWillBegin() {
@@ -146,11 +139,71 @@ open class BottomSheetPresentationController:
     open func gestureRecognizerShouldBegin(
         _ gestureRecognizer: UIGestureRecognizer
     ) -> Bool {
-        let bool = presentedScrollView.unwrap(
-            \.isScrollAtTop,
-            or: true
+        return presentedScrollView?.isScrollOnTop ?? true
+    }
+}
+
+extension BottomSheetPresentationController {
+    private func setScrollEnabledIfNeeded() {
+        presentedScrollView?.isScrollEnabled = presentedScrollView?.isScrollable ?? true
+    }
+}
+
+extension BottomSheetPresentationController {
+    private func calculateMaxPresentedAreaHeight(
+        inParentWithSize parentSize: CGSize
+    ) -> CGFloat {
+        let preferredMaxHeight =
+            parentSize.height -
+            modalBottomPadding -
+            safeAreaInsets.top
+        let thresholdMaxHeight = parentSize.height * 0.93
+        return min(preferredMaxHeight, thresholdMaxHeight)
+    }
+
+    private func calculateNavigationAreaHeight() -> CGFloat {
+        let navigationController = presentedViewController as? UINavigationController
+        return navigationController?.navigationBarHeight ?? 0
+    }
+
+    private func calculateContentAreaCompressedHeightFitting(
+        _ targetWidth: CGFloat
+    ) -> CGFloat {
+        var targetSize = UIView.layoutFittingCompressedSize
+        targetSize.width = targetWidth
+        return calculateContentAreaHeightFitting(targetSize)
+    }
+
+    private func calculateContentAreaExpandedHeightFitting(
+        _ targetWidth: CGFloat
+    ) -> CGFloat {
+        var targetSize = UIView.layoutFittingExpandedSize
+        targetSize.width = targetWidth
+        return calculateContentAreaHeightFitting(targetSize)
+    }
+
+    private func calculateContentAreaHeightFitting(
+        _ targetSize: CGSize
+    ) -> CGFloat {
+        if let cachedContentAreaHeight = cachedContentAreaHeight.unwrapNonZeroDouble() {
+            return cachedContentAreaHeight
+        }
+
+        /// <note>
+        /// Use the visible view controller to calculate the height because a navigation controller
+        /// gives us a zero.
+
+        if let customPresentedContentViewController = presentedContentViewController as? BottomSheetPresentable {
+            return customPresentedContentViewController.calculateContentAreaHeightFitting(targetSize)
+        }
+
+        let contentView = presentedContentViewController.view
+        let newContentAreaSize = contentView?.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .defaultLow
         )
-        return bool
+        return newContentAreaSize?.height ?? 0
     }
 }
 

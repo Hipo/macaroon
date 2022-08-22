@@ -27,6 +27,6 @@ extension BottomScrollOverlayFragment {
             return
         }
 
-        targetContentOffset.pointee = scrollView.contentOffsetAtTop
+        targetContentOffset.pointee = scrollView.calculateContentOffsetForScrollOnTop()
     }
 }

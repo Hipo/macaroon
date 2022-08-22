@@ -12,17 +12,15 @@ public protocol UIInteractable {
 extension UIInteractable {
     public func startObserving(
         event: Event,
-        using block: @escaping UIInteraction.Handler
+        using block: @escaping () -> Void
     ) {
         let interaction = uiInteractions[event]
-        interaction?.setHandler(block)
+        interaction?.setSelector(block)
     }
 
-    public func stopObserving(
-        event: Event
-    ) {
+    public func stopObserving(event: Event) {
         let interaction = uiInteractions[event]
-        interaction?.setHandler(nil)
+        interaction?.setSelector(nil)
     }
 }
 

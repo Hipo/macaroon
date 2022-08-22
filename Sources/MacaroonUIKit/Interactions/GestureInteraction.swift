@@ -5,29 +5,23 @@ import UIKit
 
 public final class GestureInteraction: UIInteraction {
     private var view: UIView?
-    private var handler: Handler?
+    private var selector: (() -> Void)?
 
     private let gesture: Gesture
 
-    public init(
-        gesture: Gesture = .tap
-    ) {
+    public init(gesture: Gesture = .tap) {
         self.gesture = gesture
     }
 }
 
 extension GestureInteraction {
-    public func setHandler(
-        _ handler: Handler?
-    ) {
-        self.handler = handler
+    public func setSelector(_ selector: (() -> Void)?) {
+        self.selector = selector
     }
 }
 
 extension GestureInteraction {
-    public func attach(
-        to view: UIView
-    ) {
+    public func attach(to view: UIView) {
         let recognizer = makeGestureRecognizer()
         view.addGestureRecognizer(recognizer)
 
@@ -48,26 +42,42 @@ extension GestureInteraction {
     private func makeGestureRecognizer() -> UIGestureRecognizer {
         switch gesture {
         case .tap: return makeTapGestureRecognizer()
+        case .longPress: return makeLongPressGestureRecognizer()
         }
     }
 
     private func makeTapGestureRecognizer() -> UITapGestureRecognizer {
         return UITapGestureRecognizer(
             target: self,
-            action: #selector(deliverAction)
+            action: #selector(publish)
+        )
+    }
+
+    private func makeLongPressGestureRecognizer() -> UILongPressGestureRecognizer {
+        return UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(publishForLongPressGesture(_:))
         )
     }
 }
 
 extension GestureInteraction {
     @objc
-    private func deliverAction() {
-        handler?()
+    public func publish() {
+        selector?()
+    }
+
+    @objc
+    private func publishForLongPressGesture(_ recognizer: UILongPressGestureRecognizer) {
+        if recognizer.state == .began {
+            publish()
+        }
     }
 }
 
 extension GestureInteraction {
     public enum Gesture {
         case tap
+        case longPress
     }
 }

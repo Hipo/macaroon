@@ -5,29 +5,23 @@ import UIKit
 
 public final class TargetActionInteraction: UIInteraction {
     private var view: UIControl?
-    private var handler: Handler?
+    private var selector: (() -> Void)?
 
     private let event: UIControl.Event
 
-    public init(
-        event: UIControl.Event = .touchUpInside
-    ) {
+    public init(event: UIControl.Event = .touchUpInside) {
         self.event = event
     }
 }
 
 extension TargetActionInteraction {
-    public func setHandler(
-        _ handler: Handler?
-    ) {
-        self.handler = handler
+    public func setSelector(_ selector: (() -> Void)?) {
+        self.selector = selector
     }
 }
 
 extension TargetActionInteraction {
-    public func attach(
-        to view: UIView
-    ) {
+    public func attach(to view: UIView) {
         assert(
             view is UIControl,
             "Only the views inherited from `UIControl` can be interacted."
@@ -36,7 +30,7 @@ extension TargetActionInteraction {
         let targetView = view as? UIControl
         targetView?.addTarget(
             self,
-            action: #selector(deliverAction),
+            action: #selector(publish),
             for: event
         )
 
@@ -46,7 +40,7 @@ extension TargetActionInteraction {
     public func detachFromView() {
         view?.removeTarget(
             self,
-            action: #selector(deliverAction),
+            action: #selector(publish),
             for: event
         )
 
@@ -56,7 +50,7 @@ extension TargetActionInteraction {
 
 extension TargetActionInteraction {
     @objc
-    private func deliverAction() {
-        handler?()
+    public func publish() {
+        selector?()
     }
 }

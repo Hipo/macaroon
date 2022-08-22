@@ -347,7 +347,7 @@ extension ConstraintMaker {
     public func matchToWidth(
         of view: UIView,
         offset: LayoutMetric
-    ) -> Constraint? {
+    ) -> Constraint {
         return
             width
             .equalTo(view.snp.width)
@@ -359,7 +359,7 @@ extension ConstraintMaker {
     public func matchToHeight(
         of view: UIView,
         offset: LayoutMetric
-    ) -> Constraint? {
+    ) -> Constraint {
         return
             height
             .equalTo(view.snp.height)
@@ -389,7 +389,7 @@ extension ConstraintMaker {
     public func matchToWidth(
         of view: UIView,
         multiplier: LayoutMetric = 1
-    ) -> Constraint? {
+    ) -> Constraint {
         return
             width
             .equalTo(view.snp.width)
@@ -401,7 +401,7 @@ extension ConstraintMaker {
     public func matchToHeight(
         of view: UIView,
         multiplier: LayoutMetric = 1
-    ) -> Constraint? {
+    ) -> Constraint {
         return
             height
             .equalTo(view.snp.height)
