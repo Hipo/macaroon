@@ -1,20 +1,11 @@
-//
-//  File.swift
-//  
-//
-//  Created by ACS on 1.08.2022.
-//
+// Copyright © 2019 hipolabs. All rights reserved.
 
 import UIKit
 import SnapKit
 
-open class ScrollScreenFooterView:
-    View,
-    GradientDrawable {
-    public var gradient: Gradient?
-    public private(set) lazy var gradientLayer: CAGradientLayer = CAGradientLayer()
-
-    public private(set) lazy var blurBackgroundView = UIVisualEffectView()
+open class ScrollScreenFooterView: View {
+    private lazy var blurBackgroundView = UIVisualEffectView()
+    private lazy var gradientView = GradientView()
 
     public var effectStyle: EffectStyle = .none {
         willSet {
@@ -22,25 +13,11 @@ open class ScrollScreenFooterView:
             case .blur(let blurEffectStyle):
                 blurBackgroundView.effect = UIBlurEffect(style: blurEffectStyle)
             case .linearGradient(let gradient):
-                draw(gradient: gradient)
+                gradientView.draw(gradient: gradient)
             default:
                 return
             }
         }
-    }
-
-    open override func layoutSubviews() {
-        if let gradient = gradient {
-            updateOnLayoutSubviews(gradient: gradient)
-        }
-
-        super.layoutSubviews()
-    }
-
-    open override func preferredUserInterfaceStyleDidChange() {
-        super.preferredUserInterfaceStyleDidChange()
-
-        drawAppearance(gradient: gradient)
     }
 
     open func customizeAppearance(_ styleSheet: NoStyleSheet) {}
@@ -49,7 +26,7 @@ open class ScrollScreenFooterView:
 }
 
 extension ScrollScreenFooterView {
-    open func addBlur() {
+    public func addBlur() {
         if blurBackgroundView.isDescendant(
             of: self
         ) {
@@ -64,6 +41,31 @@ extension ScrollScreenFooterView {
         blurBackgroundView.snp.makeConstraints {
             $0.setPaddings()
         }
+    }
+
+    public func addGradient() {
+        if gradientView.isDescendant(
+            of: self
+        ) {
+            return
+        }
+
+        insertSubview(
+            gradientView,
+            at: 0
+        )
+
+        gradientView.snp.makeConstraints {
+            $0.setPaddings()
+        }
+    }
+
+    public func setBlurVisible(_ isVisible: Bool) {
+        blurBackgroundView.isHidden = !isVisible
+    }
+
+    public func setGradientVisible(_ isVisible: Bool) {
+        gradientView.isHidden = !isVisible
     }
 }
 

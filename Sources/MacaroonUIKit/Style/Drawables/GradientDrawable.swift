@@ -1,9 +1,4 @@
-//
-//  File.swift
-//  
-//
-//  Created by ACS on 30.07.2022.
-//
+// Copyright © 2019 hipolabs. All rights reserved.
 
 import UIKit
 import SwiftUI
@@ -67,7 +62,7 @@ extension CAGradientLayer {
     public func draw(
         gradient: Gradient
     ) {
-        colors = gradient.colors
+        colors = gradient.colors.map(\.cgColor)
         frame = bounds
     }
 
@@ -81,11 +76,11 @@ extension CAGradientLayer {
 }
 
 public struct Gradient {
-    public let colors: [CGColor]
+    public let colors: [UIColor]
 
     public init(
         colors: [UIColor]
     ) {
-        self.colors = colors.map(\.cgColor)
+        self.colors = colors
     }
 }

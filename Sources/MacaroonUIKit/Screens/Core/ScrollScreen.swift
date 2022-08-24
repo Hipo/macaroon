@@ -129,8 +129,11 @@ extension ScrollScreen {
         }
 
         footerBackgroundView.addBlur()
+        footerBackgroundView.addGradient()
 
         let endOfContent = contentView.frame.maxY - scrollView.contentOffset.y
-        footerBackgroundView.blurBackgroundView.isHidden = endOfContent <= footerBackgroundView.frame.minY
+        let isFooterBackgroundViewHidden = endOfContent <= footerBackgroundView.frame.minY
+        footerBackgroundView.setBlurVisible(!isFooterBackgroundViewHidden)
+        footerBackgroundView.setGradientVisible(!isFooterBackgroundViewHidden)
     }
 }
