@@ -7,11 +7,9 @@ import UIKit
 public protocol BottomSheetPresentable: ModalCustomPresentable {
     var modalBottomPadding: LayoutMetric { get }
 
-    /// <note>
-    /// If the presented screen has a scroll view, return it via this property, so that the
-    /// interactive dismissal can be handled properly without messing with the scrolling behaviour.
-    var presentedScrollView: UIScrollView? { get }
-    var presentedScrollContentView: UIView? { get }
+    func calculateContentAreaHeightFitting(
+        _ targetSize: CGSize
+    ) -> CGFloat
 }
 
 extension BottomSheetPresentable {
@@ -19,25 +17,48 @@ extension BottomSheetPresentable {
         return 0
     }
 
-    public var presentedScrollView: UIScrollView? {
-        return nil
-    }
-    public var presentedScrollContentView: UIView? {
-        return nil
-    }
-}
-
-extension BottomSheetPresentable where Self: ScrollScreen {
-    var presentedScrollView: UIScrollView? {
-        return scrollView
-    }
-    var presentedScrollContentView: UIView? {
-        return contentView
+    public func calculateContentAreaHeightFitting(
+        _ targetSize: CGSize
+    ) -> CGFloat {
+        let size = view.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .defaultLow
+        )
+        return size.height
     }
 }
 
-extension BottomSheetPresentable where Self: ListScreen {
-    var presentedScrollView: UIScrollView? {
+public protocol BottomSheetScrollPresentable: BottomSheetPresentable {
+    var scrollView: UIScrollView { get }
+}
+
+extension BottomSheetScrollPresentable where Self: ScrollScreen {
+    public func calculateContentAreaHeightFitting(
+        _ targetSize: CGSize
+    ) -> CGFloat {
+        let contentSize = contentView.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .defaultLow
+        )
+        let footerSize = footerView.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .defaultLow
+        )
+        return contentSize.height + footerSize.height
+    }
+}
+
+extension BottomSheetScrollPresentable where Self: ListScreen {
+    public var scrollView: UIScrollView {
         return listView
+    }
+
+    public func calculateContentAreaHeightFitting(
+        _ targetSize: CGSize
+    ) -> CGFloat {
+        return listView.bounds.size.height
     }
 }

@@ -189,7 +189,7 @@ extension BottomScrollOverlayContainer {
                 in: panGestureRecognizer.view
             ).y
 
-        if !scrollFragmentScreen.scrollView.isScrollAtTop {
+        if !scrollFragmentScreen.scrollView.isScrollOnTop {
             lastScrollOverlayOffset = currentScrollOverlayOffset
             lastScrollOverlayTranslationOnScroll = translation
 

@@ -10,12 +10,18 @@ extension UIScrollView {
 }
 
 extension UIScrollView {
-    public var isScrollAtTop: Bool {
+    public var isScrollOnTop: Bool {
         return contentOffset.y <= -adjustedContentInset.top
     }
 
-    public var contentOffsetAtTop: CGPoint {
+    public func calculateContentOffsetForScrollOnTop() -> CGPoint {
         return CGPoint(x: contentOffset.x, y: -contentInset.top)
+    }
+}
+
+extension UIScrollView {
+    public var isBouncingOnTop: Bool {
+        return contentOffset.y < -adjustedContentInset.top
     }
 }
 
@@ -63,10 +69,6 @@ extension UIScrollView {
         var mContentInset = contentInset
         mContentInset.top = top
         contentInset = mContentInset
-
-//        var mScrollIndicatoInset = scrollIndicatorInsets
-//        mScrollIndicatoInset.top = top
-//        scrollIndicatorInsets = mScrollIndicatoInset
     }
 
     public func setContentInset(
@@ -79,10 +81,6 @@ extension UIScrollView {
         var mContentInset = contentInset
         mContentInset.left = left
         contentInset = mContentInset
-
-//        var mScrollIndicatoInset = scrollIndicatorInsets
-//        mScrollIndicatoInset.left = left
-//        scrollIndicatorInsets = mScrollIndicatoInset
     }
 
     public func setContentInset(
@@ -95,10 +93,6 @@ extension UIScrollView {
         var mContentInset = contentInset
         mContentInset.bottom = bottom
         contentInset = mContentInset
-
-//        var mScrollIndicatoInset = scrollIndicatorInsets
-//        mScrollIndicatoInset.bottom = bottom
-//        scrollIndicatorInsets = mScrollIndicatoInset
     }
 
     public func setContentInset(
@@ -111,10 +105,6 @@ extension UIScrollView {
         var mContentInset = contentInset
         mContentInset.right = right
         contentInset = mContentInset
-
-//        var mScrollIndicatoInset = scrollIndicatorInsets
-//        mScrollIndicatoInset.right = right
-//        scrollIndicatorInsets = mScrollIndicatoInset
     }
 }
 
@@ -149,7 +139,7 @@ extension UIScrollView {
         animated: Bool = true
     ) {
         setContentOffset(
-            contentOffsetAtTop,
+            calculateContentOffsetForScrollOnTop(),
             animated: animated
         )
     }

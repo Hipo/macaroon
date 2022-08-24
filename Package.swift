@@ -55,7 +55,7 @@ let package = Package(
         .target(name: "MacaroonUIKit", dependencies: ["MacaroonResources", "MacaroonUtils", "SnapKit"], path: "Sources/MacaroonUIKit"),
         .target(name: "MacaroonURLImage", dependencies: ["Kingfisher", "MacaroonUIKit"], path: "Sources/MacaroonURLImage"),
         .target(name: "MacaroonUserNotifications", dependencies: ["MacaroonUtils"], path: "Sources/MacaroonUserNotifications"),
-        .target(name: "MacaroonVendors", dependencies: [], path: "Sources/MacaroonVendors"),
+        .target(name: "MacaroonVendors", dependencies: ["MacaroonUtils"], path: "Sources/MacaroonVendors"),
         .testTarget(name: "MacaroonTests", dependencies: ["MacaroonApplication"]),
     ],
     swiftLanguageVersions: [.v5]

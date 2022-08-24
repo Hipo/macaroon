@@ -51,7 +51,36 @@ extension Customizable where Self: UIButton {
     public func customizeBaseAppearance(
         backgroundImage: StateImageGroup?
     ) {
-        backgroundImage?.forEach {
+        guard let backgroundImage = backgroundImage else {
+            setBackgroundImage(
+                nil,
+                for: .normal
+            )
+            setBackgroundImage(
+                nil,
+                for: .highlighted
+            )
+            setBackgroundImage(
+                nil,
+                for: .selected
+            )
+            setBackgroundImage(
+                nil,
+                for: .disabled
+            )
+            setBackgroundImage(
+                nil,
+                for: [.selected, .highlighted]
+            )
+            setBackgroundImage(
+                nil,
+                for: [.disabled, .selected]
+            )
+
+            return
+        }
+
+        backgroundImage.forEach {
             setBackgroundImage(
                 $0.uiImage,
                 for: $0.state
@@ -76,7 +105,36 @@ extension Customizable where Self: UIButton {
     public func customizeBaseAppearance(
         icon: StateImageGroup?
     ) {
-        icon?.forEach {
+        guard let icon = icon else {
+            setImage(
+                nil,
+                for: .normal
+            )
+            setImage(
+                nil,
+                for: .highlighted
+            )
+            setImage(
+                nil,
+                for: .selected
+            )
+            setImage(
+                nil,
+                for: .disabled
+            )
+            setImage(
+                nil,
+                for: [.selected, .highlighted]
+            )
+            setImage(
+                nil,
+                for: [.disabled, .selected]
+            )
+
+            return
+        }
+
+        icon.forEach {
             setImage(
                 $0.uiImage,
                 for: $0.state
