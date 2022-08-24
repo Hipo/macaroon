@@ -36,6 +36,11 @@ extension LoadingButton {
     public func startLoading() {
         isUserInteractionEnabled = false
 
+        if loadingIndicator.isDescendant(of: self) {
+            loadingIndicator.startAnimating()
+            return
+        }
+
         saveTitles()
         saveIcons()
 
