@@ -56,6 +56,38 @@ open class AlertUIPresentationController: ModalPresentationController<AlertUICon
         inParentWithSize parentSize: LayoutSize
     ) -> LayoutSize {
         let targetWidth = parentSize.w - contentAreaInsets.x
+        let size = CGSize(width: parentSize.w, height: parentSize.h)
+        let preferredHeight = calculatePreferredPresentedAreaHeight(inParentWithSize: size)
+        let maxHeight = calculateMaxPresentedAreaHeight(inParentWithSize: size)
+        let targetHeight = max(0, min(preferredHeight, maxHeight))
+
+        return (targetWidth, targetHeight.ceil())
+    }
+
+    open override func containerViewDidLayoutSubviews() {
+        super.containerViewDidLayoutSubviews()
+        setScrollEnabledIfNeeded()
+    }
+}
+
+extension AlertUIPresentationController {
+    private func setScrollEnabledIfNeeded() {
+        let contentConfigurableViewController = presentedContentViewController as? AlertUIScrollContentConfigurable
+
+        guard let scrollView = contentConfigurableViewController?.scrollView else { return }
+
+        let size = presentationBounds.size
+        let preferredHeight = calculatePreferredPresentedAreaHeight(inParentWithSize: size)
+        let maxHeight = calculateMaxPresentedAreaHeight(inParentWithSize: size)
+        scrollView.isScrollEnabled = preferredHeight > maxHeight
+    }
+}
+
+extension AlertUIPresentationController {
+    private func calculatePreferredPresentedAreaHeight(
+        inParentWithSize parentSize: CGSize
+    ) -> CGFloat {
+        let targetWidth = parentSize.width - contentAreaInsets.x
 
         let preferredHeight: CGFloat
         switch modalHeight {
@@ -72,7 +104,7 @@ open class AlertUIPresentationController: ModalPresentationController<AlertUICon
 
             cachedContentAreaHeight = contentAreaHeight
         case .proportional(let proportion):
-            let contentAreaHeight = parentSize.h * proportion
+            let contentAreaHeight = parentSize.height * proportion
             preferredHeight = contentAreaHeight
 
             cachedContentAreaHeight = contentAreaHeight
@@ -83,28 +115,9 @@ open class AlertUIPresentationController: ModalPresentationController<AlertUICon
             cachedContentAreaHeight = contentAreaHeight
         }
 
-        let size = CGSize(width: parentSize.w, height: parentSize.h)
-        let maxHeight = calculateMaxPresentedAreaHeight(inParentWithSize: size)
-        let targetHeight = max(0, min(preferredHeight, maxHeight))
-
-        return (targetWidth, targetHeight.ceil())
+        return preferredHeight
     }
 
-    open override func containerViewDidLayoutSubviews() {
-        super.containerViewDidLayoutSubviews()
-        setScrollEnabledIfNeeded()
-    }
-}
-
-extension AlertUIPresentationController {
-    private func setScrollEnabledIfNeeded() {
-        let contentConfigurableViewController = presentedContentViewController as? AlertUIScrollContentConfigurable
-        let scrollView = contentConfigurableViewController?.scrollView
-        scrollView?.isScrollEnabled = scrollView?.isScrollable ?? true
-    }
-}
-
-extension AlertUIPresentationController {
     private func calculateMaxPresentedAreaHeight(
         inParentWithSize parentSize: CGSize
     ) -> CGFloat {

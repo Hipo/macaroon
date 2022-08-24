@@ -61,51 +61,8 @@ open class BottomSheetPresentationController:
         inParentWithSize parentSize: LayoutSize
     ) -> LayoutSize {
         let targetWidth = parentSize.w
-
-        let preferredHeight: CGFloat
-        switch modalHeight {
-        case .compressed:
-            let navigationAreaHeight = calculateNavigationAreaHeight()
-            let contentAreaHeight = calculateContentAreaCompressedHeightFitting(targetWidth)
-            let safeAreaHeight = modalBottomPadding > 0 ? 0 : safeAreaInsets.bottom
-            preferredHeight =
-                navigationAreaHeight +
-                contentAreaHeight +
-                safeAreaHeight
-
-            cachedContentAreaHeight = contentAreaHeight
-        case .expanded:
-            let navigationAreaHeight = calculateNavigationAreaHeight()
-            let contentAreaHeight = calculateContentAreaExpandedHeightFitting(targetWidth)
-            let safeAreaHeight = modalBottomPadding > 0 ? 0 : safeAreaInsets.bottom
-            preferredHeight =
-                navigationAreaHeight +
-                contentAreaHeight +
-                safeAreaHeight
-
-            cachedContentAreaHeight = contentAreaHeight
-        case .proportional(let proportion):
-            let contentAreaHeight = parentSize.h * proportion
-            preferredHeight = contentAreaHeight
-
-            cachedContentAreaHeight = contentAreaHeight
-        case .preferred(let height):
-            let contentAreaHeight = height
-            /// <note>
-            /// Return a height without the safe area inset.
-            if modalBottomPadding == 0 {
-                let safeAreaHeight = safeAreaInsets.bottom
-                preferredHeight = contentAreaHeight + safeAreaHeight
-            } else {
-                /// <note>
-                /// Return safe area inset with `modalBottomPadding`.
-                preferredHeight = contentAreaHeight
-            }
-
-            cachedContentAreaHeight = contentAreaHeight
-        }
-
         let size = CGSize(width: parentSize.w, height: parentSize.h)
+        let preferredHeight = calculatePreferredPresentedAreaHeight(inParentWithSize: size)
         let maxHeight = calculateMaxPresentedAreaHeight(inParentWithSize: size)
         let targetHeight = max(0, min(preferredHeight, maxHeight))
 
@@ -145,11 +102,67 @@ open class BottomSheetPresentationController:
 
 extension BottomSheetPresentationController {
     private func setScrollEnabledIfNeeded() {
-        presentedScrollView?.isScrollEnabled = presentedScrollView?.isScrollable ?? true
+        guard let scrollView = presentedScrollView else { return }
+
+        let size = presentationBounds.size
+        let preferredHeight = calculatePreferredPresentedAreaHeight(inParentWithSize: size)
+        let maxHeight = calculateMaxPresentedAreaHeight(inParentWithSize: size)
+        scrollView.isScrollEnabled = preferredHeight > maxHeight
     }
 }
 
 extension BottomSheetPresentationController {
+    private func calculatePreferredPresentedAreaHeight(
+        inParentWithSize parentSize: CGSize
+    ) -> CGFloat {
+        let targetWidth = parentSize.width
+
+        let preferredHeight: CGFloat
+        switch modalHeight {
+        case .compressed:
+            let navigationAreaHeight = calculateNavigationAreaHeight()
+            let contentAreaHeight = calculateContentAreaCompressedHeightFitting(targetWidth)
+            let safeAreaHeight = modalBottomPadding > 0 ? 0 : safeAreaInsets.bottom
+            preferredHeight =
+                navigationAreaHeight +
+                contentAreaHeight +
+                safeAreaHeight
+
+            cachedContentAreaHeight = contentAreaHeight
+        case .expanded:
+            let navigationAreaHeight = calculateNavigationAreaHeight()
+            let contentAreaHeight = calculateContentAreaExpandedHeightFitting(targetWidth)
+            let safeAreaHeight = modalBottomPadding > 0 ? 0 : safeAreaInsets.bottom
+            preferredHeight =
+                navigationAreaHeight +
+                contentAreaHeight +
+                safeAreaHeight
+
+            cachedContentAreaHeight = contentAreaHeight
+        case .proportional(let proportion):
+            let contentAreaHeight = parentSize.height * proportion
+            preferredHeight = contentAreaHeight
+
+            cachedContentAreaHeight = contentAreaHeight
+        case .preferred(let height):
+            let contentAreaHeight = height
+            /// <note>
+            /// Return a height without the safe area inset.
+            if modalBottomPadding == 0 {
+                let safeAreaHeight = safeAreaInsets.bottom
+                preferredHeight = contentAreaHeight + safeAreaHeight
+            } else {
+                /// <note>
+                /// Return safe area inset with `modalBottomPadding`.
+                preferredHeight = contentAreaHeight
+            }
+
+            cachedContentAreaHeight = contentAreaHeight
+        }
+
+        return preferredHeight
+    }
+
     private func calculateMaxPresentedAreaHeight(
         inParentWithSize parentSize: CGSize
     ) -> CGFloat {
