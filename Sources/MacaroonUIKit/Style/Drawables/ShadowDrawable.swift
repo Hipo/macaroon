@@ -117,7 +117,7 @@ extension CALayer {
         shadowColor = shadow.color.cgColor
         shadowOpacity = shadow.opacity
         shadowOffset = shadow.offset
-        shadowRadius = shadow.radius
+        shadowRadius = shadow.radius / 2
 
         if shadow.isRounded {
             maskedCorners = shadow.maskedCorners
@@ -146,15 +146,27 @@ extension CALayer {
         shadow: Shadow
     ) {
         func calculatePath() -> CGPath {
+            let _bounds: CGRect
+
+            if shadow.spread != 0 {
+                let dx = -shadow.spread
+                _bounds = bounds.insetBy(
+                    dx: dx,
+                    dy: dx
+                )
+            } else {
+                _bounds = bounds
+            }
+
             if shadow.isRounded {
                 return UIBezierPath(
-                    roundedRect: bounds,
+                    roundedRect: _bounds,
                     byRoundingCorners: shadow.corners,
                     cornerRadii: shadow.cornerRadii
                 ).cgPath
             }
 
-            return UIBezierPath(rect: bounds).cgPath
+            return UIBezierPath(rect: _bounds).cgPath
         }
 
         if bounds.isEmpty {
