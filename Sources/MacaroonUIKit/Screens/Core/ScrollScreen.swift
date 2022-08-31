@@ -17,7 +17,7 @@ open class ScrollScreen:
     public private(set) lazy var contentView: UIView = .init()
     public private(set) lazy var footerView: UIView = .init()
 
-    private lazy var footerBackgroundView = ScrollScreenFooterView()
+    public private(set) lazy var footerBackgroundView = ScrollScreenFooterView()
 
     open func customizeScrollAppearance() {
         scrollView.alwaysBounceVertical = true
