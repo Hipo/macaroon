@@ -14,13 +14,10 @@ extension URLImageLoadable {
         from source: ImageSource?,
         onCompleted execute: ((Swift.Error?) -> Void)? = nil
     ) {
+        unloadSource()
+
         guard let source = source else {
-            unloadSource()
-
-            execute?(
-                nil
-            )
-
+            execute?(nil)
             return
         }
 

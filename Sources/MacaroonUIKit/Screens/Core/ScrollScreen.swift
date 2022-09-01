@@ -7,17 +7,16 @@ import UIKit
 open class ScrollScreen:
     Screen,
     UIScrollViewDelegate {
-    public var footerViewEffectStyle: ScrollScreenFooterView.EffectStyle = .none {
-        willSet {
-            footerBackgroundView.effectStyle = newValue
-        }
+    public var footerBackgroundEffect: Effect? {
+        get { footerBackgroundView.effect }
+        set { footerBackgroundView.effect = newValue }
     }
 
     public private(set) lazy var scrollView: UIScrollView = .init()
     public private(set) lazy var contentView: UIView = .init()
     public private(set) lazy var footerView: UIView = .init()
 
-    public private(set) lazy var footerBackgroundView = ScrollScreenFooterView()
+    private lazy var footerBackgroundView = EffectView()
 
     open func customizeScrollAppearance() {
         scrollView.alwaysBounceVertical = true
@@ -26,62 +25,48 @@ open class ScrollScreen:
     }
 
     open func addScroll() {
-        view.addSubview(
-            scrollView
-        )
+        view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
-            $0.setPaddings(
-                (0, 0, 0, 0)
-            )
+            $0.top == 0
+            $0.leading == 0
+            $0.bottom == 0
+            $0.trailing == 0
         }
 
         addContent()
     }
 
     open func updateScrollLayoutWhenViewDidLayoutSubviews() {
-        if footerView.bounds.isEmpty {
-            return
+        if !footerView.bounds.isEmpty {
+            scrollView.setContentInset(bottom: footerView.bounds.height)
         }
-
-        scrollView.setContentInset(
-            bottom: footerView.bounds.height
-        )
     }
 
     open func addContent() {
-        scrollView.addSubview(
-            contentView
-        )
+        scrollView.addSubview(contentView)
         contentView.snp.makeConstraints {
             $0.width == view
-
-            $0.setPaddings(
-                (0, 0, 0, 0)
-            )
+            $0.top == 0
+            $0.leading == 0
+            $0.bottom == 0
+            $0.trailing == 0
         }
     }
 
     open func addFooter() {
-        view.addSubview(
-            footerBackgroundView
-        )
+        view.addSubview(footerBackgroundView)
         footerBackgroundView.snp.makeConstraints {
-            $0.setPaddings(
-                (.noMetric, 0, 0, 0)
-            )
+            $0.leading == 0
+            $0.bottom == 0
+            $0.trailing == 0
         }
 
-        footerBackgroundView.addSubview(
-            footerView
-        )
+        footerBackgroundView.addSubview(footerView)
         footerView.snp.makeConstraints {
-            $0.setPaddings(
-                (0, 0, .noMetric, 0)
-            )
-            $0.setBottomPadding(
-                0,
-                inSafeAreaOf: footerBackgroundView
-            )
+            $0.top == 0
+            $0.leading == 0
+            $0.bottom == footerBackgroundView.safeAreaLayoutGuide.snp.bottom
+            $0.trailing == 0
         }
     }
 
@@ -128,12 +113,8 @@ extension ScrollScreen {
             return
         }
 
-        footerBackgroundView.addBlur()
-        footerBackgroundView.addGradient()
-
         let endOfContent = contentView.frame.maxY - scrollView.contentOffset.y
-        let isFooterBackgroundViewHidden = endOfContent <= footerBackgroundView.frame.minY
-        footerBackgroundView.setBlurVisible(!isFooterBackgroundViewHidden)
-        footerBackgroundView.setGradientVisible(!isFooterBackgroundViewHidden)
+        let hidesFooterBackgroundEffect = endOfContent <= footerBackgroundView.frame.minY
+        footerBackgroundView.setEffectHidden(hidesFooterBackgroundEffect)
     }
 }
