@@ -9,6 +9,7 @@ public class SegmentedControl: BaseControl {
         get { contentView.spacing }
         set { contentView.spacing = newValue }
     }
+
     public var selectedSegmentIndex: Int = -1 {
         didSet {
             let currentSegmentButtons = segmentButtons
@@ -26,13 +27,27 @@ public class SegmentedControl: BaseControl {
     }
 
     private lazy var contentView = UIStackView()
+    private lazy var backgroundImageView = UIImageView()
 
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    public var backgroundImage: UIImage? {
+        get { backgroundImageView.image }
+        set { backgroundImageView.image = newValue }
+    }
+
+    public var separatorImage: UIImage?
+
+    private let distributionMode: UIStackView.Distribution
+
+    public init(distributionMode: UIStackView.Distribution = .fillEqually) {
+        self.distributionMode = distributionMode
+
+        super.init(frame: .zero)
+
         prepareLayout()
     }
 
     private func prepareLayout() {
+        addBackgroundImage()
         addContent()
     }
 }
@@ -64,17 +79,21 @@ extension SegmentedControl {
 }
 
 extension SegmentedControl {
+    private func addBackgroundImage() {
+        addSubview(backgroundImageView)
+        backgroundImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+
     private func addContent() {
         addSubview(contentView)
         contentView.axis = .horizontal
-        contentView.distribution = .fillEqually
+        contentView.distribution = distributionMode
         contentView.alignment = .fill
         contentView.spacing = 0.0
-        contentView.snp.makeConstraints { maker in
-            maker.top.equalToSuperview()
-            maker.leading.equalToSuperview()
-            maker.bottom.equalToSuperview()
-            maker.trailing.equalToSuperview()
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
 
@@ -82,8 +101,22 @@ extension SegmentedControl {
         let button = Button(segment.layout)
         button.adjustsImageWhenHighlighted = false
         button.customizeAppearance(segment.style)
+        if let contentEdgeInsets = segment.contentEdgeInsets {
+            button.contentEdgeInsets = contentEdgeInsets
+        }
+
+        addSeparatorIfNeeded()
         contentView.addArrangedSubview(button)
         return button
+    }
+
+    private func addSeparatorIfNeeded() {
+        if  let separatorImage = separatorImage,
+            !contentView.subviews.isEmpty {
+            let separatorImageView = UIImageView(image: separatorImage)
+            separatorImageView.contentMode = .center
+            contentView.addArrangedSubview(separatorImageView)
+        }
     }
 }
 
