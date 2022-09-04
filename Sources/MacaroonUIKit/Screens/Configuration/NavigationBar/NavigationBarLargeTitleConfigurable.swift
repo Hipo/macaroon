@@ -3,13 +3,14 @@
 import Foundation
 import UIKit
 
-public protocol NavigationBarLargeTitleConfigurable: Screen {
+public protocol NavigationBarLargeTitleConfigurable: UIViewController {
     associatedtype SomeNavigationBarTitleView: NavigationBarTitleView
     associatedtype SomeNavigationBarLargeTitleView: NavigationBarLargeTitleView
 
     var navigationBarTitleView: SomeNavigationBarTitleView { get }
     var navigationBarLargeTitleView: SomeNavigationBarLargeTitleView { get }
     var navigationBarScrollView: UIScrollView { get }
+    var isNavigationBarAppeared: Bool { get }
 }
 
 extension NavigationBarLargeTitleConfigurable where Self: ScrollScreen {

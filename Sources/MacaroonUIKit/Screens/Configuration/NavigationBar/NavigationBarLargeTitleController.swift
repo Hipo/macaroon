@@ -91,7 +91,7 @@ extension NavigationBarLargeTitleController {
                     forScrollAtPoint: contentOffsetY)
                 self.toggleTitleVisibilityIfNeeded(
                     forScrollAtPoint: contentOffsetY,
-                    animated: self.screen.isViewAppeared
+                    animated: self.screen.isNavigationBarAppeared
                 )
             }
     }
