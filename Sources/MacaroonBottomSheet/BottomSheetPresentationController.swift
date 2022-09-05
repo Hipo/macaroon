@@ -6,6 +6,7 @@ import UIKit
 
 open class BottomSheetPresentationController:
     ModalPresentationController<BottomSheetPresentationConfiguration>,
+    ModalCustomPresenter,
     UIGestureRecognizerDelegate {
     public private(set) lazy var overlayView = BottomSheetOverlayView()
 
@@ -48,6 +49,10 @@ open class BottomSheetPresentationController:
             presentingViewController: presentingViewController,
             configuration: configuration
         )
+    }
+
+    open func prepareForLayoutUpdates() {
+        cachedContentAreaHeight = nil
     }
 
     open override func calculateOriginOfPresentedView(

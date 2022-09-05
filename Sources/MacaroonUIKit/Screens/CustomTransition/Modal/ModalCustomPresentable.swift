@@ -3,6 +3,10 @@
 import Foundation
 import UIKit
 
+public protocol ModalCustomPresenter: UIPresentationController {
+    func prepareForLayoutUpdates()
+}
+
 public protocol ModalCustomPresentable: UIViewController {
     var modalHeight: ModalHeight { get }
 }
@@ -10,16 +14,16 @@ public protocol ModalCustomPresentable: UIViewController {
 extension ModalCustomPresentable {
     /// <note>
     /// Should update `modalHeight` before calling this method in order to see the changes.
-    public func layoutPresentationIfNeeded(
+    public func performLayoutUpdates(
         animated: Bool = true
     ) {
-        let aContainerView =
-            navigationController?.presentationController?.containerView ??
-            presentationController?.containerView
+        let presentationController = (navigationController ?? self).presentationController
 
-        guard let containerView = aContainerView else {
-            return
+        if let presenter = presentationController as? ModalCustomPresenter {
+            presenter.prepareForLayoutUpdates()
         }
+
+        guard let containerView = presentationController?.containerView else { return }
 
         containerView.setNeedsLayout()
 
