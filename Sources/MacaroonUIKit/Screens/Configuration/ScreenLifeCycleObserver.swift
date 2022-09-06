@@ -5,7 +5,7 @@ import MacaroonResources
 import MacaroonUtils
 import UIKit
 
-public protocol ScreenLifeCycleObserver: Hashable {
+public protocol ScreenLifeCycleObserver: Hashable, AnyObject {
     func viewDidLoad(
         _ screen: Screen
     )
@@ -112,8 +112,7 @@ extension ScreenLifeCycleObserver {
     ) {}
 }
 
-extension ScreenLifeCycleObserver
-where Self: AnyObject {
+extension ScreenLifeCycleObserver {
     public func hash(
         into hasher: inout Hasher
     ) {
@@ -144,6 +143,8 @@ public final class AnyScreenLifeCycleObserver: ScreenLifeCycleObserver {
     private let _viewWillEnterForeground: (Screen) -> Void
     private let _viewDidEnterBackground: (Screen) -> Void
 
+    private let observerID: ObjectIdentifier
+
     public init<T: ScreenLifeCycleObserver>(
         _ observer: T
     ) {
@@ -161,6 +162,18 @@ public final class AnyScreenLifeCycleObserver: ScreenLifeCycleObserver {
         self._viewDidChangePreferredContentSizeCategory = observer.viewDidChangePreferredContentSizeCategory
         self._viewWillEnterForeground = observer.viewWillEnterForeground
         self._viewDidEnterBackground = observer.viewDidEnterBackground
+        self.observerID = ObjectIdentifier(observer)
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(observerID)
+    }
+
+    public static func == (
+        lhs: AnyScreenLifeCycleObserver,
+        rhs: AnyScreenLifeCycleObserver
+    ) -> Bool {
+        return lhs.observerID == rhs.observerID
     }
 }
 
