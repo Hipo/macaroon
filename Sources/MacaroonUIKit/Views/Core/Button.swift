@@ -24,7 +24,12 @@ open class Button:
 
     private var cachedIntrinsicContentSize: CGSize?
 
-    public let layout: Layout
+    public var layout: Layout {
+        didSet {
+            cachedIntrinsicContentSize = nil
+            invalidateIntrinsicContentSize()
+        }
+    }
 
     public init(_ layout: Layout = .none) {
         self.layout = layout
