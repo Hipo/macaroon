@@ -35,9 +35,7 @@ open class NavigationBarLargeTitleController<SomeScreen: NavigationBarLargeTitle
             finalScrollEdgeOffset
     }
 
-    private var isTitleVisible: Bool {
-        return screen.navigationBarTitleView.titleAlpha == 1
-    }
+    private var isTitleVisible = true
 
     public init(
         screen: SomeScreen
@@ -91,7 +89,7 @@ extension NavigationBarLargeTitleController {
                     forScrollAtPoint: contentOffsetY)
                 self.toggleTitleVisibilityIfNeeded(
                     forScrollAtPoint: contentOffsetY,
-                    animated: self.screen.isViewAppeared
+                    animated: self.screen.isNavigationBarAppeared
                 )
             }
     }
@@ -155,56 +153,72 @@ extension NavigationBarLargeTitleController {
             return
         }
 
-        discardRunningAnimationToToggleTitleVisibility()
+        self.isTitleVisible = isTitleVisible
 
         if !animated {
-            setTitleVisible(
-                isTitleVisible
-            )
-
+            setTitleVisible(isTitleVisible)
             return
         }
 
-        startAnimationToToggleTitleVisibility(
-            visible: isTitleVisible
-        )
+        if let runningTitleVisibilityAnimator = runningTitleVisibilityAnimator,
+           runningTitleVisibilityAnimator.isRunning {
+            runningTitleVisibilityAnimator.isReversed.toggle()
+            return
+        }
+
+        if isTitleVisible {
+            showTitleAnimated()
+        } else {
+            hideTitleAnimated()
+        }
     }
 
-    private func startAnimationToToggleTitleVisibility(
-        visible: Bool
-    ) {
-        runningTitleVisibilityAnimator =
-            UIViewPropertyAnimator.runningPropertyAnimator(
-                withDuration: visible ? 0.2 : 0.1,
-                delay: 0.0,
-                options: visible ? [] : .curveEaseOut,
-                animations: {
-                    [unowned self] in
+    private func showTitleAnimated() {
+        runningTitleVisibilityAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.2,
+            delay: 0,
+            options: [],
+            animations: {
+                [unowned self] in
+                self.setTitleVisible(true)
+            },
+            completion: { [weak self] position in
+                guard let self = self else { return }
 
-                    self.setTitleVisible(
-                        visible
-                    )
-                },
-                completion: {
-                    [weak self] _ in
-
-                    guard let self = self else {
-                        return
-                    }
-
-                    self.runningTitleVisibilityAnimator = nil
+                switch position {
+                case .start:
+                    self.setTitleVisible(false)
+                case .end:
+                    self.isTitleVisible = true
+                default:
+                    break
                 }
-            )
+            }
+        )
     }
 
-    private func discardRunningAnimationToToggleTitleVisibility() {
-        runningTitleVisibilityAnimator?.stopAnimation(
-            false
+    private func hideTitleAnimated() {
+        runningTitleVisibilityAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.1,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                [unowned self] in
+                self.setTitleVisible(false)
+            },
+            completion: { [weak self] position in
+                guard let self = self else { return }
+
+                switch position {
+                case .start:
+                    self.setTitleVisible(true)
+                case .end:
+                    self.isTitleVisible = false
+                default:
+                    break
+                }
+            }
         )
-        runningTitleVisibilityAnimator?.finishAnimation(
-            at: .current
-        )
-        runningTitleVisibilityAnimator = nil
     }
 
     private func setTitleVisible(

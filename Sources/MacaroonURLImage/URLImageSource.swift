@@ -33,7 +33,6 @@ extension URLImageSource {
         displayingPlaceholderIn placeholderContainer: URLImagePlaceholderContainer?,
         onCompleted execute: ((Swift.Error?) -> Void)? = nil
     ) {
-        imageView.kf.cancelDownloadTask()
         imageView.kf.setImage(
             with: url,
             placeholder: placeholderContainer,

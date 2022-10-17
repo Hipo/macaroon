@@ -41,29 +41,32 @@ public struct Shadow {
     }
 
     public let color: UIColor
+    public let fillColor: UIColor?
     public let opacity: Float
     public let offset: CGSize
     public let radius: CGFloat
-    public let fillColor: UIColor?
+    public let spread: CGFloat
     public let cornerRadii: CGSize
     public let corners: UIRectCorner
     public let shouldRasterize: Bool
 
     public init(
         color: UIColor,
+        fillColor: UIColor?,
         opacity: Float,
         offset: LayoutSize,
         radius: CGFloat,
-        fillColor: UIColor?,
+        spread: CGFloat = 0,
         cornerRadii: LayoutSize = (0, 0),
         corners: UIRectCorner = [],
         shouldRasterize: Bool = false
     ) {
         self.color = color
+        self.fillColor = fillColor
         self.opacity = opacity
         self.offset = CGSize(offset)
         self.radius = radius
-        self.fillColor = fillColor
+        self.spread = spread
         self.cornerRadii = CGSize(cornerRadii)
         self.corners = corners
         self.shouldRasterize = shouldRasterize

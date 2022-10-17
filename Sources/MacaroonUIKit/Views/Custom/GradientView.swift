@@ -3,7 +3,9 @@
 import Foundation
 import UIKit
 
-final class GradientView: View, GradientDrawable {
+final class GradientView:
+    BaseView,
+    GradientDrawable {
     public var gradient: Gradient?
     public private(set) lazy var gradientLayer: CAGradientLayer = CAGradientLayer()
 
@@ -17,11 +19,6 @@ final class GradientView: View, GradientDrawable {
 
     override func preferredUserInterfaceStyleDidChange() {
         super.preferredUserInterfaceStyleDidChange()
-
         drawAppearance(gradient: gradient)
     }
-
-    func customizeAppearance(_ styleSheet: NoStyleSheet) {}
-
-    func prepareLayout(_ layoutSheet: NoLayoutSheet) {}
 }

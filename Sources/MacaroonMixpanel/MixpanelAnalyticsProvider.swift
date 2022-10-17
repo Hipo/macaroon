@@ -26,6 +26,8 @@ open class MixpanelAnalyticsProvider: AnalyticsProvider {
         initialize()
     }
 
+    open func setup() {}
+
     open func identify<T: AnalyticsUser>(
         _ user: T
     ) {
@@ -89,7 +91,7 @@ extension MixpanelAnalyticsProvider {
             partialResult, elem in
 
             if let pValue = elem.value as? Properties.Value {
-                partialResult[elem.key] = pValue
+                partialResult[elem.key.rawValue] = pValue
             }
         }
     }

@@ -370,7 +370,7 @@ extension BannerController {
 
     private func dequeueAndRunNextUiExecution() {
         $uiExecuterQueue.mutate {
-            $0.remove { $0 === runningUiExecution }
+            $0.removeFirst { $0 === runningUiExecution }
             runningUiExecution = nil
         }
 
@@ -392,7 +392,7 @@ extension BannerController {
 
     private func cancelPendingUiExecutions() {
         $uiExecuterQueue.mutate {
-            let pendingUiExecutions = $0.removeAll { $0 !== runningUiExecution }
+            let pendingUiExecutions = $0.remove { $0 !== runningUiExecution }
             pendingUiExecutions.forEach { $0.cancel() }
         }
     }
