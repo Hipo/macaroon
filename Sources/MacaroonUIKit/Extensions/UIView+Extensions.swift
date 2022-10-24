@@ -24,7 +24,11 @@ extension UIView {
 
 extension UIView {
     public func removeAllSubviews() {
-        subviews.forEach { $0.removeFromSuperview() }
+        subviews
+            .reversed()
+            .forEach {
+                $0.removeFromSuperview()
+            }
     }
 }
 

@@ -4,58 +4,45 @@ import Foundation
 import SnapKit
 import UIKit
 
-public class SegmentedControl: BaseControl {
-    public var spacingBetweenSegments: CGFloat {
-        get { contentView.spacing }
-        set { contentView.spacing = newValue }
-    }
-
+open class SegmentedControl: BaseControl {
     public var selectedSegmentIndex: Int = -1 {
         didSet {
-            let currentSegmentButtons = segmentButtons
-            currentSegmentButtons[safe: oldValue]?.isSelected = false
-            currentSegmentButtons[safe: selectedSegmentIndex]?.isSelected = true
+            let currentSegmentViews = segmentViews
+            currentSegmentViews[safe: oldValue]?.isSelected = false
+            currentSegmentViews[safe: selectedSegmentIndex]?.isSelected = true
         }
     }
 
-    public override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: 30.0)
-    }
-
-    private var segmentButtons: [Button] {
+    private var segmentViews: [UIControl] {
         return contentView.arrangedSubviews as? [Button] ?? []
     }
 
-    private lazy var contentView = UIStackView()
-    private lazy var backgroundImageView = UIImageView()
+    private lazy var contentView = HStackView()
+    private lazy var backgroundView = UIImageView()
 
-    public var backgroundImage: UIImage? {
-        get { backgroundImageView.image }
-        set { backgroundImageView.image = newValue }
-    }
+    private let theme: SegmentedControlTheme
 
-    public var separatorImage: UIImage?
-
-    private let distributionMode: UIStackView.Distribution
-
-    public init(distributionMode: UIStackView.Distribution = .fillEqually) {
-        self.distributionMode = distributionMode
-
+    public init(_ theme: SegmentedControlTheme) {
+        self.theme = theme
         super.init(frame: .zero)
 
-        prepareLayout()
-    }
-
-    private func prepareLayout() {
-        addBackgroundImage()
-        addContent()
+        addUI(theme)
     }
 }
 
 extension SegmentedControl {
     public func add(segment: Segment) {
-        let segmentButton = addButton(of: segment)
-        segmentButton.addTarget(self, action: #selector(notifyWhenSelectedSegmentButtonChanged(_:)), for: .touchUpInside)
+        addDividerIfNeeded()
+
+        let view = segment.makeView()
+
+        contentView.addArrangedSubview(view)
+        view.fitToIntrinsicSize()
+
+        view.addTouch(
+            target: self,
+            action: #selector(notifyWhenSelectedSegmentButtonChanged(_:))
+        )
     }
 
     public func add(segments: [Segment]) {
@@ -63,8 +50,8 @@ extension SegmentedControl {
     }
 
     public func remove(segmentAt index: Int) {
-        if let segmentButton = segmentButtons[safe: index] {
-            contentView.removeArrangedSubview(segmentButton)
+        if let view = segmentViews[safe: index] {
+            contentView.removeArrangedSubview(view)
         }
     }
 
@@ -74,48 +61,55 @@ extension SegmentedControl {
     }
 
     public func setEnabled(_ isEnabled: Bool, forSegmentAt index: Int) {
-        segmentButtons[safe: index]?.isEnabled = isEnabled
+        let view = segmentViews[safe: index]
+        view?.isEnabled = isEnabled
     }
 }
 
 extension SegmentedControl {
-    private func addBackgroundImage() {
-        addSubview(backgroundImageView)
-        backgroundImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+    private func addUI(_ theme: SegmentedControlTheme) {
+        addBackground(theme)
+        addContent(theme)
+    }
+
+    private func addBackground(_ theme: SegmentedControlTheme) {
+        guard let style = theme.background else { return }
+
+        backgroundView.customizeAppearance(style)
+
+        addSubview(backgroundView)
+        backgroundView.snp.makeConstraints {
+            $0.top == 0
+            $0.leading == 0
+            $0.bottom == 0
+            $0.trailing == 0
         }
     }
 
-    private func addContent() {
+    private func addContent(_ theme: SegmentedControlTheme) {
         addSubview(contentView)
-        contentView.axis = .horizontal
-        contentView.distribution = distributionMode
-        contentView.alignment = .fill
-        contentView.spacing = 0.0
+        contentView.spacing = theme.spacingBetweenSegments
         contentView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top == 0
+            $0.leading == 0
+            $0.bottom == 0
+            $0.trailing == 0
         }
     }
 
-    private func addButton(of segment: Segment) -> Button {
-        let button = Button(segment.layout)
-        button.adjustsImageWhenHighlighted = false
-        button.customizeAppearance(segment.style)
-        if let contentEdgeInsets = segment.contentEdgeInsets {
-            button.contentEdgeInsets = contentEdgeInsets
-        }
+    private func addDividerIfNeeded() {
+        guard let style = theme.divider else { return }
+        guard let lastSegmentView = segmentViews.last else { return }
 
-        addSeparatorIfNeeded()
-        contentView.addArrangedSubview(button)
-        return button
-    }
+        let view = UIImageView()
+        view.customizeAppearance(style)
 
-    private func addSeparatorIfNeeded() {
-        if  let separatorImage = separatorImage,
-            !contentView.subviews.isEmpty {
-            let separatorImageView = UIImageView(image: separatorImage)
-            separatorImageView.contentMode = .center
-            contentView.addArrangedSubview(separatorImageView)
+        contentView.addSubview(view)
+        view.fitToIntrinsicSize()
+        view.snp.makeConstraints {
+            $0.height <= contentView
+            $0.centerY == 0
+            $0.leading == lastSegmentView.snp.trailing + theme.spacingBetweenSegmentAndDivider
         }
     }
 }
@@ -123,7 +117,7 @@ extension SegmentedControl {
 extension SegmentedControl {
     @objc
     private func notifyWhenSelectedSegmentButtonChanged(_ sender: Button) {
-        if let index = segmentButtons.firstIndex(of: sender) {
+        if let index = segmentViews.firstIndex(of: sender) {
             selectedSegmentIndex = index
             sendActions(for: .valueChanged)
         }
