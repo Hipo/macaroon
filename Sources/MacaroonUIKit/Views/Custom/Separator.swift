@@ -42,9 +42,16 @@ extension UIView {
                 for: separator
             )
 
-        addSubview(
-            view
-        )
+        switch separator.position {
+        case .centerY:
+            insertSubview(
+                view,
+                at: 0
+            )
+        default:
+            addSubview(view)
+        }
+
         view.snp.makeConstraints {
             switch separator.position {
             case .top:
@@ -80,9 +87,16 @@ extension UIView {
                 for: separator
             )
 
-        addSubview(
-            view
-        )
+        switch separator.position {
+        case .centerY:
+            insertSubview(
+                view,
+                belowSubview: aView
+            )
+        default:
+            addSubview(view)
+        }
+
         view.snp.makeConstraints {
             switch separator.position {
             case .top:

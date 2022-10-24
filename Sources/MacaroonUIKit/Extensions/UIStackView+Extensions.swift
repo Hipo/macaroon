@@ -17,9 +17,6 @@ extension UIStackView {
 
     public func deleteAllSubviews() {
         deleteAllArrangedSubviews()
-
-        subviews
-            .reversed()
-            .forEach { $0.removeFromSuperview() }
+        removeAllSubviews()
     }
 }
