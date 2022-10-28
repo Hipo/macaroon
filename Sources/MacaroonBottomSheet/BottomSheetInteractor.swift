@@ -58,6 +58,8 @@ open class BottomSheetInteractor:
         presentedViewController = transitionContext.sourceViewController
         presentedFrame = transitionContext.sourceFinalFrame
         completeTranslationY = transitionContext.containerView.bounds.height - presentedFrame!.minY
+
+        disableTouchesAlongsideInteractiveTransition()
     }
 
     open func updateInteractiveTransition(
@@ -205,7 +207,6 @@ open class BottomSheetInteractor:
     open func interactiveGestureDidBegin(
         _ panGestureRecognizer: UIPanGestureRecognizer
     ) {
-        disableTouchesAlongsideInteractiveTransition()
         discardOngoingCancelAnimation()
 
         if let presentedViewController = presentedViewController,
