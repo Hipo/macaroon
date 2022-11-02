@@ -144,6 +144,10 @@ extension KeyboardController {
                 return
             }
 
+            if !self.screen.shouldPerformChangesWhenKeyboardDidShow(self) {
+                return
+            }
+
             let lastKeyboard = self.keyboard
             let newKeyboard = Keyboard(notification: notification)
 
@@ -172,6 +176,10 @@ extension KeyboardController {
             [weak self] notification in
 
             guard let self = self else {
+                return
+            }
+
+            if !self.screen.shouldPerformChangesWhenKeyboardDidHide(self) {
                 return
             }
 
@@ -446,6 +454,8 @@ extension KeyboardController {
 }
 
 public protocol KeyboardControllerDataSource: AnyObject {
+    func shouldPerformChangesWhenKeyboardDidShow(_ keyboardController: KeyboardController) -> Bool
+
     /// <note>
     /// Returns the editing frame in the visible view. It is up to the dataSource to calculate
     /// the editing frame in the `view` coordinate system.
@@ -476,9 +486,17 @@ public protocol KeyboardControllerDataSource: AnyObject {
     /// Returns the spacing between editing area and keyboard in order to make the editing area more
     /// distinguishable.
     func spacingBetweenEditingRectAndKeyboard(_ keyboardController: KeyboardController) -> LayoutMetric
+
+    func shouldPerformChangesWhenKeyboardDidHide(_ keyboardController: KeyboardController) -> Bool
 }
 
 extension KeyboardControllerDataSource {
+    public func shouldPerformChangesWhenKeyboardDidShow(
+        _ keyboardController: KeyboardController
+    ) -> Bool {
+        return shouldPerformChangesWhenKeyboardDidToggle(keyboardController)
+    }
+
     public func keyboardController(
         _ keyboardController: KeyboardController,
         editingRectIn view: UIView
@@ -514,5 +532,39 @@ extension KeyboardControllerDataSource {
         _ keyboardController: KeyboardController
     ) -> LayoutMetric {
         return 8
+    }
+
+    public func shouldPerformChangesWhenKeyboardDidHide(
+        _ keyboardController: KeyboardController
+    ) -> Bool {
+        return shouldPerformChangesWhenKeyboardDidToggle(keyboardController)
+    }
+}
+
+extension KeyboardControllerDataSource {
+    private func shouldPerformChangesWhenKeyboardDidToggle(
+        _ keyboardController: KeyboardController
+    ) -> Bool {
+        let screen = keyboardController.screen
+
+        if screen.presentedViewController != nil {
+            return false
+        }
+
+        if let navigationController = screen.navigationController {
+            let visibleScreen = navigationController.viewControllers.last
+
+            if visibleScreen == screen {
+                return true
+            }
+
+            if visibleScreen == screen.parent {
+                return true
+            }
+
+            return false
+        }
+
+        return true
     }
 }
