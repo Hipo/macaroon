@@ -146,7 +146,7 @@ extension NavigationBarLargeTitleController {
         animated: Bool
     ) {
         let isLargeTitleVisible =
-            point <= minContentOffsetYForVisibleLargeTitle
+            point < minContentOffsetYForVisibleLargeTitle
         let isTitleVisible = !isLargeTitleVisible
 
         if self.isTitleVisible == isTitleVisible {
