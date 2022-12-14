@@ -5,7 +5,7 @@ import UIKit
 
 open class TabBar: BaseView {
     open override var intrinsicContentSize: CGSize {
-        return CGSize((UIView.noIntrinsicMetric, 48.0 + compactSafeAreaInsets.bottom))
+        return CGSize((UIView.noIntrinsicMetric, 64.0 + compactSafeAreaInsets.bottom))
     }
 
     public var items: [TabBarItem] = [] {
