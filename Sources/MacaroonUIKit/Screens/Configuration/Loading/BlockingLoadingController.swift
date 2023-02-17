@@ -49,7 +49,7 @@ open class BlockingLoadingController {
             
             switch position {
             case .start:
-                self.updateLoadingIndicatorLayoutWhenLoadingStatusDidChange(loading: false)
+                self.removeLayout()
             case .end:
                 self.loadingIndicator.startAnimating()
                 self.isLoading = true
@@ -71,7 +71,7 @@ open class BlockingLoadingController {
             return
         }
         
-        currentLoadingLayoutAnimator = makeLoadingLayoutAnimator(loading: true)
+        currentLoadingLayoutAnimator = makeLoadingLayoutAnimator(loading: false)
         currentLoadingLayoutAnimator?.addCompletion {
             [weak self] position in
             guard let self = self else { return }
