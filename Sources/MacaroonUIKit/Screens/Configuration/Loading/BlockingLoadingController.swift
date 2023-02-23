@@ -29,13 +29,15 @@ open class BlockingLoadingController {
     }
 
     open func startLoading() {
+        if isLoading {
+            return
+        }
+
+        isLoading = true
+
         if let currentLoadingLayoutAnimator = currentLoadingLayoutAnimator,
            currentLoadingLayoutAnimator.isRunning {
             currentLoadingLayoutAnimator.isReversed.toggle()
-            return
-        }
-        
-        if isLoading {
             return
         }
 
@@ -52,7 +54,6 @@ open class BlockingLoadingController {
                 self.removeLayout()
             case .end:
                 self.loadingIndicator.startAnimating()
-                self.isLoading = true
             default:
                 break
             }
@@ -61,13 +62,15 @@ open class BlockingLoadingController {
     }
 
     open func stopLoading() {
+        if !isLoading {
+            return
+        }
+
+        isLoading = false
+
         if let currentLoadingLayoutAnimator = currentLoadingLayoutAnimator,
            currentLoadingLayoutAnimator.isRunning {
             currentLoadingLayoutAnimator.isReversed.toggle()
-            return
-        }
-        
-        if !isLoading {
             return
         }
         
@@ -82,7 +85,6 @@ open class BlockingLoadingController {
             case .end:
                 self.loadingIndicator.stopAnimating()
                 self.removeLayout()
-                self.isLoading = false
             default:
                 break
             }
