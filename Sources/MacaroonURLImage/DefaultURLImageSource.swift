@@ -4,7 +4,7 @@ import Foundation
 import Kingfisher
 import UIKit
 
-public struct PNGImageSource: URLImageSource {
+public struct DefaultURLImageSource: URLImageSource {
     public let url: URL?
     public let color: UIColor?
     public let placeholder: ImagePlaceholder?
@@ -30,6 +30,24 @@ public struct PNGImageSource: URLImageSource {
         self.scale = scale
         self.forceRefresh = forceRefresh
     }
+}
+
+extension DefaultURLImageSource {
+    public func formOptions() -> KingfisherOptionsInfo {
+        var options: KingfisherOptionsInfo = []
+        appendDefaultOptions(to: &options)
+        appendOptionForForceRefreshIfNeeded(to: &options)
+        appendOptionForImageProcessorIfNeeded(to: &options)
+        appendOptionForCacheSerializer(to: &options)
+        return options
+    }
+
+    private func appendOptionForCacheSerializer(to options: inout KingfisherOptionsInfo) {
+        var cacheSerializer = DefaultCacheSerializer.default
+        cacheSerializer.preferCacheOriginalData = true
+
+        options.append(.cacheSerializer(cacheSerializer))
+    }
 
     public func formImageProcessors() -> [ImageProcessor?] {
         return [
@@ -37,9 +55,7 @@ public struct PNGImageSource: URLImageSource {
             formShapeImageProcessor()
         ]
     }
-}
 
-extension PNGImageSource {
     private func formSizeImageProcessor() -> ImageProcessor? {
         switch shape {
         case .circle,

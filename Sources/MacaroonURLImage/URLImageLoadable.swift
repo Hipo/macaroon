@@ -21,7 +21,7 @@ extension URLImageLoadable {
             return
         }
 
-        if let urlSource = source as? PNGImageSource {
+        if let urlSource = source as? DefaultURLImageSource {
             urlSource.load(
                 in: imageContainer,
                 displayingPlaceholderIn: placeholderContainer,

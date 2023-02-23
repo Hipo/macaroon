@@ -17,7 +17,7 @@ extension PhotoViewModel {
     public mutating func bindPhoto(
         _ url: URL?
     ) {
-        photo = PNGImageSource(
+        photo = DefaultURLImageSource(
             url: url,
             size: size,
             shape: shape,

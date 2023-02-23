@@ -62,30 +62,28 @@ extension URLImageSource {
 
         placeholderContainer?.placeholder = placeholder
     }
-
-    public func formOptions() -> KingfisherOptionsInfo {
-        var options = formDefaultOptions()
-
-        if forceRefresh {
-            options.append(
-                .forceRefresh
-            )
-        }
-
-        if let imageProcessor = formImageProcessors().compactJoined() {
-            options.append(
-                .processor(imageProcessor)
-            )
-        }
-
-        return options
-    }
 }
 
 extension URLImageSource {
-    public func formDefaultOptions() -> KingfisherOptionsInfo {
-        return [
-            .transition(.fade(0.2))
-        ]
+    public func formOptions() -> KingfisherOptionsInfo {
+        var options: KingfisherOptionsInfo = []
+        appendDefaultOptions(to: &options)
+        appendOptionForForceRefreshIfNeeded(to: &options)
+        appendOptionForImageProcessorIfNeeded(to: &options)
+        return options
+    }
+
+    public func appendDefaultOptions(to options: inout KingfisherOptionsInfo) {
+        options.append(.transition(.fade(0.2)))
+    }
+
+    public func appendOptionForForceRefreshIfNeeded(to options: inout KingfisherOptionsInfo) {
+        if !forceRefresh { return }
+        options.append(.forceRefresh)
+    }
+
+    public func appendOptionForImageProcessorIfNeeded(to options: inout KingfisherOptionsInfo) {
+        guard let processor = formImageProcessors().compactJoined() else { return }
+        options.append(.processor(processor))
     }
 }
